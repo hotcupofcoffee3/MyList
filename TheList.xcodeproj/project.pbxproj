@@ -7,9 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B5A6C3CC213EE4150029FF22 /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A6C3CB213EE4150029FF22 /* CategoryViewController.swift */; };
-		B5A6C3CE213EE5B20029FF22 /* CategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A6C3CD213EE5B10029FF22 /* CategoryModel.swift */; };
+		B5A6C3CC213EE4150029FF22 /* CategoryAndItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A6C3CB213EE4150029FF22 /* CategoryAndItemViewController.swift */; };
+		B5A6C3CE213EE5B20029FF22 /* CategoryAndItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A6C3CD213EE5B10029FF22 /* CategoryAndItemModel.swift */; };
 		B5A6C3D0213EE7B60029FF22 /* Keywords.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A6C3CF213EE7B60029FF22 /* Keywords.swift */; };
+		B5A6C3D7213F12940029FF22 /* CategoryAndItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A6C3D5213F12940029FF22 /* CategoryAndItemTableViewCell.swift */; };
+		B5A6C3D8213F12940029FF22 /* CategoryAndItemTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B5A6C3D6213F12940029FF22 /* CategoryAndItemTableViewCell.xib */; };
+		B5A6C3DD213F1A1E0029FF22 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B5A6C3DC213F1A1E0029FF22 /* Default-568h@2x.png */; };
 		B5FAB7082139D89C0046F976 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FAB7072139D89C0046F976 /* AppDelegate.swift */; };
 		B5FAB70A2139D89C0046F976 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FAB7092139D89C0046F976 /* HomeViewController.swift */; };
 		B5FAB70D2139D89C0046F976 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B5FAB70B2139D89C0046F976 /* Main.storyboard */; };
@@ -24,9 +27,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		B5A6C3CB213EE4150029FF22 /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
-		B5A6C3CD213EE5B10029FF22 /* CategoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryModel.swift; sourceTree = "<group>"; };
+		B5A6C3CB213EE4150029FF22 /* CategoryAndItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryAndItemViewController.swift; sourceTree = "<group>"; };
+		B5A6C3CD213EE5B10029FF22 /* CategoryAndItemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryAndItemModel.swift; sourceTree = "<group>"; };
 		B5A6C3CF213EE7B60029FF22 /* Keywords.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keywords.swift; sourceTree = "<group>"; };
+		B5A6C3D5213F12940029FF22 /* CategoryAndItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryAndItemTableViewCell.swift; sourceTree = "<group>"; };
+		B5A6C3D6213F12940029FF22 /* CategoryAndItemTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CategoryAndItemTableViewCell.xib; sourceTree = "<group>"; };
+		B5A6C3DC213F1A1E0029FF22 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		B5FAB7042139D89C0046F976 /* TheList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TheList.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5FAB7072139D89C0046F976 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B5FAB7092139D89C0046F976 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
@@ -56,13 +62,14 @@
 		B5A6C3D1213EED640029FF22 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				B5A6C3CD213EE5B10029FF22 /* CategoryModel.swift */,
+				B5A6C3CD213EE5B10029FF22 /* CategoryAndItemModel.swift */,
 				B5A6C3CF213EE7B60029FF22 /* Keywords.swift */,
+				B5FAB70E2139D89C0046F976 /* TheList.xcdatamodeld */,
 			);
 			path = Models;
 			sourceTree = "<group>";
 		};
-		B5A6C3D2213EED710029FF22 /* Views (Main) */ = {
+		B5A6C3D2213EED710029FF22 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
 				B5FAB7092139D89C0046F976 /* HomeViewController.swift */,
@@ -70,13 +77,43 @@
 				B5FAB7222139DB640046F976 /* WorkViewController.swift */,
 				B5FAB7242139DB6C0046F976 /* FunViewController.swift */,
 				B5FAB7202139DB5B0046F976 /* IdeasViewController.swift */,
+				B5FAB71E2139DA050046F976 /* ItemsViewController.swift */,
+				B5A6C3CB213EE4150029FF22 /* CategoryAndItemViewController.swift */,
 			);
-			path = "Views (Main)";
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		B5A6C3D3213F11AE0029FF22 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				B5FAB7072139D89C0046F976 /* AppDelegate.swift */,
+				B5FAB7112139D89E0046F976 /* Assets.xcassets */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		B5A6C3D4213F11BA0029FF22 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				B5FAB70B2139D89C0046F976 /* Main.storyboard */,
+				B5FAB7132139D89E0046F976 /* LaunchScreen.storyboard */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		B5A6C3D9213F12AE0029FF22 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				B5A6C3D5213F12940029FF22 /* CategoryAndItemTableViewCell.swift */,
+				B5A6C3D6213F12940029FF22 /* CategoryAndItemTableViewCell.xib */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 		B5FAB6FB2139D89C0046F976 = {
 			isa = PBXGroup;
 			children = (
+				B5A6C3DC213F1A1E0029FF22 /* Default-568h@2x.png */,
 				B5FAB7062139D89C0046F976 /* TheList */,
 				B5FAB7052139D89C0046F976 /* Products */,
 			);
@@ -93,16 +130,12 @@
 		B5FAB7062139D89C0046F976 /* TheList */ = {
 			isa = PBXGroup;
 			children = (
-				B5FAB7072139D89C0046F976 /* AppDelegate.swift */,
 				B5A6C3D1213EED640029FF22 /* Models */,
-				B5A6C3CB213EE4150029FF22 /* CategoryViewController.swift */,
-				B5A6C3D2213EED710029FF22 /* Views (Main) */,
-				B5FAB71E2139DA050046F976 /* ItemsViewController.swift */,
-				B5FAB70B2139D89C0046F976 /* Main.storyboard */,
-				B5FAB7112139D89E0046F976 /* Assets.xcassets */,
-				B5FAB7132139D89E0046F976 /* LaunchScreen.storyboard */,
+				B5A6C3D2213EED710029FF22 /* Controllers */,
+				B5A6C3D4213F11BA0029FF22 /* Views */,
+				B5A6C3D9213F12AE0029FF22 /* Cells */,
+				B5A6C3D3213F11AE0029FF22 /* Supporting Files */,
 				B5FAB7162139D89E0046F976 /* Info.plist */,
-				B5FAB70E2139D89C0046F976 /* TheList.xcdatamodeld */,
 			);
 			path = TheList;
 			sourceTree = "<group>";
@@ -165,8 +198,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B5A6C3D8213F12940029FF22 /* CategoryAndItemTableViewCell.xib in Resources */,
 				B5FAB7152139D89E0046F976 /* LaunchScreen.storyboard in Resources */,
 				B5FAB7122139D89E0046F976 /* Assets.xcassets in Resources */,
+				B5A6C3DD213F1A1E0029FF22 /* Default-568h@2x.png in Resources */,
 				B5FAB70D2139D89C0046F976 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -178,15 +213,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B5A6C3D7213F12940029FF22 /* CategoryAndItemTableViewCell.swift in Sources */,
 				B5FAB71F2139DA050046F976 /* ItemsViewController.swift in Sources */,
 				B5FAB71D2139D8FD0046F976 /* ErrandsViewController.swift in Sources */,
 				B5FAB70A2139D89C0046F976 /* HomeViewController.swift in Sources */,
-				B5A6C3CE213EE5B20029FF22 /* CategoryModel.swift in Sources */,
+				B5A6C3CE213EE5B20029FF22 /* CategoryAndItemModel.swift in Sources */,
 				B5FAB7212139DB5B0046F976 /* IdeasViewController.swift in Sources */,
 				B5FAB7082139D89C0046F976 /* AppDelegate.swift in Sources */,
 				B5FAB7232139DB640046F976 /* WorkViewController.swift in Sources */,
 				B5FAB7252139DB6C0046F976 /* FunViewController.swift in Sources */,
-				B5A6C3CC213EE4150029FF22 /* CategoryViewController.swift in Sources */,
+				B5A6C3CC213EE4150029FF22 /* CategoryAndItemViewController.swift in Sources */,
 				B5FAB7102139D89C0046F976 /* TheList.xcdatamodeld in Sources */,
 				B5A6C3D0213EE7B60029FF22 /* Keywords.swift in Sources */,
 			);

@@ -21,4 +21,8 @@ class Keywords {
     let funToItemsSegue = "funToItemsSegue"
     let ideasToItemsSegue = "ideasToItemsSegue"
     
+    let categoryAndItemCellIdentifier = "categoryAndItemCell"
+    
+    let cellNibName = "CategoryAndItemTableViewCell"
+    
 }

@@ -1,5 +1,5 @@
 //
-//  CategoryModel.swift
+//  CategoryAndItemModel.swift
 //  TheList
 //
 //  Created by Adam Moore on 9/4/18.
@@ -8,29 +8,28 @@
 
 import Foundation
 
-enum CategorySegue {
+enum TypeOfSegue {
     
-    case home, errands, work, fun, ideas
+    case home, errands, work, fun, ideas, items
     
 }
 
-class CategoryModel {
+class CategoryAndItemModel {
     
     var numberOfRows = 1
     
-    var cellIdentifier = "cell"
+    var viewDisplayed = TypeOfSegue.home
     
-    var categoryDisplayed = CategorySegue.home
-    
-    var categorySegue: String {
+    var typeOfSegue: String {
         
-        switch categoryDisplayed {
+        switch viewDisplayed {
             
         case .home: return Keywords.shared.homeToItemsSegue
         case .errands: return Keywords.shared.errandsToItemsSegue
         case .work: return Keywords.shared.workToItemsSegue
         case .fun: return Keywords.shared.funToItemsSegue
         case .ideas: return Keywords.shared.ideasToItemsSegue
+        case .items: return "Nothing"
             
         }
         

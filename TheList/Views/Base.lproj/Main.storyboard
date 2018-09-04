@@ -48,6 +48,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Home" id="6RD-ag-ojr"/>
                     <connections>
+                        <outlet property="tableView" destination="g6g-5S-dLA" id="KWh-6d-qAu"/>
                         <segue destination="FDI-qT-SoX" kind="show" identifier="homeToItemsSegue" id="lYk-cJ-CjM"/>
                     </connections>
                 </viewController>
@@ -91,6 +92,9 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="4pN-fi-sLa"/>
                     </view>
+                    <connections>
+                        <outlet property="tableView" destination="7gp-Tq-1zj" id="4AL-IC-8mG"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eZv-6l-gFd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -134,6 +138,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Errands" id="dER-3p-bpi"/>
                     <connections>
+                        <outlet property="tableView" destination="oKU-rj-Ocy" id="jl2-oM-nAA"/>
                         <segue destination="FDI-qT-SoX" kind="show" identifier="errandsToItemsSegue" id="vdH-ie-Tp7"/>
                     </connections>
                 </viewController>
@@ -239,7 +244,8 @@
                     </view>
                     <navigationItem key="navigationItem" title="Ideas" id="Zh5-zK-UPY"/>
                     <connections>
-                        <segue destination="FDI-qT-SoX" kind="show" identifier="onlineToItemsSegue" id="O2n-1r-4no"/>
+                        <outlet property="tableView" destination="GMI-oB-JBv" id="LcZ-7F-BC6"/>
+                        <segue destination="FDI-qT-SoX" kind="show" identifier="ideasToItemsSegue" id="O2n-1r-4no"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7fP-zp-g62" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -284,6 +290,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Work" id="pU8-a2-dcN"/>
                     <connections>
+                        <outlet property="tableView" destination="zhz-lY-r0J" id="Oex-qC-gBn"/>
                         <segue destination="FDI-qT-SoX" kind="show" identifier="workToItemsSegue" id="Tl2-zD-w0a"/>
                     </connections>
                 </viewController>
@@ -329,6 +336,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Fun" id="zPF-p0-8on"/>
                     <connections>
+                        <outlet property="tableView" destination="l8U-aW-G5b" id="ZDK-W3-M4m"/>
                         <segue destination="FDI-qT-SoX" kind="show" identifier="funToItemsSegue" id="Nxb-gR-g2G"/>
                     </connections>
                 </viewController>
@@ -395,6 +403,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="vdH-ie-Tp7"/>
+        <segue reference="O2n-1r-4no"/>
     </inferredMetricsTieBreakers>
 </document>
