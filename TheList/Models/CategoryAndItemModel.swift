@@ -16,7 +16,7 @@ enum TypeOfSegue {
 
 class CategoryAndItemModel {
     
-    var numberOfRows = 1
+    var numberOfRows = 0
     
     var viewDisplayed = TypeOfSegue.home
     

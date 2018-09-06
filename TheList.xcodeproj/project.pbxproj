@@ -13,6 +13,9 @@
 		B5A6C3D7213F12940029FF22 /* CategoryAndItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A6C3D5213F12940029FF22 /* CategoryAndItemTableViewCell.swift */; };
 		B5A6C3D8213F12940029FF22 /* CategoryAndItemTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B5A6C3D6213F12940029FF22 /* CategoryAndItemTableViewCell.xib */; };
 		B5A6C3DD213F1A1E0029FF22 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B5A6C3DC213F1A1E0029FF22 /* Default-568h@2x.png */; };
+		B5F1E0EC21417B480041C472 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F1E0EA21417B480041C472 /* HeaderView.swift */; };
+		B5F1E0ED21417B480041C472 /* HeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B5F1E0EB21417B480041C472 /* HeaderView.xib */; };
+		B5F1E0EF214191C60041C472 /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F1E0EE214191C60041C472 /* DataModel.swift */; };
 		B5FAB7082139D89C0046F976 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FAB7072139D89C0046F976 /* AppDelegate.swift */; };
 		B5FAB70A2139D89C0046F976 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FAB7092139D89C0046F976 /* HomeViewController.swift */; };
 		B5FAB70D2139D89C0046F976 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B5FAB70B2139D89C0046F976 /* Main.storyboard */; };
@@ -33,6 +36,9 @@
 		B5A6C3D5213F12940029FF22 /* CategoryAndItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryAndItemTableViewCell.swift; sourceTree = "<group>"; };
 		B5A6C3D6213F12940029FF22 /* CategoryAndItemTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CategoryAndItemTableViewCell.xib; sourceTree = "<group>"; };
 		B5A6C3DC213F1A1E0029FF22 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		B5F1E0EA21417B480041C472 /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
+		B5F1E0EB21417B480041C472 /* HeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HeaderView.xib; sourceTree = "<group>"; };
+		B5F1E0EE214191C60041C472 /* DataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
 		B5FAB7042139D89C0046F976 /* TheList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TheList.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5FAB7072139D89C0046F976 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B5FAB7092139D89C0046F976 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
@@ -63,6 +69,7 @@
 			isa = PBXGroup;
 			children = (
 				B5A6C3CD213EE5B10029FF22 /* CategoryAndItemModel.swift */,
+				B5F1E0EE214191C60041C472 /* DataModel.swift */,
 				B5A6C3CF213EE7B60029FF22 /* Keywords.swift */,
 				B5FAB70E2139D89C0046F976 /* TheList.xcdatamodeld */,
 			);
@@ -106,6 +113,8 @@
 			children = (
 				B5A6C3D5213F12940029FF22 /* CategoryAndItemTableViewCell.swift */,
 				B5A6C3D6213F12940029FF22 /* CategoryAndItemTableViewCell.xib */,
+				B5F1E0EA21417B480041C472 /* HeaderView.swift */,
+				B5F1E0EB21417B480041C472 /* HeaderView.xib */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -201,6 +210,7 @@
 				B5A6C3D8213F12940029FF22 /* CategoryAndItemTableViewCell.xib in Resources */,
 				B5FAB7152139D89E0046F976 /* LaunchScreen.storyboard in Resources */,
 				B5FAB7122139D89E0046F976 /* Assets.xcassets in Resources */,
+				B5F1E0ED21417B480041C472 /* HeaderView.xib in Resources */,
 				B5A6C3DD213F1A1E0029FF22 /* Default-568h@2x.png in Resources */,
 				B5FAB70D2139D89C0046F976 /* Main.storyboard in Resources */,
 			);
@@ -220,11 +230,13 @@
 				B5A6C3CE213EE5B20029FF22 /* CategoryAndItemModel.swift in Sources */,
 				B5FAB7212139DB5B0046F976 /* IdeasViewController.swift in Sources */,
 				B5FAB7082139D89C0046F976 /* AppDelegate.swift in Sources */,
+				B5F1E0EF214191C60041C472 /* DataModel.swift in Sources */,
 				B5FAB7232139DB640046F976 /* WorkViewController.swift in Sources */,
 				B5FAB7252139DB6C0046F976 /* FunViewController.swift in Sources */,
 				B5A6C3CC213EE4150029FF22 /* CategoryAndItemViewController.swift in Sources */,
 				B5FAB7102139D89C0046F976 /* TheList.xcdatamodeld in Sources */,
 				B5A6C3D0213EE7B60029FF22 /* Keywords.swift in Sources */,
+				B5F1E0EC21417B480041C472 /* HeaderView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

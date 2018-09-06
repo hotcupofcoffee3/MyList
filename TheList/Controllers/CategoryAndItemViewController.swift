@@ -18,6 +18,16 @@ class CategoryAndItemViewController: UIViewController, UITableViewDataSource, UI
         
     }
     
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        
+        let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: Keywords.shared.headerIdentifier) as! HeaderView
+        
+        headerView.currentTableView = tableView
+        
+        return headerView
+        
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: Keywords.shared.categoryAndItemCellIdentifier, for: indexPath) as! CategoryAndItemTableViewCell
@@ -49,6 +59,10 @@ class CategoryAndItemViewController: UIViewController, UITableViewDataSource, UI
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 60
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         
         return 60
         
@@ -56,9 +70,6 @@ class CategoryAndItemViewController: UIViewController, UITableViewDataSource, UI
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        
-        
     }
 
 }

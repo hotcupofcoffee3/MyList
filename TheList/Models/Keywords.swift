@@ -22,7 +22,9 @@ class Keywords {
     let ideasToItemsSegue = "ideasToItemsSegue"
     
     let categoryAndItemCellIdentifier = "categoryAndItemCell"
+    let headerIdentifier = "headerView"
     
     let cellNibName = "CategoryAndItemTableViewCell"
+    let headerNibName = "HeaderView"
     
 }

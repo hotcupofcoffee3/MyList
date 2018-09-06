@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="headerView" rowHeight="73" id="KGk-i7-Jjw" customClass="HeaderView" customModule="TheList" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="60.5"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4AK-6Q-518" userLabel="Main Header View">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
+                        <subviews>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Add new item" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="d75-21-Ahw">
+                                <rect key="frame" x="12" y="12" width="248" height="36"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <action selector="headerTextChanged:" destination="-1" eventType="editingChanged" id="JAX-Ij-Abi"/>
+                                </connections>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="contactAdd" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xEU-Lh-eBm">
+                                <rect key="frame" x="272" y="12" width="36" height="35.5"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="36" id="ScR-zm-kgi"/>
+                                    <constraint firstAttribute="width" constant="36" id="Xaq-cC-8qi"/>
+                                </constraints>
+                                <color key="tintColor" red="0.77791219950000001" green="0.86615604160000004" blue="0.50749742980000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <connections>
+                                    <action selector="addButtonPressed:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="1qB-YC-Xn4"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="0.66176041299999999" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="xEU-Lh-eBm" firstAttribute="top" secondItem="4AK-6Q-518" secondAttribute="top" constant="12" id="8AI-iw-aqw"/>
+                            <constraint firstAttribute="bottom" secondItem="d75-21-Ahw" secondAttribute="bottom" constant="12" id="jbL-9E-qx0"/>
+                            <constraint firstAttribute="bottom" secondItem="xEU-Lh-eBm" secondAttribute="bottom" constant="12" id="ksC-I9-gQA"/>
+                            <constraint firstAttribute="trailing" secondItem="xEU-Lh-eBm" secondAttribute="trailing" constant="12" id="oJc-U8-mQ1"/>
+                            <constraint firstItem="xEU-Lh-eBm" firstAttribute="leading" secondItem="d75-21-Ahw" secondAttribute="trailing" constant="12" id="qQn-Hz-nro"/>
+                            <constraint firstAttribute="height" constant="60" id="tlM-ZZ-tSG"/>
+                            <constraint firstItem="d75-21-Ahw" firstAttribute="top" secondItem="4AK-6Q-518" secondAttribute="top" constant="12" id="uTU-If-dKp"/>
+                            <constraint firstItem="d75-21-Ahw" firstAttribute="leading" secondItem="4AK-6Q-518" secondAttribute="leading" constant="12" id="vD9-1J-LAX"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="4AK-6Q-518" secondAttribute="trailing" id="EuJ-Ep-Wcy"/>
+                    <constraint firstItem="4AK-6Q-518" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="fUf-Gf-6Wy"/>
+                    <constraint firstItem="4AK-6Q-518" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="fV8-ZK-RWz"/>
+                    <constraint firstAttribute="bottom" secondItem="4AK-6Q-518" secondAttribute="bottom" id="jkQ-Si-plk"/>
+                </constraints>
+            </tableViewCellContentView>
+            <color key="backgroundColor" white="0.66176041298442412" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="addButton" destination="xEU-Lh-eBm" id="Rwr-3f-CuI"/>
+                <outlet property="headerTextField" destination="d75-21-Ahw" id="GHd-a0-mJY"/>
+                <outlet property="mainView" destination="4AK-6Q-518" id="DLx-e5-CIB"/>
+            </connections>
+            <point key="canvasLocation" x="35" y="134.5"/>
+        </tableViewCell>
+    </objects>
+</document>
