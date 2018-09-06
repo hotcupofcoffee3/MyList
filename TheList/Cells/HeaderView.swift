@@ -10,7 +10,9 @@ import UIKit
 
 class HeaderView: UITableViewHeaderFooterView, UITextFieldDelegate {
     
-    var currentTableView = UITableView()
+    var addItemDelegate: AddNewItemDelegate?
+    
+    var reloadTableListDelegate: ReloadTableListDelegate?
     
     @IBOutlet weak var mainView: UIView!
     
@@ -32,7 +34,7 @@ class HeaderView: UITableViewHeaderFooterView, UITextFieldDelegate {
     
     func doSomething() {
         
-        print((headerTextField.text == "") ? "There was nothing" : headerTextField.text!)
+        addItemDelegate?.addNewItem(item: headerTextField.text!)
         
         headerTextField.text = ""
         
@@ -40,7 +42,7 @@ class HeaderView: UITableViewHeaderFooterView, UITextFieldDelegate {
         
         toggleAddButtonEnabled()
         
-        currentTableView.reloadData()
+        reloadTableListDelegate?.reloadTableData()
         
     }
     

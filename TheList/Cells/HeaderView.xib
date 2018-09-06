@@ -63,7 +63,6 @@
                     <constraint firstAttribute="bottom" secondItem="4AK-6Q-518" secondAttribute="bottom" id="jkQ-Si-plk"/>
                 </constraints>
             </tableViewCellContentView>
-            <color key="backgroundColor" white="0.66176041298442412" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="addButton" destination="xEU-Lh-eBm" id="Rwr-3f-CuI"/>

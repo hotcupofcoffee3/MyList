@@ -15,8 +15,9 @@ class IdeasViewController: CategoryAndItemViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.categoryOrItem.numberOfRows = 2
+//        self.categoryOrItem.numberOfRows = 2
         self.categoryOrItem.viewDisplayed = .ideas
+        self.categoryOrItem.table = tableView
         
         tableView.register(UINib(nibName: Keywords.shared.cellNibName, bundle: nil), forCellReuseIdentifier: Keywords.shared.categoryAndItemCellIdentifier)
         

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B58E6A282141AA8A0056208C /* ProtocolModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58E6A272141AA8A0056208C /* ProtocolModel.swift */; };
 		B5A6C3CC213EE4150029FF22 /* CategoryAndItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A6C3CB213EE4150029FF22 /* CategoryAndItemViewController.swift */; };
 		B5A6C3CE213EE5B20029FF22 /* CategoryAndItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A6C3CD213EE5B10029FF22 /* CategoryAndItemModel.swift */; };
 		B5A6C3D0213EE7B60029FF22 /* Keywords.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A6C3CF213EE7B60029FF22 /* Keywords.swift */; };
@@ -30,6 +31,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B58E6A272141AA8A0056208C /* ProtocolModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProtocolModel.swift; sourceTree = "<group>"; };
 		B5A6C3CB213EE4150029FF22 /* CategoryAndItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryAndItemViewController.swift; sourceTree = "<group>"; };
 		B5A6C3CD213EE5B10029FF22 /* CategoryAndItemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryAndItemModel.swift; sourceTree = "<group>"; };
 		B5A6C3CF213EE7B60029FF22 /* Keywords.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keywords.swift; sourceTree = "<group>"; };
@@ -70,6 +72,7 @@
 			children = (
 				B5A6C3CD213EE5B10029FF22 /* CategoryAndItemModel.swift */,
 				B5F1E0EE214191C60041C472 /* DataModel.swift */,
+				B58E6A272141AA8A0056208C /* ProtocolModel.swift */,
 				B5A6C3CF213EE7B60029FF22 /* Keywords.swift */,
 				B5FAB70E2139D89C0046F976 /* TheList.xcdatamodeld */,
 			);
@@ -236,6 +239,7 @@
 				B5A6C3CC213EE4150029FF22 /* CategoryAndItemViewController.swift in Sources */,
 				B5FAB7102139D89C0046F976 /* TheList.xcdatamodeld in Sources */,
 				B5A6C3D0213EE7B60029FF22 /* Keywords.swift in Sources */,
+				B58E6A282141AA8A0056208C /* ProtocolModel.swift in Sources */,
 				B5F1E0EC21417B480041C472 /* HeaderView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

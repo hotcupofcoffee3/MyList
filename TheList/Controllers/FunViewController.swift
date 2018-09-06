@@ -15,8 +15,9 @@ class FunViewController: CategoryAndItemViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.categoryOrItem.numberOfRows = 4
+//        self.categoryOrItem.numberOfRows = 4
         self.categoryOrItem.viewDisplayed = .fun
+        self.categoryOrItem.table = tableView
         
         tableView.register(UINib(nibName: Keywords.shared.cellNibName, bundle: nil), forCellReuseIdentifier: Keywords.shared.categoryAndItemCellIdentifier)
         

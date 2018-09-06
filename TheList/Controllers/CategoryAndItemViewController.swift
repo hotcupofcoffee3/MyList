@@ -13,16 +13,16 @@ class CategoryAndItemViewController: UIViewController, UITableViewDataSource, UI
     let categoryOrItem = CategoryAndItemModel()
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        return categoryOrItem.numberOfRows
-        
+        return categoryOrItem.items.count
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
         let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: Keywords.shared.headerIdentifier) as! HeaderView
         
-        headerView.currentTableView = tableView
+        headerView.addItemDelegate = categoryOrItem
+        
+        headerView.reloadTableListDelegate = categoryOrItem
         
         return headerView
         
@@ -32,15 +32,7 @@ class CategoryAndItemViewController: UIViewController, UITableViewDataSource, UI
         
         let cell = tableView.dequeueReusableCell(withIdentifier: Keywords.shared.categoryAndItemCellIdentifier, for: indexPath) as! CategoryAndItemTableViewCell
         
-        if indexPath.row == 0 {
-            
-            cell.nameLabel?.text = "Whole Foods Market"
-            
-        } else {
-            
-            cell.nameLabel?.text = "\(indexPath.row + 1)"
-            
-        }
+        cell.nameLabel?.text = categoryOrItem.items[indexPath.row]
         
         return cell
         
@@ -70,6 +62,9 @@ class CategoryAndItemViewController: UIViewController, UITableViewDataSource, UI
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+
+        
     }
 
 }

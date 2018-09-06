@@ -15,8 +15,9 @@ class WorkViewController: CategoryAndItemViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.categoryOrItem.numberOfRows = 6
+//        self.categoryOrItem.numberOfRows = 6
         self.categoryOrItem.viewDisplayed = .work
+        self.categoryOrItem.table = tableView
         
         tableView.register(UINib(nibName: Keywords.shared.cellNibName, bundle: nil), forCellReuseIdentifier: Keywords.shared.categoryAndItemCellIdentifier)
         

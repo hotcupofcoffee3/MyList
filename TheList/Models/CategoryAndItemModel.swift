@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 enum TypeOfSegue {
     
@@ -14,9 +15,23 @@ enum TypeOfSegue {
     
 }
 
-class CategoryAndItemModel {
+class CategoryAndItemModel: AddNewItemDelegate, ReloadTableListDelegate {
     
-    var numberOfRows = 0
+    func addNewItem(item: String) {
+        items.append(item)
+    }
+    
+    func reloadTableData() {
+        if let table = table {
+            table.reloadData()
+        } else {
+            print("There was no table defined in the protocol conformance to ReloadTableListDelegate in the CategoryAndItemModel")
+        }
+    }
+    
+    var table: UITableView?
+    
+    var items = [String]()
     
     var viewDisplayed = TypeOfSegue.home
     

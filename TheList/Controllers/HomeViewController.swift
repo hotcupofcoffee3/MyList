@@ -15,8 +15,9 @@ class HomeViewController: CategoryAndItemViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.categoryOrItem.numberOfRows = 10
+//        self.categoryOrItem.numberOfRows = 10
         self.categoryOrItem.viewDisplayed = .home
+        self.categoryOrItem.table = tableView
         
         tableView.register(UINib(nibName: Keywords.shared.cellNibName, bundle: nil), forCellReuseIdentifier: Keywords.shared.categoryAndItemCellIdentifier)
         
