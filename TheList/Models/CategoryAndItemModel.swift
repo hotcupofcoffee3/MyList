@@ -9,41 +9,51 @@
 import Foundation
 import UIKit
 
-enum TypeOfSegue: String {
-    
+
+
+// The Chosen VC that displays the TableView
+
+enum ChosenVC: String {
     case home, errands, work, fun, ideas, items
-    
 }
 
-class CategoryAndItemModel: AddNewItemDelegate, ReloadTableListDelegate {
+
+
+// The Main Category and Item model for the TableViews
+
+class CategoryAndItemModel {
     
-    func addNewItem(item: String) {
-        items.append(item)
+    
+    
+    // The items that are loaded
+    
+    var items = DataModel.shared.items
+    
+    func reloadItems() {
+        
+        items = DataModel.shared.items
+        
     }
     
-    func reloadTableData() {
-        if let table = table {
-            table.reloadData()
-        } else {
-            print("There was no table defined in the protocol conformance to ReloadTableListDelegate in the CategoryAndItemModel")
-        }
-    }
+    
+    
+    // Called in viewDidLoad with VC's title to set the TableView & Type of Segue.
     
     var table: UITableView?
     
-    var items = ["Dog", "Cat", "Hamster"]
+    var viewDisplayed = ChosenVC.home
     
-    var viewDisplayed = TypeOfSegue.home
-    
-    func setViewDisplayed(viewTitle: String) {
+    func setViewDisplayed(tableView: UITableView, viewTitle: String) {
+        
+        self.table = tableView
         
         switch viewTitle {
             
-        case TypeOfSegue.home.rawValue: viewDisplayed = .home
-        case TypeOfSegue.errands.rawValue: viewDisplayed = .errands
-        case TypeOfSegue.work.rawValue: viewDisplayed = .work
-        case TypeOfSegue.fun.rawValue: viewDisplayed = .fun
-        case TypeOfSegue.ideas.rawValue: viewDisplayed = .ideas
+        case ChosenVC.home.rawValue: viewDisplayed = .home
+        case ChosenVC.errands.rawValue: viewDisplayed = .errands
+        case ChosenVC.work.rawValue: viewDisplayed = .work
+        case ChosenVC.fun.rawValue: viewDisplayed = .fun
+        case ChosenVC.ideas.rawValue: viewDisplayed = .ideas
             
         default: viewDisplayed = .items
             
@@ -65,6 +75,32 @@ class CategoryAndItemModel: AddNewItemDelegate, ReloadTableListDelegate {
             
         }
         
+    }
+    
+    
+    
+}
+
+
+
+// MARK: - Delegate functions from the Header View, with the tableView set in the viewDidLoad
+
+
+extension CategoryAndItemModel: AddNewItemDelegate, ReloadTableListDelegate {
+    
+    
+    func addNewItem(item: String) {
+        DataModel.shared.addNewItem(name: item, category: viewDisplayed.rawValue, done: false, repeating: false)
+        DataModel.shared.loadAllItems()
+        reloadItems()
+    }
+    
+    func reloadTableData() {
+        if let table = table {
+            table.reloadData()
+        } else {
+            print("There was no table loaded from Model delegate.")
+        }
     }
     
 }

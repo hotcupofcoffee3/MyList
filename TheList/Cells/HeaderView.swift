@@ -28,11 +28,11 @@ class HeaderView: UITableViewHeaderFooterView, UITextFieldDelegate {
     
     @IBAction func addButtonPressed(_ sender: UIButton) {
         
-        doSomething()
+        addItem()
         
     }
     
-    func doSomething() {
+    func addItem() {
         
         addItemDelegate?.addNewItem(item: headerTextField.text!)
         
@@ -47,7 +47,7 @@ class HeaderView: UITableViewHeaderFooterView, UITextFieldDelegate {
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        doSomething()
+        addItem()
         return true
     }
     
