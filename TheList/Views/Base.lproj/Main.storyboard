@@ -10,10 +10,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Home-->
+        <!--home-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="HomeViewController" customModule="TheList" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="home" id="BYZ-38-t0r" customClass="CategoryAndItemViewController" customModule="TheList" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -48,7 +48,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Home" id="6RD-ag-ojr"/>
                     <connections>
-                        <outlet property="tableView" destination="g6g-5S-dLA" id="KWh-6d-qAu"/>
+                        <outlet property="tableView" destination="g6g-5S-dLA" id="ZIl-Kf-bt5"/>
                         <segue destination="FDI-qT-SoX" kind="show" identifier="homeToItemsSegue" id="lYk-cJ-CjM"/>
                     </connections>
                 </viewController>
@@ -56,10 +56,10 @@
             </objects>
             <point key="canvasLocation" x="2015.2" y="133.5832083958021"/>
         </scene>
-        <!--Items View Controller-->
+        <!--items-->
         <scene sceneID="C2V-si-sLh">
             <objects>
-                <viewController id="FDI-qT-SoX" customClass="ItemsViewController" customModule="TheList" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="items" id="FDI-qT-SoX" customClass="CategoryAndItemViewController" customModule="TheList" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Odo-pl-qi5">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -100,10 +100,10 @@
             </objects>
             <point key="canvasLocation" x="3519" y="1630"/>
         </scene>
-        <!--Errands-->
+        <!--errands-->
         <scene sceneID="F5v-6n-Lmu">
             <objects>
-                <viewController id="Nf3-wR-jev" customClass="ErrandsViewController" customModule="TheList" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="errands" id="Nf3-wR-jev" customClass="CategoryAndItemViewController" customModule="TheList" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="kAO-NX-g9h">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -206,10 +206,10 @@
             </objects>
             <point key="canvasLocation" x="1076" y="878"/>
         </scene>
-        <!--Ideas-->
+        <!--ideas-->
         <scene sceneID="PUK-eE-hRq">
             <objects>
-                <viewController id="sbZ-MD-I6e" customClass="IdeasViewController" customModule="TheList" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="ideas" id="sbZ-MD-I6e" customClass="CategoryAndItemViewController" customModule="TheList" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="PX4-no-zBp">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -252,10 +252,10 @@
             </objects>
             <point key="canvasLocation" x="2015.2" y="1629.5352323838083"/>
         </scene>
-        <!--Work-->
+        <!--work-->
         <scene sceneID="WY4-zU-KYE">
             <objects>
-                <viewController id="Nf7-E0-lld" customClass="WorkViewController" customModule="TheList" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="work" id="Nf7-E0-lld" customClass="CategoryAndItemViewController" customModule="TheList" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8BW-6w-F2D">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -298,10 +298,10 @@
             </objects>
             <point key="canvasLocation" x="2016.8" y="2400.4497751124441"/>
         </scene>
-        <!--Fun-->
+        <!--fun-->
         <scene sceneID="wN7-ZC-sEx">
             <objects>
-                <viewController id="JfK-1c-7QD" customClass="FunViewController" customModule="TheList" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="fun" id="JfK-1c-7QD" customClass="CategoryAndItemViewController" customModule="TheList" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="kAe-47-hKq">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -403,6 +403,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="lYk-cJ-CjM"/>
+        <segue reference="vdH-ie-Tp7"/>
     </inferredMetricsTieBreakers>
 </document>

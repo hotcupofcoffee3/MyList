@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-enum TypeOfSegue {
+enum TypeOfSegue: String {
     
     case home, errands, work, fun, ideas, items
     
@@ -31,9 +31,25 @@ class CategoryAndItemModel: AddNewItemDelegate, ReloadTableListDelegate {
     
     var table: UITableView?
     
-    var items = [String]()
+    var items = ["Dog", "Cat", "Hamster"]
     
     var viewDisplayed = TypeOfSegue.home
+    
+    func setViewDisplayed(viewTitle: String) {
+        
+        switch viewTitle {
+            
+        case TypeOfSegue.home.rawValue: viewDisplayed = .home
+        case TypeOfSegue.errands.rawValue: viewDisplayed = .errands
+        case TypeOfSegue.work.rawValue: viewDisplayed = .work
+        case TypeOfSegue.fun.rawValue: viewDisplayed = .fun
+        case TypeOfSegue.ideas.rawValue: viewDisplayed = .ideas
+            
+        default: viewDisplayed = .items
+            
+        }
+        
+    }
     
     var typeOfSegue: String {
         
@@ -44,10 +60,19 @@ class CategoryAndItemModel: AddNewItemDelegate, ReloadTableListDelegate {
         case .work: return Keywords.shared.workToItemsSegue
         case .fun: return Keywords.shared.funToItemsSegue
         case .ideas: return Keywords.shared.ideasToItemsSegue
-        case .items: return "Nothing"
+            
+        case .items: return "Type of Segue is Items"
             
         }
         
     }
     
 }
+
+
+
+
+
+
+
+

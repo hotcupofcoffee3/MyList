@@ -12,6 +12,8 @@ class CategoryAndItemViewController: UIViewController, UITableViewDataSource, UI
     
     let categoryOrItem = CategoryAndItemModel()
     
+    @IBOutlet weak var tableView: UITableView!
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return categoryOrItem.items.count
     }
@@ -63,7 +65,13 @@ class CategoryAndItemViewController: UIViewController, UITableViewDataSource, UI
     override func viewDidLoad() {
         super.viewDidLoad()
         
-
+        self.categoryOrItem.table = tableView
+        
+        self.categoryOrItem.setViewDisplayed(viewTitle: self.title!)
+        
+        tableView.register(UINib(nibName: Keywords.shared.cellNibName, bundle: nil), forCellReuseIdentifier: Keywords.shared.categoryAndItemCellIdentifier)
+        
+        tableView.register(UINib(nibName: Keywords.shared.headerNibName, bundle: nil), forHeaderFooterViewReuseIdentifier: Keywords.shared.headerIdentifier)
         
     }
 
