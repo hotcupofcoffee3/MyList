@@ -9,6 +9,12 @@
 import Foundation
 import UIKit
 
+protocol AddNewCategoryDelegate {
+    
+    func addNewCategory(category: String)
+    
+}
+
 protocol AddNewItemDelegate {
     
     func addNewItem(item: String)

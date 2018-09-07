@@ -27,11 +27,13 @@ class CategoryAndItemModel {
     
     // The items that are loaded
     
-    var items = DataModel.shared.items
+    var categories = [Category]()
     
-    func reloadItems() {
+    var items = [Item]()
+    
+    func reloadCategories() {
         
-        items = DataModel.shared.items
+        categories = DataModel.shared.loadSpecificCategories(perType: viewDisplayed)
         
     }
     
@@ -86,13 +88,21 @@ class CategoryAndItemModel {
 // MARK: - Delegate functions from the Header View, with the tableView set in the viewDidLoad
 
 
-extension CategoryAndItemModel: AddNewItemDelegate, ReloadTableListDelegate {
+extension CategoryAndItemModel: AddNewCategoryDelegate, AddNewItemDelegate, ReloadTableListDelegate {
     
+    
+    
+    func addNewCategory(category: String) {
+        DataModel.shared.addNewCategory(name: category, type: viewDisplayed.rawValue, date: Date(), repeating: false)
+        categories = DataModel.shared.loadSpecificCategories(perType: viewDisplayed)
+        reloadCategories()
+        print("Categories from model after adding: \(categories.count)")
+    }
     
     func addNewItem(item: String) {
-        DataModel.shared.addNewItem(name: item, category: viewDisplayed.rawValue, done: false, repeating: false)
-        DataModel.shared.loadAllItems()
-        reloadItems()
+        
+        
+        
     }
     
     func reloadTableData() {

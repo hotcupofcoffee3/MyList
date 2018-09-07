@@ -15,14 +15,17 @@ class DataModel {
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     private init() {
+//        deleteAllData()
         loadAllData()
+        print("Categories: \(allCategories.count)")
+        print("Items: \(allItems.count)")
     }
     
     static var shared = DataModel()
     
-    var categories = [Category]()
+    var allCategories = [Category]()
     
-    var items = [Item]()
+    var allItems = [Item]()
     
     func saveData() {
         do {
@@ -42,12 +45,12 @@ class DataModel {
         let request: NSFetchRequest<Category> = Category.fetchRequest()
         
         do {
-            categories = try context.fetch(request)
+            allCategories = try context.fetch(request)
         } catch {
             print("Error loading All Categories in the Data model: \(error)")
         }
         
-        if categories.count == 0 {
+        if allCategories.count == 0 {
             print("There are no Categories loaded from the Data model")
         }
         
@@ -56,6 +59,28 @@ class DataModel {
     func loadAllItems() {
         
         let request: NSFetchRequest<Item> = Item.fetchRequest()
+        
+        do {
+            allItems = try context.fetch(request)
+        } catch {
+            print("Error loading All Items in the Data model: \(error)")
+        }
+        
+        if allItems.count == 0 {
+            print("There are no Items loaded from the Data model")
+        }
+        
+    }
+    
+    func loadSpecificItems(perCategory: String) -> [Item] {
+        
+        var items = [Item]()
+        
+        let request: NSFetchRequest<Item> = Item.fetchRequest()
+        
+        let predicate = NSPredicate(format: "category MATCHES %@", perCategory)
+        
+        request.predicate = predicate
         
         do {
             items = try context.fetch(request)
@@ -67,6 +92,32 @@ class DataModel {
             print("There are no Items loaded from the Data model")
         }
         
+        return items
+        
+    }
+    
+    func loadSpecificCategories(perType: ChosenVC) -> [Category] {
+        
+        var categories = [Category]()
+        
+        let request: NSFetchRequest<Category> = Category.fetchRequest()
+        
+        let predicate = NSPredicate(format: "type MATCHES %@", perType.rawValue)
+        
+        request.predicate = predicate
+        
+        do {
+            categories = try context.fetch(request)
+        } catch {
+            print("Error loading All Items in the Data model: \(error)")
+        }
+        
+        if categories.count == 0 {
+            print("There are no Items loaded from the Data model")
+        }
+        
+        return categories
+        
     }
     
     func deleteAllData() {
@@ -76,7 +127,7 @@ class DataModel {
     
     func deleteAllCategories() {
         loadAllCategories()
-        for category in categories {
+        for category in allCategories {
             context.delete(category)
         }
         saveData()
@@ -84,7 +135,7 @@ class DataModel {
     
     func deleteAllItems() {
         loadAllItems()
-        for item in items {
+        for item in allItems {
             context.delete(item)
         }
         saveData()
