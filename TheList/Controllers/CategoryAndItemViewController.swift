@@ -21,7 +21,6 @@ class CategoryAndItemViewController: UIViewController {
         
         // Chosen VC and TableView set
         self.categoryOrItem.setViewDisplayed(tableView: tableView, viewTitle: self.title!)
-        self.categoryOrItem.categories = DataModel.shared.loadSpecificCategories(perType: self.categoryOrItem.viewDisplayed)
         
         // Header
         tableView.register(UINib(nibName: Keywords.shared.headerNibName, bundle: nil), forHeaderFooterViewReuseIdentifier: Keywords.shared.headerIdentifier)
@@ -38,16 +37,14 @@ class CategoryAndItemViewController: UIViewController {
 extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return categoryOrItem.categories.count
+        return categoryOrItem.categoriesOrItems.count
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
         let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: Keywords.shared.headerIdentifier) as! HeaderView
         
-        headerView.addCategoryDelegate = categoryOrItem
-        
-        headerView.addItemDelegate = categoryOrItem
+        headerView.addCategoryOrItemDelegate = categoryOrItem
         
         headerView.reloadTableListDelegate = categoryOrItem
         
@@ -59,7 +56,19 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
         
         let cell = tableView.dequeueReusableCell(withIdentifier: Keywords.shared.categoryAndItemCellIdentifier, for: indexPath) as! CategoryAndItemTableViewCell
         
-        cell.nameLabel?.text = categoryOrItem.categories[indexPath.row].name!
+        if categoryOrItem.viewDisplayed == .items {
+            
+            let array = categoryOrItem.categoriesOrItems as! [Item]
+            
+            cell.nameLabel?.text = array[indexPath.row].name!
+            
+        } else {
+            
+            let array = categoryOrItem.categoriesOrItems as! [Category]
+            
+            cell.nameLabel?.text = array[indexPath.row].name!
+            
+        }
         
         return cell
         
@@ -70,6 +79,8 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
         tableView.deselectRow(at: indexPath, animated: true)
         
         if categoryOrItem.viewDisplayed != .items {
+            
+            categoryOrItem.category = categoryOrItem.viewDisplayed.rawValue
             
             performSegue(withIdentifier: categoryOrItem.typeOfSegue, sender: self)
             

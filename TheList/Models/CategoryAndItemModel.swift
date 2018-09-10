@@ -27,14 +27,12 @@ class CategoryAndItemModel {
     
     // The items that are loaded
     
-    var categories = [Category]()
+    var category = String()
     
-    var items = [Item]()
+    var categoriesOrItems = [Any]()
     
-    func reloadCategories() {
-        
-        categories = DataModel.shared.loadSpecificCategories(perType: viewDisplayed)
-        
+    func reloadCategoriesOrItems() {
+        categoriesOrItems = DataModel.shared.loadSpecificCategories(perType: viewDisplayed)
     }
     
     
@@ -51,15 +49,27 @@ class CategoryAndItemModel {
         
         switch viewTitle {
             
-        case ChosenVC.home.rawValue: viewDisplayed = .home
-        case ChosenVC.errands.rawValue: viewDisplayed = .errands
-        case ChosenVC.work.rawValue: viewDisplayed = .work
-        case ChosenVC.fun.rawValue: viewDisplayed = .fun
-        case ChosenVC.ideas.rawValue: viewDisplayed = .ideas
+        case ChosenVC.home.rawValue:
+            viewDisplayed = .home
             
-        default: viewDisplayed = .items
+        case ChosenVC.errands.rawValue:
+            viewDisplayed = .errands
+            
+        case ChosenVC.work.rawValue:
+            viewDisplayed = .work
+            
+        case ChosenVC.fun.rawValue:
+            viewDisplayed = .fun
+            
+        case ChosenVC.ideas.rawValue:
+            viewDisplayed = .ideas
+            
+        default:
+            viewDisplayed = .items
             
         }
+        
+        categoriesOrItems = (viewDisplayed == .items) ? DataModel.shared.loadSpecificItems(perCategory: viewDisplayed.rawValue) : DataModel.shared.loadSpecificCategories(perType: viewDisplayed)
         
     }
     
@@ -67,11 +77,20 @@ class CategoryAndItemModel {
         
         switch viewDisplayed {
             
-        case .home: return Keywords.shared.homeToItemsSegue
-        case .errands: return Keywords.shared.errandsToItemsSegue
-        case .work: return Keywords.shared.workToItemsSegue
-        case .fun: return Keywords.shared.funToItemsSegue
-        case .ideas: return Keywords.shared.ideasToItemsSegue
+        case .home:
+            return Keywords.shared.homeToItemsSegue
+            
+        case .errands:
+            return Keywords.shared.errandsToItemsSegue
+            
+        case .work:
+            return Keywords.shared.workToItemsSegue
+            
+        case .fun:
+            return Keywords.shared.funToItemsSegue
+            
+        case .ideas:
+            return Keywords.shared.ideasToItemsSegue
             
         case .items: return "Type of Segue is Items"
             
@@ -88,20 +107,26 @@ class CategoryAndItemModel {
 // MARK: - Delegate functions from the Header View, with the tableView set in the viewDidLoad
 
 
-extension CategoryAndItemModel: AddNewCategoryDelegate, AddNewItemDelegate, ReloadTableListDelegate {
+extension CategoryAndItemModel: AddNewCategoryOrItemDelegate, ReloadTableListDelegate {
     
     
-    
-    func addNewCategory(category: String) {
-        DataModel.shared.addNewCategory(name: category, type: viewDisplayed.rawValue, date: Date(), repeating: false)
-        categories = DataModel.shared.loadSpecificCategories(perType: viewDisplayed)
-        reloadCategories()
-        print("Categories from model after adding: \(categories.count)")
-    }
-    
-    func addNewItem(item: String) {
+    func addNewCategoryOrItem(categoryOrItem: String) {
         
-        
+        if categoryOrItem == ChosenVC.items.rawValue {
+            
+            DataModel.shared.addNewItem(name: categoryOrItem, category: category, done: false, repeating: false)
+            categoriesOrItems = DataModel.shared.loadSpecificItems(perCategory: category)
+            reloadCategoriesOrItems()
+            print("Items from model after adding: \(categoriesOrItems.count)")
+            
+        } else {
+            
+            DataModel.shared.addNewCategory(name: categoryOrItem, type: viewDisplayed.rawValue, date: Date(), repeating: false)
+            categoriesOrItems = DataModel.shared.loadSpecificCategories(perType: viewDisplayed)
+            reloadCategoriesOrItems()
+            print("Categories from model after adding: \(categoriesOrItems.count)")
+            
+        }
         
     }
     

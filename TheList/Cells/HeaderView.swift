@@ -10,9 +10,7 @@ import UIKit
 
 class HeaderView: UITableViewHeaderFooterView, UITextFieldDelegate {
     
-    var addCategoryDelegate: AddNewCategoryDelegate?
-    
-    var addItemDelegate: AddNewItemDelegate?
+    var addCategoryOrItemDelegate: AddNewCategoryOrItemDelegate?
     
     var reloadTableListDelegate: ReloadTableListDelegate?
     
@@ -30,13 +28,13 @@ class HeaderView: UITableViewHeaderFooterView, UITextFieldDelegate {
     
     @IBAction func addButtonPressed(_ sender: UIButton) {
         
-        addCategory()
+        addCategoryOrItem()
         
     }
     
-    func addCategory() {
+    func addCategoryOrItem() {
         
-        addCategoryDelegate?.addNewCategory(category: headerTextField.text!)
+        addCategoryOrItemDelegate?.addNewCategoryOrItem(categoryOrItem: headerTextField.text!)
         
         headerTextField.text = ""
         
@@ -49,7 +47,7 @@ class HeaderView: UITableViewHeaderFooterView, UITextFieldDelegate {
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        addCategory()
+        addCategoryOrItem()
         return true
     }
     
