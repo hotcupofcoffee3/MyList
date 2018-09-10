@@ -27,12 +27,18 @@ class CategoryAndItemModel {
     
     // The items that are loaded
     
-    var category = String()
+    var categories = [Category]()
     
-    var categoriesOrItems = [Any]()
+    var items = [Item]()
     
     func reloadCategoriesOrItems() {
-        categoriesOrItems = DataModel.shared.loadSpecificCategories(perType: viewDisplayed)
+        if viewDisplayed == .items {
+            items = DataModel.shared.loadSpecificItems(perCategory: DataModel.shared.selectedCategory)
+        } else {
+            DataModel.shared.selectedCategory = viewDisplayed.rawValue
+            categories = DataModel.shared.loadSpecificCategories(perType: viewDisplayed)
+        }
+        
     }
     
     
@@ -69,7 +75,11 @@ class CategoryAndItemModel {
             
         }
         
-        categoriesOrItems = (viewDisplayed == .items) ? DataModel.shared.loadSpecificItems(perCategory: viewDisplayed.rawValue) : DataModel.shared.loadSpecificCategories(perType: viewDisplayed)
+        if viewDisplayed == .items {
+            items = DataModel.shared.loadSpecificItems(perCategory: DataModel.shared.selectedCategory)
+        } else {
+            categories = DataModel.shared.loadSpecificCategories(perType: viewDisplayed)
+        }
         
     }
     
@@ -109,22 +119,21 @@ class CategoryAndItemModel {
 
 extension CategoryAndItemModel: AddNewCategoryOrItemDelegate, ReloadTableListDelegate {
     
-    
     func addNewCategoryOrItem(categoryOrItem: String) {
         
-        if categoryOrItem == ChosenVC.items.rawValue {
+        if viewDisplayed == .items {
             
-            DataModel.shared.addNewItem(name: categoryOrItem, category: category, done: false, repeating: false)
-            categoriesOrItems = DataModel.shared.loadSpecificItems(perCategory: category)
+            DataModel.shared.addNewItem(name: categoryOrItem, category: DataModel.shared.selectedCategory, done: false, repeating: false)
+            items = DataModel.shared.loadSpecificItems(perCategory: DataModel.shared.selectedCategory)
             reloadCategoriesOrItems()
-            print("Items from model after adding: \(categoriesOrItems.count)")
+            print("Items from model after adding: \(items.count)")
             
         } else {
             
             DataModel.shared.addNewCategory(name: categoryOrItem, type: viewDisplayed.rawValue, date: Date(), repeating: false)
-            categoriesOrItems = DataModel.shared.loadSpecificCategories(perType: viewDisplayed)
+            categories = DataModel.shared.loadSpecificCategories(perType: viewDisplayed)
             reloadCategoriesOrItems()
-            print("Categories from model after adding: \(categoriesOrItems.count)")
+            print("Categories from model after adding: \(categories.count)")
             
         }
         

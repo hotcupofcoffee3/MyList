@@ -19,7 +19,7 @@ class CategoryAndItemViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Chosen VC and TableView set
+        // Chosen VC and TableView set, with the 'title' being set in the Storyboard
         self.categoryOrItem.setViewDisplayed(tableView: tableView, viewTitle: self.title!)
         
         // Header
@@ -37,7 +37,7 @@ class CategoryAndItemViewController: UIViewController {
 extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return categoryOrItem.categoriesOrItems.count
+        return (categoryOrItem.viewDisplayed == .items) ? categoryOrItem.items.count : categoryOrItem.categories.count
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -58,15 +58,11 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
         
         if categoryOrItem.viewDisplayed == .items {
             
-            let array = categoryOrItem.categoriesOrItems as! [Item]
-            
-            cell.nameLabel?.text = array[indexPath.row].name!
+            cell.nameLabel?.text = categoryOrItem.items[indexPath.row].name!
             
         } else {
             
-            let array = categoryOrItem.categoriesOrItems as! [Category]
-            
-            cell.nameLabel?.text = array[indexPath.row].name!
+            cell.nameLabel?.text = categoryOrItem.categories[indexPath.row].name!
             
         }
         
@@ -80,12 +76,18 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
         
         if categoryOrItem.viewDisplayed != .items {
             
-            categoryOrItem.category = categoryOrItem.viewDisplayed.rawValue
+            DataModel.shared.selectedCategory = categoryOrItem.categories[indexPath.row].name!
             
             performSegue(withIdentifier: categoryOrItem.typeOfSegue, sender: self)
             
         }
         
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let destinationVC = segue.destination as! CategoryAndItemViewController
+        
+        destinationVC.navigationItem.title = "Items"
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

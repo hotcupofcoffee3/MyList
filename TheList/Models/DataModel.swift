@@ -27,6 +27,8 @@ class DataModel {
     
     var allItems = [Item]()
     
+    var selectedCategory = String()
+    
     func saveData() {
         do {
             try context.save()
