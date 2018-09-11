@@ -14,6 +14,8 @@ class CategoryAndItemViewController: UIViewController {
     
     let categoryOrItem = CategoryAndItemModel()
     
+    var selectedCategory = "Category And Item VC selectedCategory: Type view, no Category Selected."
+    
     @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
@@ -28,6 +30,10 @@ class CategoryAndItemViewController: UIViewController {
         // Cell
         tableView.register(UINib(nibName: Keywords.shared.cellNibName, bundle: nil), forCellReuseIdentifier: Keywords.shared.categoryAndItemCellIdentifier)
         
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        tableView.reloadData()
     }
 
 }
@@ -60,10 +66,28 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
             
             cell.nameLabel?.text = categoryOrItem.items[indexPath.row].name!
             
+            if categoryOrItem.items[indexPath.row].done {
+                cell.checkboxImageView.image = Keywords.shared.checkboxChecked
+                cell.backgroundColor = Keywords.shared.lightGreenBackground12
+            } else {
+                cell.checkboxImageView.image = Keywords.shared.checkboxEmpty
+                cell.backgroundColor = UIColor.white
+            }
+            
+            cell.accessoryType = .none
+            
         } else {
             
-            cell.nameLabel?.text = categoryOrItem.categories[indexPath.row].name!
+            if categoryOrItem.allItemsAreDone(forCategory: categoryOrItem.categories[indexPath.row].name!) {
+                cell.checkboxImageView.image = Keywords.shared.checkboxChecked
+                cell.backgroundColor = Keywords.shared.lightGreenBackground12
+            } else {
+                cell.checkboxImageView.image = Keywords.shared.checkboxEmpty
+                cell.backgroundColor = UIColor.white
+            }
             
+            cell.nameLabel?.text = categoryOrItem.categories[indexPath.row].name!
+            cell.accessoryType = .disclosureIndicator
         }
         
         return cell
@@ -76,18 +100,18 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
         
         if categoryOrItem.viewDisplayed != .items {
             
-            DataModel.shared.selectedCategory = categoryOrItem.categories[indexPath.row].name!
+            selectedCategory = categoryOrItem.categories[indexPath.row].name!
             
             performSegue(withIdentifier: categoryOrItem.typeOfSegue, sender: self)
             
+        } else {
+            
+            DataModel.shared.toggleDone(forItem: categoryOrItem.items[indexPath.row])
+            categoryOrItem.reloadCategoriesOrItems()
+            tableView.reloadData()
+            
         }
         
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let destinationVC = segue.destination as! CategoryAndItemViewController
-        
-        destinationVC.navigationItem.title = "Items"
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -103,6 +127,20 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
 }
 
 
+
+// MARK: - Segue
+
+extension CategoryAndItemViewController {
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let destinationVC = segue.destination as! CategoryAndItemViewController
+        
+        destinationVC.navigationItem.title = "Items"
+        
+        destinationVC.categoryOrItem.selectedCategory = selectedCategory
+    }
+    
+}
 
 
 

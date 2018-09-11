@@ -31,12 +31,13 @@ class CategoryAndItemModel {
     
     var items = [Item]()
     
+    var selectedCategory = "Category And Item Model selectedCategory: Type view, no Category Selected."
+    
     func reloadCategoriesOrItems() {
         if viewDisplayed == .items {
-            items = DataModel.shared.loadSpecificItems(perCategory: DataModel.shared.selectedCategory)
+            items = DataModel.shared.loadSpecificItems(perCategory: selectedCategory)
         } else {
-            DataModel.shared.selectedCategory = viewDisplayed.rawValue
-            categories = DataModel.shared.loadSpecificCategories(perType: viewDisplayed)
+            categories = DataModel.shared.loadSpecificCategories(perType: viewDisplayed.rawValue)
         }
         
     }
@@ -76,9 +77,9 @@ class CategoryAndItemModel {
         }
         
         if viewDisplayed == .items {
-            items = DataModel.shared.loadSpecificItems(perCategory: DataModel.shared.selectedCategory)
+            items = DataModel.shared.loadSpecificItems(perCategory: selectedCategory)
         } else {
-            categories = DataModel.shared.loadSpecificCategories(perType: viewDisplayed)
+            categories = DataModel.shared.loadSpecificCategories(perType: viewDisplayed.rawValue)
         }
         
     }
@@ -108,7 +109,29 @@ class CategoryAndItemModel {
         
     }
     
-    
+    func allItemsAreDone(forCategory categoryName: String) -> Bool {
+        let itemsForCategory = DataModel.shared.loadSpecificItems(perCategory: categoryName)
+        
+        var allItemsAreDone = true
+        
+        if !itemsForCategory.isEmpty {
+            
+            for item in itemsForCategory {
+                
+                if item.done == false {
+                    allItemsAreDone = false
+                }
+                
+            }
+            
+        } else {
+            
+            allItemsAreDone = false
+            
+        }
+        
+        return allItemsAreDone
+    }
     
 }
 
@@ -123,15 +146,15 @@ extension CategoryAndItemModel: AddNewCategoryOrItemDelegate, ReloadTableListDel
         
         if viewDisplayed == .items {
             
-            DataModel.shared.addNewItem(name: categoryOrItem, category: DataModel.shared.selectedCategory, done: false, repeating: false)
-            items = DataModel.shared.loadSpecificItems(perCategory: DataModel.shared.selectedCategory)
+            DataModel.shared.addNewItem(name: categoryOrItem, category: selectedCategory, done: false, repeating: false)
+            items = DataModel.shared.loadSpecificItems(perCategory: selectedCategory)
             reloadCategoriesOrItems()
             print("Items from model after adding: \(items.count)")
             
         } else {
             
             DataModel.shared.addNewCategory(name: categoryOrItem, type: viewDisplayed.rawValue, date: Date(), repeating: false)
-            categories = DataModel.shared.loadSpecificCategories(perType: viewDisplayed)
+            categories = DataModel.shared.loadSpecificCategories(perType: viewDisplayed.rawValue)
             reloadCategoriesOrItems()
             print("Categories from model after adding: \(categories.count)")
             
