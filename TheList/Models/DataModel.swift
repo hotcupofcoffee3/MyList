@@ -148,10 +148,41 @@ class DataModel {
     
     // MARK: - UPDATE
     
-    func toggleDone(forItem item: Item) {
-        let itemToToggle = item
-        itemToToggle.done = !itemToToggle.done
+    enum ItemProperty {
+        case category, name, done, repeating
+    }
+    enum CategoryProperty {
+        case name, type, repeating, date
+    }
+    
+//    func toggleDone(forItem item: Item) {
+//        let itemToToggle = item
+//        itemToToggle.done = !itemToToggle.done
+//        saveData()
+//    }
+    
+    func updateItem(forProperty property: ItemProperty, forItem item: Item, category: String?, name: String?) {
+        
+        let itemToUpdate = item
+        
+        switch property {
+            
+        case .category :
+            itemToUpdate.category = (category != nil && category != "") ? category : itemToUpdate.category!
+            
+        case .name :
+            itemToUpdate.name = (name != nil && name != "") ? name : itemToUpdate.name!
+            
+        case .done :
+            itemToUpdate.done = !itemToUpdate.done
+            
+        case .repeating :
+            itemToUpdate.repeating = !itemToUpdate.repeating
+            
+        }
+        
         saveData()
+        
     }
     
     
@@ -197,6 +228,7 @@ class DataModel {
     }
     
     func deleteSpecificCategory(forCategory category: Category) {
+        deleteAllItems(fromCategory: category.name!)
         context.delete(category)
         saveData()
     }
