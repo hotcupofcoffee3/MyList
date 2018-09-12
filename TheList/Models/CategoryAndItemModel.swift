@@ -109,6 +109,19 @@ class CategoryAndItemModel {
         
     }
     
+    func numberOfItems(forCategory categoryName: String) -> Int {
+        return DataModel.shared.loadSpecificItems(perCategory: categoryName).count
+    }
+    
+    func numberOfItemsDone(forCategory categoryName: String) -> Int {
+        var numberLeft = Int()
+        let items = DataModel.shared.loadSpecificItems(perCategory: categoryName)
+        for item in items {
+            numberLeft += item.done ? 1 : 0
+        }
+        return numberLeft
+    }
+    
     func allItemsAreDone(forCategory categoryName: String) -> Bool {
         let itemsForCategory = DataModel.shared.loadSpecificItems(perCategory: categoryName)
         

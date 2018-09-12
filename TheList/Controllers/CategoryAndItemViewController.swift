@@ -70,8 +70,6 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
         
         if categoryOrItem.viewDisplayed == .items {
             
-            cell.nameLabel?.text = categoryOrItem.items[indexPath.row].name!
-            
             if categoryOrItem.items[indexPath.row].done {
                 cell.checkboxImageView.image = Keywords.shared.checkboxChecked
                 cell.backgroundColor = Keywords.shared.lightGreenBackground12
@@ -80,6 +78,8 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
                 cell.backgroundColor = UIColor.white
             }
             
+            cell.nameLabel?.text = categoryOrItem.items[indexPath.row].name!
+            cell.numberLabel.text = ""
             cell.accessoryType = .none
             
         } else {
@@ -93,6 +93,16 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
             }
             
             cell.nameLabel?.text = categoryOrItem.categories[indexPath.row].name!
+            
+            let categoryName = categoryOrItem.categories[indexPath.row].name!
+            let totalAmount = categoryOrItem.numberOfItems(forCategory: categoryName)
+            let amountDone = categoryOrItem.numberOfItemsDone(forCategory: categoryName)
+            if totalAmount > 0 {
+                cell.numberLabel.text = "\(amountDone)/\(totalAmount)"
+            } else {
+                cell.numberLabel.text = "0"
+            }
+            
             cell.accessoryType = .disclosureIndicator
         }
         
