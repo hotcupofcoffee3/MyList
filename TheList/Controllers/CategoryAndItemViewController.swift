@@ -6,6 +6,13 @@
 //  Copyright © 2018 Adam Moore. All rights reserved.
 //
 
+// TODO:
+// Add protocol for alert for duplicates, add the delegate variable in the header and the execution of it in the 'else' for adding an item, write the body of the function in the 'CategoryAndItemViewController', and set the delegate to 'self' in the 'CategoryAndItemViewController' where the header has the view set.
+// Set up the 'delete' functionality for the table cells.
+// Set up the 'editing' style and animation for the tableview.
+// Set up 'moveAt' for the items in the table, along with a unique ID for each (132 for the 1st page's 3rd category's 2nd item).
+// --- Have to consult FIT to see how this was done, as a refresher.
+
 import UIKit
 
 
@@ -135,7 +142,7 @@ extension CategoryAndItemViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let destinationVC = segue.destination as! CategoryAndItemViewController
         
-        destinationVC.navigationItem.title = "Items"
+        destinationVC.navigationItem.title = "\(selectedCategory.uppercased()) ITEMS"
         
         destinationVC.categoryOrItem.selectedCategory = selectedCategory
     }

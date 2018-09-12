@@ -142,23 +142,44 @@ class CategoryAndItemModel {
 
 extension CategoryAndItemModel: AddNewCategoryOrItemDelegate, ReloadTableListDelegate {
     
-    func addNewCategoryOrItem(categoryOrItem: String) {
+    func addNewCategoryOrItem(categoryOrItem: String) -> Bool {
+        
+        var canAdd = true
         
         if viewDisplayed == .items {
             
-            DataModel.shared.addNewItem(name: categoryOrItem, category: selectedCategory, done: false, repeating: false)
-            items = DataModel.shared.loadSpecificItems(perCategory: selectedCategory)
-            reloadCategoriesOrItems()
-            print("Items from model after adding: \(items.count)")
+            for item in items {
+                if categoryOrItem == item.name {
+                    canAdd = false
+                }
+            }
+            
+            if canAdd {
+                DataModel.shared.addNewItem(name: categoryOrItem, category: selectedCategory, done: false, repeating: false)
+                items = DataModel.shared.loadSpecificItems(perCategory: selectedCategory)
+                reloadCategoriesOrItems()
+                print("Items from model after adding: \(items.count)")
+            }
             
         } else {
             
-            DataModel.shared.addNewCategory(name: categoryOrItem, type: viewDisplayed.rawValue, date: Date(), repeating: false)
-            categories = DataModel.shared.loadSpecificCategories(perType: viewDisplayed.rawValue)
-            reloadCategoriesOrItems()
-            print("Categories from model after adding: \(categories.count)")
+            for category in categories {
+                if categoryOrItem == category.name {
+                    canAdd = false
+                }
+            }
+            
+            if canAdd {
+                DataModel.shared.addNewCategory(name: categoryOrItem, type: viewDisplayed.rawValue, date: Date(), repeating: false)
+                categories = DataModel.shared.loadSpecificCategories(perType: viewDisplayed.rawValue)
+                reloadCategoriesOrItems()
+                print("Categories from model after adding: \(categories.count)")
+            }
+            
             
         }
+        
+        return canAdd
         
     }
     

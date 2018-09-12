@@ -11,7 +11,7 @@ import UIKit
 
 protocol AddNewCategoryOrItemDelegate {
     
-    func addNewCategoryOrItem(categoryOrItem: String)
+    func addNewCategoryOrItem(categoryOrItem: String) -> Bool
     
 }
 

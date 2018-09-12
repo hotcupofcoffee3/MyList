@@ -34,15 +34,31 @@ class HeaderView: UITableViewHeaderFooterView, UITextFieldDelegate {
     
     func addCategoryOrItem() {
         
-        addCategoryOrItemDelegate?.addNewCategoryOrItem(categoryOrItem: headerTextField.text!)
-        
-        headerTextField.text = ""
-        
-        headerTextField.endEditing(true)
-        
-        toggleAddButtonEnabled()
-        
-        reloadTableListDelegate?.reloadTableData()
+        if (addCategoryOrItemDelegate?.addNewCategoryOrItem(categoryOrItem: headerTextField.text!))! {
+            
+            headerTextField.text = ""
+            
+            headerTextField.endEditing(true)
+            
+            toggleAddButtonEnabled()
+            
+            reloadTableListDelegate?.reloadTableData()
+            
+        } else {
+            
+//            let alert = UIAlertController(title: "Name already taken.", message: "You cannot have two of the same names.", preferredStyle: .alert)
+//
+//            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            
+            headerTextField.text = ""
+            
+            headerTextField.endEditing(true)
+            
+            toggleAddButtonEnabled()
+            
+            reloadTableListDelegate?.reloadTableData()
+            
+        }
         
     }
     
