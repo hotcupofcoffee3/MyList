@@ -14,6 +14,8 @@ class HeaderView: UITableViewHeaderFooterView, UITextFieldDelegate {
     
     var reloadTableListDelegate: ReloadTableListDelegate?
     
+    var checkForNameDuplicateDelegate: CheckForNameDuplicationDelegate?
+    
     @IBOutlet weak var mainView: UIView!
     
     @IBOutlet weak var headerTextField: UITextField!
@@ -46,17 +48,15 @@ class HeaderView: UITableViewHeaderFooterView, UITextFieldDelegate {
             
         } else {
             
-//            let alert = UIAlertController(title: "Name already taken.", message: "You cannot have two of the same names.", preferredStyle: .alert)
-//
-//            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            checkForNameDuplicateDelegate?.presentDuplicateNameAlert()
             
-            headerTextField.text = ""
-            
-            headerTextField.endEditing(true)
-            
-            toggleAddButtonEnabled()
-            
-            reloadTableListDelegate?.reloadTableData()
+//            headerTextField.text = ""
+//            
+//            headerTextField.endEditing(true)
+//            
+//            toggleAddButtonEnabled()
+//            
+//            reloadTableListDelegate?.reloadTableData()
             
         }
         

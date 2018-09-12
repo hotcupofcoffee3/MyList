@@ -149,17 +149,11 @@ class DataModel {
     // MARK: - UPDATE
     
     enum ItemProperty {
-        case category, name, done, repeating
+        case category, name, done, repeating, id
     }
     enum CategoryProperty {
-        case name, type, repeating, date
+        case name, type, repeating, date, id
     }
-    
-//    func toggleDone(forItem item: Item) {
-//        let itemToToggle = item
-//        itemToToggle.done = !itemToToggle.done
-//        saveData()
-//    }
     
     func updateItem(forProperty property: ItemProperty, forItem item: Item, category: String?, name: String?) {
         
@@ -179,10 +173,23 @@ class DataModel {
         case .repeating :
             itemToUpdate.repeating = !itemToUpdate.repeating
             
+        default:
+            break
+            
         }
         
         saveData()
         
+    }
+    
+    func updateID(forCategory category: Category, andID id: Int) {
+        category.id = Int64(id)
+        saveData()
+    }
+    
+    func updateID(forItem item: Item, andID id: Int) {
+        item.id = Int64(id)
+        saveData()
     }
     
     

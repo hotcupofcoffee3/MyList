@@ -20,3 +20,9 @@ protocol ReloadTableListDelegate {
     func reloadTableData()
     
 }
+
+protocol CheckForNameDuplicationDelegate {
+    
+    func presentDuplicateNameAlert()
+    
+}

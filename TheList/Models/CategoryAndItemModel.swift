@@ -122,6 +122,85 @@ class CategoryAndItemModel {
         return numberLeft
     }
     
+    func updateIDs(isCategories: Bool) {
+        
+        if isCategories {
+            
+            for index in categories.indices {
+                
+                if index == 0 {
+                    DataModel.shared.updateID(forCategory: categories[index], andID: getNextID(isFirst: true))
+                } else {
+                    DataModel.shared.updateID(forCategory: categories[index], andID: getNextID(isFirst: false))
+                }
+                
+            }
+            
+        } else {
+            
+            for index in items.indices {
+                
+                if index == 0 {
+                    DataModel.shared.updateID(forItem: items[index], andID: getNextID(isFirst: true))
+                } else {
+                    DataModel.shared.updateID(forItem: items[index], andID: getNextID(isFirst: false))
+                }
+                
+            }
+            
+        }
+        
+    }
+    
+    func getNextID(isFirst: Bool) -> Int {
+        
+        var id = Int()
+        
+        switch viewDisplayed {
+            
+        case .home:
+            id = (categories.count > 0 && !isFirst) ? Int(categories[categories.count - 1].id + 1) : 10001
+            
+        case .errands:
+            id = (categories.count > 0 && !isFirst) ? Int(categories[categories.count - 1].id + 1) : 20001
+            
+        case .work:
+            id = (categories.count > 0 && !isFirst) ? Int(categories[categories.count - 1].id + 1) : 30001
+            
+        case .fun:
+            id = (categories.count > 0 && !isFirst) ? Int(categories[categories.count - 1].id + 1) : 40001
+            
+        case .ideas:
+            id = (categories.count > 0 && !isFirst) ? Int(categories[categories.count - 1].id + 1) : 50001
+            
+        case .items:
+            switch selectedCategory {
+            case ChosenVC.home.rawValue:
+                id = (items.count > 0 && !isFirst) ? Int(items[items.count - 1].id + 1) : 10001
+                
+            case ChosenVC.errands.rawValue:
+                id = (items.count > 0 && !isFirst) ? Int(items[items.count - 1].id + 1) : 20001
+                
+            case ChosenVC.work.rawValue:
+                id = (items.count > 0 && !isFirst) ? Int(items[items.count - 1].id + 1) : 30001
+                
+            case ChosenVC.fun.rawValue:
+                id = (items.count > 0 && !isFirst) ? Int(items[items.count - 1].id + 1) : 40001
+                
+            case ChosenVC.ideas.rawValue:
+                id = (items.count > 0 && !isFirst) ? Int(items[items.count - 1].id + 1) : 50001
+                
+            default:
+                print("The selected category did not match any Category.")
+                
+            }
+            
+        }
+        
+        return id
+        
+    }
+    
     func allItemsAreDone(forCategory categoryName: String) -> Bool {
         let itemsForCategory = DataModel.shared.loadSpecificItems(perCategory: categoryName)
         
