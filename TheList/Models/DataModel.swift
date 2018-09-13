@@ -12,6 +12,8 @@ import CoreData
 
 class DataModel {
     
+    // MARK: - SETUP AND INIT
+    
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     static var shared = DataModel()
     var allCategories = [Category]()
@@ -239,13 +241,6 @@ class DataModel {
     
     
     // MARK: - UPDATE
-    
-    enum ItemProperty {
-        case category, name, done, repeating, id
-    }
-    enum CategoryProperty {
-        case name, type, repeating, date, id
-    }
     
     func updateItem(forProperty property: ItemProperty, forItem item: Item, category: String?, name: String?) {
         
