@@ -6,11 +6,24 @@
 //  Copyright © 2018 Adam Moore. All rights reserved.
 //
 
+
+
 // TODO:
+
+// Add function to sort by ID
+// Add function to UpdateIDs based on newly moved item in the array or deleted item.
 // Set up the 'editing' style and animation for the tableview.
 // Set up 'moveAt' for the items in the table.
-// Add function to sort by ID
-// Add function to UpdateIDs based on newly moved item in the array.
+
+
+
+// LATER:
+
+// Set up date.
+// Add Edit VC.
+//
+
+
 
 import UIKit
 
@@ -172,10 +185,6 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
 //        tableView.reloadData()
         
     }
-    
-//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        return 60
-//    }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         
