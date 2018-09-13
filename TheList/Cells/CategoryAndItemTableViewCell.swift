@@ -16,12 +16,12 @@ class CategoryAndItemTableViewCell: UITableViewCell {
     
     @IBOutlet weak var nameLabel: UILabel!
     
+    @IBOutlet weak var nameLabelHeight: NSLayoutConstraint!
+    
     @IBOutlet weak var numberLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
-        
         
     }
 

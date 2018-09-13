@@ -8,7 +8,9 @@
 
 // TODO:
 // Set up the 'editing' style and animation for the tableview.
-// Set up 'moveAt' for the items in the table, along with a unique ID for each (132 for the 1st page's 3rd category's 2nd item).
+// Set up 'moveAt' for the items in the table.
+// Add function to sort by ID
+// Add function to UpdateIDs based on newly moved item in the array.
 
 import UIKit
 
@@ -68,6 +70,8 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
         
         let cell = tableView.dequeueReusableCell(withIdentifier: Keywords.shared.categoryAndItemCellIdentifier, for: indexPath) as! CategoryAndItemTableViewCell
         
+        cell.nameLabelHeight.constant = cell.nameLabel.frame.height
+        
         if categoryOrItem.viewDisplayed == .items {
             
             if categoryOrItem.items[indexPath.row].done {
@@ -80,11 +84,10 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
             
             cell.nameLabel?.text = categoryOrItem.items[indexPath.row].name!
             cell.numberLabel.text = ""
-            cell.accessoryType = .none
-            
+           
         } else {
             
-            if categoryOrItem.allItemsAreDone(forCategory: categoryOrItem.categories[indexPath.row].name!) {
+            if DataModel.shared.updateAllItemsAreDone(forCategory: categoryOrItem.categories[indexPath.row].name!) {
                 cell.checkboxImageView.image = Keywords.shared.checkboxChecked
                 cell.backgroundColor = Keywords.shared.lightGreenBackground12
             } else {
@@ -103,7 +106,6 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
                 cell.numberLabel.text = "0"
             }
             
-            cell.accessoryType = .disclosureIndicator
         }
         
         return cell
@@ -171,9 +173,9 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
         
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 60
-    }
+//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+//        return 60
+//    }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         
@@ -192,7 +194,7 @@ extension CategoryAndItemViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let destinationVC = segue.destination as! CategoryAndItemViewController
         
-        destinationVC.navigationItem.title = "\(selectedCategory.uppercased()) ITEMS"
+        destinationVC.navigationItem.title = "\(selectedCategory)"
         
         destinationVC.categoryOrItem.selectedCategory = selectedCategory
     }
@@ -205,7 +207,7 @@ extension CategoryAndItemViewController: CheckForNameDuplicationDelegate {
     
     func presentDuplicateNameAlert() {
         
-        let alert = UIAlertController(title: "Name already taken.", message: "You cannot have two of the same names.", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Invalid Entry", message: "You have to enter a unique name or title.", preferredStyle: .alert)
 
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         

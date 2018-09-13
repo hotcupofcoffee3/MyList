@@ -11,14 +11,6 @@ import UIKit
 
 
 
-// The Chosen VC that displays the TableView
-
-enum ChosenVC: String {
-    case home, errands, work, fun, ideas, items
-}
-
-
-
 // The Main Category and Item model for the TableViews
 
 class CategoryAndItemModel {
@@ -122,109 +114,6 @@ class CategoryAndItemModel {
         return numberLeft
     }
     
-    func updateIDs(isCategories: Bool) {
-        
-        if isCategories {
-            
-            for index in categories.indices {
-                
-                if index == 0 {
-                    DataModel.shared.updateID(forCategory: categories[index], andID: getNextID(isFirst: true))
-                } else {
-                    DataModel.shared.updateID(forCategory: categories[index], andID: getNextID(isFirst: false))
-                }
-                
-            }
-            
-        } else {
-            
-            for index in items.indices {
-                
-                if index == 0 {
-                    DataModel.shared.updateID(forItem: items[index], andID: getNextID(isFirst: true))
-                } else {
-                    DataModel.shared.updateID(forItem: items[index], andID: getNextID(isFirst: false))
-                }
-                
-            }
-            
-        }
-        
-    }
-    
-    func getNextID(isFirst: Bool) -> Int {
-        
-        var id = Int()
-        
-        switch viewDisplayed {
-            
-        case .home:
-            id = (categories.count > 0 && !isFirst) ? Int(categories[categories.count - 1].id + 1) : 10001
-            
-        case .errands:
-            id = (categories.count > 0 && !isFirst) ? Int(categories[categories.count - 1].id + 1) : 20001
-            
-        case .work:
-            id = (categories.count > 0 && !isFirst) ? Int(categories[categories.count - 1].id + 1) : 30001
-            
-        case .fun:
-            id = (categories.count > 0 && !isFirst) ? Int(categories[categories.count - 1].id + 1) : 40001
-            
-        case .ideas:
-            id = (categories.count > 0 && !isFirst) ? Int(categories[categories.count - 1].id + 1) : 50001
-            
-        case .items:
-            switch selectedCategory {
-            case ChosenVC.home.rawValue:
-                id = (items.count > 0 && !isFirst) ? Int(items[items.count - 1].id + 1) : 10001
-                
-            case ChosenVC.errands.rawValue:
-                id = (items.count > 0 && !isFirst) ? Int(items[items.count - 1].id + 1) : 20001
-                
-            case ChosenVC.work.rawValue:
-                id = (items.count > 0 && !isFirst) ? Int(items[items.count - 1].id + 1) : 30001
-                
-            case ChosenVC.fun.rawValue:
-                id = (items.count > 0 && !isFirst) ? Int(items[items.count - 1].id + 1) : 40001
-                
-            case ChosenVC.ideas.rawValue:
-                id = (items.count > 0 && !isFirst) ? Int(items[items.count - 1].id + 1) : 50001
-                
-            default:
-                print("The selected category did not match any Category.")
-                
-            }
-            
-        }
-        
-        return id
-        
-    }
-    
-    func allItemsAreDone(forCategory categoryName: String) -> Bool {
-        let itemsForCategory = DataModel.shared.loadSpecificItems(perCategory: categoryName)
-        
-        var allItemsAreDone = true
-        
-        if !itemsForCategory.isEmpty {
-            
-            for item in itemsForCategory {
-                
-                if item.done == false {
-                    allItemsAreDone = false
-                }
-                
-            }
-            
-        } else {
-            
-            allItemsAreDone = false
-            
-        }
-        
-        return allItemsAreDone
-    }
-    
 }
 
 
@@ -241,31 +130,31 @@ extension CategoryAndItemModel: AddNewCategoryOrItemDelegate, ReloadTableListDel
         if viewDisplayed == .items {
             
             for item in items {
-                if categoryOrItem == item.name {
+                if categoryOrItem == item.name || categoryOrItem == "" {
                     canAdd = false
                 }
             }
             
             if canAdd {
-                DataModel.shared.addNewItem(name: categoryOrItem, category: selectedCategory, done: false, repeating: false)
+                let isFirst = (items.count == 0)
+                DataModel.shared.addNewItem(name: categoryOrItem, category: selectedCategory, done: false, repeating: false, forViewDisplayed: .items, isFirst: isFirst)
                 items = DataModel.shared.loadSpecificItems(perCategory: selectedCategory)
                 reloadCategoriesOrItems()
-                print("Items from model after adding: \(items.count)")
             }
             
         } else {
             
             for category in categories {
-                if categoryOrItem == category.name {
+                if categoryOrItem == category.name || categoryOrItem == "" {
                     canAdd = false
                 }
             }
             
             if canAdd {
-                DataModel.shared.addNewCategory(name: categoryOrItem, type: viewDisplayed.rawValue, date: Date(), repeating: false)
+                let isFirst = (categories.count == 0)
+                DataModel.shared.addNewCategory(name: categoryOrItem, type: viewDisplayed.rawValue, date: Date(), repeating: false, forViewDisplayed: viewDisplayed, isFirst: isFirst)
                 categories = DataModel.shared.loadSpecificCategories(perType: viewDisplayed.rawValue)
                 reloadCategoriesOrItems()
-                print("Categories from model after adding: \(categories.count)")
             }
             
             
