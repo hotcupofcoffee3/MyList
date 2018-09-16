@@ -135,11 +135,13 @@ extension CategoryAndItemModel: AddNewCategoryOrItemDelegate, ReloadTableListDel
                 }
             }
             
-            if canAdd {
+            if canAdd && categoryOrItem != "" {
                 let isFirst = (items.count == 0)
                 DataModel.shared.addNewItem(name: categoryOrItem, category: selectedCategory, done: false, repeating: false, forViewDisplayed: .items, isFirst: isFirst)
                 items = DataModel.shared.loadSpecificItems(perCategory: selectedCategory)
                 reloadCategoriesOrItems()
+            } else {
+                canAdd = false
             }
             
         } else {
@@ -150,11 +152,13 @@ extension CategoryAndItemModel: AddNewCategoryOrItemDelegate, ReloadTableListDel
                 }
             }
             
-            if canAdd {
+            if canAdd && categoryOrItem != "" {
                 let isFirst = (categories.count == 0)
                 DataModel.shared.addNewCategory(name: categoryOrItem, type: viewDisplayed.rawValue, date: Date(), repeating: false, forViewDisplayed: viewDisplayed, isFirst: isFirst)
                 categories = DataModel.shared.loadSpecificCategories(perType: viewDisplayed.rawValue)
                 reloadCategoriesOrItems()
+            } else {
+                canAdd = false
             }
             
             

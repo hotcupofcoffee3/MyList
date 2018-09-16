@@ -208,13 +208,13 @@ class DataModel {
             
         case .home:
             id = (categoriesForType.count > 0 && !isFirst) ? Int(categoriesForType[categoriesForType.count - 1].id + 1) : 10001
-            print("\(categoriesForType.count)")
-            print("Created id from home: \(id)")
+//            print("\(categoriesForType.count)")
+//            print("Created id from home: \(id)")
             
         case .errands:
             id = (categoriesForType.count > 0 && !isFirst) ? Int(categoriesForType[categoriesForType.count - 1].id + 1) : 20001
-            print("\(categoriesForType.count)")
-            print("Created id from errands: \(id)")
+//            print("\(categoriesForType.count)")
+//            print("Created id from errands: \(id)")
             
         case .work:
             id = (categoriesForType.count > 0 && !isFirst) ? Int(categoriesForType[categoriesForType.count - 1].id + 1) : 30001

@@ -40,7 +40,7 @@ class HeaderView: UITableViewHeaderFooterView, UITextFieldDelegate {
             
             headerTextField.text = ""
             
-            headerTextField.endEditing(true)
+//            headerTextField.endEditing(true)
             
             toggleAddButtonEnabled()
             
@@ -63,7 +63,11 @@ class HeaderView: UITableViewHeaderFooterView, UITextFieldDelegate {
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        addCategoryOrItem()
+        if textField.text == "" {
+            textField.resignFirstResponder()
+        } else {
+            addCategoryOrItem()
+        }
         return true
     }
     
