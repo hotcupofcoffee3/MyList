@@ -73,7 +73,7 @@ class CategoryAndItemViewController: UIViewController {
     
     @objc func y(gestureRecognizer: UILongPressGestureRecognizer){
         if gestureRecognizer.state == .began {
-            print("Penis")
+            print("We'll use this to open an edit VC")
         }
     }
     
