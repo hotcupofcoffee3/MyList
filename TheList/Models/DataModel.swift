@@ -104,30 +104,6 @@ class DataModel {
         
     }
     
-    func loadSpecificItems(perCategory: String) -> [Item] {
-        
-        var items = [Item]()
-        
-        let request: NSFetchRequest<Item> = Item.fetchRequest()
-        
-        let predicate = NSPredicate(format: "category MATCHES %@", perCategory)
-        
-        request.predicate = predicate
-        
-        do {
-            items = try context.fetch(request)
-        } catch {
-//            print("Error loading All Items in the Data model: \(error)")
-        }
-        
-        if items.count == 0 {
-//            print("There are no Items loaded from the Data model")
-        }
-        
-        return items
-        
-    }
-    
     func loadSpecificCategories(perType: String) -> [Category] {
         
         var categories = [Category]()
@@ -149,6 +125,82 @@ class DataModel {
         }
         
         return categories
+        
+    }
+    
+    func loadSpecificCategoriesByID(perType: String) -> [Category] {
+        
+        var categories = [Category]()
+        
+        let request: NSFetchRequest<Category> = Category.fetchRequest()
+        
+        let predicate = NSPredicate(format: "type MATCHES %@", perType)
+        
+        request.sortDescriptors = [NSSortDescriptor(key: "id", ascending: true)]
+        
+        request.predicate = predicate
+        
+        do {
+            categories = try context.fetch(request)
+        } catch {
+            //            print("Error loading All Items in the Data model: \(error)")
+        }
+        
+        if categories.count == 0 {
+            //            print("There are no Items loaded from the Data model")
+        }
+        
+        return categories
+        
+    }
+    
+    func loadSpecificItems(perCategory: String) -> [Item] {
+
+        var items = [Item]()
+
+        let request: NSFetchRequest<Item> = Item.fetchRequest()
+
+        let predicate = NSPredicate(format: "category MATCHES %@", perCategory)
+
+        request.predicate = predicate
+
+        do {
+            items = try context.fetch(request)
+        } catch {
+            //            print("Error loading All Items in the Data model: \(error)")
+        }
+
+        if items.count == 0 {
+            //            print("There are no Items loaded from the Data model")
+        }
+
+        return items
+
+    }
+    
+    func loadSpecificItemsByID(perCategory: String) -> [Item] {
+        
+        var items = [Item]()
+        
+        let request: NSFetchRequest<Item> = Item.fetchRequest()
+        
+        let predicate = NSPredicate(format: "category MATCHES %@", perCategory)
+        
+        request.sortDescriptors = [NSSortDescriptor(key: "id", ascending: true)]
+        
+        request.predicate = predicate
+        
+        do {
+            items = try context.fetch(request)
+        } catch {
+            //            print("Error loading All Items in the Data model: \(error)")
+        }
+        
+        if items.count == 0 {
+            //            print("There are no Items loaded from the Data model")
+        }
+        
+        return items
         
     }
     
@@ -192,14 +244,14 @@ class DataModel {
         switch view {
             
         case .home, .errands, .work, .fun, .ideas:
-            categoriesForType = loadSpecificCategories(perType: view.rawValue)
+            categoriesForType = loadSpecificCategoriesByID(perType: view.rawValue)
             
         case .items :
             guard let category = category else {
                 print("There was no Category selected to populate the array in the .items part of the loadNextID function in the DataModel.")
                 return 0
             }
-            itemsForCategory = loadSpecificItems(perCategory: category.name!)
+            itemsForCategory = loadSpecificItemsByID(perCategory: category.name!)
             
         }
         
@@ -270,7 +322,7 @@ class DataModel {
     }
     
     func updateAllItemsAreDone(forCategory categoryName: String) -> Bool {
-        let itemsForCategory = loadSpecificItems(perCategory: categoryName)
+        let itemsForCategory = loadSpecificItemsByID(perCategory: categoryName)
         
         var allItemsAreDone = true
         
@@ -305,17 +357,42 @@ class DataModel {
     
     func updateIDs(forViewDisplayed view: ChosenVC, forCategories categories: [Category]?, orForItems items: [Item]?, forSelectedCategory category: Category?) {
         
+        var startingID = Int()
+        
+        // Assigning an ID based on the particular case.
+        switch view {
+            
+        case .home:
+            startingID = 10001
+            
+        case .errands:
+            startingID = 20001
+            
+        case .work:
+            startingID = 30001
+            
+        case .fun:
+            startingID = 40001
+            
+        case .ideas:
+            startingID = 50001
+            
+        case .items:
+            guard let category = category else {
+                return print("There was no Category selected to assign an ID in the .items part of the loadNextID function in the DataModel.")
+            }
+            startingID = (Int(category.id) * 10000) + 1
+            
+        }
+        
         if categories != nil && items == nil {
             
             guard let categories = categories else { return print("There were no Categories loaded in the updateIDs function in DataModel.") }
             
-            for index in categories.indices {
+            for category in categories {
                 
-                if index == 0 {
-                    updateID(forCategory: categories[index], andID: loadNextID(forViewDisplayed: view, isFirst: true, forSelectedCategory: category))
-                } else {
-                    updateID(forCategory: categories[index], andID: loadNextID(forViewDisplayed: view, isFirst: false, forSelectedCategory: category))
-                }
+                category.id = Int64(startingID)
+                startingID += 1
                 
             }
             
@@ -323,13 +400,10 @@ class DataModel {
             
             guard let items = items else { return print("There were no Items loaded in the updateIDs function in DataModel.") }
             
-            for index in items.indices {
+            for item in items {
                 
-                if index == 0 {
-                    updateID(forItem: items[index], andID: loadNextID(forViewDisplayed: view, isFirst: true, forSelectedCategory: category))
-                } else {
-                    updateID(forItem: items[index], andID: loadNextID(forViewDisplayed: view, isFirst: false, forSelectedCategory: category))
-                }
+                item.id = Int64(startingID)
+                startingID += 1
                 
             }
             
@@ -338,6 +412,8 @@ class DataModel {
             print("There was no array passed to the updateIDs() function in the DataModel.")
             
         }
+        
+        saveData()
         
     }
     
@@ -368,7 +444,7 @@ class DataModel {
     }
     
     func deleteAllCategories(ofType type: String) {
-        let allCategoriesToDelete = loadSpecificCategories(perType: type)
+        let allCategoriesToDelete = loadSpecificCategoriesByID(perType: type)
         for category in allCategoriesToDelete {
             context.delete(category)
         }
@@ -376,7 +452,7 @@ class DataModel {
     }
     
     func deleteAllItems(fromCategory category: String) {
-        let allItemsToDelete = loadSpecificItems(perCategory: category)
+        let allItemsToDelete = loadSpecificItemsByID(perCategory: category)
         for item in allItemsToDelete {
             context.delete(item)
         }

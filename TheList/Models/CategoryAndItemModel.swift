@@ -27,9 +27,9 @@ class CategoryAndItemModel {
     
     func reloadCategoriesOrItems() {
         if viewDisplayed == .items {
-            items = DataModel.shared.loadSpecificItems(perCategory: selectedCategory)
+            items = DataModel.shared.loadSpecificItemsByID(perCategory: selectedCategory)
         } else {
-            categories = DataModel.shared.loadSpecificCategories(perType: viewDisplayed.rawValue)
+            categories = DataModel.shared.loadSpecificCategoriesByID(perType: viewDisplayed.rawValue)
         }
         
     }
@@ -69,9 +69,9 @@ class CategoryAndItemModel {
         }
         
         if viewDisplayed == .items {
-            items = DataModel.shared.loadSpecificItems(perCategory: selectedCategory)
+            items = DataModel.shared.loadSpecificItemsByID(perCategory: selectedCategory)
         } else {
-            categories = DataModel.shared.loadSpecificCategories(perType: viewDisplayed.rawValue)
+            categories = DataModel.shared.loadSpecificCategoriesByID(perType: viewDisplayed.rawValue)
         }
         
     }
@@ -102,12 +102,12 @@ class CategoryAndItemModel {
     }
     
     func numberOfItems(forCategory categoryName: String) -> Int {
-        return DataModel.shared.loadSpecificItems(perCategory: categoryName).count
+        return DataModel.shared.loadSpecificItemsByID(perCategory: categoryName).count
     }
     
     func numberOfItemsDone(forCategory categoryName: String) -> Int {
         var numberLeft = Int()
-        let items = DataModel.shared.loadSpecificItems(perCategory: categoryName)
+        let items = DataModel.shared.loadSpecificItemsByID(perCategory: categoryName)
         for item in items {
             numberLeft += item.done ? 1 : 0
         }
@@ -138,7 +138,7 @@ extension CategoryAndItemModel: AddNewCategoryOrItemDelegate, ReloadTableListDel
             if canAdd && categoryOrItem != "" {
                 let isFirst = (items.count == 0)
                 DataModel.shared.addNewItem(name: categoryOrItem, category: selectedCategory, done: false, repeating: false, forViewDisplayed: .items, isFirst: isFirst)
-                items = DataModel.shared.loadSpecificItems(perCategory: selectedCategory)
+                items = DataModel.shared.loadSpecificItemsByID(perCategory: selectedCategory)
                 reloadCategoriesOrItems()
             } else {
                 canAdd = false
@@ -155,7 +155,7 @@ extension CategoryAndItemModel: AddNewCategoryOrItemDelegate, ReloadTableListDel
             if canAdd && categoryOrItem != "" {
                 let isFirst = (categories.count == 0)
                 DataModel.shared.addNewCategory(name: categoryOrItem, type: viewDisplayed.rawValue, date: Date(), repeating: false, forViewDisplayed: viewDisplayed, isFirst: isFirst)
-                categories = DataModel.shared.loadSpecificCategories(perType: viewDisplayed.rawValue)
+                categories = DataModel.shared.loadSpecificCategoriesByID(perType: viewDisplayed.rawValue)
                 reloadCategoriesOrItems()
             } else {
                 canAdd = false

@@ -227,15 +227,31 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
     
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         
-//        let selectedExercise = workout.exerciseArray[sourceIndexPath.row]
-//
-//        workout.exerciseArray.remove(at: sourceIndexPath.row)
-//
-//        workout.exerciseArray.insert(selectedExercise, at: destinationIndexPath.row)
-//
-//        workout.updateOrderNumbers()
-//
-//        tableView.reloadData()
+        if categoryOrItem.viewDisplayed != .items {
+            
+            let categoryMoving = categoryOrItem.categories[sourceIndexPath.row]
+            
+            categoryOrItem.categories.remove(at: sourceIndexPath.row)
+            
+            categoryOrItem.categories.insert(categoryMoving, at: destinationIndexPath.row)
+            
+            DataModel.shared.updateIDs(forViewDisplayed: categoryOrItem.viewDisplayed, forCategories: categoryOrItem.categories, orForItems: nil, forSelectedCategory: nil)
+            
+            tableView.reloadData()
+            
+        } else {
+           
+            let itemMoving = categoryOrItem.items[sourceIndexPath.row]
+            
+            categoryOrItem.items.remove(at: sourceIndexPath.row)
+            
+            categoryOrItem.items.insert(itemMoving, at: destinationIndexPath.row)
+            
+            DataModel.shared.updateIDs(forViewDisplayed: categoryOrItem.viewDisplayed, forCategories: nil, orForItems: categoryOrItem.items, forSelectedCategory: DataModel.shared.loadSpecificCategory(named: selectedCategory))
+            
+            tableView.reloadData()
+            
+        }
         
     }
     
