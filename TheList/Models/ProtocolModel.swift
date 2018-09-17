@@ -10,19 +10,17 @@ import Foundation
 import UIKit
 
 protocol AddNewCategoryOrItemDelegate {
-    
     func addNewCategoryOrItem(categoryOrItem: String) -> Bool
-    
 }
 
 protocol ReloadTableListDelegate {
-    
     func reloadTableData()
-    
 }
 
 protocol CheckForNameDuplicationDelegate {
-    
     func presentDuplicateNameAlert()
-    
+}
+
+protocol HapticDelegate {
+    func hapticExecuted(as: UINotificationFeedbackType)
 }

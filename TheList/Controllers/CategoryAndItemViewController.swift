@@ -34,6 +34,20 @@ class CategoryAndItemViewController: UIViewController {
     
     var selectedCategory = "Category And Item VC selectedCategory: Type view, no Category Selected."
     
+    var isCurrentlyEditing = false
+    
+    func toggleEditing() {
+        isCurrentlyEditing = !isCurrentlyEditing
+        editButton.title = isCurrentlyEditing ? "Done" : "Edit"
+        tableView.setEditing(isCurrentlyEditing, animated: isCurrentlyEditing)
+    }
+    
+    @IBAction func edit(_ sender: UIBarButtonItem) {
+        toggleEditing()
+    }
+    
+    @IBOutlet weak var editButton: UIBarButtonItem!
+    
     @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
@@ -51,9 +65,18 @@ class CategoryAndItemViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        if categoryOrItem.viewDisplayed == .items {
+            isCurrentlyEditing = false
+        }
         tableView.reloadData()
     }
-
+    
+    @objc func y(gestureRecognizer: UILongPressGestureRecognizer){
+        if gestureRecognizer.state == .began {
+            print("Penis")
+        }
+    }
+    
 }
 
 
@@ -82,7 +105,11 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
         
         let cell = tableView.dequeueReusableCell(withIdentifier: Keywords.shared.categoryAndItemCellIdentifier, for: indexPath) as! CategoryAndItemTableViewCell
         
-        cell.nameLabelHeight.constant = cell.nameLabel.frame.height
+        let x = UILongPressGestureRecognizer(target: self, action: #selector(y(gestureRecognizer:)))
+        x.minimumPressDuration = 0.5
+        cell.addGestureRecognizer(x)
+        
+//        cell.nameLabelHeight.constant = cell.nameLabel.frame.height
         
         if categoryOrItem.viewDisplayed == .items {
             
@@ -96,6 +123,7 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
             
             cell.nameLabel?.text = categoryOrItem.items[indexPath.row].name!
             cell.numberLabel.text = ""
+            cell.numberLabelWidth.constant = 0
            
         } else {
             
@@ -149,17 +177,43 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
             
             if categoryOrItem.viewDisplayed != .items {
                 
-                DataModel.shared.deleteSpecificCategory(forCategory: categoryOrItem.categories[indexPath.row])
+                if categoryOrItem.numberOfItems(forCategory: categoryOrItem.categories[indexPath.row].name!) > 0 {
+                    
+                    let alert = UIAlertController(title: "Are you sure?", message: "You have Items in this Category", preferredStyle: .alert)
+                    
+                    alert.addAction(UIAlertAction(title: "Delete", style: .default, handler: { (action) in
+                        
+                        DataModel.shared.deleteSpecificCategory(forCategory: self.categoryOrItem.categories[indexPath.row])
+                        
+                        self.categoryOrItem.reloadCategoriesOrItems()
+                        self.tableView.deleteRows(at: [indexPath], with: .left)
+                        self.hapticExecuted(as: .success)
+                        
+                    }))
+                    
+                    alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+                    
+                    present(alert, animated: true, completion: nil)
+                    
+                } else {
+                    
+                    DataModel.shared.deleteSpecificCategory(forCategory: categoryOrItem.categories[indexPath.row])
+                    
+                    categoryOrItem.reloadCategoriesOrItems()
+                    tableView.deleteRows(at: [indexPath], with: .left)
+                    hapticExecuted(as: .success)
+                    
+                }
                 
             } else {
                 
                 DataModel.shared.deleteSpecificItem(forItem: categoryOrItem.items[indexPath.row])
                 
+                categoryOrItem.reloadCategoriesOrItems()
+                tableView.deleteRows(at: [indexPath], with: .left)
+                hapticExecuted(as: .success)
+                
             }
-            
-            categoryOrItem.reloadCategoriesOrItems()
-            
-            tableView.deleteRows(at: [indexPath], with: .left)
             
         }
         
@@ -168,7 +222,7 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
     }
     
     func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        return false
+        return isCurrentlyEditing
     }
     
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
@@ -186,9 +240,7 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        
         return 60
-        
     }
     
 }
@@ -211,7 +263,7 @@ extension CategoryAndItemViewController {
 
 
 
-extension CategoryAndItemViewController: CheckForNameDuplicationDelegate {
+extension CategoryAndItemViewController: CheckForNameDuplicationDelegate, HapticDelegate {
     
     func presentDuplicateNameAlert() {
         
@@ -220,6 +272,14 @@ extension CategoryAndItemViewController: CheckForNameDuplicationDelegate {
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         
         present(alert, animated: true, completion: nil)
+        
+    }
+    
+    func hapticExecuted(as hapticType: UINotificationFeedbackType) {
+        
+        // Success notification haptic
+        let successHaptic = UINotificationFeedbackGenerator()
+        successHaptic.notificationOccurred(hapticType)
         
     }
     

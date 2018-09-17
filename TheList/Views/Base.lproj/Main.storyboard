@@ -47,9 +47,14 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" title="Home" id="6RD-ag-ojr">
-                        <barButtonItem key="rightBarButtonItem" title="Edit" id="Ceq-hy-3y9"/>
+                        <barButtonItem key="rightBarButtonItem" title="Edit" id="Ceq-hy-3y9">
+                            <connections>
+                                <action selector="edit:" destination="BYZ-38-t0r" id="L1c-AJ-Klk"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="editButton" destination="Ceq-hy-3y9" id="M15-KT-IAc"/>
                         <outlet property="tableView" destination="g6g-5S-dLA" id="ZIl-Kf-bt5"/>
                         <segue destination="FDI-qT-SoX" kind="show" identifier="homeToItemsSegue" id="lYk-cJ-CjM"/>
                     </connections>
@@ -139,9 +144,14 @@
                         <viewLayoutGuide key="safeArea" id="yxV-sH-AWJ"/>
                     </view>
                     <navigationItem key="navigationItem" title="Errands" id="dER-3p-bpi">
-                        <barButtonItem key="rightBarButtonItem" title="Edit" id="JeW-xi-NVm"/>
+                        <barButtonItem key="rightBarButtonItem" title="Edit" id="JeW-xi-NVm">
+                            <connections>
+                                <action selector="edit:" destination="Nf3-wR-jev" id="Q7T-6f-iOf"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="editButton" destination="JeW-xi-NVm" id="czX-ca-5xc"/>
                         <outlet property="tableView" destination="oKU-rj-Ocy" id="jl2-oM-nAA"/>
                         <segue destination="FDI-qT-SoX" kind="show" identifier="errandsToItemsSegue" id="vdH-ie-Tp7"/>
                     </connections>
@@ -247,9 +257,14 @@
                         <viewLayoutGuide key="safeArea" id="CYo-yC-gKr"/>
                     </view>
                     <navigationItem key="navigationItem" title="Ideas" id="Zh5-zK-UPY">
-                        <barButtonItem key="rightBarButtonItem" title="Edit" id="JI5-U5-F5L"/>
+                        <barButtonItem key="rightBarButtonItem" title="Edit" id="JI5-U5-F5L">
+                            <connections>
+                                <action selector="edit:" destination="sbZ-MD-I6e" id="frd-0n-fom"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="editButton" destination="JI5-U5-F5L" id="ji5-96-ZNn"/>
                         <outlet property="tableView" destination="GMI-oB-JBv" id="LcZ-7F-BC6"/>
                         <segue destination="FDI-qT-SoX" kind="show" identifier="ideasToItemsSegue" id="O2n-1r-4no"/>
                     </connections>
@@ -295,9 +310,14 @@
                         <viewLayoutGuide key="safeArea" id="2B8-ff-x63"/>
                     </view>
                     <navigationItem key="navigationItem" title="Work" id="pU8-a2-dcN">
-                        <barButtonItem key="rightBarButtonItem" title="Edit" id="iVy-yz-bX4"/>
+                        <barButtonItem key="rightBarButtonItem" title="Edit" id="iVy-yz-bX4">
+                            <connections>
+                                <action selector="edit:" destination="Nf7-E0-lld" id="aKn-I4-OAh"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="editButton" destination="iVy-yz-bX4" id="km1-rl-RLF"/>
                         <outlet property="tableView" destination="zhz-lY-r0J" id="Oex-qC-gBn"/>
                         <segue destination="FDI-qT-SoX" kind="show" identifier="workToItemsSegue" id="Tl2-zD-w0a"/>
                     </connections>
@@ -343,9 +363,14 @@
                         <viewLayoutGuide key="safeArea" id="hoM-QO-iWE"/>
                     </view>
                     <navigationItem key="navigationItem" title="Fun" id="zPF-p0-8on">
-                        <barButtonItem key="rightBarButtonItem" title="Edit" id="XIK-Ej-0oq"/>
+                        <barButtonItem key="rightBarButtonItem" title="Edit" id="XIK-Ej-0oq">
+                            <connections>
+                                <action selector="edit:" destination="JfK-1c-7QD" id="659-Fk-JbR"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="editButton" destination="XIK-Ej-0oq" id="hia-Am-Vgd"/>
                         <outlet property="tableView" destination="l8U-aW-G5b" id="ZDK-W3-M4m"/>
                         <segue destination="FDI-qT-SoX" kind="show" identifier="funToItemsSegue" id="Nxb-gR-g2G"/>
                     </connections>
@@ -413,6 +438,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="O2n-1r-4no"/>
+        <segue reference="Nxb-gR-g2G"/>
     </inferredMetricsTieBreakers>
 </document>

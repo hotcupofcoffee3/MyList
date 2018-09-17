@@ -16,6 +16,8 @@ class HeaderView: UITableViewHeaderFooterView, UITextFieldDelegate {
     
     var checkForNameDuplicateDelegate: CheckForNameDuplicationDelegate?
     
+    var hapticDelegate: HapticDelegate?
+    
     @IBOutlet weak var mainView: UIView!
     
     @IBOutlet weak var headerTextField: UITextField!
@@ -38,6 +40,8 @@ class HeaderView: UITableViewHeaderFooterView, UITextFieldDelegate {
         
         if (addCategoryOrItemDelegate?.addNewCategoryOrItem(categoryOrItem: headerTextField.text!))! {
             
+            hapticDelegate?.hapticExecuted(as: .success)
+            
             headerTextField.text = ""
             
 //            headerTextField.endEditing(true)
@@ -47,6 +51,8 @@ class HeaderView: UITableViewHeaderFooterView, UITextFieldDelegate {
             reloadTableListDelegate?.reloadTableData()
             
         } else {
+            
+            hapticDelegate?.hapticExecuted(as: .warning)
             
             checkForNameDuplicateDelegate?.presentDuplicateNameAlert()
             
