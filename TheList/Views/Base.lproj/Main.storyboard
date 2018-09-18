@@ -95,17 +95,50 @@
                             <constraint firstItem="4pN-fi-sLa" firstAttribute="trailing" secondItem="7gp-Tq-1zj" secondAttribute="trailing" id="YK8-3c-OHt"/>
                             <constraint firstItem="7gp-Tq-1zj" firstAttribute="top" secondItem="4pN-fi-sLa" secondAttribute="top" id="bcE-Ko-8yJ"/>
                             <constraint firstItem="7gp-Tq-1zj" firstAttribute="leading" secondItem="4pN-fi-sLa" secondAttribute="leading" id="hLk-H2-9SD"/>
-                            <constraint firstItem="4pN-fi-sLa" firstAttribute="bottom" secondItem="7gp-Tq-1zj" secondAttribute="bottom" id="vKz-fh-qzs"/>
+                            <constraint firstItem="4pN-fi-sLa" firstAttribute="bottom" secondItem="7gp-Tq-1zj" secondAttribute="bottom" id="yVU-ju-TJe"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="4pN-fi-sLa"/>
                     </view>
                     <connections>
                         <outlet property="tableView" destination="7gp-Tq-1zj" id="4AL-IC-8mG"/>
+                        <segue destination="vyx-Yb-CY9" kind="show" id="BrJ-6X-u4G"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eZv-6l-gFd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3519" y="1630"/>
+        </scene>
+        <!--Title-->
+        <scene sceneID="QTZ-fV-BLZ">
+            <objects>
+                <viewController id="vyx-Yb-CY9" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Ckc-aH-cJB">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q1v-ov-slR">
+                                <rect key="frame" x="16" y="262.5" width="343" height="142.5"/>
+                                <string key="text">Set up the items VC to be like this one with its own navigationbar at the top, instead of simply inheriting from being imbedded in the navigationbar. Have to make sure to make the navigationbar an outlet, and then set the title in the prepareForSegue function in the main VCs' Controller.</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="q1v-ov-slR" firstAttribute="leading" secondItem="dfz-9J-z9I" secondAttribute="leading" constant="16" id="hrH-V2-wCX"/>
+                            <constraint firstAttribute="trailing" secondItem="q1v-ov-slR" secondAttribute="trailing" constant="16" id="mAh-7s-d9B"/>
+                            <constraint firstItem="q1v-ov-slR" firstAttribute="centerY" secondItem="Ckc-aH-cJB" secondAttribute="centerY" id="qYt-rP-I0b"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="dfz-9J-z9I"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Title" id="wTe-j4-Z3a">
+                        <barButtonItem key="rightBarButtonItem" title="Item" id="AeD-03-ZBc"/>
+                    </navigationItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wnF-VX-T5l" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4322" y="1632"/>
         </scene>
         <!--errands-->
         <scene sceneID="F5v-6n-Lmu">
@@ -438,6 +471,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="lYk-cJ-CjM"/>
+        <segue reference="O2n-1r-4no"/>
     </inferredMetricsTieBreakers>
 </document>
