@@ -39,7 +39,7 @@ class CategoryAndItemViewController: UIViewController {
     func toggleEditing() {
         isCurrentlyEditing = !isCurrentlyEditing
         editButton.title = isCurrentlyEditing ? "Done" : "Edit"
-        tableView.setEditing(isCurrentlyEditing, animated: isCurrentlyEditing)
+        tableView.setEditing(isCurrentlyEditing, animated: true)
     }
     
     @IBAction func edit(_ sender: UIBarButtonItem) {
@@ -71,10 +71,58 @@ class CategoryAndItemViewController: UIViewController {
         tableView.reloadData()
     }
     
-    @objc func y(gestureRecognizer: UILongPressGestureRecognizer){
+    @objc func touchedTop() {
+        self.view.endEditing(true)
+    }
+    
+    @objc func longPressGestureSelector(gestureRecognizer: UILongPressGestureRecognizer){
         if gestureRecognizer.state == .began {
             print("We'll use this to open an edit VC")
         }
+    }
+    
+    func deleteRow(inTable tableView: UITableView, atIndexPath indexPath: IndexPath) {
+        
+        if categoryOrItem.viewDisplayed != .items {
+            
+            if categoryOrItem.numberOfItems(forCategory: categoryOrItem.categories[indexPath.row].name!) > 0 {
+                
+                let alert = UIAlertController(title: "Are you sure?", message: "You have Items in this Category", preferredStyle: .alert)
+                
+                alert.addAction(UIAlertAction(title: "Delete", style: .default, handler: { (action) in
+                    
+                    DataModel.shared.deleteSpecificCategory(forCategory: self.categoryOrItem.categories[indexPath.row])
+                    
+                    self.categoryOrItem.reloadCategoriesOrItems()
+                    tableView.deleteRows(at: [indexPath], with: .left)
+                    self.hapticExecuted(as: .success)
+                    
+                }))
+                
+                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+                
+                present(alert, animated: true, completion: nil)
+                
+            } else {
+                
+                DataModel.shared.deleteSpecificCategory(forCategory: categoryOrItem.categories[indexPath.row])
+                
+                categoryOrItem.reloadCategoriesOrItems()
+                tableView.deleteRows(at: [indexPath], with: .left)
+                hapticExecuted(as: .success)
+                
+            }
+            
+        } else {
+            
+            DataModel.shared.deleteSpecificItem(forItem: categoryOrItem.items[indexPath.row])
+            
+            categoryOrItem.reloadCategoriesOrItems()
+            tableView.deleteRows(at: [indexPath], with: .left)
+            hapticExecuted(as: .success)
+            
+        }
+        
     }
     
 }
@@ -101,13 +149,32 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
         
     }
     
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let delete = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
+            self.deleteRow(inTable: tableView, atIndexPath: indexPath)
+        }
+        
+        let edit = UITableViewRowAction(style: .normal, title: "Edit") { (action, indexPath) in
+            print("Edit this row")
+        }
+        
+        return [delete, edit]
+    }
+//
+//    func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
+//        return false
+//    }
+//    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
+//        return UITableViewCellEditingStyle.none
+//    }
+//    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: Keywords.shared.categoryAndItemCellIdentifier, for: indexPath) as! CategoryAndItemTableViewCell
         
-        let x = UILongPressGestureRecognizer(target: self, action: #selector(y(gestureRecognizer:)))
-        x.minimumPressDuration = 0.5
-        cell.addGestureRecognizer(x)
+        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(longPressGestureSelector(gestureRecognizer:)))
+        longPress.minimumPressDuration = 0.5
+        cell.addGestureRecognizer(longPress)
         
 //        cell.nameLabelHeight.constant = cell.nameLabel.frame.height
         
@@ -175,45 +242,49 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
         
         if editingStyle == .delete {
             
-            if categoryOrItem.viewDisplayed != .items {
-                
-                if categoryOrItem.numberOfItems(forCategory: categoryOrItem.categories[indexPath.row].name!) > 0 {
-                    
-                    let alert = UIAlertController(title: "Are you sure?", message: "You have Items in this Category", preferredStyle: .alert)
-                    
-                    alert.addAction(UIAlertAction(title: "Delete", style: .default, handler: { (action) in
-                        
-                        DataModel.shared.deleteSpecificCategory(forCategory: self.categoryOrItem.categories[indexPath.row])
-                        
-                        self.categoryOrItem.reloadCategoriesOrItems()
-                        self.tableView.deleteRows(at: [indexPath], with: .left)
-                        self.hapticExecuted(as: .success)
-                        
-                    }))
-                    
-                    alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-                    
-                    present(alert, animated: true, completion: nil)
-                    
-                } else {
-                    
-                    DataModel.shared.deleteSpecificCategory(forCategory: categoryOrItem.categories[indexPath.row])
-                    
-                    categoryOrItem.reloadCategoriesOrItems()
-                    tableView.deleteRows(at: [indexPath], with: .left)
-                    hapticExecuted(as: .success)
-                    
-                }
-                
-            } else {
-                
-                DataModel.shared.deleteSpecificItem(forItem: categoryOrItem.items[indexPath.row])
-                
-                categoryOrItem.reloadCategoriesOrItems()
-                tableView.deleteRows(at: [indexPath], with: .left)
-                hapticExecuted(as: .success)
-                
-            }
+//            deleteRow(inTable: tableView, atIndexPath: indexPath)
+            
+            
+            
+//            if categoryOrItem.viewDisplayed != .items {
+//
+//                if categoryOrItem.numberOfItems(forCategory: categoryOrItem.categories[indexPath.row].name!) > 0 {
+//
+//                    let alert = UIAlertController(title: "Are you sure?", message: "You have Items in this Category", preferredStyle: .alert)
+//
+//                    alert.addAction(UIAlertAction(title: "Delete", style: .default, handler: { (action) in
+//
+//                        DataModel.shared.deleteSpecificCategory(forCategory: self.categoryOrItem.categories[indexPath.row])
+//
+//                        self.categoryOrItem.reloadCategoriesOrItems()
+//                        self.tableView.deleteRows(at: [indexPath], with: .left)
+//                        self.hapticExecuted(as: .success)
+//
+//                    }))
+//
+//                    alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+//
+//                    present(alert, animated: true, completion: nil)
+//
+//                } else {
+//
+//                    DataModel.shared.deleteSpecificCategory(forCategory: categoryOrItem.categories[indexPath.row])
+//
+//                    categoryOrItem.reloadCategoriesOrItems()
+//                    tableView.deleteRows(at: [indexPath], with: .left)
+//                    hapticExecuted(as: .success)
+//
+//                }
+//
+//            } else {
+//
+//                DataModel.shared.deleteSpecificItem(forItem: categoryOrItem.items[indexPath.row])
+//
+//                categoryOrItem.reloadCategoriesOrItems()
+//                tableView.deleteRows(at: [indexPath], with: .left)
+//                hapticExecuted(as: .success)
+//
+//            }
             
         }
         
