@@ -88,6 +88,52 @@ class HeaderView: UITableViewHeaderFooterView, UITextFieldDelegate {
         
         toggleAddButtonEnabled()
         
+        addToolBarToKeyboard(textField: headerTextField)
+        
+    }
+    
+    // MARK: - Toolbar with 'Done' button
+    
+    @objc func dismissKeyboard() {
+        if headerTextField.text == "" {
+            headerTextField.resignFirstResponder()
+        } else {
+            addCategoryOrItem()
+            headerTextField.resignFirstResponder()
+        }
+    }
+    
+    func addToolBarToKeyboard(textField: UITextField) {
+        
+        let toolbar = UIToolbar()
+        //        toolbar.barTintColor = UIColor.black
+        
+        toolbar.sizeToFit()
+        
+        let doneButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.done, target: self, action: #selector(self.dismissKeyboard))
+        
+        //        doneButton.tintColor = UIColor.white
+        
+        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+        
+        toolbar.setItems([flexibleSpace, doneButton], animated: true)
+        
+        textField.inputAccessoryView = toolbar
+        
     }
     
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -65,14 +65,13 @@ class CategoryAndItemViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        
         if categoryOrItem.viewDisplayed == .items {
             isCurrentlyEditing = false
+            selectedCategory = categoryOrItem.selectedCategory
         }
         tableView.reloadData()
-    }
-    
-    @objc func touchedTop() {
-        self.view.endEditing(true)
+        
     }
     
     @objc func longPressGestureSelector(gestureRecognizer: UILongPressGestureRecognizer){
@@ -311,7 +310,7 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
             tableView.reloadData()
             
         } else {
-           
+            
             let itemMoving = categoryOrItem.items[sourceIndexPath.row]
             
             categoryOrItem.items.remove(at: sourceIndexPath.row)
@@ -339,11 +338,13 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
 extension CategoryAndItemViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
         let destinationVC = segue.destination as! CategoryAndItemViewController
         
         destinationVC.navigationItem.title = "\(selectedCategory)"
         
         destinationVC.categoryOrItem.selectedCategory = selectedCategory
+        
     }
     
 }

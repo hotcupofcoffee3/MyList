@@ -26,9 +26,10 @@
                                 <rect key="frame" x="12" y="12" width="254" height="36"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="next"/>
                                 <connections>
                                     <action selector="headerTextChanged:" destination="-1" eventType="editingChanged" id="JAX-Ij-Abi"/>
+                                    <action selector="headerTextChanged:" destination="KGk-i7-Jjw" eventType="editingDidEnd" id="KYF-ha-eQv"/>
                                 </connections>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="contactAdd" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xEU-Lh-eBm">

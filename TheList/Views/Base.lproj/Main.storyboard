@@ -56,7 +56,7 @@
                     <connections>
                         <outlet property="editButton" destination="Ceq-hy-3y9" id="M15-KT-IAc"/>
                         <outlet property="tableView" destination="g6g-5S-dLA" id="ZIl-Kf-bt5"/>
-                        <segue destination="FDI-qT-SoX" kind="show" identifier="homeToItemsSegue" id="lYk-cJ-CjM"/>
+                        <segue destination="vyx-Yb-CY9" kind="show" identifier="homeToItemsSegue" id="nux-BO-Hot"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -64,81 +64,56 @@
             <point key="canvasLocation" x="2015.2" y="133.5832083958021"/>
         </scene>
         <!--items-->
-        <scene sceneID="C2V-si-sLh">
+        <scene sceneID="QTZ-fV-BLZ">
             <objects>
-                <viewController title="items" id="FDI-qT-SoX" customClass="CategoryAndItemViewController" customModule="TheList" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Odo-pl-qi5">
+                <viewController title="items" id="vyx-Yb-CY9" customClass="CategoryAndItemViewController" customModule="TheList" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Ckc-aH-cJB">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="7gp-Tq-1zj">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="x8m-H1-Ndp">
                                 <rect key="frame" x="0.0" y="64" width="375" height="554"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" id="Sxc-OE-9AA">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" id="11A-zq-wUB">
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Sxc-OE-9AA" id="5ds-YZ-NZN">
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="11A-zq-wUB" id="5xS-15-l7N">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
-                                    <outlet property="dataSource" destination="FDI-qT-SoX" id="4bZ-oE-6gy"/>
-                                    <outlet property="delegate" destination="FDI-qT-SoX" id="Y9J-Rh-YFz"/>
+                                    <outlet property="dataSource" destination="vyx-Yb-CY9" id="NCH-iJ-U6N"/>
+                                    <outlet property="delegate" destination="vyx-Yb-CY9" id="BMU-4A-hKb"/>
                                 </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="4pN-fi-sLa" firstAttribute="trailing" secondItem="7gp-Tq-1zj" secondAttribute="trailing" id="YK8-3c-OHt"/>
-                            <constraint firstItem="7gp-Tq-1zj" firstAttribute="top" secondItem="4pN-fi-sLa" secondAttribute="top" id="bcE-Ko-8yJ"/>
-                            <constraint firstItem="7gp-Tq-1zj" firstAttribute="leading" secondItem="4pN-fi-sLa" secondAttribute="leading" id="hLk-H2-9SD"/>
-                            <constraint firstItem="4pN-fi-sLa" firstAttribute="bottom" secondItem="7gp-Tq-1zj" secondAttribute="bottom" id="yVU-ju-TJe"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="4pN-fi-sLa"/>
-                    </view>
-                    <connections>
-                        <outlet property="tableView" destination="7gp-Tq-1zj" id="4AL-IC-8mG"/>
-                        <segue destination="vyx-Yb-CY9" kind="show" id="BrJ-6X-u4G"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="eZv-6l-gFd" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="3519" y="1630"/>
-        </scene>
-        <!--Title-->
-        <scene sceneID="QTZ-fV-BLZ">
-            <objects>
-                <viewController id="vyx-Yb-CY9" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Ckc-aH-cJB">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q1v-ov-slR">
-                                <rect key="frame" x="16" y="262.5" width="343" height="142.5"/>
-                                <string key="text">Set up the items VC to be like this one with its own navigationbar at the top, instead of simply inheriting from being imbedded in the navigationbar. Have to make sure to make the navigationbar an outlet, and then set the title in the prepareForSegue function in the main VCs' Controller.</string>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="q1v-ov-slR" firstAttribute="leading" secondItem="dfz-9J-z9I" secondAttribute="leading" constant="16" id="hrH-V2-wCX"/>
-                            <constraint firstAttribute="trailing" secondItem="q1v-ov-slR" secondAttribute="trailing" constant="16" id="mAh-7s-d9B"/>
-                            <constraint firstItem="q1v-ov-slR" firstAttribute="centerY" secondItem="Ckc-aH-cJB" secondAttribute="centerY" id="qYt-rP-I0b"/>
+                            <constraint firstItem="dfz-9J-z9I" firstAttribute="trailing" secondItem="x8m-H1-Ndp" secondAttribute="trailing" id="AnO-b0-AkO"/>
+                            <constraint firstItem="x8m-H1-Ndp" firstAttribute="top" secondItem="dfz-9J-z9I" secondAttribute="top" id="EeT-vj-Icy"/>
+                            <constraint firstItem="x8m-H1-Ndp" firstAttribute="leading" secondItem="dfz-9J-z9I" secondAttribute="leading" id="dxk-xq-O9C"/>
+                            <constraint firstItem="dfz-9J-z9I" firstAttribute="bottom" secondItem="x8m-H1-Ndp" secondAttribute="bottom" id="tyx-I3-4wy"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="dfz-9J-z9I"/>
                     </view>
                     <navigationItem key="navigationItem" title="Title" id="wTe-j4-Z3a">
-                        <barButtonItem key="rightBarButtonItem" title="Item" id="AeD-03-ZBc"/>
+                        <barButtonItem key="rightBarButtonItem" title="Edit" id="AeD-03-ZBc">
+                            <connections>
+                                <action selector="edit:" destination="vyx-Yb-CY9" id="6os-ap-J9a"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="editButton" destination="AeD-03-ZBc" id="pgq-qk-VjT"/>
+                        <outlet property="tableView" destination="x8m-H1-Ndp" id="XE9-ev-Iw1"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wnF-VX-T5l" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4322" y="1632"/>
+            <point key="canvasLocation" x="4321" y="1619"/>
         </scene>
         <!--errands-->
         <scene sceneID="F5v-6n-Lmu">
@@ -186,7 +161,7 @@
                     <connections>
                         <outlet property="editButton" destination="JeW-xi-NVm" id="czX-ca-5xc"/>
                         <outlet property="tableView" destination="oKU-rj-Ocy" id="jl2-oM-nAA"/>
-                        <segue destination="FDI-qT-SoX" kind="show" identifier="errandsToItemsSegue" id="vdH-ie-Tp7"/>
+                        <segue destination="vyx-Yb-CY9" kind="show" identifier="errandsToItemsSegue" id="qAD-ln-2Bb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cJq-6e-awJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -299,7 +274,7 @@
                     <connections>
                         <outlet property="editButton" destination="JI5-U5-F5L" id="ji5-96-ZNn"/>
                         <outlet property="tableView" destination="GMI-oB-JBv" id="LcZ-7F-BC6"/>
-                        <segue destination="FDI-qT-SoX" kind="show" identifier="ideasToItemsSegue" id="O2n-1r-4no"/>
+                        <segue destination="vyx-Yb-CY9" kind="show" identifier="ideasToItemsSegue" id="qTR-Lv-LAd"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7fP-zp-g62" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -352,7 +327,7 @@
                     <connections>
                         <outlet property="editButton" destination="iVy-yz-bX4" id="km1-rl-RLF"/>
                         <outlet property="tableView" destination="zhz-lY-r0J" id="Oex-qC-gBn"/>
-                        <segue destination="FDI-qT-SoX" kind="show" identifier="workToItemsSegue" id="Tl2-zD-w0a"/>
+                        <segue destination="vyx-Yb-CY9" kind="show" identifier="workToItemsSegue" id="W7y-kt-DcV"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nGo-yJ-56d" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -405,7 +380,7 @@
                     <connections>
                         <outlet property="editButton" destination="XIK-Ej-0oq" id="hia-Am-Vgd"/>
                         <outlet property="tableView" destination="l8U-aW-G5b" id="ZDK-W3-M4m"/>
-                        <segue destination="FDI-qT-SoX" kind="show" identifier="funToItemsSegue" id="Nxb-gR-g2G"/>
+                        <segue destination="vyx-Yb-CY9" kind="show" identifier="funToItemsSegue" id="tW7-3W-El1"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Nrr-1l-9aZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -471,6 +446,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="O2n-1r-4no"/>
+        <segue reference="qTR-Lv-LAd"/>
     </inferredMetricsTieBreakers>
 </document>
