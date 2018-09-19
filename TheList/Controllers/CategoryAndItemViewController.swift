@@ -76,7 +76,7 @@ class CategoryAndItemViewController: UIViewController {
     
     @objc func longPressGestureSelector(gestureRecognizer: UILongPressGestureRecognizer){
         if gestureRecognizer.state == .began {
-            print("We'll use this to open an edit VC")
+            print("LongPress was executed: We'll use this to open an edit VC")
         }
     }
     
