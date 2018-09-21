@@ -33,7 +33,7 @@ class DataModel {
         }
     }
     
-    func addNewCategory(name: String, type: String, date: Date, repeating: Bool, forViewDisplayed view: ChosenVC, isFirst: Bool) {
+    func addNewCategory(name: String, type: String, date: Date, forViewDisplayed view: ChosenVC, isFirst: Bool) {
         
         let calculatedID = Int64(loadNextID(forViewDisplayed: view, isFirst: isFirst, forSelectedCategory: nil))
         
@@ -41,22 +41,23 @@ class DataModel {
         newCategory.name = name
         newCategory.type = type
         newCategory.date = date
-        newCategory.repeating = repeating
+        newCategory.repeating = false
+        newCategory.done = false
         newCategory.id = calculatedID
         
         saveData()
         
     }
     
-    func addNewItem(name: String, category: String, done: Bool, repeating: Bool, forViewDisplayed view: ChosenVC, isFirst: Bool) {
+    func addNewItem(name: String, category: String, forViewDisplayed view: ChosenVC, isFirst: Bool) {
         
         let calculatedID = Int64(loadNextID(forViewDisplayed: view, isFirst: isFirst, forSelectedCategory: loadSpecificCategory(named: category)))
         
         let newItem = Item(context: context)
         newItem.name = name
         newItem.category = category
-        newItem.done = done
-        newItem.repeating = repeating
+        newItem.done = false
+        newItem.repeating = false
         newItem.id = calculatedID
         
         saveData()
@@ -319,9 +320,13 @@ class DataModel {
         
         saveData()
         
+        let isDone = updateAllItemsAreDone(forCategory: itemToUpdate.category!)
+        updateDone(forCategory: itemToUpdate.category!, doneStatus: isDone)
+        
     }
     
     func updateAllItemsAreDone(forCategory categoryName: String) -> Bool {
+        
         let itemsForCategory = loadSpecificItemsByID(perCategory: categoryName)
         
         var allItemsAreDone = true
@@ -342,7 +347,22 @@ class DataModel {
             
         }
         
+        
+        updateDone(forCategory: categoryName, doneStatus: allItemsAreDone)
+        
         return allItemsAreDone
+    }
+    
+    func updateDone(forCategory categoryName: String, doneStatus: Bool) {
+        let category = loadSpecificCategory(named: categoryName)
+        category.done = doneStatus
+        saveData()
+    }
+    
+    func toggleDone(forCategory categoryName: String) {
+        let category = loadSpecificCategory(named: categoryName)
+        category.done = !category.done
+        saveData()
     }
     
     func updateID(forCategory category: Category, andID id: Int) {

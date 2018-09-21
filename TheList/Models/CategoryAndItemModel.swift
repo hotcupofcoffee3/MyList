@@ -15,8 +15,6 @@ import UIKit
 
 class CategoryAndItemModel {
     
-    
-    
     // The items that are loaded
     
     var categories = [Category]()
@@ -137,7 +135,7 @@ extension CategoryAndItemModel: AddNewCategoryOrItemDelegate, ReloadTableListDel
             
             if canAdd && categoryOrItem != "" {
                 let isFirst = (items.count == 0)
-                DataModel.shared.addNewItem(name: categoryOrItem, category: selectedCategory, done: false, repeating: false, forViewDisplayed: .items, isFirst: isFirst)
+                DataModel.shared.addNewItem(name: categoryOrItem, category: selectedCategory, forViewDisplayed: .items, isFirst: isFirst)
                 items = DataModel.shared.loadSpecificItemsByID(perCategory: selectedCategory)
                 reloadCategoriesOrItems()
             } else {
@@ -154,7 +152,7 @@ extension CategoryAndItemModel: AddNewCategoryOrItemDelegate, ReloadTableListDel
             
             if canAdd && categoryOrItem != "" {
                 let isFirst = (categories.count == 0)
-                DataModel.shared.addNewCategory(name: categoryOrItem, type: viewDisplayed.rawValue, date: Date(), repeating: false, forViewDisplayed: viewDisplayed, isFirst: isFirst)
+                DataModel.shared.addNewCategory(name: categoryOrItem, type: viewDisplayed.rawValue, date: Date(), forViewDisplayed: viewDisplayed, isFirst: isFirst)
                 categories = DataModel.shared.loadSpecificCategoriesByID(perType: viewDisplayed.rawValue)
                 reloadCategoriesOrItems()
             } else {

@@ -76,7 +76,9 @@ class CategoryAndItemViewController: UIViewController {
     
     @objc func longPressGestureSelector(gestureRecognizer: UILongPressGestureRecognizer){
         if gestureRecognizer.state == .began {
-            print("LongPress was executed: We'll use this to open an edit VC")
+            if categoryOrItem.viewDisplayed != .items {
+                performSegue(withIdentifier: categoryOrItem.typeOfSegue, sender: self)
+            }
         }
     }
     
@@ -172,6 +174,7 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
         let cell = tableView.dequeueReusableCell(withIdentifier: Keywords.shared.categoryAndItemCellIdentifier, for: indexPath) as! CategoryAndItemTableViewCell
         
         let longPress = UILongPressGestureRecognizer(target: self, action: #selector(longPressGestureSelector(gestureRecognizer:)))
+        
         longPress.minimumPressDuration = 0.5
         cell.addGestureRecognizer(longPress)
         
@@ -193,7 +196,15 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
            
         } else {
             
-            if DataModel.shared.updateAllItemsAreDone(forCategory: categoryOrItem.categories[indexPath.row].name!) {
+//            if DataModel.shared.updateAllItemsAreDone(forCategory: categoryOrItem.categories[indexPath.row].name!) {
+//                cell.checkboxImageView.image = Keywords.shared.checkboxChecked
+//                cell.backgroundColor = Keywords.shared.lightGreenBackground12
+//            } else {
+//                cell.checkboxImageView.image = Keywords.shared.checkboxEmpty
+//                cell.backgroundColor = UIColor.white
+//            }
+            
+            if categoryOrItem.categories[indexPath.row].done {
                 cell.checkboxImageView.image = Keywords.shared.checkboxChecked
                 cell.backgroundColor = Keywords.shared.lightGreenBackground12
             } else {
@@ -209,7 +220,7 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
             if totalAmount > 0 {
                 cell.numberLabel.text = "\(amountDone)/\(totalAmount)"
             } else {
-                cell.numberLabel.text = "0"
+                cell.numberLabel.text = ""
             }
             
         }
@@ -218,22 +229,36 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
         
     }
     
+    func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
+        if categoryOrItem.viewDisplayed != .items {
+            selectedCategory = categoryOrItem.categories[indexPath.row].name!
+        }
+    }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         tableView.deselectRow(at: indexPath, animated: true)
         
         if categoryOrItem.viewDisplayed != .items {
             
-            selectedCategory = categoryOrItem.categories[indexPath.row].name!
-            performSegue(withIdentifier: categoryOrItem.typeOfSegue, sender: self)
+            let categoryName = categoryOrItem.categories[indexPath.row].name!
+            let numberOfItemsInCategory = categoryOrItem.numberOfItems(forCategory: categoryName)
+            
+            if numberOfItemsInCategory > 0 {
+                selectedCategory = categoryName
+                performSegue(withIdentifier: categoryOrItem.typeOfSegue, sender: self)
+            } else {
+                DataModel.shared.toggleDone(forCategory: categoryName)
+            }
             
         } else {
             
             DataModel.shared.updateItem(forProperty: .done, forItem: categoryOrItem.items[indexPath.row], category: nil, name: nil)
             categoryOrItem.reloadCategoriesOrItems()
-            tableView.reloadData()
             
         }
+        
+        tableView.reloadData()
         
     }
     
