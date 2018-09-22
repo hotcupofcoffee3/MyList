@@ -20,6 +20,12 @@ class Keywords {
     let workToItemsSegue = "workToItemsSegue"
     let funToItemsSegue = "funToItemsSegue"
     let ideasToItemsSegue = "ideasToItemsSegue"
+    let editToCategoryPickerSegue = "editToCategoryPickerSegue"
+    let homeToEditSegue = "homeToEditSegue"
+    let errandsToEditSegue = "errandsToEditSegue"
+    let workToEditSegue = "workToEditSegue"
+    let otherToEditSegue = "otherToEditSegue"
+    let settingsToFontPickerSegue = "settingsToFontPickerSegue"
     
     let categoryAndItemCellIdentifier = "categoryAndItemCell"
     let headerIdentifier = "headerView"

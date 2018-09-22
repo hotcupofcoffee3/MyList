@@ -22,5 +22,5 @@ protocol CheckForNameDuplicationDelegate {
 }
 
 protocol HapticDelegate {
-    func hapticExecuted(as: UINotificationFeedbackType)
+    func hapticExecuted(as: UINotificationFeedbackGenerator.FeedbackType)
 }

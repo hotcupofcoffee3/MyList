@@ -262,7 +262,7 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
         
     }
     
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         
         if editingStyle == .delete {
             
@@ -388,7 +388,7 @@ extension CategoryAndItemViewController: CheckForNameDuplicationDelegate, Haptic
         
     }
     
-    func hapticExecuted(as hapticType: UINotificationFeedbackType) {
+    func hapticExecuted(as hapticType: UINotificationFeedbackGenerator.FeedbackType) {
         
         // Success notification haptic
         let successHaptic = UINotificationFeedbackGenerator()
