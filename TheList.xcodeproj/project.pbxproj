@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		B509B9B9215967A9006F7F79 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B509B9B8215967A9006F7F79 /* SettingsViewController.swift */; };
 		B52242902159F6F0002C164D /* TheList.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B5FAB70E2139D89C0046F976 /* TheList.xcdatamodeld */; };
+		B56A0728215A0150005436AE /* HeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B5F1E0EB21417B480041C472 /* HeaderView.xib */; };
 		B58B8363214ADE54005703AC /* ChosenVCEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58B8362214ADE54005703AC /* ChosenVCEnum.swift */; };
 		B58B8365214AEDE9005703AC /* ItemPropertyEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58B8364214AEDE9005703AC /* ItemPropertyEnum.swift */; };
 		B58B8367214AEDF7005703AC /* CategoryPropertyEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58B8366214AEDF7005703AC /* CategoryPropertyEnum.swift */; };
@@ -20,7 +21,6 @@
 		B5A6C3D8213F12940029FF22 /* CategoryAndItemTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B5A6C3D6213F12940029FF22 /* CategoryAndItemTableViewCell.xib */; };
 		B5A6C3DD213F1A1E0029FF22 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B5A6C3DC213F1A1E0029FF22 /* Default-568h@2x.png */; };
 		B5F1E0EC21417B480041C472 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F1E0EA21417B480041C472 /* HeaderView.swift */; };
-		B5F1E0ED21417B480041C472 /* HeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B5F1E0EB21417B480041C472 /* HeaderView.xib */; };
 		B5F1E0EF214191C60041C472 /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F1E0EE214191C60041C472 /* DataModel.swift */; };
 		B5FAB7082139D89C0046F976 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FAB7072139D89C0046F976 /* AppDelegate.swift */; };
 		B5FAB70D2139D89C0046F976 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B5FAB70B2139D89C0046F976 /* Main.storyboard */; };
@@ -43,7 +43,7 @@
 		B5F1E0EA21417B480041C472 /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 		B5F1E0EB21417B480041C472 /* HeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HeaderView.xib; sourceTree = "<group>"; };
 		B5F1E0EE214191C60041C472 /* DataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
-		B5FAB7042139D89C0046F976 /* MyList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyList.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B5FAB7042139D89C0046F976 /* TheList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TheList.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5FAB7072139D89C0046F976 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B5FAB70C2139D89C0046F976 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		B5FAB70F2139D89C0046F976 /* TheList.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TheList.xcdatamodel; sourceTree = "<group>"; };
@@ -128,7 +128,7 @@
 		B5FAB7052139D89C0046F976 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				B5FAB7042139D89C0046F976 /* MyList.app */,
+				B5FAB7042139D89C0046F976 /* TheList.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -163,7 +163,7 @@
 			);
 			name = MyList;
 			productName = TheList;
-			productReference = B5FAB7042139D89C0046F976 /* MyList.app */;
+			productReference = B5FAB7042139D89C0046F976 /* TheList.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -208,7 +208,7 @@
 				B5A6C3D8213F12940029FF22 /* CategoryAndItemTableViewCell.xib in Resources */,
 				B5FAB7152139D89E0046F976 /* LaunchScreen.storyboard in Resources */,
 				B5FAB7122139D89E0046F976 /* Assets.xcassets in Resources */,
-				B5F1E0ED21417B480041C472 /* HeaderView.xib in Resources */,
+				B56A0728215A0150005436AE /* HeaderView.xib in Resources */,
 				B5A6C3DD213F1A1E0029FF22 /* Default-568h@2x.png in Resources */,
 				B5FAB70D2139D89C0046F976 /* Main.storyboard in Resources */,
 			);
@@ -384,8 +384,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.luneofthepune.MyList;
-				PRODUCT_NAME = MyList;
+				PRODUCT_BUNDLE_IDENTIFIER = com.luneofthepune.TheList;
+				PRODUCT_NAME = TheList;
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -402,8 +402,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.luneofthepune.MyList;
-				PRODUCT_NAME = MyList;
+				PRODUCT_BUNDLE_IDENTIFIER = com.luneofthepune.TheList;
+				PRODUCT_NAME = TheList;
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
