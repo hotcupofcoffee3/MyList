@@ -43,7 +43,7 @@
 		B5F1E0EA21417B480041C472 /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 		B5F1E0EB21417B480041C472 /* HeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HeaderView.xib; sourceTree = "<group>"; };
 		B5F1E0EE214191C60041C472 /* DataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
-		B5FAB7042139D89C0046F976 /* TheList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TheList.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B5FAB7042139D89C0046F976 /* MyList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyList.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5FAB7072139D89C0046F976 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B5FAB70C2139D89C0046F976 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		B5FAB70F2139D89C0046F976 /* TheList.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TheList.xcdatamodel; sourceTree = "<group>"; };
@@ -128,7 +128,7 @@
 		B5FAB7052139D89C0046F976 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				B5FAB7042139D89C0046F976 /* TheList.app */,
+				B5FAB7042139D89C0046F976 /* MyList.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -163,7 +163,7 @@
 			);
 			name = MyList;
 			productName = TheList;
-			productReference = B5FAB7042139D89C0046F976 /* TheList.app */;
+			productReference = B5FAB7042139D89C0046F976 /* MyList.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -384,8 +384,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.luneofthepune.TheList;
-				PRODUCT_NAME = TheList;
+				PRODUCT_BUNDLE_IDENTIFIER = com.luneofthepune.MyList;
+				PRODUCT_NAME = MyList;
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -402,8 +402,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.luneofthepune.TheList;
-				PRODUCT_NAME = TheList;
+				PRODUCT_BUNDLE_IDENTIFIER = com.luneofthepune.MyList;
+				PRODUCT_NAME = MyList;
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
