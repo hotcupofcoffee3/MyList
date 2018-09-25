@@ -244,7 +244,7 @@ class DataModel {
         // Populating the arrays based on the View selected.
         switch view {
             
-        case .home, .errands, .work, .fun, .ideas:
+        case .home, .errands, .work, .other:
             categoriesForType = loadSpecificCategoriesByID(perType: view.rawValue)
             
         case .items :
@@ -272,12 +272,9 @@ class DataModel {
         case .work:
             id = (categoriesForType.count > 0 && !isFirst) ? Int(categoriesForType[categoriesForType.count - 1].id + 1) : 30001
             
-        case .fun:
+        case .other:
             id = (categoriesForType.count > 0 && !isFirst) ? Int(categoriesForType[categoriesForType.count - 1].id + 1) : 40001
-            
-        case .ideas:
-            id = (categoriesForType.count > 0 && !isFirst) ? Int(categoriesForType[categoriesForType.count - 1].id + 1) : 50001
-            
+           
         case .items:
             guard let category = category else {
                 print("There was no Category selected to assign an ID in the .items part of the loadNextID function in the DataModel.")
@@ -391,12 +388,9 @@ class DataModel {
         case .work:
             startingID = 30001
             
-        case .fun:
+        case .other:
             startingID = 40001
-            
-        case .ideas:
-            startingID = 50001
-            
+         
         case .items:
             guard let category = category else {
                 return print("There was no Category selected to assign an ID in the .items part of the loadNextID function in the DataModel.")

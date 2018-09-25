@@ -57,7 +57,7 @@
                         <outlet property="editButton" destination="Ceq-hy-3y9" id="M15-KT-IAc"/>
                         <outlet property="tableView" destination="g6g-5S-dLA" id="ZIl-Kf-bt5"/>
                         <segue destination="vyx-Yb-CY9" kind="show" identifier="homeToItemsSegue" id="nux-BO-Hot"/>
-                        <segue destination="rx6-qK-MYC" kind="presentation" identifier="homeToEditSegue" id="bMT-Jl-AiY"/>
+                        <segue destination="rx6-qK-MYC" kind="presentation" identifier="homeToEditSegue" modalPresentationStyle="overCurrentContext" id="bMT-Jl-AiY"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -168,7 +168,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AsM-WA-nEi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4429.6000000000004" y="364.7676161919041"/>
+            <point key="canvasLocation" x="4121" y="134"/>
         </scene>
         <!--items-->
         <scene sceneID="QTZ-fV-BLZ">
@@ -220,7 +220,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wnF-VX-T5l" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4321" y="1619"/>
+            <point key="canvasLocation" x="4121" y="1630"/>
         </scene>
         <!--errands-->
         <scene sceneID="F5v-6n-Lmu">
@@ -269,7 +269,7 @@
                         <outlet property="editButton" destination="JeW-xi-NVm" id="czX-ca-5xc"/>
                         <outlet property="tableView" destination="oKU-rj-Ocy" id="jl2-oM-nAA"/>
                         <segue destination="vyx-Yb-CY9" kind="show" identifier="errandsToItemsSegue" id="qAD-ln-2Bb"/>
-                        <segue destination="rx6-qK-MYC" kind="presentation" identifier="errandsToEditSegue" id="q1b-3X-gdM"/>
+                        <segue destination="rx6-qK-MYC" kind="presentation" identifier="errandsToEditSegue" modalPresentationStyle="overCurrentContext" id="q1b-3X-gdM"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cJq-6e-awJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -336,59 +336,42 @@
             </objects>
             <point key="canvasLocation" x="1076" y="878"/>
         </scene>
-        <!--ideas-->
+        <!--settings-->
         <scene sceneID="PUK-eE-hRq">
             <objects>
-                <viewController title="ideas" id="sbZ-MD-I6e" customClass="CategoryAndItemViewController" customModule="TheList" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="settings" id="sbZ-MD-I6e" customClass="SettingsViewController" customModule="TheList" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="PX4-no-zBp">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="GMI-oB-JBv">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Msf-5R-j3u">
                                 <rect key="frame" x="0.0" y="64" width="375" height="554"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" id="OXZ-Rg-8nd">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="OXZ-Rg-8nd" id="bas-LL-v3O">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </prototypes>
                                 <connections>
-                                    <outlet property="dataSource" destination="sbZ-MD-I6e" id="Zql-xu-aBn"/>
-                                    <outlet property="delegate" destination="sbZ-MD-I6e" id="sVT-Aq-MZq"/>
+                                    <outlet property="dataSource" destination="sbZ-MD-I6e" id="eIx-ZC-hHg"/>
+                                    <outlet property="delegate" destination="sbZ-MD-I6e" id="wo7-vM-Vde"/>
                                 </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="GMI-oB-JBv" firstAttribute="leading" secondItem="CYo-yC-gKr" secondAttribute="leading" id="1hX-Td-REh"/>
-                            <constraint firstItem="GMI-oB-JBv" firstAttribute="top" secondItem="CYo-yC-gKr" secondAttribute="top" id="GEG-PL-tzc"/>
-                            <constraint firstItem="CYo-yC-gKr" firstAttribute="bottom" secondItem="GMI-oB-JBv" secondAttribute="bottom" id="WzX-Rf-dRR"/>
-                            <constraint firstItem="CYo-yC-gKr" firstAttribute="trailing" secondItem="GMI-oB-JBv" secondAttribute="trailing" id="beD-1B-Gp9"/>
+                            <constraint firstItem="CYo-yC-gKr" firstAttribute="bottom" secondItem="Msf-5R-j3u" secondAttribute="bottom" id="Hl7-jK-xtK"/>
+                            <constraint firstItem="CYo-yC-gKr" firstAttribute="trailing" secondItem="Msf-5R-j3u" secondAttribute="trailing" id="Vbt-mg-dVf"/>
+                            <constraint firstItem="Msf-5R-j3u" firstAttribute="top" secondItem="CYo-yC-gKr" secondAttribute="top" id="ZOD-hQ-ZGG"/>
+                            <constraint firstItem="Msf-5R-j3u" firstAttribute="leading" secondItem="CYo-yC-gKr" secondAttribute="leading" id="jd2-6s-BFe"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="CYo-yC-gKr"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Ideas" id="Zh5-zK-UPY">
-                        <barButtonItem key="rightBarButtonItem" title="Edit" id="JI5-U5-F5L">
-                            <connections>
-                                <action selector="edit:" destination="sbZ-MD-I6e" id="frd-0n-fom"/>
-                            </connections>
-                        </barButtonItem>
+                    <navigationItem key="navigationItem" title="Settings" id="Zh5-zK-UPY">
+                        <barButtonItem key="rightBarButtonItem" title="Edit" id="JI5-U5-F5L"/>
                     </navigationItem>
                     <connections>
-                        <outlet property="editButton" destination="JI5-U5-F5L" id="ji5-96-ZNn"/>
-                        <outlet property="tableView" destination="GMI-oB-JBv" id="LcZ-7F-BC6"/>
-                        <segue destination="vyx-Yb-CY9" kind="show" identifier="ideasToItemsSegue" id="qTR-Lv-LAd"/>
-                        <segue destination="rx6-qK-MYC" kind="presentation" identifier="otherToEditSegue" id="ONs-Z8-Tvo"/>
+                        <segue destination="qQo-DV-nZT" kind="presentation" identifier="settingsToFontPickerSegue" modalPresentationStyle="overCurrentContext" id="QIq-3X-6Ts"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7fP-zp-g62" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2015.2" y="1629.5352323838083"/>
+            <point key="canvasLocation" x="2017" y="3165"/>
         </scene>
         <!--work-->
         <scene sceneID="WY4-zU-KYE">
@@ -437,17 +420,17 @@
                         <outlet property="editButton" destination="iVy-yz-bX4" id="km1-rl-RLF"/>
                         <outlet property="tableView" destination="zhz-lY-r0J" id="Oex-qC-gBn"/>
                         <segue destination="vyx-Yb-CY9" kind="show" identifier="workToItemsSegue" id="W7y-kt-DcV"/>
-                        <segue destination="rx6-qK-MYC" kind="presentation" identifier="workToEditSegue" id="fJ4-KA-VjC"/>
+                        <segue destination="rx6-qK-MYC" kind="presentation" identifier="workToEditSegue" modalPresentationStyle="overCurrentContext" id="fJ4-KA-VjC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nGo-yJ-56d" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2016.8" y="2400.4497751124441"/>
+            <point key="canvasLocation" x="2017" y="1630"/>
         </scene>
-        <!--fun-->
+        <!--other-->
         <scene sceneID="wN7-ZC-sEx">
             <objects>
-                <viewController title="fun" id="JfK-1c-7QD" customClass="CategoryAndItemViewController" customModule="TheList" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="other" id="JfK-1c-7QD" customClass="CategoryAndItemViewController" customModule="TheList" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="kAe-47-hKq">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -480,7 +463,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="hoM-QO-iWE"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Fun" id="zPF-p0-8on">
+                    <navigationItem key="navigationItem" title="Other" id="zPF-p0-8on">
                         <barButtonItem key="rightBarButtonItem" title="Edit" id="XIK-Ej-0oq">
                             <connections>
                                 <action selector="edit:" destination="JfK-1c-7QD" id="659-Fk-JbR"/>
@@ -490,13 +473,13 @@
                     <connections>
                         <outlet property="editButton" destination="XIK-Ej-0oq" id="hia-Am-Vgd"/>
                         <outlet property="tableView" destination="l8U-aW-G5b" id="ZDK-W3-M4m"/>
-                        <segue destination="vyx-Yb-CY9" kind="show" identifier="funToItemsSegue" id="tW7-3W-El1"/>
-                        <segue destination="qQo-DV-nZT" kind="presentation" identifier="settingsToFontPickerSegue" modalPresentationStyle="overCurrentContext" id="dnb-9J-xGS"/>
+                        <segue destination="vyx-Yb-CY9" kind="show" identifier="otherToItemsSegue" id="tW7-3W-El1"/>
+                        <segue destination="rx6-qK-MYC" kind="presentation" identifier="otherToEditSegue" modalPresentationStyle="overCurrentContext" id="ZcG-xh-Vnv"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Nrr-1l-9aZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2016.8" y="3128.185907046477"/>
+            <point key="canvasLocation" x="2017" y="2357"/>
         </scene>
         <!--Ideas-->
         <scene sceneID="ckA-ea-3sy">
@@ -515,7 +498,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DOu-ff-ec8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1076" y="1629.5352323838083"/>
+            <point key="canvasLocation" x="1078" y="3165"/>
         </scene>
         <!--Work-->
         <scene sceneID="ugo-GU-cNQ">
@@ -534,7 +517,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7YK-Fx-C9x" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1077.5999999999999" y="2400.4497751124441"/>
+            <point key="canvasLocation" x="1078" y="1630"/>
         </scene>
         <!--Fun-->
         <scene sceneID="uXB-R7-KIl">
@@ -553,7 +536,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JFG-8e-sub" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1077.5999999999999" y="3128.185907046477"/>
+            <point key="canvasLocation" x="1078" y="2357"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="Jwq-pM-mjX">
@@ -599,7 +582,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qTL-wD-aqE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5174" y="365"/>
+            <point key="canvasLocation" x="4865" y="134"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="QDd-g5-ZRI">
@@ -645,11 +628,11 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Xpj-Oh-3GJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3598" y="3128"/>
+            <point key="canvasLocation" x="3209" y="3165"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="tW7-3W-El1"/>
+        <segue reference="nux-BO-Hot"/>
         <segue reference="fJ4-KA-VjC"/>
     </inferredMetricsTieBreakers>
 </document>

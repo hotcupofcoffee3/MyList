@@ -13,5 +13,5 @@ import Foundation
 // The Chosen VC that displays the TableView
 
 enum ChosenVC: String {
-    case home, errands, work, fun, ideas, items
+    case home, errands, work, other, items
 }

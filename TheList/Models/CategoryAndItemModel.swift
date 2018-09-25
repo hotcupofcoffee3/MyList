@@ -55,12 +55,9 @@ class CategoryAndItemModel {
         case ChosenVC.work.rawValue:
             viewDisplayed = .work
             
-        case ChosenVC.fun.rawValue:
-            viewDisplayed = .fun
-            
-        case ChosenVC.ideas.rawValue:
-            viewDisplayed = .ideas
-            
+        case ChosenVC.other.rawValue:
+            viewDisplayed = .other
+         
         default:
             viewDisplayed = .items
             
@@ -87,12 +84,9 @@ class CategoryAndItemModel {
         case .work:
             return Keywords.shared.workToItemsSegue
             
-        case .fun:
-            return Keywords.shared.funToItemsSegue
-            
-        case .ideas:
-            return Keywords.shared.ideasToItemsSegue
-            
+        case .other:
+            return Keywords.shared.otherToItemsSegue
+         
         case .items: return "Type of Segue is Items"
             
         }
