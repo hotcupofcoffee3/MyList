@@ -13,7 +13,7 @@
         <!--home-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController title="home" id="BYZ-38-t0r" customClass="CategoryAndItemViewController" customModule="TheList" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="home" id="BYZ-38-t0r" customClass="CategoryAndItemViewController" customModule="MyList" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -173,7 +173,7 @@
         <!--items-->
         <scene sceneID="QTZ-fV-BLZ">
             <objects>
-                <viewController title="items" id="vyx-Yb-CY9" customClass="CategoryAndItemViewController" customModule="TheList" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="items" id="vyx-Yb-CY9" customClass="CategoryAndItemViewController" customModule="MyList" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Ckc-aH-cJB">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -225,7 +225,7 @@
         <!--errands-->
         <scene sceneID="F5v-6n-Lmu">
             <objects>
-                <viewController title="errands" id="Nf3-wR-jev" customClass="CategoryAndItemViewController" customModule="TheList" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="errands" id="Nf3-wR-jev" customClass="CategoryAndItemViewController" customModule="MyList" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="kAO-NX-g9h">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -339,7 +339,7 @@
         <!--settings-->
         <scene sceneID="PUK-eE-hRq">
             <objects>
-                <viewController title="settings" id="sbZ-MD-I6e" customClass="SettingsViewController" customModule="TheList" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="settings" id="sbZ-MD-I6e" customClass="SettingsViewController" customModule="MyList" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="PX4-no-zBp">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -376,7 +376,7 @@
         <!--work-->
         <scene sceneID="WY4-zU-KYE">
             <objects>
-                <viewController title="work" id="Nf7-E0-lld" customClass="CategoryAndItemViewController" customModule="TheList" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="work" id="Nf7-E0-lld" customClass="CategoryAndItemViewController" customModule="MyList" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8BW-6w-F2D">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -430,7 +430,7 @@
         <!--other-->
         <scene sceneID="wN7-ZC-sEx">
             <objects>
-                <viewController title="other" id="JfK-1c-7QD" customClass="CategoryAndItemViewController" customModule="TheList" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="other" id="JfK-1c-7QD" customClass="CategoryAndItemViewController" customModule="MyList" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="kAe-47-hKq">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -481,11 +481,11 @@
             </objects>
             <point key="canvasLocation" x="2017" y="2357"/>
         </scene>
-        <!--Ideas-->
+        <!--Settings-->
         <scene sceneID="ckA-ea-3sy">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="XpP-Kt-ywF" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Ideas" id="c2b-pZ-ApC"/>
+                    <tabBarItem key="tabBarItem" title="Settings" id="c2b-pZ-ApC"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="TqV-Ml-IQQ">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
@@ -519,11 +519,11 @@
             </objects>
             <point key="canvasLocation" x="1078" y="1630"/>
         </scene>
-        <!--Fun-->
+        <!--Other-->
         <scene sceneID="uXB-R7-KIl">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="DSB-mt-SJP" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Fun" id="gzb-rb-tM5"/>
+                    <tabBarItem key="tabBarItem" title="Other" id="gzb-rb-tM5"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="90o-rA-S6U">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
