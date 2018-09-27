@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "B5FAB7032139D89C0046F976"
-               BuildableName = "TheList.app"
+               BuildableName = "MyList.app"
                BlueprintName = "MyList"
                ReferencedContainer = "container:TheList.xcodeproj">
             </BuildableReference>
@@ -33,7 +33,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "B5FAB7032139D89C0046F976"
-            BuildableName = "TheList.app"
+            BuildableName = "MyList.app"
             BlueprintName = "MyList"
             ReferencedContainer = "container:TheList.xcodeproj">
          </BuildableReference>
@@ -56,7 +56,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "B5FAB7032139D89C0046F976"
-            BuildableName = "TheList.app"
+            BuildableName = "MyList.app"
             BlueprintName = "MyList"
             ReferencedContainer = "container:TheList.xcodeproj">
          </BuildableReference>
@@ -75,7 +75,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "B5FAB7032139D89C0046F976"
-            BuildableName = "TheList.app"
+            BuildableName = "MyList.app"
             BlueprintName = "MyList"
             ReferencedContainer = "container:TheList.xcodeproj">
          </BuildableReference>

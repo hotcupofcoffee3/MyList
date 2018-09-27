@@ -36,6 +36,8 @@ class CategoryAndItemViewController: UIViewController {
     
     var isCurrentlyEditing = false
     
+    var isEditingSpecifics = false
+    
     func toggleEditing() {
         isCurrentlyEditing = !isCurrentlyEditing
         editButton.title = isCurrentlyEditing ? "Done" : "Edit"
@@ -364,11 +366,21 @@ extension CategoryAndItemViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        let destinationVC = segue.destination as! CategoryAndItemViewController
-        
-        destinationVC.navigationItem.title = "\(selectedCategory)"
-        
-        destinationVC.categoryOrItem.selectedCategory = selectedCategory
+        if !isEditingSpecifics {
+            
+            let destinationVC = segue.destination as! CategoryAndItemViewController
+            
+            destinationVC.navigationItem.title = "\(selectedCategory)"
+            
+            destinationVC.categoryOrItem.selectedCategory = selectedCategory
+            
+        } else {
+            
+            let destinationVC = segue.destination as! EditViewController
+            
+            destinationVC.typeBeingEdited = categoryOrItem.viewDisplayed
+            
+        }
         
     }
     

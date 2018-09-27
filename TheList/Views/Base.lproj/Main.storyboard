@@ -64,10 +64,10 @@
             </objects>
             <point key="canvasLocation" x="2015.2" y="133.5832083958021"/>
         </scene>
-        <!--View Controller-->
+        <!--Edit View Controller-->
         <scene sceneID="2TQ-fS-wKP">
             <objects>
-                <viewController id="rx6-qK-MYC" sceneMemberID="viewController">
+                <viewController id="rx6-qK-MYC" customClass="EditViewController" customModule="MyList" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="JUh-cg-ZsZ">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -538,10 +538,10 @@
             </objects>
             <point key="canvasLocation" x="1078" y="2357"/>
         </scene>
-        <!--View Controller-->
+        <!--Category Picker View Controller-->
         <scene sceneID="Jwq-pM-mjX">
             <objects>
-                <viewController id="fSE-NK-PxT" sceneMemberID="viewController">
+                <viewController id="fSE-NK-PxT" customClass="CategoryPickerViewController" customModule="MyList" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="dpZ-YI-crI">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		B509B9B9215967A9006F7F79 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B509B9B8215967A9006F7F79 /* SettingsViewController.swift */; };
 		B52242902159F6F0002C164D /* TheList.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B5FAB70E2139D89C0046F976 /* TheList.xcdatamodeld */; };
+		B53549C5215C8E3A00D2EB1E /* EditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B53549C4215C8E3A00D2EB1E /* EditViewController.swift */; };
+		B53549C7215C8E6D00D2EB1E /* CategoryPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B53549C6215C8E6D00D2EB1E /* CategoryPickerViewController.swift */; };
 		B56A0728215A0150005436AE /* HeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B5F1E0EB21417B480041C472 /* HeaderView.xib */; };
 		B58B8363214ADE54005703AC /* ChosenVCEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58B8362214ADE54005703AC /* ChosenVCEnum.swift */; };
 		B58B8365214AEDE9005703AC /* ItemPropertyEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58B8364214AEDE9005703AC /* ItemPropertyEnum.swift */; };
@@ -30,6 +32,8 @@
 
 /* Begin PBXFileReference section */
 		B509B9B8215967A9006F7F79 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		B53549C4215C8E3A00D2EB1E /* EditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewController.swift; sourceTree = "<group>"; };
+		B53549C6215C8E6D00D2EB1E /* CategoryPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryPickerViewController.swift; sourceTree = "<group>"; };
 		B58B8362214ADE54005703AC /* ChosenVCEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChosenVCEnum.swift; sourceTree = "<group>"; };
 		B58B8364214AEDE9005703AC /* ItemPropertyEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemPropertyEnum.swift; sourceTree = "<group>"; };
 		B58B8366214AEDF7005703AC /* CategoryPropertyEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryPropertyEnum.swift; sourceTree = "<group>"; };
@@ -82,6 +86,8 @@
 			isa = PBXGroup;
 			children = (
 				B5A6C3CB213EE4150029FF22 /* CategoryAndItemViewController.swift */,
+				B53549C4215C8E3A00D2EB1E /* EditViewController.swift */,
+				B53549C6215C8E6D00D2EB1E /* CategoryPickerViewController.swift */,
 				B509B9B8215967A9006F7F79 /* SettingsViewController.swift */,
 			);
 			path = Controllers;
@@ -224,9 +230,11 @@
 				B5A6C3D7213F12940029FF22 /* CategoryAndItemTableViewCell.swift in Sources */,
 				B52242902159F6F0002C164D /* TheList.xcdatamodeld in Sources */,
 				B58B8367214AEDF7005703AC /* CategoryPropertyEnum.swift in Sources */,
+				B53549C7215C8E6D00D2EB1E /* CategoryPickerViewController.swift in Sources */,
 				B58B8365214AEDE9005703AC /* ItemPropertyEnum.swift in Sources */,
 				B5A6C3CE213EE5B20029FF22 /* CategoryAndItemModel.swift in Sources */,
 				B5FAB7082139D89C0046F976 /* AppDelegate.swift in Sources */,
+				B53549C5215C8E3A00D2EB1E /* EditViewController.swift in Sources */,
 				B5F1E0EF214191C60041C472 /* DataModel.swift in Sources */,
 				B5A6C3CC213EE4150029FF22 /* CategoryAndItemViewController.swift in Sources */,
 				B5A6C3D0213EE7B60029FF22 /* Keywords.swift in Sources */,
