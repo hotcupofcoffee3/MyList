@@ -16,6 +16,8 @@ class EditViewController: UIViewController {
     
     var categoryToEdit = String()
     
+    var categoryType = ChosenVC.home
+    
     var item: Item?
     
     @IBOutlet weak var categoryTopConstraint: NSLayoutConstraint!
@@ -55,8 +57,7 @@ class EditViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let destinationVC = segue.destination as! CategoryPickerViewController
         if typeBeingEdited == .items {
-            DataModel.shared.loadAllCategories()
-            destinationVC.categories = DataModel.shared.allCategories
+            destinationVC.categories = DataModel.shared.loadSpecificCategories(perType: categoryType.rawValue)
         }
         
     }

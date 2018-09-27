@@ -32,6 +32,8 @@ class CategoryAndItemViewController: UIViewController {
     
     let categoryOrItem = CategoryAndItemModel()
     
+    var categoryType: ChosenVC?
+    
     var selectedCategory = ""
     
     var selectedItem: Item?
@@ -173,14 +175,7 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
         
         return [delete, edit]
     }
-//
-//    func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
-//        return false
-//    }
-//    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
-//        return UITableViewCellEditingStyle.none
-//    }
-//    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: Keywords.shared.categoryAndItemCellIdentifier, for: indexPath) as! CategoryAndItemTableViewCell
@@ -189,8 +184,6 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
         
         longPress.minimumPressDuration = 0.5
         cell.addGestureRecognizer(longPress)
-        
-//        cell.nameLabelHeight.constant = cell.nameLabel.frame.height
         
         if categoryOrItem.viewDisplayed == .items {
             
@@ -207,14 +200,6 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
             cell.numberLabelWidth.constant = 0
            
         } else {
-            
-//            if DataModel.shared.updateAllItemsAreDone(forCategory: categoryOrItem.categories[indexPath.row].name!) {
-//                cell.checkboxImageView.image = Keywords.shared.checkboxChecked
-//                cell.backgroundColor = Keywords.shared.lightGreenBackground12
-//            } else {
-//                cell.checkboxImageView.image = Keywords.shared.checkboxEmpty
-//                cell.backgroundColor = UIColor.white
-//            }
             
             if categoryOrItem.categories[indexPath.row].done {
                 cell.checkboxImageView.image = Keywords.shared.checkboxChecked
@@ -267,60 +252,6 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
 
             DataModel.shared.updateItem(forProperty: .done, forItem: categoryOrItem.items[indexPath.row], category: nil, name: nil)
             categoryOrItem.reloadCategoriesOrItems()
-            
-        }
-        
-        tableView.reloadData()
-        
-    }
-    
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        
-        if editingStyle == .delete {
-            
-//            deleteRow(inTable: tableView, atIndexPath: indexPath)
-            
-            
-            
-//            if categoryOrItem.viewDisplayed != .items {
-//
-//                if categoryOrItem.numberOfItems(forCategory: categoryOrItem.categories[indexPath.row].name!) > 0 {
-//
-//                    let alert = UIAlertController(title: "Are you sure?", message: "You have Items in this Category", preferredStyle: .alert)
-//
-//                    alert.addAction(UIAlertAction(title: "Delete", style: .default, handler: { (action) in
-//
-//                        DataModel.shared.deleteSpecificCategory(forCategory: self.categoryOrItem.categories[indexPath.row])
-//
-//                        self.categoryOrItem.reloadCategoriesOrItems()
-//                        self.tableView.deleteRows(at: [indexPath], with: .left)
-//                        self.hapticExecuted(as: .success)
-//
-//                    }))
-//
-//                    alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-//
-//                    present(alert, animated: true, completion: nil)
-//
-//                } else {
-//
-//                    DataModel.shared.deleteSpecificCategory(forCategory: categoryOrItem.categories[indexPath.row])
-//
-//                    categoryOrItem.reloadCategoriesOrItems()
-//                    tableView.deleteRows(at: [indexPath], with: .left)
-//                    hapticExecuted(as: .success)
-//
-//                }
-//
-//            } else {
-//
-//                DataModel.shared.deleteSpecificItem(forItem: categoryOrItem.items[indexPath.row])
-//
-//                categoryOrItem.reloadCategoriesOrItems()
-//                tableView.deleteRows(at: [indexPath], with: .left)
-//                hapticExecuted(as: .success)
-//
-//            }
             
         }
         
@@ -384,6 +315,8 @@ extension CategoryAndItemViewController {
             
             destinationVC.categoryOrItem.selectedCategory = selectedCategory
             
+            destinationVC.categoryType = categoryOrItem.viewDisplayed
+            
         } else {
             
             isEditingSpecifics = false
@@ -397,6 +330,7 @@ extension CategoryAndItemViewController {
                 destinationVC.nameToEdit = selectedCategory
                 
             } else {
+                
                 if let item = selectedItem {
                     
                     destinationVC.item = item
@@ -404,6 +338,15 @@ extension CategoryAndItemViewController {
                     destinationVC.nameToEdit = item.name!
                     
                     destinationVC.categoryToEdit = item.category!
+                    
+                    if let type = categoryType {
+                        
+                        destinationVC.categoryType = type
+                        
+                    } else {
+                        print("Something went wrong with setting the Category Type for the edit screen from the Items VC.")
+                        
+                    }
                     
                 }
                 
