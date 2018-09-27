@@ -87,7 +87,31 @@ class CategoryAndItemModel {
         case .other:
             return Keywords.shared.otherToItemsSegue
          
-        case .items: return "Type of Segue is Items"
+        case .items:
+            return "Type of Segue is Items"
+            
+        }
+        
+    }
+    
+    var editSegue: String {
+        
+        switch viewDisplayed {
+            
+        case .home:
+            return Keywords.shared.homeToEditSegue
+            
+        case .errands:
+            return Keywords.shared.errandsToEditSegue
+            
+        case .work:
+            return Keywords.shared.workToEditSegue
+            
+        case .other:
+            return Keywords.shared.otherToEditSegue
+            
+        case .items:
+            return Keywords.shared.itemsToEditSegue
             
         }
         

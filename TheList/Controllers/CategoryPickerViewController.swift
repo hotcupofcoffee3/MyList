@@ -10,6 +10,10 @@ import UIKit
 
 class CategoryPickerViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     
+    @IBAction func cancel(_ sender: UIButton) {
+        dismiss(animated: true, completion: nil)
+    }
+    
     var categories: [Category] = []
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {

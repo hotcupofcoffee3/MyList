@@ -24,6 +24,7 @@ class Keywords {
     let errandsToEditSegue = "errandsToEditSegue"
     let workToEditSegue = "workToEditSegue"
     let otherToEditSegue = "otherToEditSegue"
+    let itemsToEditSegue = "itemsToEditSegue"
     let settingsToFontPickerSegue = "settingsToFontPickerSegue"
     
     let categoryAndItemCellIdentifier = "categoryAndItemCell"

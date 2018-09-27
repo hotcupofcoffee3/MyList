@@ -32,7 +32,9 @@ class CategoryAndItemViewController: UIViewController {
     
     let categoryOrItem = CategoryAndItemModel()
     
-    var selectedCategory = "Category And Item VC selectedCategory: Type view, no Category Selected."
+    var selectedCategory = ""
+    
+    var selectedItem = ""
     
     var isCurrentlyEditing = false
     
@@ -158,7 +160,15 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
         }
         
         let edit = UITableViewRowAction(style: .normal, title: "Edit") { (action, indexPath) in
-            print("Edit this row")
+            self.isEditingSpecifics = true
+            
+            if self.categoryOrItem.viewDisplayed != .items {
+                self.selectedCategory = self.categoryOrItem.categories[indexPath.row].name!
+            } else {
+                self.selectedItem = self.categoryOrItem.items[indexPath.row].name!
+            }
+            
+            self.performSegue(withIdentifier: self.categoryOrItem.editSegue, sender: self)
         }
         
         return [delete, edit]
@@ -254,7 +264,7 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
             }
             
         } else {
-            
+            selectedItem = categoryOrItem.items[indexPath.row].name!
             DataModel.shared.updateItem(forProperty: .done, forItem: categoryOrItem.items[indexPath.row], category: nil, name: nil)
             categoryOrItem.reloadCategoriesOrItems()
             
@@ -376,9 +386,21 @@ extension CategoryAndItemViewController {
             
         } else {
             
+            isEditingSpecifics = false
+            
             let destinationVC = segue.destination as! EditViewController
             
             destinationVC.typeBeingEdited = categoryOrItem.viewDisplayed
+            
+            if categoryOrItem.viewDisplayed != .items {
+                
+                destinationVC.nameToEdit = selectedCategory
+                
+            } else {
+                
+                destinationVC.nameToEdit = selectedItem
+                
+            }
             
         }
         
