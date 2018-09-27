@@ -567,6 +567,10 @@
                         <subviews>
                             <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="420-d5-IXW">
                                 <rect key="frame" x="27.5" y="225.5" width="320" height="216"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="fSE-NK-PxT" id="mc7-Fw-cjr"/>
+                                    <outlet property="delegate" destination="fSE-NK-PxT" id="ByJ-dE-vSE"/>
+                                </connections>
                             </pickerView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Category Or Item" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YWE-yw-dEg">
                                 <rect key="frame" x="20" y="187.5" width="335" height="18"/>

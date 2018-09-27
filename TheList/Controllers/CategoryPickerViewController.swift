@@ -14,7 +14,7 @@ class CategoryPickerViewController: UIViewController, UIPickerViewDelegate, UIPi
         dismiss(animated: true, completion: nil)
     }
     
-    var categories: [Category] = []
+    var categories = [Category]()
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
@@ -25,15 +25,14 @@ class CategoryPickerViewController: UIViewController, UIPickerViewDelegate, UIPi
     }
     
     func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
-        
-        let title = NSAttributedString(string: categories[row].name!, attributes: [NSAttributedString.Key.font: UIFont(name: "Arial", size: 20)!])
+
+        let title = NSAttributedString(string: categories[row].name!, attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
         return title
     }
     
-
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
     }
     
 }

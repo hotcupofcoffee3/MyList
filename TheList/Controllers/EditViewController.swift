@@ -43,12 +43,20 @@ class EditViewController: UIViewController {
             categoryTopConstraint.constant = 0
             categoryHeightConstraint.constant = 0
         }
+        
+        let categoryTap = UITapGestureRecognizer(target: self, action: #selector(categoryPicker))
+        categoryView.addGestureRecognizer(categoryTap)
+    }
+    
+    @objc func categoryPicker() {
+        performSegue(withIdentifier: Keywords.shared.editToCategoryPickerSegue, sender: self)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let destinationVC = segue.destination as! CategoryPickerViewController
-        if typeBeingEdited != .items {
-            destinationVC.categories = DataModel.shared.loadSpecificCategories(perType: typeBeingEdited.rawValue)
+        if typeBeingEdited == .items {
+            DataModel.shared.loadAllCategories()
+            destinationVC.categories = DataModel.shared.allCategories
         }
         
     }
