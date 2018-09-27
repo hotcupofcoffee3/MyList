@@ -44,8 +44,6 @@ class HeaderView: UITableViewHeaderFooterView, UITextFieldDelegate {
             
             headerTextField.text = ""
             
-//            headerTextField.endEditing(true)
-            
             toggleAddButtonEnabled()
             
             reloadTableListDelegate?.reloadTableData()
@@ -55,14 +53,6 @@ class HeaderView: UITableViewHeaderFooterView, UITextFieldDelegate {
             hapticDelegate?.hapticExecuted(as: .warning)
             
             checkForNameDuplicateDelegate?.presentDuplicateNameAlert()
-            
-//            headerTextField.text = ""
-//            
-//            headerTextField.endEditing(true)
-//            
-//            toggleAddButtonEnabled()
-//            
-//            reloadTableListDelegate?.reloadTableData()
             
         }
         

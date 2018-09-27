@@ -20,6 +20,8 @@ class EditViewController: UIViewController {
     
     var item: Item?
     
+    var category: Category?
+    
     @IBOutlet weak var categoryTopConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var categoryHeightConstraint: NSLayoutConstraint!
@@ -34,6 +36,30 @@ class EditViewController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
 
+    @IBAction func submit(_ sender: UIButton) {
+        
+        if nameTextField.text != "" {
+            
+            if typeBeingEdited != .items {
+                
+                // TODO: - Load specific category
+                
+            } else {
+                
+                if let item = item {
+        
+                    DataModel.shared.updateItem(forProperty: .name, forItem: item, category: item.category!, name: nameTextField.text!)
+                    
+                }
+                
+            }
+            
+            dismiss(animated: true, completion: nil)
+            
+        }
+        
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         nameTextField.text = nameToEdit
