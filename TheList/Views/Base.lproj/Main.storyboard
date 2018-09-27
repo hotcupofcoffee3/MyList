@@ -128,33 +128,34 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2qa-jm-rEv" userLabel="Category View">
                                 <rect key="frame" x="30" y="190" width="315" height="60"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Category:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NMz-eW-Ccx">
-                                        <rect key="frame" x="12" y="12" width="90" height="36"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="90" id="x8Z-0l-QyX"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="b0O-yy-eH4">
-                                        <rect key="frame" x="114" y="12" width="189" height="36"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
-                                    </textField>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="aQy-bA-dWV">
+                                        <rect key="frame" x="12" y="12" width="291" height="36"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Category:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NMz-eW-Ccx">
+                                                <rect key="frame" x="0.0" y="0.0" width="90" height="36"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="90" id="Scx-br-9KB"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hEi-vD-VHl">
+                                                <rect key="frame" x="90" y="0.0" width="201" height="36"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
                                 </subviews>
                                 <color key="backgroundColor" white="0.2424316406" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstItem="b0O-yy-eH4" firstAttribute="leading" secondItem="NMz-eW-Ccx" secondAttribute="trailing" constant="12" id="CCB-Qi-EWe"/>
-                                    <constraint firstItem="b0O-yy-eH4" firstAttribute="top" secondItem="2qa-jm-rEv" secondAttribute="top" constant="12" id="Fa6-Bp-8gF"/>
-                                    <constraint firstItem="NMz-eW-Ccx" firstAttribute="top" secondItem="2qa-jm-rEv" secondAttribute="top" constant="12" id="Vua-ge-3gZ"/>
-                                    <constraint firstAttribute="trailing" secondItem="b0O-yy-eH4" secondAttribute="trailing" constant="12" id="fRc-Ch-gEX"/>
-                                    <constraint firstItem="NMz-eW-Ccx" firstAttribute="leading" secondItem="2qa-jm-rEv" secondAttribute="leading" constant="12" id="jqz-0A-pYL"/>
-                                    <constraint firstAttribute="bottom" secondItem="NMz-eW-Ccx" secondAttribute="bottom" constant="12" id="mGC-Cg-93M"/>
+                                    <constraint firstItem="aQy-bA-dWV" firstAttribute="leading" secondItem="2qa-jm-rEv" secondAttribute="leading" constant="12" id="NFC-af-Eis"/>
+                                    <constraint firstAttribute="trailing" secondItem="aQy-bA-dWV" secondAttribute="trailing" constant="12" id="Vap-St-lMh"/>
+                                    <constraint firstAttribute="bottom" secondItem="aQy-bA-dWV" secondAttribute="bottom" constant="12" id="a8s-0r-HQ6"/>
                                     <constraint firstAttribute="height" constant="60" id="muc-9K-NSi"/>
-                                    <constraint firstAttribute="bottom" secondItem="b0O-yy-eH4" secondAttribute="bottom" constant="12" id="nrf-eT-Tkv"/>
-                                    <constraint firstItem="NMz-eW-Ccx" firstAttribute="centerY" secondItem="2qa-jm-rEv" secondAttribute="centerY" id="qKA-lr-XkU"/>
+                                    <constraint firstItem="aQy-bA-dWV" firstAttribute="top" secondItem="2qa-jm-rEv" secondAttribute="top" constant="12" id="z2n-IJ-Z3r"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -176,7 +177,9 @@
                     </view>
                     <connections>
                         <outlet property="categoryHeightConstraint" destination="muc-9K-NSi" id="1iy-Q2-S5V"/>
+                        <outlet property="categoryLabel" destination="hEi-vD-VHl" id="RtY-GX-z5k"/>
                         <outlet property="categoryTopConstraint" destination="fn3-Qp-aS4" id="6XU-L4-KJP"/>
+                        <outlet property="categoryView" destination="2qa-jm-rEv" id="jvx-E6-BOk"/>
                         <outlet property="nameTextField" destination="gef-Oa-phA" id="0JU-3V-rwq"/>
                         <segue destination="fSE-NK-PxT" kind="presentation" identifier="editToCategoryPickerSegue" modalPresentationStyle="overCurrentContext" id="Yye-a6-w3p"/>
                     </connections>

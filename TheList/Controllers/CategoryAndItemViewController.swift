@@ -34,7 +34,7 @@ class CategoryAndItemViewController: UIViewController {
     
     var selectedCategory = ""
     
-    var selectedItem = ""
+    var selectedItem: Item?
     
     var isCurrentlyEditing = false
     
@@ -165,7 +165,7 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
             if self.categoryOrItem.viewDisplayed != .items {
                 self.selectedCategory = self.categoryOrItem.categories[indexPath.row].name!
             } else {
-                self.selectedItem = self.categoryOrItem.items[indexPath.row].name!
+                self.selectedItem = self.categoryOrItem.items[indexPath.row]
             }
             
             self.performSegue(withIdentifier: self.categoryOrItem.editSegue, sender: self)
@@ -264,7 +264,7 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
             }
             
         } else {
-            selectedItem = categoryOrItem.items[indexPath.row].name!
+
             DataModel.shared.updateItem(forProperty: .done, forItem: categoryOrItem.items[indexPath.row], category: nil, name: nil)
             categoryOrItem.reloadCategoriesOrItems()
             
@@ -397,8 +397,15 @@ extension CategoryAndItemViewController {
                 destinationVC.nameToEdit = selectedCategory
                 
             } else {
-                
-                destinationVC.nameToEdit = selectedItem
+                if let item = selectedItem {
+                    
+                    destinationVC.item = item
+                    
+                    destinationVC.nameToEdit = item.name!
+                    
+                    destinationVC.categoryToEdit = item.category!
+                    
+                }
                 
             }
             
