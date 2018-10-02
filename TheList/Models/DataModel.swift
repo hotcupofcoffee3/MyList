@@ -49,7 +49,7 @@ class DataModel {
         
     }
     
-    func addNewItem(name: String, category: String, forViewDisplayed view: ChosenVC, isFirst: Bool) {
+    func addNewItem(name: String, category: String, type: String, forViewDisplayed view: ChosenVC, isFirst: Bool) {
         
         let calculatedID = Int64(loadNextID(forViewDisplayed: view, isFirst: isFirst, forSelectedCategory: loadSpecificCategory(named: category)))
         
@@ -59,6 +59,7 @@ class DataModel {
         newItem.done = false
         newItem.repeating = false
         newItem.id = calculatedID
+        newItem.type = type
         
         saveData()
         
@@ -319,6 +320,44 @@ class DataModel {
         
         let isDone = updateAllItemsAreDone(forCategory: itemToUpdate.category!)
         updateDone(forCategory: itemToUpdate.category!, doneStatus: isDone)
+        
+    }
+    
+    func updateCategory(forProperty property: CategoryProperty, forCategory category: Category, name: String?, type: ChosenVC?) {
+        
+        let categoryToUpdate = category
+        
+        switch property {
+            
+        case .name :
+            
+            let oldName = categoryToUpdate.name!
+            
+            categoryToUpdate.name = (name != nil && name != "") ? name : categoryToUpdate.name!
+            
+            let itemsPerCategory = loadSpecificItems(perCategory: oldName)
+            
+            for item in itemsPerCategory {
+                
+                item.name = categoryToUpdate.name!
+                
+            }
+            
+        case .type :
+            categoryToUpdate.type = (type != nil) ? type?.rawValue : categoryToUpdate.type
+            
+        case .repeating :
+            categoryToUpdate.repeating = !categoryToUpdate.repeating
+        
+        default:
+            break
+            
+        }
+        
+        saveData()
+        
+        let isDone = updateAllItemsAreDone(forCategory: categoryToUpdate.name!)
+        updateDone(forCategory: categoryToUpdate.name!, doneStatus: isDone)
         
     }
     

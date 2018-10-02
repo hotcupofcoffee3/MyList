@@ -65,6 +65,7 @@ class CategoryAndItemModel {
         
         if viewDisplayed == .items {
             items = DataModel.shared.loadSpecificItemsByID(perCategory: selectedCategory)
+            
         } else {
             categories = DataModel.shared.loadSpecificCategoriesByID(perType: viewDisplayed.rawValue)
         }
@@ -130,6 +131,24 @@ class CategoryAndItemModel {
         return numberLeft
     }
     
+    func setItemType(item: Item) -> ChosenVC {
+        
+        var itemType = ChosenVC.home
+        
+        switch item.type! {
+            
+        case ChosenVC.home.rawValue: itemType = .home
+        case ChosenVC.errands.rawValue: itemType = .errands
+        case ChosenVC.work.rawValue: itemType = .work
+        case ChosenVC.other.rawValue: itemType = .other
+        default: break
+            
+        }
+        
+        return itemType
+        
+    }
+    
 }
 
 
@@ -153,7 +172,8 @@ extension CategoryAndItemModel: AddNewCategoryOrItemDelegate, ReloadTableListDel
             
             if canAdd && categoryOrItem != "" {
                 let isFirst = (items.count == 0)
-                DataModel.shared.addNewItem(name: categoryOrItem, category: selectedCategory, forViewDisplayed: .items, isFirst: isFirst)
+                let categoryType = DataModel.shared.loadSpecificCategory(named: selectedCategory)
+                DataModel.shared.addNewItem(name: categoryOrItem, category: selectedCategory, type: categoryType.type!, forViewDisplayed: .items, isFirst: isFirst)
                 items = DataModel.shared.loadSpecificItemsByID(perCategory: selectedCategory)
                 reloadCategoriesOrItems()
             } else {

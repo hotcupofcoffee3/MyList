@@ -42,13 +42,17 @@ class EditViewController: UIViewController {
             
             if typeBeingEdited != .items {
                 
-                // TODO: - Load specific category
+                if let category = category {
+                    
+                    DataModel.shared.updateCategory(forProperty: .name, forCategory: category, name: nameTextField.text!, type: typeBeingEdited)
+                    
+                }
                 
             } else {
                 
                 if let item = item {
         
-                    DataModel.shared.updateItem(forProperty: .name, forItem: item, category: item.category!, name: nameTextField.text!)
+                    DataModel.shared.updateItem(forProperty: .name, forItem: item, category: nil, name: nameTextField.text!)
                     
                 }
                 

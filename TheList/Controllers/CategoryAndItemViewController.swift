@@ -323,15 +323,17 @@ extension CategoryAndItemViewController {
             
             let destinationVC = segue.destination as! EditViewController
             
-            destinationVC.typeBeingEdited = categoryOrItem.viewDisplayed
-            
             if categoryOrItem.viewDisplayed != .items {
+                
+                destinationVC.typeBeingEdited = categoryOrItem.viewDisplayed
                 
                 destinationVC.nameToEdit = selectedCategory
                 
             } else {
                 
                 if let item = selectedItem {
+                    
+                    destinationVC.typeBeingEdited = categoryOrItem.setItemType(item: item)
                     
                     destinationVC.item = item
                     
