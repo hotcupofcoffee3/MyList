@@ -49,9 +49,11 @@ class DataModel {
         
     }
     
-    func addNewItem(name: String, category: String, type: String, forViewDisplayed view: ChosenVC, isFirst: Bool) {
+    func addNewItem(name: String, category: String, forViewDisplayed view: ChosenVC, isFirst: Bool) {
         
-        let calculatedID = Int64(loadNextID(forViewDisplayed: view, isFirst: isFirst, forSelectedCategory: loadSpecificCategory(named: category)))
+        let categoryOfItem = loadSpecificCategory(named: category)
+        
+        let calculatedID = Int64(loadNextID(forViewDisplayed: view, isFirst: isFirst, forSelectedCategory: categoryOfItem))
         
         let newItem = Item(context: context)
         newItem.name = name
@@ -59,7 +61,7 @@ class DataModel {
         newItem.done = false
         newItem.repeating = false
         newItem.id = calculatedID
-        newItem.type = type
+        newItem.type = categoryOfItem.type!
         
         saveData()
         
@@ -231,7 +233,7 @@ class DataModel {
         return categories[0]
         
     }
-    
+   
     // Not a load from Core Data, but still loading a particular number to set as the ID.
     
     func loadNextID(forViewDisplayed view: ChosenVC, isFirst: Bool, forSelectedCategory category: Category?) -> Int {

@@ -131,7 +131,7 @@ class CategoryAndItemModel {
         return numberLeft
     }
     
-    func setItemType(item: Item) -> ChosenVC {
+    func getItemType(item: Item) -> ChosenVC {
         
         var itemType = ChosenVC.home
         
@@ -172,8 +172,7 @@ extension CategoryAndItemModel: AddNewCategoryOrItemDelegate, ReloadTableListDel
             
             if canAdd && categoryOrItem != "" {
                 let isFirst = (items.count == 0)
-                let categoryType = DataModel.shared.loadSpecificCategory(named: selectedCategory)
-                DataModel.shared.addNewItem(name: categoryOrItem, category: selectedCategory, type: categoryType.type!, forViewDisplayed: .items, isFirst: isFirst)
+                DataModel.shared.addNewItem(name: categoryOrItem, category: selectedCategory, forViewDisplayed: .items, isFirst: isFirst)
                 items = DataModel.shared.loadSpecificItemsByID(perCategory: selectedCategory)
                 reloadCategoriesOrItems()
             } else {

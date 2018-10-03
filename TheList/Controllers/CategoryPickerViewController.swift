@@ -14,6 +14,26 @@ class CategoryPickerViewController: UIViewController, UIPickerViewDelegate, UIPi
         dismiss(animated: true, completion: nil)
     }
     
+    @IBOutlet weak var categoryOrItemLabel: UILabel!
+    
+    @IBOutlet weak var picker: UIPickerView!
+    
+    @IBAction func submit(_ sender: UIButton) {
+        
+        let newCategory = categories[picker.selectedRow(inComponent: 0)]
+        
+        if let itemToUpdate = item {
+            DataModel.shared.updateItem(forProperty: .category, forItem: itemToUpdate, category: newCategory.name!, name: itemToUpdate.name!)
+        } else {
+            print("There was no item set to Update.")
+        }
+        
+        
+        dismiss(animated: true, completion: nil)
+    }
+    
+    var item: Item?
+    
     var categories = [Category]()
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {

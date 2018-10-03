@@ -591,6 +591,9 @@
                                 <state key="normal" title="Ok">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
+                                <connections>
+                                    <action selector="submit:" destination="fSE-NK-PxT" eventType="touchUpInside" id="EaQ-Fh-sON"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yDx-vH-pnI">
                                 <rect key="frame" x="20" y="40" width="48" height="30"/>
@@ -617,6 +620,10 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="vPK-Ic-3bE"/>
                     </view>
+                    <connections>
+                        <outlet property="categoryOrItemLabel" destination="YWE-yw-dEg" id="ro1-54-mRW"/>
+                        <outlet property="picker" destination="420-d5-IXW" id="vCj-Gg-SPG"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qTL-wD-aqE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

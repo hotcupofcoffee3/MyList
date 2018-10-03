@@ -43,17 +43,13 @@ class EditViewController: UIViewController {
             if typeBeingEdited != .items {
                 
                 if let category = category {
-                    
                     DataModel.shared.updateCategory(forProperty: .name, forCategory: category, name: nameTextField.text!, type: typeBeingEdited)
-                    
                 }
                 
             } else {
                 
                 if let item = item {
-        
                     DataModel.shared.updateItem(forProperty: .name, forItem: item, category: nil, name: nameTextField.text!)
-                    
                 }
                 
             }
@@ -87,7 +83,14 @@ class EditViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let destinationVC = segue.destination as! CategoryPickerViewController
         if typeBeingEdited == .items {
-            destinationVC.categories = DataModel.shared.loadSpecificCategories(perType: categoryType.rawValue)
+            
+            if let currentItem = item {
+                destinationVC.categories = DataModel.shared.loadSpecificCategories(perType: currentItem.type!)
+                destinationVC.item = currentItem
+            } else {
+                print("There was no item set in the Edit VC.")
+            }
+            
         }
         
     }

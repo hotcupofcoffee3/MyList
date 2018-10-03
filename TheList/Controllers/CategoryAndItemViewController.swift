@@ -76,6 +76,9 @@ class CategoryAndItemViewController: UIViewController {
             isCurrentlyEditing = false
             selectedCategory = categoryOrItem.selectedCategory
         }
+        
+        categoryType = categoryOrItem.viewDisplayed
+        
         tableView.reloadData()
         
     }
@@ -323,17 +326,15 @@ extension CategoryAndItemViewController {
             
             let destinationVC = segue.destination as! EditViewController
             
+            destinationVC.typeBeingEdited = categoryOrItem.viewDisplayed
+            
             if categoryOrItem.viewDisplayed != .items {
-                
-                destinationVC.typeBeingEdited = categoryOrItem.viewDisplayed
                 
                 destinationVC.nameToEdit = selectedCategory
                 
             } else {
                 
                 if let item = selectedItem {
-                    
-                    destinationVC.typeBeingEdited = categoryOrItem.setItemType(item: item)
                     
                     destinationVC.item = item
                     
@@ -342,12 +343,9 @@ extension CategoryAndItemViewController {
                     destinationVC.categoryToEdit = item.category!
                     
                     if let type = categoryType {
-                        
                         destinationVC.categoryType = type
-                        
                     } else {
                         print("Something went wrong with setting the Category Type for the edit screen from the Items VC.")
-                        
                     }
                     
                 }
