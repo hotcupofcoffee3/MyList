@@ -22,6 +22,8 @@ class EditViewController: UIViewController {
     
     var category: Category?
     
+    var editingCompleteDelegate: EditingCompleteDelegate?
+    
     @IBOutlet weak var categoryTopConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var categoryHeightConstraint: NSLayoutConstraint!
@@ -53,6 +55,8 @@ class EditViewController: UIViewController {
                 }
                 
             }
+            
+            editingCompleteDelegate?.editingComplete()
             
             dismiss(animated: true, completion: nil)
             
@@ -87,8 +91,28 @@ class EditViewController: UIViewController {
             if let currentItem = item {
                 destinationVC.categories = DataModel.shared.loadSpecificCategories(perType: currentItem.type!)
                 destinationVC.item = currentItem
+                destinationVC.categoryOrItemHasBeenEditedDelegate = self
             } else {
                 print("There was no item set in the Edit VC.")
+            }
+            
+        }
+        
+    }
+    
+}
+
+extension EditViewController: CategoryOrItemEditedDelegate {
+    
+    func categoryOrItemHasBeenEdited() {
+        
+        if typeBeingEdited != .items {
+            
+        } else {
+            
+//            guard let currentItem = item else { return print("No item set in the edited Delegate in Edit VC.") }
+            if let currentItem = item {
+                categoryLabel.text = currentItem.category!
             }
             
         }

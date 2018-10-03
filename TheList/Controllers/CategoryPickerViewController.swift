@@ -28,11 +28,14 @@ class CategoryPickerViewController: UIViewController, UIPickerViewDelegate, UIPi
             print("There was no item set to Update.")
         }
         
+        categoryOrItemHasBeenEditedDelegate?.categoryOrItemHasBeenEdited()
         
         dismiss(animated: true, completion: nil)
     }
     
     var item: Item?
+    
+    var categoryOrItemHasBeenEditedDelegate: CategoryOrItemEditedDelegate?
     
     var categories = [Category]()
     
@@ -45,14 +48,19 @@ class CategoryPickerViewController: UIViewController, UIPickerViewDelegate, UIPi
     }
     
     func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
-
+        
         let title = NSAttributedString(string: categories[row].name!, attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
         return title
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        guard let itemBeingEdited = item else { return print("No item selected in the viewDidLoad in the Edit Picker.") }
+        for i in categories.indices {
+            if categories[i].name! == itemBeingEdited.category {
+                picker.selectRow(i, inComponent: 0, animated: true)
+            }
+        }
     }
     
 }

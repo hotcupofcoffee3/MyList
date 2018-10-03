@@ -326,6 +326,8 @@ extension CategoryAndItemViewController {
             
             let destinationVC = segue.destination as! EditViewController
             
+            destinationVC.editingCompleteDelegate = self
+            
             destinationVC.typeBeingEdited = categoryOrItem.viewDisplayed
             
             if categoryOrItem.viewDisplayed != .items {
@@ -360,7 +362,7 @@ extension CategoryAndItemViewController {
 
 
 
-extension CategoryAndItemViewController: CheckForNameDuplicationDelegate, HapticDelegate {
+extension CategoryAndItemViewController: CheckForNameDuplicationDelegate, HapticDelegate, EditingCompleteDelegate {
     
     func presentDuplicateNameAlert() {
         
@@ -378,6 +380,11 @@ extension CategoryAndItemViewController: CheckForNameDuplicationDelegate, Haptic
         let successHaptic = UINotificationFeedbackGenerator()
         successHaptic.notificationOccurred(hapticType)
         
+    }
+    
+    func editingComplete() {
+        self.categoryOrItem.setViewDisplayed(tableView: tableView, viewTitle: self.title!)
+        tableView.reloadData()
     }
     
 }

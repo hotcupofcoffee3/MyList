@@ -24,3 +24,11 @@ protocol CheckForNameDuplicationDelegate {
 protocol HapticDelegate {
     func hapticExecuted(as: UINotificationFeedbackGenerator.FeedbackType)
 }
+
+protocol CategoryOrItemEditedDelegate {
+    func categoryOrItemHasBeenEdited()
+}
+
+protocol EditingCompleteDelegate {
+    func editingComplete()
+}
