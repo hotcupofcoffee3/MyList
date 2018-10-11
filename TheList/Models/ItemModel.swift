@@ -1,5 +1,5 @@
 //
-//  CategoryAndItemModel.swift
+//  ItemModel.swift
 //  TheList
 //
 //  Created by Adam Moore on 9/4/18.
@@ -11,25 +11,18 @@ import UIKit
 
 
 
-// The Main Category and Item model for the TableViews
+// The Main Item model for the TableViews
 
-class CategoryAndItemModel {
+class ItemModel {
     
     // The items that are loaded
     
-    var categories = [Category]()
-    
     var items = [Item]()
     
-    var selectedCategory = "Category And Item Model selectedCategory: Type view, no Category Selected."
+    var selectedParentID = Int()
     
-    func reloadCategoriesOrItems() {
-        if viewDisplayed == .items {
-            items = DataModel.shared.loadSpecificItemsByID(perCategory: selectedCategory)
-        } else {
-            categories = DataModel.shared.loadSpecificCategoriesByID(perType: viewDisplayed.rawValue)
-        }
-        
+    func reloadItems() {
+        items = DataModel.shared.loadSpecificItems(forParentID: selectedParentID)
     }
     
     
@@ -59,15 +52,12 @@ class CategoryAndItemModel {
             viewDisplayed = .other
          
         default:
-            viewDisplayed = .items
+            viewDisplayed = .subItems
             
         }
         
-        if viewDisplayed == .items {
-            items = DataModel.shared.loadSpecificItemsByID(perCategory: selectedCategory)
-            
-        } else {
-            categories = DataModel.shared.loadSpecificCategoriesByID(perType: viewDisplayed.rawValue)
+        if viewDisplayed == .subItems {
+            reloadItems()
         }
         
     }
@@ -88,7 +78,7 @@ class CategoryAndItemModel {
         case .other:
             return Keywords.shared.otherToItemsSegue
          
-        case .items:
+        case .subItems:
             return "Type of Segue is Items"
             
         }
@@ -111,20 +101,20 @@ class CategoryAndItemModel {
         case .other:
             return Keywords.shared.otherToEditSegue
             
-        case .items:
+        case .subItems:
             return Keywords.shared.itemsToEditSegue
             
         }
         
     }
     
-    func numberOfItems(forCategory categoryName: String) -> Int {
-        return DataModel.shared.loadSpecificItemsByID(perCategory: categoryName).count
+    func numberOfItems(forParentID parentID: Int) -> Int {
+        return DataModel.shared.loadSpecificItems(forParentID: parentID).count
     }
     
-    func numberOfItemsDone(forCategory categoryName: String) -> Int {
+    func numberOfItemsDone(forParentID parentID: Int) -> Int {
         var numberLeft = Int()
-        let items = DataModel.shared.loadSpecificItemsByID(perCategory: categoryName)
+        let items = DataModel.shared.loadSpecificItems(forParentID: parentID)
         for item in items {
             numberLeft += item.done ? 1 : 0
         }
@@ -156,46 +146,41 @@ class CategoryAndItemModel {
 // MARK: - Delegate functions from the Header View, with the tableView set in the viewDidLoad
 
 
-extension CategoryAndItemModel: AddNewCategoryOrItemDelegate, ReloadTableListDelegate {
+extension ItemModel: AddNewItemDelegate, ReloadTableListDelegate {
     
-    func addNewCategoryOrItem(categoryOrItem: String) -> Bool {
+    func addNewItem(itemName: String, forParentID parentID: Int) -> Bool {
         
         var canAdd = true
         
-        if viewDisplayed == .items {
+        let parent = DataModel.shared.loadParentItem(forParentID: parentID)
+        
+        if viewDisplayed == .subItems {
             
             for item in items {
-                if categoryOrItem == item.name || categoryOrItem == "" {
+                if itemName == item.name || itemName == "" {
                     canAdd = false
                 }
             }
             
-            if canAdd && categoryOrItem != "" {
+            if canAdd && itemName != "" {
                 let isFirst = (items.count == 0)
-                DataModel.shared.addNewItem(name: categoryOrItem, category: selectedCategory, forViewDisplayed: .items, isFirst: isFirst)
-                items = DataModel.shared.loadSpecificItemsByID(perCategory: selectedCategory)
-                reloadCategoriesOrItems()
+                DataModel.shared.addNewItem(name: itemName, forViewDisplayed: .subItems, parentID: parentID, isFirst: isFirst)
+                items = DataModel.shared.loadSpecificItems(forParentID: parentID)
+                reloadItems()
             } else {
                 canAdd = false
             }
             
         } else {
             
-            for category in categories {
-                if categoryOrItem == category.name || categoryOrItem == "" {
-                    canAdd = false
-                }
-            }
-            
-            if canAdd && categoryOrItem != "" {
-                let isFirst = (categories.count == 0)
-                DataModel.shared.addNewCategory(name: categoryOrItem, type: viewDisplayed.rawValue, date: Date(), forViewDisplayed: viewDisplayed, isFirst: isFirst)
-                categories = DataModel.shared.loadSpecificCategoriesByID(perType: viewDisplayed.rawValue)
-                reloadCategoriesOrItems()
+            if canAdd && itemName != "" {
+                let isFirst = (items.count == 0)
+                DataModel.shared.addNewItem(name: itemName, forViewDisplayed: viewDisplayed, parentID: parentID, isFirst: isFirst)
+                items = DataModel.shared.loadSpecificItems(forParentID: parentID)
+                reloadItems()
             } else {
                 canAdd = false
             }
-            
             
         }
         

@@ -9,8 +9,8 @@
 import Foundation
 import UIKit
 
-protocol AddNewCategoryOrItemDelegate {
-    func addNewCategoryOrItem(categoryOrItem: String) -> Bool
+protocol AddNewItemDelegate {
+    func addNewItem(itemName: String, forParentID parentID: Int) -> Bool
 }
 
 protocol ReloadTableListDelegate {
@@ -25,8 +25,8 @@ protocol HapticDelegate {
     func hapticExecuted(as: UINotificationFeedbackGenerator.FeedbackType)
 }
 
-protocol CategoryOrItemEditedDelegate {
-    func categoryOrItemHasBeenEdited()
+protocol ItemEditedDelegate {
+    func itemHasBeenEdited()
 }
 
 protocol EditingCompleteDelegate {

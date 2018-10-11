@@ -47,7 +47,7 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" title="Home" id="6RD-ag-ojr">
-                        <barButtonItem key="rightBarButtonItem" title="Edit" id="Ceq-hy-3y9">
+                        <barButtonItem key="rightBarButtonItem" title="Move" id="Ceq-hy-3y9">
                             <connections>
                                 <action selector="edit:" destination="BYZ-38-t0r" id="L1c-AJ-Klk"/>
                             </connections>
@@ -281,7 +281,7 @@
                         <viewLayoutGuide key="safeArea" id="yxV-sH-AWJ"/>
                     </view>
                     <navigationItem key="navigationItem" title="Errands" id="dER-3p-bpi">
-                        <barButtonItem key="rightBarButtonItem" title="Edit" id="JeW-xi-NVm">
+                        <barButtonItem key="rightBarButtonItem" title="Move" id="JeW-xi-NVm">
                             <connections>
                                 <action selector="edit:" destination="Nf3-wR-jev" id="Q7T-6f-iOf"/>
                             </connections>
@@ -385,7 +385,7 @@
                         <viewLayoutGuide key="safeArea" id="CYo-yC-gKr"/>
                     </view>
                     <navigationItem key="navigationItem" title="Settings" id="Zh5-zK-UPY">
-                        <barButtonItem key="rightBarButtonItem" title="Edit" id="JI5-U5-F5L"/>
+                        <barButtonItem key="rightBarButtonItem" title="Move" id="JI5-U5-F5L"/>
                     </navigationItem>
                     <connections>
                         <segue destination="qQo-DV-nZT" kind="presentation" identifier="settingsToFontPickerSegue" modalPresentationStyle="overCurrentContext" id="QIq-3X-6Ts"/>
@@ -432,7 +432,7 @@
                         <viewLayoutGuide key="safeArea" id="2B8-ff-x63"/>
                     </view>
                     <navigationItem key="navigationItem" title="Work" id="pU8-a2-dcN">
-                        <barButtonItem key="rightBarButtonItem" title="Edit" id="iVy-yz-bX4">
+                        <barButtonItem key="rightBarButtonItem" title="Move" id="iVy-yz-bX4">
                             <connections>
                                 <action selector="edit:" destination="Nf7-E0-lld" id="aKn-I4-OAh"/>
                             </connections>
@@ -486,7 +486,7 @@
                         <viewLayoutGuide key="safeArea" id="hoM-QO-iWE"/>
                     </view>
                     <navigationItem key="navigationItem" title="Other" id="zPF-p0-8on">
-                        <barButtonItem key="rightBarButtonItem" title="Edit" id="XIK-Ej-0oq">
+                        <barButtonItem key="rightBarButtonItem" title="Move" id="XIK-Ej-0oq">
                             <connections>
                                 <action selector="edit:" destination="JfK-1c-7QD" id="659-Fk-JbR"/>
                             </connections>
@@ -677,7 +677,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="nux-BO-Hot"/>
-        <segue reference="bMT-Jl-AiY"/>
+        <segue reference="tW7-3W-El1"/>
+        <segue reference="ZcG-xh-Vnv"/>
     </inferredMetricsTieBreakers>
 </document>

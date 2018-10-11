@@ -6,36 +6,18 @@
 //  Copyright © 2018 Adam Moore. All rights reserved.
 //
 
-
-
-// TODO:
-
-// Add function to sort by ID
-// Add function to UpdateIDs based on newly moved item in the array or deleted item.
-// Set up the 'editing' style and animation for the tableview.
-// Set up 'moveAt' for the items in the table.
-
-
-
-// LATER:
-
-// Set up date.
-// Add Edit VC.
-
-
-
 import UIKit
 
 
 
 class CategoryAndItemViewController: UIViewController {
     
-    let categoryOrItem = CategoryAndItemModel()
+    let itemModel = ItemModel()
     
-    var categoryType: ChosenVC?
+    var viewType: ChosenVC?
     
-    var selectedCategory = ""
-    
+    var selectedParentID = Int()
+   
     var selectedItem: Item?
     
     var isCurrentlyEditing = false
@@ -44,7 +26,7 @@ class CategoryAndItemViewController: UIViewController {
     
     func toggleEditing() {
         isCurrentlyEditing = !isCurrentlyEditing
-        editButton.title = isCurrentlyEditing ? "Done" : "Edit"
+        editButton.title = isCurrentlyEditing ? "Done" : "Move"
         tableView.setEditing(isCurrentlyEditing, animated: true)
     }
     
@@ -60,7 +42,7 @@ class CategoryAndItemViewController: UIViewController {
         super.viewDidLoad()
         
         // Chosen VC and TableView set, with the 'title' being set in the Storyboard
-        self.categoryOrItem.setViewDisplayed(tableView: tableView, viewTitle: self.title!)
+        self.itemModel.setViewDisplayed(tableView: tableView, viewTitle: self.title!)
         
         // Header
         tableView.register(UINib(nibName: Keywords.shared.headerNibName, bundle: nil), forHeaderFooterViewReuseIdentifier: Keywords.shared.headerIdentifier)
@@ -72,12 +54,10 @@ class CategoryAndItemViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         
-        if categoryOrItem.viewDisplayed == .items {
+        if itemModel.viewDisplayed == .subItems {
             isCurrentlyEditing = false
-            selectedCategory = categoryOrItem.selectedCategory
+            selectedParentID = itemModel.selectedParentID
         }
-        
-        categoryType = categoryOrItem.viewDisplayed
         
         tableView.reloadData()
         
@@ -85,25 +65,25 @@ class CategoryAndItemViewController: UIViewController {
     
     @objc func longPressGestureSelector(gestureRecognizer: UILongPressGestureRecognizer){
         if gestureRecognizer.state == .began {
-            if categoryOrItem.viewDisplayed != .items {
-                performSegue(withIdentifier: categoryOrItem.typeOfSegue, sender: self)
+            if itemModel.viewDisplayed != .subItems {
+                performSegue(withIdentifier: itemModel.typeOfSegue, sender: self)
             }
         }
     }
     
     func deleteRow(inTable tableView: UITableView, atIndexPath indexPath: IndexPath) {
         
-        if categoryOrItem.viewDisplayed != .items {
+        if itemModel.viewDisplayed != .subItems {
             
-            if categoryOrItem.numberOfItems(forCategory: categoryOrItem.categories[indexPath.row].name!) > 0 {
+            if itemModel.numberOfItems(forCategory: itemModel.categories[indexPath.row].name!) > 0 {
                 
                 let alert = UIAlertController(title: "Are you sure?", message: "You have Items in this Category", preferredStyle: .alert)
                 
                 alert.addAction(UIAlertAction(title: "Delete", style: .default, handler: { (action) in
                     
-                    DataModel.shared.deleteSpecificCategory(forCategory: self.categoryOrItem.categories[indexPath.row])
+                    DataModel.shared.deleteSpecificCategory(forCategory: self.itemModel.categories[indexPath.row])
                     
-                    self.categoryOrItem.reloadCategoriesOrItems()
+                    self.itemModel.reloadCategoriesOrItems()
                     tableView.deleteRows(at: [indexPath], with: .left)
                     self.hapticExecuted(as: .success)
                     
@@ -115,9 +95,9 @@ class CategoryAndItemViewController: UIViewController {
                 
             } else {
                 
-                DataModel.shared.deleteSpecificCategory(forCategory: categoryOrItem.categories[indexPath.row])
+                DataModel.shared.deleteSpecificCategory(forCategory: itemModel.categories[indexPath.row])
                 
-                categoryOrItem.reloadCategoriesOrItems()
+                itemModel.reloadCategoriesOrItems()
                 tableView.deleteRows(at: [indexPath], with: .left)
                 hapticExecuted(as: .success)
                 
@@ -125,9 +105,9 @@ class CategoryAndItemViewController: UIViewController {
             
         } else {
             
-            DataModel.shared.deleteSpecificItem(forItem: categoryOrItem.items[indexPath.row])
+            DataModel.shared.deleteSpecificItem(forItem: itemModel.item[indexPath.row])
             
-            categoryOrItem.reloadCategoriesOrItems()
+            itemModel.reloadCategoriesOrItems()
             tableView.deleteRows(at: [indexPath], with: .left)
             hapticExecuted(as: .success)
             
@@ -142,16 +122,16 @@ class CategoryAndItemViewController: UIViewController {
 extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return (categoryOrItem.viewDisplayed == .items) ? categoryOrItem.items.count : categoryOrItem.categories.count
+        return (itemModel.viewDisplayed == .item) ? itemModel.item.count : itemModel.categories.count
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
         let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: Keywords.shared.headerIdentifier) as! HeaderView
         
-        headerView.addCategoryOrItemDelegate = categoryOrItem
+        headerView.addCategoryOrItemDelegate = itemModel
         
-        headerView.reloadTableListDelegate = categoryOrItem
+        headerView.reloadTableListDelegate = itemModel
         
         headerView.checkForNameDuplicateDelegate = self
         
@@ -164,16 +144,16 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
             self.deleteRow(inTable: tableView, atIndexPath: indexPath)
         }
         
-        let edit = UITableViewRowAction(style: .normal, title: "Edit") { (action, indexPath) in
+        let edit = UITableViewRowAction(style: .normal, title: "More") { (action, indexPath) in
             self.isEditingSpecifics = true
             
-            if self.categoryOrItem.viewDisplayed != .items {
-                self.selectedCategory = self.categoryOrItem.categories[indexPath.row].name!
+            if self.itemModel.viewDisplayed != .item {
+                self.selectedCategory = self.itemModel.categories[indexPath.row].name!
             } else {
-                self.selectedItem = self.categoryOrItem.items[indexPath.row]
+                self.selectedItem = self.itemModel.item[indexPath.row]
             }
             
-            self.performSegue(withIdentifier: self.categoryOrItem.editSegue, sender: self)
+            self.performSegue(withIdentifier: self.itemModel.editSegue, sender: self)
         }
         
         return [delete, edit]
@@ -188,9 +168,9 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
         longPress.minimumPressDuration = 0.5
         cell.addGestureRecognizer(longPress)
         
-        if categoryOrItem.viewDisplayed == .items {
+        if itemModel.viewDisplayed == .item {
             
-            if categoryOrItem.items[indexPath.row].done {
+            if itemModel.item[indexPath.row].done {
                 cell.checkboxImageView.image = Keywords.shared.checkboxChecked
                 cell.backgroundColor = Keywords.shared.lightGreenBackground12
             } else {
@@ -198,13 +178,13 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
                 cell.backgroundColor = UIColor.white
             }
             
-            cell.nameLabel?.text = categoryOrItem.items[indexPath.row].name!
+            cell.nameLabel?.text = itemModel.item[indexPath.row].name!
             cell.numberLabel.text = ""
             cell.numberLabelWidth.constant = 0
            
         } else {
             
-            if categoryOrItem.categories[indexPath.row].done {
+            if itemModel.categories[indexPath.row].done {
                 cell.checkboxImageView.image = Keywords.shared.checkboxChecked
                 cell.backgroundColor = Keywords.shared.lightGreenBackground12
             } else {
@@ -212,11 +192,11 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
                 cell.backgroundColor = UIColor.white
             }
             
-            cell.nameLabel?.text = categoryOrItem.categories[indexPath.row].name!
+            cell.nameLabel?.text = itemModel.categories[indexPath.row].name!
             
-            let categoryName = categoryOrItem.categories[indexPath.row].name!
-            let totalAmount = categoryOrItem.numberOfItems(forCategory: categoryName)
-            let amountDone = categoryOrItem.numberOfItemsDone(forCategory: categoryName)
+            let categoryName = itemModel.categories[indexPath.row].name!
+            let totalAmount = itemModel.numberOfItems(forCategory: categoryName)
+            let amountDone = itemModel.numberOfItemsDone(forCategory: categoryName)
             if totalAmount > 0 {
                 cell.numberLabel.text = "\(amountDone)/\(totalAmount)"
             } else {
@@ -230,8 +210,8 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
     }
     
     func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
-        if categoryOrItem.viewDisplayed != .items {
-            selectedCategory = categoryOrItem.categories[indexPath.row].name!
+        if itemModel.viewDisplayed != .item {
+            selectedCategory = itemModel.categories[indexPath.row].name!
         }
     }
     
@@ -239,22 +219,22 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
         
         tableView.deselectRow(at: indexPath, animated: true)
         
-        if categoryOrItem.viewDisplayed != .items {
+        if itemModel.viewDisplayed != .item {
             
-            let categoryName = categoryOrItem.categories[indexPath.row].name!
-            let numberOfItemsInCategory = categoryOrItem.numberOfItems(forCategory: categoryName)
+            let categoryName = itemModel.categories[indexPath.row].name!
+            let numberOfItemsInCategory = itemModel.numberOfItems(forCategory: categoryName)
             
             if numberOfItemsInCategory > 0 {
                 selectedCategory = categoryName
-                performSegue(withIdentifier: categoryOrItem.typeOfSegue, sender: self)
+                performSegue(withIdentifier: itemModel.typeOfSegue, sender: self)
             } else {
                 DataModel.shared.toggleDone(forCategory: categoryName)
             }
             
         } else {
 
-            DataModel.shared.updateItem(forProperty: .done, forItem: categoryOrItem.items[indexPath.row], category: nil, name: nil)
-            categoryOrItem.reloadCategoriesOrItems()
+            DataModel.shared.updateItem(forProperty: .done, forItem: itemModel.item[indexPath.row], category: nil, name: nil)
+            itemModel.reloadCategoriesOrItems()
             
         }
         
@@ -268,27 +248,27 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
     
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         
-        if categoryOrItem.viewDisplayed != .items {
+        if itemModel.viewDisplayed != .item {
             
-            let categoryMoving = categoryOrItem.categories[sourceIndexPath.row]
+            let categoryMoving = itemModel.categories[sourceIndexPath.row]
             
-            categoryOrItem.categories.remove(at: sourceIndexPath.row)
+            itemModel.categories.remove(at: sourceIndexPath.row)
             
-            categoryOrItem.categories.insert(categoryMoving, at: destinationIndexPath.row)
+            itemModel.categories.insert(categoryMoving, at: destinationIndexPath.row)
             
-            DataModel.shared.updateIDs(forViewDisplayed: categoryOrItem.viewDisplayed, forCategories: categoryOrItem.categories, orForItems: nil, forSelectedCategory: nil)
+            DataModel.shared.updateIDs(forViewDisplayed: itemModel.viewDisplayed, forCategories: itemModel.categories, orForItems: nil, forSelectedCategory: nil)
             
             tableView.reloadData()
             
         } else {
             
-            let itemMoving = categoryOrItem.items[sourceIndexPath.row]
+            let itemMoving = itemModel.item[sourceIndexPath.row]
             
-            categoryOrItem.items.remove(at: sourceIndexPath.row)
+            itemModel.item.remove(at: sourceIndexPath.row)
             
-            categoryOrItem.items.insert(itemMoving, at: destinationIndexPath.row)
+            itemModel.item.insert(itemMoving, at: destinationIndexPath.row)
             
-            DataModel.shared.updateIDs(forViewDisplayed: categoryOrItem.viewDisplayed, forCategories: nil, orForItems: categoryOrItem.items, forSelectedCategory: DataModel.shared.loadSpecificCategory(named: selectedCategory))
+            DataModel.shared.updateIDs(forViewDisplayed: itemModel.viewDisplayed, forCategories: nil, orForItems: itemModel.item, forSelectedCategory: DataModel.shared.loadSpecificCategory(named: selectedCategory))
             
             tableView.reloadData()
             
@@ -316,9 +296,9 @@ extension CategoryAndItemViewController {
             
             destinationVC.navigationItem.title = "\(selectedCategory)"
             
-            destinationVC.categoryOrItem.selectedCategory = selectedCategory
+            destinationVC.itemModel.selectedCategory = selectedCategory
             
-            destinationVC.categoryType = categoryOrItem.viewDisplayed
+            destinationVC.categoryType = itemModel.viewDisplayed
             
         } else {
             
@@ -328,9 +308,9 @@ extension CategoryAndItemViewController {
             
             destinationVC.editingCompleteDelegate = self
             
-            destinationVC.typeBeingEdited = categoryOrItem.viewDisplayed
+            destinationVC.typeBeingEdited = itemModel.viewDisplayed
             
-            if categoryOrItem.viewDisplayed != .items {
+            if itemModel.viewDisplayed != .item {
                 
                 destinationVC.nameToEdit = selectedCategory
                 
@@ -383,7 +363,7 @@ extension CategoryAndItemViewController: CheckForNameDuplicationDelegate, Haptic
     }
     
     func editingComplete() {
-        self.categoryOrItem.setViewDisplayed(tableView: tableView, viewTitle: self.title!)
+        self.itemModel.setViewDisplayed(tableView: tableView, viewTitle: self.title!)
         tableView.reloadData()
     }
     
