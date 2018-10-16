@@ -9,5 +9,5 @@
 import Foundation
 
 enum ItemProperty {
-    case type, level, parentID, id, name, done
+    case category, level, parentID, id, name, done
 }

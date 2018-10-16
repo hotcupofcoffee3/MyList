@@ -32,40 +32,34 @@ class DataModel {
         }
     }
     
-    func addNewItem(name: String, forViewDisplayed view: ChosenVC, parentID: Int, isFirst: Bool) {
+    func addNewItem(name: String, forCategory category: SelectedCategory, level: Int, parentID: Int, isFirst: Bool) {
         
         var newParentID = Int()
         
-        switch view {
+        if level == 1 {
             
-        case .home:     newParentID = 1
-        case .errands:  newParentID = 2
-        case .work:     newParentID = 3
-        case .other:    newParentID = 4
-        case .subItems: newParentID = parentID
-            
+            switch category {
+                
+            case .home:     newParentID = 1
+            case .errands:  newParentID = 2
+            case .work:     newParentID = 3
+            case .other:    newParentID = 4
+            case .subItems: print("SubItems category was selected for adding a new Item.")
+                
+            }
+        } else {
+            newParentID = parentID
         }
+        
         
         let calculatedID = Int64(loadNextID(isFirst: isFirst, forParentID: parentID))
-        
-        var level = Int()
-        var type = String()
-        
-        if view == .subItems {
-            let parent = DataModel.shared.loadParentItem(forParentID: parentID)
-            level = Int(parent.level + 1)
-            type = parent.type!
-        } else {
-            level = 1
-            type = view.rawValue
-        }
         
         let newItem = Item(context: context)
         newItem.name = name
         newItem.done = false
         newItem.id = calculatedID
         newItem.parentID = Int64(newParentID)
-        newItem.type = type
+        newItem.category = category.rawValue
         newItem.level = Int64(level)
         
         saveData()
@@ -226,7 +220,7 @@ class DataModel {
         saveData()
     }
     
-    func updateIDs(forViewDisplayed view: ChosenVC, orForItems items: [Item]?) {
+    func updateIDs(forItems items: [Item]?) {
         
         var startingID = 1
         

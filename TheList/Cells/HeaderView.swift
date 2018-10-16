@@ -10,13 +10,15 @@ import UIKit
 
 class HeaderView: UITableViewHeaderFooterView, UITextFieldDelegate {
     
-    var addCategoryOrItemDelegate: AddNewCategoryOrItemDelegate?
+    var addNewItemDelegate: AddNewItemDelegate?
     
     var reloadTableListDelegate: ReloadTableListDelegate?
     
     var checkForNameDuplicateDelegate: CheckForNameDuplicationDelegate?
     
     var hapticDelegate: HapticDelegate?
+    
+    var selectedParentID = Int()
     
     @IBOutlet weak var mainView: UIView!
     
@@ -32,13 +34,13 @@ class HeaderView: UITableViewHeaderFooterView, UITextFieldDelegate {
     
     @IBAction func addButtonPressed(_ sender: UIButton) {
         
-        addCategoryOrItem()
+        addNewItem()
         
     }
     
-    func addCategoryOrItem() {
+    func addNewItem() {
         
-        if (addCategoryOrItemDelegate?.addNewCategoryOrItem(categoryOrItem: headerTextField.text!))! {
+        if ((addNewItemDelegate?.addNewItem(itemName: headerTextField.text!, forParentID: selectedParentID))!) {
             
             hapticDelegate?.hapticExecuted(as: .success)
             
@@ -62,7 +64,7 @@ class HeaderView: UITableViewHeaderFooterView, UITextFieldDelegate {
         if textField.text == "" {
             textField.resignFirstResponder()
         } else {
-            addCategoryOrItem()
+            addNewItem()
         }
         return true
     }
@@ -88,7 +90,7 @@ class HeaderView: UITableViewHeaderFooterView, UITextFieldDelegate {
         if headerTextField.text == "" {
             headerTextField.resignFirstResponder()
         } else {
-            addCategoryOrItem()
+            addNewItem()
             headerTextField.resignFirstResponder()
         }
     }
