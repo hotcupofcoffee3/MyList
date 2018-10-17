@@ -34,60 +34,73 @@ class ItemModel {
     
     var selectedCategory = SelectedCategory.home
     
+    var currentView = SelectedCategory.home
+    
     var level = Int()
     
-    func setViewDisplayed(tableView: UITableView, viewTitle: String, level: Int, withParentID: Int?) {
+    var subItemsNumber = 0
+    
+    func setViewDisplayed(tableView: UITableView, view: String, level: Int, withParentID: Int?) {
         
         self.table = tableView
         
-        switch viewTitle {
+        switch view {
             
         case SelectedCategory.home.rawValue:
             selectedCategory = .home
+            currentView = .home
             selectedParentID = withParentID ?? 1
             
         case SelectedCategory.errands.rawValue:
             selectedCategory = .errands
+            currentView = .errands
             selectedParentID = withParentID ?? 2
             
         case SelectedCategory.work.rawValue:
             selectedCategory = .work
+            currentView = .work
             selectedParentID = withParentID ?? 3
             
         case SelectedCategory.other.rawValue:
             selectedCategory = .other
+            currentView = .other
             selectedParentID = withParentID ?? 4
          
-        default:
-            print("Selected Category was set in the 'subItems' view")
+        case SelectedCategory.subItems1.rawValue:
+            currentView = .subItems1
+            
+        case SelectedCategory.subItems2.rawValue:
+            currentView = .subItems2
+            
+        default: print("There was no 'view' set that matched anything.")
             
         }
         
-        if selectedCategory == .subItems {
-            reloadItems()
-        }
+        reloadItems()
         
     }
     
     var typeOfSegue: String {
         
-        switch selectedCategory {
+        switch currentView {
             
         case .home:
-            return Keywords.shared.homeToItemsSegue
+            return Keywords.shared.homeToSubItemsSegue
             
         case .errands:
-            return Keywords.shared.errandsToItemsSegue
+            return Keywords.shared.errandsToSubItemsSegue
             
         case .work:
-            return Keywords.shared.workToItemsSegue
+            return Keywords.shared.workToSubItemsSegue
             
         case .other:
-            return Keywords.shared.otherToItemsSegue
+            return Keywords.shared.otherToSubItemsSegue
          
-        case .subItems:
-            // TODO: - GOING TO NEED TO MAKE ANOTHER VC TO MOVE DOWN LEVELS.
-            return Keywords.shared.subItemsToMoreSubItemsSegue
+        case .subItems1:
+            return Keywords.shared.subItems1ToSubItems2Segue
+            
+        case .subItems2:
+            return Keywords.shared.subItems2ToSubItems1Segue
             
         }
         
@@ -109,8 +122,8 @@ class ItemModel {
         case .other:
             return Keywords.shared.otherToEditSegue
             
-        case .subItems:
-            return "The 'selectedCategory' for 'editSegue' was set to the 'subItems' VC."
+        case .subItems1, .subItems2:
+            return "The 'selectedCategory' for 'editSegue' was set to the 'subItems' VCs."
             
         }
         
@@ -168,7 +181,7 @@ extension ItemModel: AddNewItemDelegate, ReloadTableListDelegate {
         
         if canAdd && itemName != "" {
             let isFirst = (items.count == 0)
-            DataModel.shared.addNewItem(name: itemName, forCategory: .subItems, level: level, parentID: parentID, isFirst: isFirst)
+            DataModel.shared.addNewItem(name: itemName, forCategory: selectedCategory, level: level, parentID: parentID, isFirst: isFirst)
             items = DataModel.shared.loadSpecificItems(forParentID: parentID)
             reloadItems()
         } else {

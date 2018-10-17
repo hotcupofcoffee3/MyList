@@ -44,7 +44,7 @@ class DataModel {
             case .errands:  newParentID = 2
             case .work:     newParentID = 3
             case .other:    newParentID = 4
-            case .subItems: print("SubItems category was selected for adding a new Item.")
+            case .subItems1, .subItems2: print("SubItems category was selected for adding a new Item.")
                 
             }
         } else {

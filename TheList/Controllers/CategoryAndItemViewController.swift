@@ -22,6 +22,8 @@ class CategoryAndItemViewController: UIViewController {
     
     var level = 1
     
+    var subItemsNumber = 0
+    
     var isCurrentlyEditing = false
     
     var isEditingSpecifics = false
@@ -62,7 +64,7 @@ class CategoryAndItemViewController: UIViewController {
         }
         
         // Chosen VC and TableView set, with the 'title' being set in the Storyboard
-        self.itemModel.setViewDisplayed(tableView: tableView, viewTitle: self.title!, level: level, withParentID: selectedParentID)
+        self.itemModel.setViewDisplayed(tableView: tableView, view: self.title!, level: level, withParentID: selectedParentID)
         
         // Header
         tableView.register(UINib(nibName: Keywords.shared.headerNibName, bundle: nil), forHeaderFooterViewReuseIdentifier: Keywords.shared.headerIdentifier)
@@ -75,6 +77,8 @@ class CategoryAndItemViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         
         selectedParentID = itemModel.selectedParentID
+        
+        print(itemModel.typeOfSegue)
       
         tableView.reloadData()
         
@@ -83,6 +87,7 @@ class CategoryAndItemViewController: UIViewController {
     @objc func longPressGestureSelector(gestureRecognizer: UILongPressGestureRecognizer){
         if gestureRecognizer.state == .began {
             performSegue(withIdentifier: itemModel.typeOfSegue, sender: self)
+            print(itemModel.typeOfSegue)
         }
     }
     
@@ -181,7 +186,7 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
             cell.backgroundColor = UIColor.white
         }
         
-        cell.nameLabel?.text = itemModel.items[indexPath.row].name!
+        cell.nameLabel?.text = "\(itemModel.items[indexPath.row].id). \(itemModel.items[indexPath.row].name!)"
         cell.numberLabel.text = ""
         cell.numberLabelWidth.constant = 0
         
@@ -302,7 +307,7 @@ extension CategoryAndItemViewController: CheckForNameDuplicationDelegate, Haptic
     }
     
     func editingComplete() {
-        self.itemModel.setViewDisplayed(tableView: tableView, viewTitle: self.title!, level: level, withParentID: selectedParentID)
+        self.itemModel.setViewDisplayed(tableView: tableView, view: self.title!, level: level, withParentID: selectedParentID)
         tableView.reloadData()
     }
     

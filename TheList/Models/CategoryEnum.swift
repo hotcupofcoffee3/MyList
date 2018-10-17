@@ -13,5 +13,5 @@ import Foundation
 // The Chosen VC that displays the TableView
 
 enum SelectedCategory: String {
-    case home, errands, work, other, subItems
+    case home, errands, work, other, subItems1, subItems2
 }
