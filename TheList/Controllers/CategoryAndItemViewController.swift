@@ -78,8 +78,8 @@ class CategoryAndItemViewController: UIViewController {
         
         if level > 1 {
             
-            // MAKE THIS OPTIONAL RETURN???
             DataModel.shared.updateAllItemsAreDone(forCategory: itemModel.selectedCategory.rawValue, forLevel: level, forParentID: selectedParentID)
+            
         }
         
         itemModel.reloadItems()

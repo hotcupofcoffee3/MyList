@@ -179,15 +179,13 @@ class DataModel {
         
         if itemToUpdate.level > 1 {
             
-            let isDone = updateAllItemsAreDone(forCategory: itemToUpdate.category!, forLevel: Int(itemToUpdate.level), forParentID: parentID)
-            
-            updateDone(forParentID: parentID, doneStatus: isDone)
+            updateAllItemsAreDone(forCategory: itemToUpdate.category!, forLevel: Int(itemToUpdate.level), forParentID: parentID)
             
         }
         
     }
     
-    func updateAllItemsAreDone(forCategory category: String, forLevel level: Int, forParentID parentID: Int) -> Bool {
+    func updateAllItemsAreDone(forCategory category: String, forLevel level: Int, forParentID parentID: Int) {
         
         let items = loadSpecificItems(forCategory: category, forLevel: level, forParentID: parentID)
         
@@ -212,7 +210,6 @@ class DataModel {
         
         updateDone(forParentID: parentID, doneStatus: allItemsAreDone)
         
-        return allItemsAreDone
     }
     
     func updateDone(forParentID parentID: Int, doneStatus: Bool) {
