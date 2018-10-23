@@ -22,7 +22,7 @@ class ItemModel {
     var selectedParentID = Int()
     
     func reloadItems() {
-        items = DataModel.shared.loadSpecificItems(forParentID: selectedParentID)
+        items = DataModel.shared.loadSpecificItems(forCategory: selectedCategory.rawValue, forLevel: level, forParentID: selectedParentID)
     }
     
     
@@ -40,32 +40,32 @@ class ItemModel {
     
     var subItemsNumber = 0
     
-    func setViewDisplayed(tableView: UITableView, view: String, level: Int, withParentID: Int?) {
+    func setViewDisplayed(tableView: UITableView, view: String, level: Int, withParentID parentID: Int) {
         
         self.table = tableView
+        
+        self.selectedParentID = parentID
+        
+        self.level = level
         
         switch view {
             
         case SelectedCategory.home.rawValue:
             selectedCategory = .home
             currentView = .home
-            selectedParentID = withParentID ?? 1
             
         case SelectedCategory.errands.rawValue:
             selectedCategory = .errands
             currentView = .errands
-            selectedParentID = withParentID ?? 2
             
         case SelectedCategory.work.rawValue:
             selectedCategory = .work
             currentView = .work
-            selectedParentID = withParentID ?? 3
             
         case SelectedCategory.other.rawValue:
             selectedCategory = .other
             currentView = .other
-            selectedParentID = withParentID ?? 4
-         
+            
         case SelectedCategory.subItems1.rawValue:
             currentView = .subItems1
             
@@ -130,12 +130,12 @@ class ItemModel {
     }
     
     func numberOfItems(forParentID parentID: Int) -> Int {
-        return DataModel.shared.loadSpecificItems(forParentID: parentID).count
+        return DataModel.shared.loadSpecificItems(forCategory: selectedCategory.rawValue, forLevel: level + 1, forParentID: parentID).count
     }
     
     func numberOfItemsDone(forParentID parentID: Int) -> Int {
         var numberLeft = Int()
-        let items = DataModel.shared.loadSpecificItems(forParentID: parentID)
+        let items = DataModel.shared.loadSpecificItems(forCategory: selectedCategory.rawValue, forLevel: level + 1, forParentID: parentID)
         for item in items {
             numberLeft += item.done ? 1 : 0
         }
@@ -169,7 +169,7 @@ class ItemModel {
 
 extension ItemModel: AddNewItemDelegate, ReloadTableListDelegate {
     
-    func addNewItem(itemName: String, forParentID parentID: Int) -> Bool {
+    func addNewItem(itemName: String) -> Bool {
         
         var canAdd = true
         
@@ -181,8 +181,8 @@ extension ItemModel: AddNewItemDelegate, ReloadTableListDelegate {
         
         if canAdd && itemName != "" {
             let isFirst = (items.count == 0)
-            DataModel.shared.addNewItem(name: itemName, forCategory: selectedCategory, level: level, parentID: parentID, isFirst: isFirst)
-            items = DataModel.shared.loadSpecificItems(forParentID: parentID)
+            DataModel.shared.addNewItem(name: itemName, forCategory: selectedCategory, level: level, parentID: selectedParentID, isFirst: isFirst)
+            items = DataModel.shared.loadSpecificItems(forCategory: selectedCategory.rawValue, forLevel: level, forParentID: selectedParentID)
             reloadItems()
         } else {
             canAdd = false

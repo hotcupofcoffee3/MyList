@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 protocol AddNewItemDelegate {
-    func addNewItem(itemName: String, forParentID parentID: Int) -> Bool
+    func addNewItem(itemName: String) -> Bool
 }
 
 protocol ReloadTableListDelegate {

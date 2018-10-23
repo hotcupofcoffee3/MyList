@@ -40,7 +40,7 @@ class HeaderView: UITableViewHeaderFooterView, UITextFieldDelegate {
     
     func addNewItem() {
         
-        if ((addNewItemDelegate?.addNewItem(itemName: headerTextField.text!, forParentID: selectedParentID))!) {
+        if ((addNewItemDelegate?.addNewItem(itemName: headerTextField.text!))!) {
             
             hapticDelegate?.hapticExecuted(as: .success)
             

@@ -59,13 +59,11 @@ class CategoryAndItemViewController: UIViewController {
                 
             }
             
-        } else {
-            print("There was no 'selectedParentID' set.")
         }
         
         // Chosen VC and TableView set, with the 'title' being set in the Storyboard
         self.itemModel.setViewDisplayed(tableView: tableView, view: self.title!, level: level, withParentID: selectedParentID)
-        
+
         // Header
         tableView.register(UINib(nibName: Keywords.shared.headerNibName, bundle: nil), forHeaderFooterViewReuseIdentifier: Keywords.shared.headerIdentifier)
         
@@ -78,8 +76,14 @@ class CategoryAndItemViewController: UIViewController {
         
         selectedParentID = itemModel.selectedParentID
         
-        print(itemModel.typeOfSegue)
-      
+        if level > 1 {
+            
+            // MAKE THIS OPTIONAL RETURN???
+            DataModel.shared.updateAllItemsAreDone(forCategory: itemModel.selectedCategory.rawValue, forLevel: level, forParentID: selectedParentID)
+        }
+        
+        itemModel.reloadItems()
+        
         tableView.reloadData()
         
     }
@@ -87,7 +91,6 @@ class CategoryAndItemViewController: UIViewController {
     @objc func longPressGestureSelector(gestureRecognizer: UILongPressGestureRecognizer){
         if gestureRecognizer.state == .began {
             performSegue(withIdentifier: itemModel.typeOfSegue, sender: self)
-            print(itemModel.typeOfSegue)
         }
     }
     
@@ -186,25 +189,48 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
             cell.backgroundColor = UIColor.white
         }
         
-        cell.nameLabel?.text = "\(itemModel.items[indexPath.row].id). \(itemModel.items[indexPath.row].name!)"
-        cell.numberLabel.text = ""
-        cell.numberLabelWidth.constant = 0
+        cell.nameLabel?.text = "\(itemModel.items[indexPath.row].name!)"
+        
+        let numOfSubItems = itemModel.numberOfItems(forParentID: Int(itemModel.items[indexPath.row].id))
+        let numOfSubItemsDone = itemModel.numberOfItemsDone(forParentID: Int(itemModel.items[indexPath.row].id))
+        
+        if numOfSubItems > 0 {
+            
+            cell.numberLabel.text = "\(numOfSubItemsDone)/\(numOfSubItems)"
+            cell.numberLabelWidth.constant = 60
+            
+        } else {
+            
+            cell.numberLabel.text = ""
+            cell.numberLabelWidth.constant = 0
+            
+        }
         
         return cell
         
     }
     
     func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
-        selectedParentID = itemModel.selectedParentID
+        selectedItem = itemModel.items[indexPath.row]
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         tableView.deselectRow(at: indexPath, animated: true)
         
-        DataModel.shared.updateItem(forProperty: .done, forItem: itemModel.items[indexPath.row], parentID: itemModel.selectedParentID, name: nil)
+        let numOfSubItems = itemModel.numberOfItems(forParentID: Int(itemModel.items[indexPath.row].id))
         
-        itemModel.reloadItems()
+        if numOfSubItems == 0 {
+            
+            DataModel.shared.updateItem(forProperty: .done, forItem: itemModel.items[indexPath.row], parentID: itemModel.selectedParentID, name: nil)
+            
+            itemModel.reloadItems()
+            
+        } else {
+            
+            performSegue(withIdentifier: itemModel.typeOfSegue, sender: self)
+            
+        }
         
         tableView.reloadData()
         
@@ -250,9 +276,9 @@ extension CategoryAndItemViewController {
             
             destinationVC.navigationItem.title = "\(item.name!)"
             
-            destinationVC.itemModel.selectedParentID = itemModel.selectedParentID
+            destinationVC.selectedParentID = Int(item.id)
             
-            destinationVC.selectedCategory = itemModel.selectedCategory
+            destinationVC.selectedCategory = selectedCategory
             
             destinationVC.level = level + 1
             

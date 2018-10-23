@@ -17,6 +17,8 @@ class Keywords {
     
     let parentIDMatch = "parentID MATCHES %@"
     let idMatch = "id MATCHES %@"
+    let categoryMatch = "category MATCHES %@"
+    let levelMatch = "level MATCHES %@"
     
     let homeToSubItemsSegue = "homeToSubItemsSegue"
     let errandsToSubItemsSegue = "errandsToSubItemsSegue"
