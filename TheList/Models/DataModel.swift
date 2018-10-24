@@ -67,6 +67,7 @@ class DataModel {
         newItem.category = category.rawValue
         newItem.level = Int64(level)
         newItem.orderNumber = Int64(siblingItems.count + 1)
+        newItem.numOfSubItems = 0
         
         saveData()
         
