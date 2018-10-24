@@ -248,7 +248,7 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
         
         itemModel.items.insert(itemMoving, at: destinationIndexPath.row)
         
-        DataModel.shared.updateIDs(forItems: itemModel.items)
+        DataModel.shared.updateOrderNumber(forItems: itemModel.items)
         
         tableView.reloadData()
         

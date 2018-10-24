@@ -33,7 +33,7 @@ class DataModel {
         }
     }
     
-    func addNewItem(name: String, forCategory category: SelectedCategory, level: Int, parentID: Int, isFirst: Bool) {
+    func addNewItem(name: String, forCategory category: SelectedCategory, level: Int, parentID: Int) {
         
         var newParentID = Int()
         
@@ -57,6 +57,8 @@ class DataModel {
         loadAllItems()
         let calculatedID = nextItemID + 1
         
+        let siblingItems = loadSpecificItems(forCategory: category.rawValue, forLevel: level, forParentID: parentID)
+        
         let newItem = Item(context: context)
         newItem.name = name
         newItem.done = false
@@ -64,6 +66,7 @@ class DataModel {
         newItem.parentID = Int64(newParentID)
         newItem.category = category.rawValue
         newItem.level = Int64(level)
+        newItem.orderNumber = Int64(siblingItems.count + 1)
         
         saveData()
         
@@ -83,6 +86,8 @@ class DataModel {
 //            print("Error loading All Items in the Data model: \(error)")
         }
         
+        
+        // TODO: - Make this a function in itself that saves the number in UserDefaults and returns the next number, instead of requiring all of the items to be loaded first.
         nextItemID = allItems.count + 5
         
     }
@@ -100,6 +105,8 @@ class DataModel {
         let predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [parentIDPredicate, categoryPredicate, levelPredicate])
 
         request.predicate = predicate
+        
+        request.sortDescriptors = [NSSortDescriptor(key: Keywords.shared.orderNumberKey, ascending: true)]
 
         do {
             items = try context.fetch(request)
@@ -223,9 +230,9 @@ class DataModel {
         saveData()
     }
     
-    func updateIDs(forItems items: [Item]?) {
+    func updateOrderNumber(forItems items: [Item]?) {
         
-        var startingID = 1
+        var orderNumber = 1
         
         if items != nil {
             
@@ -233,8 +240,8 @@ class DataModel {
             
             for item in items {
                 
-                item.id = Int64(startingID)
-                startingID += 1
+                item.orderNumber = Int64(orderNumber)
+                orderNumber += 1
                 
             }
             

@@ -180,8 +180,7 @@ extension ItemModel: AddNewItemDelegate, ReloadTableListDelegate {
         }
         
         if canAdd && itemName != "" {
-            let isFirst = (items.count == 0)
-            DataModel.shared.addNewItem(name: itemName, forCategory: selectedCategory, level: level, parentID: selectedParentID, isFirst: isFirst)
+            DataModel.shared.addNewItem(name: itemName, forCategory: selectedCategory, level: level, parentID: selectedParentID)
             items = DataModel.shared.loadSpecificItems(forCategory: selectedCategory.rawValue, forLevel: level, forParentID: selectedParentID)
             reloadItems()
         } else {
