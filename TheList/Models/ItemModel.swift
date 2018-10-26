@@ -40,15 +40,29 @@ class ItemModel {
     
     var subItemsNumber = 0
     
-    func setViewDisplayed(tableView: UITableView, view: String, level: Int, withParentID parentID: Int) {
+    var selectedItem: Item?
+    
+    func setViewDisplayed(tableView: UITableView, selectedCategory category: String, level: Int) {
+        
+        if level == 1 {
+            
+            switch category {
+                
+            case SelectedCategory.home.rawValue: selectedParentID = 1
+            case SelectedCategory.errands.rawValue: selectedParentID = 2
+            case SelectedCategory.work.rawValue: selectedParentID = 3
+            case SelectedCategory.other.rawValue: selectedParentID = 4
+            default: break
+                
+            }
+            
+        }
         
         self.table = tableView
         
-        self.selectedParentID = parentID
-        
         self.level = level
         
-        switch view {
+        switch category {
             
         case SelectedCategory.home.rawValue:
             selectedCategory = .home

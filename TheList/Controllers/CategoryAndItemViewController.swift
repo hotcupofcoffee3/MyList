@@ -14,15 +14,7 @@ class CategoryAndItemViewController: UIViewController {
     
     let itemModel = ItemModel()
     
-    var selectedCategory: SelectedCategory?
-    
-    var selectedParentID = Int()
-   
-    var selectedItem: Item?
-    
     var level = 1
-    
-    var subItemsNumber = 0
     
     var isCurrentlyEditing = false
     
@@ -45,25 +37,11 @@ class CategoryAndItemViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if level == 1 {
-            
-            let category = self.title!
-            
-            switch category {
-                
-            case SelectedCategory.home.rawValue: selectedParentID = 1
-            case SelectedCategory.errands.rawValue: selectedParentID = 2
-            case SelectedCategory.work.rawValue: selectedParentID = 3
-            case SelectedCategory.other.rawValue: selectedParentID = 4
-            default: break
-                
-            }
-            
-        }
+        
         
         // Chosen VC and TableView set, with the 'title' being set in the Storyboard
-        self.itemModel.setViewDisplayed(tableView: tableView, view: self.title!, level: level, withParentID: selectedParentID)
-
+        self.itemModel.setViewDisplayed(tableView: tableView, selectedCategory: self.title!, level: level)
+        
         // Header
         tableView.register(UINib(nibName: Keywords.shared.headerNibName, bundle: nil), forHeaderFooterViewReuseIdentifier: Keywords.shared.headerIdentifier)
         
@@ -74,11 +52,9 @@ class CategoryAndItemViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         
-        selectedParentID = itemModel.selectedParentID
-        
         if level > 1 {
             
-            DataModel.shared.updateAllItemsAreDone(forCategory: itemModel.selectedCategory.rawValue, forLevel: level, forParentID: selectedParentID)
+            DataModel.shared.updateAllItemsAreDone(forCategory: itemModel.selectedCategory.rawValue, forLevel: level, forParentID: self.itemModel.selectedParentID)
             
         }
         
@@ -164,7 +140,7 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
             
             self.isEditingSpecifics = true
             
-            self.selectedItem = self.itemModel.items[indexPath.row]
+            self.itemModel.selectedItem = self.itemModel.items[indexPath.row]
             
             self.performSegue(withIdentifier: self.itemModel.editSegue, sender: self)
         }
@@ -211,7 +187,7 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
     }
     
     func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
-        selectedItem = itemModel.items[indexPath.row]
+        self.itemModel.selectedItem = itemModel.items[indexPath.row]
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -268,7 +244,7 @@ extension CategoryAndItemViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        guard let item = selectedItem else { return print("There was no item selected.") }
+        guard let item = self.itemModel.selectedItem else { return print("There was no item selected.") }
         
         if !isEditingSpecifics {
             
@@ -276,9 +252,9 @@ extension CategoryAndItemViewController {
             
             destinationVC.navigationItem.title = "\(item.name!)"
             
-            destinationVC.selectedParentID = Int(item.id)
+            destinationVC.itemModel.selectedParentID = Int(item.id)
             
-            destinationVC.selectedCategory = selectedCategory
+            destinationVC.itemModel.selectedCategory = self.itemModel.selectedCategory
             
             destinationVC.level = level + 1
             
@@ -292,7 +268,7 @@ extension CategoryAndItemViewController {
             
             destinationVC.typeBeingEdited = itemModel.selectedCategory
             
-            if let item = selectedItem {
+            if let item = self.itemModel.selectedItem {
                 
                 destinationVC.item = item
                 
@@ -333,7 +309,7 @@ extension CategoryAndItemViewController: CheckForNameDuplicationDelegate, Haptic
     }
     
     func editingComplete() {
-        self.itemModel.setViewDisplayed(tableView: tableView, view: self.title!, level: level, withParentID: selectedParentID)
+        self.itemModel.setViewDisplayed(tableView: tableView, selectedCategory: self.title!, level: level)
         tableView.reloadData()
     }
     

@@ -17,9 +17,8 @@ class DataModel {
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     static var shared = DataModel()
     var allItems = [Item]()
-    var nextItemID = Int()
     
-    private init() { loadAllItems() }
+    private init() { }
     
     
     
@@ -48,16 +47,13 @@ class DataModel {
             case .subItems1, .subItems2: print("SubItems category was selected for adding a new Item.")
                 
             }
+            
         } else {
             newParentID = parentID
         }
         
         
-//        let calculatedID = loadNextID(isFirst: isFirst, forCategory: category.rawValue, forLevel: level, forParentID: parentID)
-        loadAllItems()
-        let calculatedID = nextItemID + 1
-        
-        let siblingItems = loadSpecificItems(forCategory: category.rawValue, forLevel: level, forParentID: parentID)
+        let calculatedID = loadSpecificItems(forCategory: category.rawValue, forLevel: level, forParentID: parentID).count + 1
         
         let newItem = Item(context: context)
         newItem.name = name
@@ -66,7 +62,6 @@ class DataModel {
         newItem.parentID = Int64(newParentID)
         newItem.category = category.rawValue
         newItem.level = Int64(level)
-        newItem.orderNumber = Int64(siblingItems.count + 1)
         newItem.numOfSubItems = 0
         
         saveData()
@@ -87,10 +82,6 @@ class DataModel {
 //            print("Error loading All Items in the Data model: \(error)")
         }
         
-        
-        // TODO: - Make this a function in itself that saves the number in UserDefaults and returns the next number, instead of requiring all of the items to be loaded first.
-        nextItemID = allItems.count + 5
-        
     }
     
     func loadSpecificItems(forCategory category: String, forLevel level: Int, forParentID parentID: Int) -> [Item] {
@@ -107,7 +98,7 @@ class DataModel {
 
         request.predicate = predicate
         
-        request.sortDescriptors = [NSSortDescriptor(key: Keywords.shared.orderNumberKey, ascending: true)]
+        request.sortDescriptors = [NSSortDescriptor(key: Keywords.shared.idKey, ascending: true)]
 
         do {
             items = try context.fetch(request)
@@ -147,16 +138,6 @@ class DataModel {
         
         return items[0]
         
-    }
-    
-    // Not a load from Core Data, but still loading a particular number to set as the ID.
-    
-    func loadNextID(isFirst: Bool, forCategory category: String, forLevel level: Int, forParentID parentID: Int) -> Int {
-
-        let items = loadSpecificItems(forCategory: category, forLevel: level, forParentID: parentID)
-
-        return (items.count > 0 && !isFirst) ? Int(items[items.count - 1].id + 1) : 1
-
     }
     
     
@@ -233,7 +214,7 @@ class DataModel {
     
     func updateOrderNumber(forItems items: [Item]?) {
         
-        var orderNumber = 1
+        var id = 1
         
         if items != nil {
             
@@ -241,8 +222,8 @@ class DataModel {
             
             for item in items {
                 
-                item.orderNumber = Int64(orderNumber)
-                orderNumber += 1
+                item.id = Int64(id)
+                id += 1
                 
             }
             

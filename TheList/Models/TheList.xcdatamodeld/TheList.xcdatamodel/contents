@@ -7,10 +7,9 @@
         <attribute name="level" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="name" attributeType="String" syncable="YES"/>
         <attribute name="numOfSubItems" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="orderNumber" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="parentID" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Item" positionX="-54" positionY="18" width="128" height="165"/>
+        <element name="Item" positionX="-54" positionY="18" width="128" height="150"/>
     </elements>
 </model>
