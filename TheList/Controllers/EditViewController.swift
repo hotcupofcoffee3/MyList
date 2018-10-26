@@ -10,13 +10,9 @@ import UIKit
 
 class EditViewController: UIViewController {
     
-    var typeBeingEdited = SelectedCategory.home
+    var selectedCategory = SelectedCategory.home
     
     var nameToEdit = String()
-    
-    var selectedParentID = Int()
-    
-    var parentNameToEdit = String()
     
     var item: Item?
     
@@ -43,7 +39,7 @@ class EditViewController: UIViewController {
         if nameTextField.text != "" {
             
             if let item = item {
-                DataModel.shared.updateItem(forProperty: .name, forItem: item, parentID: selectedParentID, name: nameTextField.text!)
+                DataModel.shared.updateItem(forProperty: .name, forItem: item, parentID: Int(item.parentID), name: nameTextField.text!)
             }
             
             editingCompleteDelegate?.editingComplete()
@@ -57,7 +53,7 @@ class EditViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         nameTextField.text = nameToEdit
-        parentLabel.text = parentNameToEdit
+        parentLabel.text = ""
         
         categoryTopConstraint.constant = 30
         categoryHeightConstraint.constant = 60

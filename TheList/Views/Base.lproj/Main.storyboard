@@ -128,13 +128,13 @@
                                     <action selector="cancel:" destination="rx6-qK-MYC" eventType="touchUpInside" id="jqP-WD-OXq"/>
                                 </connections>
                             </button>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2qa-jm-rEv" userLabel="Category View">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2qa-jm-rEv" userLabel="Parent View">
                                 <rect key="frame" x="30" y="190" width="315" height="60"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="aQy-bA-dWV">
                                         <rect key="frame" x="12" y="12" width="291" height="36"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Category:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NMz-eW-Ccx">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Parent:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NMz-eW-Ccx">
                                                 <rect key="frame" x="0.0" y="0.0" width="90" height="36"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="90" id="Scx-br-9KB"/>
@@ -180,10 +180,10 @@
                     </view>
                     <connections>
                         <outlet property="categoryHeightConstraint" destination="muc-9K-NSi" id="1iy-Q2-S5V"/>
-                        <outlet property="categoryLabel" destination="hEi-vD-VHl" id="RtY-GX-z5k"/>
                         <outlet property="categoryTopConstraint" destination="fn3-Qp-aS4" id="6XU-L4-KJP"/>
-                        <outlet property="categoryView" destination="2qa-jm-rEv" id="jvx-E6-BOk"/>
                         <outlet property="nameTextField" destination="gef-Oa-phA" id="0JU-3V-rwq"/>
+                        <outlet property="parentLabel" destination="hEi-vD-VHl" id="Hvb-ip-kwC"/>
+                        <outlet property="parentView" destination="2qa-jm-rEv" id="jEX-hP-BBS"/>
                         <segue destination="fSE-NK-PxT" kind="presentation" identifier="editToCategoryPickerSegue" modalPresentationStyle="overCurrentContext" id="Yye-a6-w3p"/>
                     </connections>
                 </viewController>
@@ -622,7 +622,7 @@
                         <viewLayoutGuide key="safeArea" id="vPK-Ic-3bE"/>
                     </view>
                     <connections>
-                        <outlet property="categoryOrItemLabel" destination="YWE-yw-dEg" id="ro1-54-mRW"/>
+                        <outlet property="itemLabel" destination="YWE-yw-dEg" id="AIA-w9-V1l"/>
                         <outlet property="picker" destination="420-d5-IXW" id="vCj-Gg-SPG"/>
                     </connections>
                 </viewController>

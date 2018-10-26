@@ -266,7 +266,7 @@ extension CategoryAndItemViewController {
             
             destinationVC.editingCompleteDelegate = self
             
-            destinationVC.typeBeingEdited = itemModel.selectedCategory
+            destinationVC.selectedCategory = itemModel.selectedCategory
             
             if let item = self.itemModel.selectedItem {
                 
@@ -275,8 +275,6 @@ extension CategoryAndItemViewController {
                 destinationVC.nameToEdit = item.name!
                 
                 destinationVC.level = level
-                
-                destinationVC.selectedParentID = itemModel.selectedParentID
                 
             }
             
