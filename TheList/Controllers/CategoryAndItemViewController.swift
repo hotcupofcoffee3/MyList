@@ -37,8 +37,6 @@ class CategoryAndItemViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        
         // Chosen VC and TableView set, with the 'title' being set in the Storyboard
         self.itemModel.setViewDisplayed(tableView: tableView, selectedCategory: self.title!, level: level)
         
@@ -51,12 +49,6 @@ class CategoryAndItemViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        
-        if level > 1 {
-            
-            DataModel.shared.updateAllItemsAreDone(forCategory: itemModel.selectedCategory.rawValue, forLevel: level, forParentID: self.itemModel.selectedParentID)
-            
-        }
         
         itemModel.reloadItems()
         
@@ -72,7 +64,7 @@ class CategoryAndItemViewController: UIViewController {
     
     func deleteRow(inTable tableView: UITableView, atIndexPath indexPath: IndexPath) {
         
-        if itemModel.numberOfItems(forParentID: Int(itemModel.items[indexPath.row].parentID)) > 0 {
+        if itemModel.numberOfItems(forParentID: Int(itemModel.items[indexPath.row].parentID), andParentName: itemModel.items[indexPath.row].parentName!) > 0 {
             
             let alert = UIAlertController(title: "Are you sure?", message: "You have Items in this Category", preferredStyle: .alert)
             
@@ -165,10 +157,10 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
             cell.backgroundColor = UIColor.white
         }
         
-        cell.nameLabel?.text = "\(itemModel.items[indexPath.row].name!)"
+        cell.nameLabel?.text = "\(Int(itemModel.items[indexPath.row].parentID))/\(Int(itemModel.items[indexPath.row].id)). \(itemModel.items[indexPath.row].name!)"
         
-        let numOfSubItems = itemModel.numberOfItems(forParentID: Int(itemModel.items[indexPath.row].id))
-        let numOfSubItemsDone = itemModel.numberOfItemsDone(forParentID: Int(itemModel.items[indexPath.row].id))
+        let numOfSubItems = itemModel.numberOfItems(forParentID: Int(itemModel.items[indexPath.row].id), andParentName: itemModel.items[indexPath.row].name!)
+        let numOfSubItemsDone = itemModel.numberOfItemsDone(forParentID: Int(itemModel.items[indexPath.row].id), andParentName: itemModel.items[indexPath.row].name!)
         
         if numOfSubItems > 0 {
             
@@ -194,11 +186,11 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
         
         tableView.deselectRow(at: indexPath, animated: true)
         
-        let numOfSubItems = itemModel.numberOfItems(forParentID: Int(itemModel.items[indexPath.row].id))
+        let numOfSubItems = itemModel.numberOfItems(forParentID: Int(itemModel.items[indexPath.row].id), andParentName: itemModel.items[indexPath.row].name!)
         
         if numOfSubItems == 0 {
             
-            DataModel.shared.updateItem(forProperty: .done, forItem: itemModel.items[indexPath.row], parentID: itemModel.selectedParentID, name: nil)
+            DataModel.shared.updateItem(forProperty: .done, forItem: itemModel.items[indexPath.row], parentID: Int(itemModel.items[indexPath.row].parentID), parentName: itemModel.items[indexPath.row].parentName!, name: nil)
             
             itemModel.reloadItems()
             
@@ -224,7 +216,7 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
         
         itemModel.items.insert(itemMoving, at: destinationIndexPath.row)
         
-        DataModel.shared.updateOrderNumber(forItems: itemModel.items)
+        DataModel.shared.updateIDs(forItems: itemModel.items)
         
         tableView.reloadData()
         
@@ -253,6 +245,8 @@ extension CategoryAndItemViewController {
             destinationVC.navigationItem.title = "\(item.name!)"
             
             destinationVC.itemModel.selectedParentID = Int(item.id)
+            
+            destinationVC.itemModel.selectedParentName = item.name!
             
             destinationVC.itemModel.selectedCategory = self.itemModel.selectedCategory
             

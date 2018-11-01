@@ -39,7 +39,7 @@ class EditViewController: UIViewController {
         if nameTextField.text != "" {
             
             if let item = item {
-                DataModel.shared.updateItem(forProperty: .name, forItem: item, parentID: Int(item.parentID), name: nameTextField.text!)
+                DataModel.shared.updateItem(forProperty: .name, forItem: item, parentID: Int(item.parentID), parentName: item.parentName!, name: nameTextField.text!)
             }
             
             editingCompleteDelegate?.editingComplete()

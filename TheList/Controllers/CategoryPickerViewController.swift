@@ -23,7 +23,7 @@ class CategoryPickerViewController: UIViewController, UIPickerViewDelegate, UIPi
         let parent = parentItems[picker.selectedRow(inComponent: 0)]
         
         if let itemToUpdate = item {
-            DataModel.shared.updateItem(forProperty: .category, forItem: itemToUpdate, parentID: Int(parent.id), name: itemToUpdate.name!)
+            DataModel.shared.updateItem(forProperty: .category, forItem: itemToUpdate, parentID: Int(parent.id), parentName: itemToUpdate.parentName!, name: itemToUpdate.name!)
         } else {
             print("There was no item set to Update.")
         }
@@ -55,12 +55,12 @@ class CategoryPickerViewController: UIViewController, UIPickerViewDelegate, UIPi
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        guard let itemBeingEdited = item else { return print("No item selected in the viewDidLoad in the Edit Picker.") }
-        for i in parentItems.indices {
-            if parentItems[i].name! == DataModel.shared.loadParentItem(forParentID: Int(itemBeingEdited.parentID)).name! {
-                picker.selectRow(i, inComponent: 0, animated: true)
-            }
-        }
+//        guard let itemBeingEdited = item else { return print("No item selected in the viewDidLoad in the Edit Picker.") }
+//        for i in parentItems.indices {
+////            if parentItems[i].name! == DataModel.shared.loadParentItem(forID: Int(itemBeingEdited.parentID), andName: itemBeingEdited.parentName!).name! {
+////                picker.selectRow(i, inComponent: 0, animated: true)
+////            }
+//        }
     }
     
 }

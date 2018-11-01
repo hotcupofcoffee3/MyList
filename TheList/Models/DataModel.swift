@@ -32,9 +32,10 @@ class DataModel {
         }
     }
     
-    func addNewItem(name: String, forCategory category: SelectedCategory, level: Int, parentID: Int) {
+    func addNewItem(name: String, forCategory category: SelectedCategory, level: Int, parentID: Int, parentName: String) {
         
         var newParentID = Int()
+        var newParentName = String()
         
         if level == 1 {
             
@@ -48,18 +49,24 @@ class DataModel {
                 
             }
             
+            if category != .subItems1 && category != .subItems2 {
+                newParentName = category.rawValue
+            }
+            
         } else {
             newParentID = parentID
+            newParentName = parentName
         }
         
         
-        let calculatedID = loadSpecificItems(forCategory: category.rawValue, forLevel: level, forParentID: parentID).count + 1
+        let calculatedID = loadSpecificItems(forCategory: category.rawValue, forLevel: level, forParentID: parentID, andParentName: parentName).count + 1
         
         let newItem = Item(context: context)
         newItem.name = name
         newItem.done = false
         newItem.id = Int64(calculatedID)
         newItem.parentID = Int64(newParentID)
+        newItem.parentName = newParentName
         newItem.category = category.rawValue
         newItem.level = Int64(level)
         newItem.numOfSubItems = 0
@@ -84,17 +91,18 @@ class DataModel {
         
     }
     
-    func loadSpecificItems(forCategory category: String, forLevel level: Int, forParentID parentID: Int) -> [Item] {
+    func loadSpecificItems(forCategory category: String, forLevel level: Int, forParentID parentID: Int, andParentName parentName: String) -> [Item] {
 
         var items = [Item]()
 
         let request: NSFetchRequest<Item> = Item.fetchRequest()
 
         let parentIDPredicate = NSPredicate(format: Keywords.shared.parentIDMatch, String(parentID))
+        let parentNamePredicate = NSPredicate(format: Keywords.shared.parentNameMatch, String(parentName))
         let categoryPredicate = NSPredicate(format: Keywords.shared.categoryMatch, category)
         let levelPredicate = NSPredicate(format: Keywords.shared.levelMatch, String(level))
         
-        let predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [parentIDPredicate, categoryPredicate, levelPredicate])
+        let predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [parentIDPredicate, parentNamePredicate, categoryPredicate, levelPredicate])
 
         request.predicate = predicate
         
@@ -110,17 +118,25 @@ class DataModel {
 //                        print("There are no Items loaded from the Data model")
         }
         
+        if level > 1 && !items.isEmpty {
+            updateAllItemsAreDone(forItems: items, onLevel: level, withParentID: parentID, andParentName: parentName)
+        }
+        
         return items
 
     }
     
-    func loadParentItem(forParentID parentID: Int) -> Item {
+    func loadParentItem(forID id: Int, andName name: String) -> Item {
         
         var items = [Item]()
         
         let request: NSFetchRequest<Item> = Item.fetchRequest()
         
-        let predicate = NSPredicate(format: Keywords.shared.idMatch, String(parentID))
+        let idPredicate = NSPredicate(format: Keywords.shared.idMatch, String(id))
+        
+        let namePredicate = NSPredicate(format: Keywords.shared.nameMatch, String(name))
+        
+        let predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [idPredicate, namePredicate])
         
         request.predicate = predicate
         
@@ -144,7 +160,7 @@ class DataModel {
     
     // MARK: - UPDATE
     
-    func updateItem(forProperty property: ItemProperty, forItem item: Item, parentID: Int, name: String?) {
+    func updateItem(forProperty property: ItemProperty, forItem item: Item, parentID: Int, parentName: String, name: String?) {
         
         let itemToUpdate = item
         
@@ -158,7 +174,7 @@ class DataModel {
             
         case .done :
             itemToUpdate.done = !itemToUpdate.done
-          
+            
         default:
             break
             
@@ -166,55 +182,37 @@ class DataModel {
         
         saveData()
         
-        if itemToUpdate.level > 1 {
-            
-            updateAllItemsAreDone(forCategory: itemToUpdate.category!, forLevel: Int(itemToUpdate.level), forParentID: parentID)
-            
-        }
-        
     }
     
-    func updateAllItemsAreDone(forCategory category: String, forLevel level: Int, forParentID parentID: Int) {
-        
-        let items = loadSpecificItems(forCategory: category, forLevel: level, forParentID: parentID)
+    func updateAllItemsAreDone(forItems items: [Item], onLevel level:Int, withParentID parentID: Int, andParentName parentName: String) {
         
         var allItemsAreDone = true
         
-        if !items.isEmpty {
+        for item in items {
             
-            for item in items {
-                
-                if item.done == false {
-                    allItemsAreDone = false
-                }
-                
+            if item.done == false {
+                allItemsAreDone = false
             }
-            
-        } else {
-            
-            allItemsAreDone = false
             
         }
         
+        if level > 1 {
+            
+            let parent = loadParentItem(forID: parentID, andName: parentName)
+            
+            parent.done = allItemsAreDone
+            
+            saveData()
+            
+        }
         
-        updateDone(forParentID: parentID, doneStatus: allItemsAreDone)
-        
     }
     
-    func updateDone(forParentID parentID: Int, doneStatus: Bool) {
-        let parent = loadParentItem(forParentID: parentID)
-        parent.done = doneStatus
-        saveData()
-    }
-    
-    func updateID(forItem item: Item, andID id: Int) {
-        item.id = Int64(id)
-        saveData()
-    }
-    
-    func updateOrderNumber(forItems items: [Item]?) {
+    func updateIDs(forItems items: [Item]?) {
         
         var id = 1
+        
+        var subItems = [Item]()
         
         if items != nil {
             
@@ -222,8 +220,26 @@ class DataModel {
             
             for item in items {
                 
+                let oldID = Int(item.id)
+                let subItemLevel = Int(item.level + 1)
+                
+                subItems = []
+                subItems = loadSpecificItems(forCategory: item.category!, forLevel: subItemLevel, forParentID: oldID, andParentName: item.name!)
+                print(oldID)
+                print("SubItems: \(subItems.count)")
+                if subItems.count > 0 {
+                    for subItem in subItems {
+                        subItem.parentID = Int64(id)
+                        print(id)
+                        print(subItem.name!)
+                    }
+                }
+                
+                
                 item.id = Int64(id)
                 id += 1
+                
+                saveData()
                 
             }
             
@@ -232,8 +248,6 @@ class DataModel {
             print("There was no array passed to the updateIDs() function in the DataModel.")
             
         }
-        
-        saveData()
         
     }
     
@@ -255,8 +269,8 @@ class DataModel {
     }
     
     
-    func deleteAllItems(forCategory category: String, forLevel level: Int, forParentID parentID: Int) {
-        let allItemsToDelete = loadSpecificItems(forCategory: category, forLevel: level, forParentID: parentID)
+    func deleteAllItems(forCategory category: String, forLevel level: Int, forParentID parentID: Int, andParentName parentName: String) {
+        let allItemsToDelete = loadSpecificItems(forCategory: category, forLevel: level, forParentID: parentID, andParentName: parentName)
         for item in allItemsToDelete {
             context.delete(item)
         }

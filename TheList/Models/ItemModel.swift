@@ -21,8 +21,10 @@ class ItemModel {
     
     var selectedParentID = Int()
     
+    var selectedParentName = String()
+    
     func reloadItems() {
-        items = DataModel.shared.loadSpecificItems(forCategory: selectedCategory.rawValue, forLevel: level, forParentID: selectedParentID)
+        items = DataModel.shared.loadSpecificItems(forCategory: selectedCategory.rawValue, forLevel: level, forParentID: selectedParentID, andParentName: selectedParentName)
     }
     
     
@@ -55,6 +57,8 @@ class ItemModel {
             default: break
                 
             }
+            
+            selectedParentName = category
             
         }
         
@@ -143,13 +147,13 @@ class ItemModel {
         
     }
     
-    func numberOfItems(forParentID parentID: Int) -> Int {
-        return DataModel.shared.loadSpecificItems(forCategory: selectedCategory.rawValue, forLevel: level + 1, forParentID: parentID).count
+    func numberOfItems(forParentID parentID: Int, andParentName parentName: String) -> Int {
+        return DataModel.shared.loadSpecificItems(forCategory: selectedCategory.rawValue, forLevel: level + 1, forParentID: parentID, andParentName: parentName).count
     }
     
-    func numberOfItemsDone(forParentID parentID: Int) -> Int {
+    func numberOfItemsDone(forParentID parentID: Int, andParentName parentName: String) -> Int {
         var numberLeft = Int()
-        let items = DataModel.shared.loadSpecificItems(forCategory: selectedCategory.rawValue, forLevel: level + 1, forParentID: parentID)
+        let items = DataModel.shared.loadSpecificItems(forCategory: selectedCategory.rawValue, forLevel: level + 1, forParentID: parentID, andParentName: parentName)
         for item in items {
             numberLeft += item.done ? 1 : 0
         }
@@ -194,8 +198,8 @@ extension ItemModel: AddNewItemDelegate, ReloadTableListDelegate {
         }
         
         if canAdd && itemName != "" {
-            DataModel.shared.addNewItem(name: itemName, forCategory: selectedCategory, level: level, parentID: selectedParentID)
-            items = DataModel.shared.loadSpecificItems(forCategory: selectedCategory.rawValue, forLevel: level, forParentID: selectedParentID)
+            DataModel.shared.addNewItem(name: itemName, forCategory: selectedCategory, level: level, parentID: selectedParentID, parentName: selectedParentName)
+            items = DataModel.shared.loadSpecificItems(forCategory: selectedCategory.rawValue, forLevel: level, forParentID: selectedParentID, andParentName: selectedParentName)
             reloadItems()
         } else {
             canAdd = false

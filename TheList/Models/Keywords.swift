@@ -16,7 +16,9 @@ class Keywords {
     static var shared = Keywords()
     
     let parentIDMatch = "parentID MATCHES %@"
+    let parentNameMatch = "parentName MATCHES %@"
     let idMatch = "id MATCHES %@"
+    let nameMatch = "name MATCHES %@"
     let categoryMatch = "category MATCHES %@"
     let levelMatch = "level MATCHES %@"
     let idKey = "id"
