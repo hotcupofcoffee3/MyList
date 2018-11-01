@@ -225,16 +225,12 @@ class DataModel {
                 
                 subItems = []
                 subItems = loadSpecificItems(forCategory: item.category!, forLevel: subItemLevel, forParentID: oldID, andParentName: item.name!)
-                print(oldID)
-                print("SubItems: \(subItems.count)")
+                
                 if subItems.count > 0 {
                     for subItem in subItems {
                         subItem.parentID = Int64(id)
-                        print(id)
-                        print(subItem.name!)
                     }
                 }
-                
                 
                 item.id = Int64(id)
                 id += 1
