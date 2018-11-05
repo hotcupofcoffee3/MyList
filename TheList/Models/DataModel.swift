@@ -170,7 +170,18 @@ class DataModel {
             itemToUpdate.parentID = Int64(parentID)
             
         case .name :
-            itemToUpdate.name = (name != nil && name != "") ? name : itemToUpdate.name!
+            
+            if name != nil && name != "" {
+                
+                let subItems = loadSpecificItems(forCategory: itemToUpdate.category!, forLevel: Int(itemToUpdate.level + 1), forParentID: Int(itemToUpdate.id), andParentName: itemToUpdate.name!)
+                
+                for subItem in subItems {
+                    subItem.parentName = name!
+                }
+                
+                itemToUpdate.name = name
+                
+            }
             
         case .done :
             itemToUpdate.done = !itemToUpdate.done
@@ -220,18 +231,23 @@ class DataModel {
             
             for item in items {
                 
+                // ID and Level before new IDs are set
                 let oldID = Int(item.id)
                 let subItemLevel = Int(item.level + 1)
                 
+                // Reset array and load subitems based on item info before it is changed.
                 subItems = []
                 subItems = loadSpecificItems(forCategory: item.category!, forLevel: subItemLevel, forParentID: oldID, andParentName: item.name!)
                 
+                // If the old id AND name match, then the subItem's parentID is updated.
+                // Matching the name AND old id makes sure that when the new IDs are set for the parents, even if they match some of the other subItems' parentID, they won't match the name, as well, so this filters them out.
                 if subItems.count > 0 {
                     for subItem in subItems {
                         subItem.parentID = Int64(id)
                     }
                 }
                 
+                // After subItems taken care of, the current item's ID is updated.
                 item.id = Int64(id)
                 id += 1
                 

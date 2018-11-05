@@ -130,11 +130,29 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
         
         let edit = UITableViewRowAction(style: .normal, title: "More") { (action, indexPath) in
             
-            self.isEditingSpecifics = true
-            
             self.itemModel.selectedItem = self.itemModel.items[indexPath.row]
             
-            self.performSegue(withIdentifier: self.itemModel.editSegue, sender: self)
+            let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+            
+            let editNameAction = UIAlertAction(title: "Rename \"\(self.itemModel.items[indexPath.row].name!)\"", style: .default, handler: { (action) in
+                
+                self.isEditingSpecifics = true
+                self.performSegue(withIdentifier: self.itemModel.editSegue, sender: self)
+                
+            })
+            
+            let editParentAction = UIAlertAction(title: "Change parent item", style: .default, handler: { (action) in
+                print(self.itemModel.items[indexPath.row].parentName!)
+            })
+            
+            let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            
+            alert.addAction(editNameAction)
+            alert.addAction(editParentAction)
+            alert.addAction(cancel)
+            
+            self.present(alert, animated: true, completion: nil)
+            
         }
         
         return [delete, edit]

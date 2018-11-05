@@ -126,7 +126,7 @@ class ItemModel {
     
     var editSegue: String {
         
-        switch selectedCategory {
+        switch currentView {
             
         case .home:
             return Keywords.shared.homeToEditSegue
@@ -140,8 +140,11 @@ class ItemModel {
         case .other:
             return Keywords.shared.otherToEditSegue
             
-        case .subItems1, .subItems2:
-            return "The 'selectedCategory' for 'editSegue' was set to the 'subItems' VCs."
+        case .subItems1:
+            return Keywords.shared.subItems1ToEditSegue
+                
+        case .subItems2:
+            return Keywords.shared.subItems2ToEditSegue
             
         }
         

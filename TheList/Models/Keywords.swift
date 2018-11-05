@@ -29,12 +29,14 @@ class Keywords {
     let otherToSubItemsSegue = "otherToSubItemsSegue"
     let subItems1ToSubItems2Segue = "subItems1ToSubItems2Segue"
     let subItems2ToSubItems1Segue = "subItems2ToSubItems1Segue"
-    let editToCategoryPickerSegue = "editToCategoryPickerSegue"
+    
     let homeToEditSegue = "homeToEditSegue"
     let errandsToEditSegue = "errandsToEditSegue"
     let workToEditSegue = "workToEditSegue"
     let otherToEditSegue = "otherToEditSegue"
-    let subItemsToEditSegue = "subItemsToEditSegue"
+    let subItems1ToEditSegue = "subItems1ToEditSegue"
+    let subItems2ToEditSegue = "subItems2ToEditSegue"
+    
     let settingsToFontPickerSegue = "settingsToFontPickerSegue"
     
     let categoryAndItemCellIdentifier = "categoryAndItemCell"

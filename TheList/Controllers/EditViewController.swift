@@ -20,15 +20,7 @@ class EditViewController: UIViewController {
     
     var editingCompleteDelegate: EditingCompleteDelegate?
     
-    @IBOutlet weak var categoryTopConstraint: NSLayoutConstraint!
-    
-    @IBOutlet weak var categoryHeightConstraint: NSLayoutConstraint!
-    
     @IBOutlet weak var nameTextField: UITextField!
-    
-    @IBOutlet weak var parentLabel: UILabel!
-    
-    @IBOutlet weak var parentView: UIView!
     
     @IBAction func cancel(_ sender: UIButton) {
         dismiss(animated: true, completion: nil)
@@ -53,45 +45,8 @@ class EditViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         nameTextField.text = nameToEdit
-        parentLabel.text = ""
-        
-        categoryTopConstraint.constant = 30
-        categoryHeightConstraint.constant = 60
-        
-        let categoryTap = UITapGestureRecognizer(target: self, action: #selector(categoryPicker))
-        parentView.addGestureRecognizer(categoryTap)
-    }
-    
-    @objc func categoryPicker() {
-        performSegue(withIdentifier: Keywords.shared.editToCategoryPickerSegue, sender: self)
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let destinationVC = segue.destination as! CategoryPickerViewController
-        
-        if let currentItem = item {
-            
-            destinationVC.item = currentItem
-            destinationVC.itemHasBeenEditedDelegate = self
-            
-        } else {
-            print("There was no item set in the Edit VC.")
-        }
         
     }
     
-}
-
-extension EditViewController: ItemEditedDelegate {
-    
-    func itemHasBeenEdited() {
-        
-        if let currentItem = item {
-            
-            parentLabel.text = String(currentItem.parentID)
-            
-        }
-       
-    }
     
 }
