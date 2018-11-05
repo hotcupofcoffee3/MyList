@@ -8,8 +8,6 @@
 
 import UIKit
 
-
-
 class CategoryAndItemViewController: UIViewController {
     
     let itemModel = ItemModel()
