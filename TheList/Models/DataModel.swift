@@ -284,14 +284,40 @@ class DataModel {
     func deleteAllItems(forCategory category: String, forLevel level: Int, forParentID parentID: Int, andParentName parentName: String) {
         let allItemsToDelete = loadSpecificItems(forCategory: category, forLevel: level, forParentID: parentID, andParentName: parentName)
         for item in allItemsToDelete {
+            
+            let subItems = loadSpecificItems(forCategory: category, forLevel: Int(item.level + 1), forParentID: Int(item.parentID), andParentName: item.parentName!)
+            
+            for subSubItem in subItems {
+                
+                deleteAllItems(forCategory: category, forLevel: Int(subSubItem.level + 1), forParentID: Int(subSubItem.id), andParentName: subSubItem.name!)
+                
+            }
+            
             context.delete(item)
+            
         }
+        
         saveData()
     }
     
     func deleteSpecificItem(forItem item: Item) {
+        
+        let itemCategory = item.category!
+        let itemLevel = Int(item.level)
+        let itemParentID = Int(item.parentID)
+        let itemParentName = item.parentName!
+        let itemName = item.name!
+        let itemID = Int(item.id)
+        
         context.delete(item)
         saveData()
+        
+        let currentItemGroup = loadSpecificItems(forCategory: itemCategory, forLevel: itemLevel, forParentID: itemParentID, andParentName: itemParentName)
+        
+        updateIDs(forItems: currentItemGroup)
+        
+        deleteAllItems(forCategory: itemCategory, forLevel: itemLevel + 1, forParentID: itemID, andParentName: itemName)
+        
     }
     
 }

@@ -62,7 +62,7 @@ class CategoryAndItemViewController: UIViewController {
     
     func deleteRow(inTable tableView: UITableView, atIndexPath indexPath: IndexPath) {
         
-        if itemModel.numberOfItems(forParentID: Int(itemModel.items[indexPath.row].parentID), andParentName: itemModel.items[indexPath.row].parentName!) > 0 {
+        if itemModel.numberOfItems(forParentID: Int(itemModel.items[indexPath.row].id), andParentName: itemModel.items[indexPath.row].name!) > 0 {
             
             let alert = UIAlertController(title: "Are you sure?", message: "You have Items in this Category", preferredStyle: .alert)
             
@@ -173,7 +173,9 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
             cell.backgroundColor = UIColor.white
         }
         
-        cell.nameLabel?.text = "\(Int(itemModel.items[indexPath.row].parentID))/\(Int(itemModel.items[indexPath.row].id)). \(itemModel.items[indexPath.row].name!)"
+//        cell.nameLabel?.text = "\(itemModel.items[indexPath.row].parentID). \(itemModel.items[indexPath.row].name!)"
+        
+        cell.nameLabel?.text = "\(itemModel.items[indexPath.row].name!)"
         
         let numOfSubItems = itemModel.numberOfItems(forParentID: Int(itemModel.items[indexPath.row].id), andParentName: itemModel.items[indexPath.row].name!)
         let numOfSubItemsDone = itemModel.numberOfItemsDone(forParentID: Int(itemModel.items[indexPath.row].id), andParentName: itemModel.items[indexPath.row].name!)
