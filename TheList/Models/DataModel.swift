@@ -16,7 +16,7 @@ class DataModel {
     
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     static var shared = DataModel()
-    var allItems = [Item]()
+    var itemsToDeleteQueue = [Item]()
     
     private init() { }
     
@@ -79,8 +79,9 @@ class DataModel {
     
     // MARK: - READ
     
-    func loadAllItems() {
+    func loadAllItems() -> [Item] {
         
+        var allItems = [Item]()
         let request: NSFetchRequest<Item> = Item.fetchRequest()
         
         do {
@@ -88,6 +89,8 @@ class DataModel {
         } catch {
 //            print("Error loading All Items in the Data model: \(error)")
         }
+        
+        return allItems
         
     }
     
@@ -118,9 +121,9 @@ class DataModel {
 //                        print("There are no Items loaded from the Data model")
         }
         
-        if level > 1 && !items.isEmpty {
-            updateAllItemsAreDone(forItems: items, onLevel: level, withParentID: parentID, andParentName: parentName)
-        }
+//        if level > 1 && !items.isEmpty {
+//            updateAllItemsAreDone(forItems: items, onLevel: level, withParentID: parentID, andParentName: parentName)
+//        }
         
         return items
 
@@ -268,36 +271,49 @@ class DataModel {
     
     // MARK: - DELETE
     
-    func deleteAllData() {
-        deleteAllItems()
+    func deleteAllItems() {
+        itemsToDeleteQueue = loadAllItems()
+        deleteItemsInItemsToDeleteArray()
     }
     
-    func deleteAllItems() {
-        loadAllItems()
-        for item in allItems {
+    func deleteItemsInItemsToDeleteArray() {
+        
+        for item in itemsToDeleteQueue {
             context.delete(item)
         }
+        
+        itemsToDeleteQueue = []
+        
         saveData()
+        
     }
     
     
-    func deleteAllItems(forCategory category: String, forLevel level: Int, forParentID parentID: Int, andParentName parentName: String) {
-        let allItemsToDelete = loadSpecificItems(forCategory: category, forLevel: level, forParentID: parentID, andParentName: parentName)
-        for item in allItemsToDelete {
+    func addSubItemsToDeleteQueue(forCategory category: String, forLevel level: Int, forID id: Int, andName name: String) {
+        
+        let subItemLevel = level + 1
+        
+        let subItems = loadSpecificItems(forCategory: category, forLevel: subItemLevel, forParentID: id, andParentName: name)
+        
+        for subItem in subItems {
             
-            let subItems = loadSpecificItems(forCategory: category, forLevel: Int(item.level + 1), forParentID: Int(item.parentID), andParentName: item.parentName!)
+            let subItemID = Int(subItem.id)
+            let subItemName = subItem.name!
+            let subItemLevel = Int(subItem.level)
+            let furtherSubItemLevel = Int(subItem.level + 1)
             
-            for subSubItem in subItems {
-                
-                deleteAllItems(forCategory: category, forLevel: Int(subSubItem.level + 1), forParentID: Int(subSubItem.id), andParentName: subSubItem.name!)
+            let furtherSubItems = loadSpecificItems(forCategory: category, forLevel: furtherSubItemLevel, forParentID: subItemID, andParentName: subItemName)
+            
+            if !furtherSubItems.isEmpty {
+            
+                addSubItemsToDeleteQueue(forCategory: category, forLevel: subItemLevel, forID: subItemID, andName: subItemName)
                 
             }
             
-            context.delete(item)
+            itemsToDeleteQueue.append(subItem)
             
         }
         
-        saveData()
     }
     
     func deleteSpecificItem(forItem item: Item) {
@@ -316,7 +332,9 @@ class DataModel {
         
         updateIDs(forItems: currentItemGroup)
         
-        deleteAllItems(forCategory: itemCategory, forLevel: itemLevel + 1, forParentID: itemID, andParentName: itemName)
+        addSubItemsToDeleteQueue(forCategory: itemCategory, forLevel: itemLevel, forID: itemID, andName: itemName)
+        
+        deleteItemsInItemsToDeleteArray()
         
     }
     
