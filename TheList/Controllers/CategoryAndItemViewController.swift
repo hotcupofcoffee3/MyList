@@ -200,9 +200,7 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
                 
                 DataModel.shared.toggleDoneForAllItems(doneStatus: true, forCategory: category, forLevel: level, forParentID: parentID, andParentName: parentName)
                 
-//                tableView.reloadData()
-                
-                self.itemModel.reloadTableData()
+                tableView.reloadData()
                 
             })
             
