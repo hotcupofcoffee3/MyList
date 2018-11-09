@@ -202,6 +202,8 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
                 
                 tableView.reloadData()
                 
+                // Now
+                
             })
             
             
