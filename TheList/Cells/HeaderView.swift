@@ -10,9 +10,15 @@ import UIKit
 
 class HeaderView: UITableViewHeaderFooterView, UITextFieldDelegate {
     
-    var addItemDelegate: AddNewItemDelegate?
+    var addNewItemDelegate: AddNewItemDelegate?
     
     var reloadTableListDelegate: ReloadTableListDelegate?
+    
+    var checkForNameDuplicateDelegate: CheckForNameDuplicationDelegate?
+    
+    var hapticDelegate: HapticDelegate?
+    
+    var selectedParentID = Int()
     
     @IBOutlet weak var mainView: UIView!
     
@@ -28,26 +34,38 @@ class HeaderView: UITableViewHeaderFooterView, UITextFieldDelegate {
     
     @IBAction func addButtonPressed(_ sender: UIButton) {
         
-        doSomething()
+        addNewItem()
         
     }
     
-    func doSomething() {
+    func addNewItem() {
         
-        addItemDelegate?.addNewItem(item: headerTextField.text!)
-        
-        headerTextField.text = ""
-        
-        headerTextField.endEditing(true)
-        
-        toggleAddButtonEnabled()
-        
-        reloadTableListDelegate?.reloadTableData()
+        if ((addNewItemDelegate?.addNewItem(itemName: headerTextField.text!))!) {
+            
+            hapticDelegate?.hapticExecuted(as: .success)
+            
+            headerTextField.text = ""
+            
+            toggleAddButtonEnabled()
+            
+            reloadTableListDelegate?.reloadTableData()
+            
+        } else {
+            
+            hapticDelegate?.hapticExecuted(as: .warning)
+            
+            checkForNameDuplicateDelegate?.presentDuplicateNameAlert()
+            
+        }
         
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        doSomething()
+        if textField.text == "" {
+            textField.resignFirstResponder()
+        } else {
+            addNewItem()
+        }
         return true
     }
     
@@ -62,6 +80,52 @@ class HeaderView: UITableViewHeaderFooterView, UITextFieldDelegate {
         
         toggleAddButtonEnabled()
         
+        addToolBarToKeyboard(textField: headerTextField)
+        
+    }
+    
+    // MARK: - Toolbar with 'Done' button
+    
+    @objc func dismissKeyboard() {
+        if headerTextField.text == "" {
+            headerTextField.resignFirstResponder()
+        } else {
+            addNewItem()
+            headerTextField.resignFirstResponder()
+        }
+    }
+    
+    func addToolBarToKeyboard(textField: UITextField) {
+        
+        let toolbar = UIToolbar()
+        //        toolbar.barTintColor = UIColor.black
+        
+        toolbar.sizeToFit()
+        
+        let doneButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.done, target: self, action: #selector(self.dismissKeyboard))
+        
+        //        doneButton.tintColor = UIColor.white
+        
+        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
+        
+        toolbar.setItems([flexibleSpace, doneButton], animated: true)
+        
+        textField.inputAccessoryView = toolbar
+        
     }
     
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

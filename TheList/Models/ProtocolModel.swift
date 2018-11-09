@@ -10,13 +10,25 @@ import Foundation
 import UIKit
 
 protocol AddNewItemDelegate {
-    
-    func addNewItem(item: String)
-    
+    func addNewItem(itemName: String) -> Bool
 }
 
 protocol ReloadTableListDelegate {
-    
     func reloadTableData()
-    
+}
+
+protocol CheckForNameDuplicationDelegate {
+    func presentDuplicateNameAlert()
+}
+
+protocol HapticDelegate {
+    func hapticExecuted(as: UINotificationFeedbackGenerator.FeedbackType)
+}
+
+protocol ItemEditedDelegate {
+    func itemHasBeenEdited()
+}
+
+protocol EditingCompleteDelegate {
+    func editingComplete()
 }

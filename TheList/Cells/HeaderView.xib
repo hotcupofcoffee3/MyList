@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -22,17 +22,18 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4AK-6Q-518" userLabel="Main Header View">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
                         <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Add new item" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="d75-21-Ahw">
-                                <rect key="frame" x="12" y="12" width="248" height="36"/>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Add an item" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="d75-21-Ahw">
+                                <rect key="frame" x="12" y="12" width="254" height="36"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="next"/>
                                 <connections>
                                     <action selector="headerTextChanged:" destination="-1" eventType="editingChanged" id="JAX-Ij-Abi"/>
+                                    <action selector="headerTextChanged:" destination="KGk-i7-Jjw" eventType="editingDidEnd" id="KYF-ha-eQv"/>
                                 </connections>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="contactAdd" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xEU-Lh-eBm">
-                                <rect key="frame" x="272" y="12" width="36" height="35.5"/>
+                                <rect key="frame" x="272" y="12" width="36" height="36"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="36" id="ScR-zm-kgi"/>
                                     <constraint firstAttribute="width" constant="36" id="Xaq-cC-8qi"/>
@@ -46,13 +47,13 @@
                         <color key="backgroundColor" white="0.66176041299999999" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="xEU-Lh-eBm" firstAttribute="top" secondItem="4AK-6Q-518" secondAttribute="top" constant="12" id="8AI-iw-aqw"/>
+                            <constraint firstItem="d75-21-Ahw" firstAttribute="leading" secondItem="4AK-6Q-518" secondAttribute="leading" constant="12" id="V1q-yQ-Zea"/>
                             <constraint firstAttribute="bottom" secondItem="d75-21-Ahw" secondAttribute="bottom" constant="12" id="jbL-9E-qx0"/>
                             <constraint firstAttribute="bottom" secondItem="xEU-Lh-eBm" secondAttribute="bottom" constant="12" id="ksC-I9-gQA"/>
                             <constraint firstAttribute="trailing" secondItem="xEU-Lh-eBm" secondAttribute="trailing" constant="12" id="oJc-U8-mQ1"/>
-                            <constraint firstItem="xEU-Lh-eBm" firstAttribute="leading" secondItem="d75-21-Ahw" secondAttribute="trailing" constant="12" id="qQn-Hz-nro"/>
+                            <constraint firstItem="xEU-Lh-eBm" firstAttribute="leading" secondItem="d75-21-Ahw" secondAttribute="trailing" constant="6" id="qQn-Hz-nro"/>
                             <constraint firstAttribute="height" constant="60" id="tlM-ZZ-tSG"/>
                             <constraint firstItem="d75-21-Ahw" firstAttribute="top" secondItem="4AK-6Q-518" secondAttribute="top" constant="12" id="uTU-If-dKp"/>
-                            <constraint firstItem="d75-21-Ahw" firstAttribute="leading" secondItem="4AK-6Q-518" secondAttribute="leading" constant="12" id="vD9-1J-LAX"/>
                         </constraints>
                     </view>
                 </subviews>
