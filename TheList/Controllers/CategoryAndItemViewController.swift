@@ -20,7 +20,7 @@ class CategoryAndItemViewController: UIViewController {
     
     func toggleEditing() {
         isCurrentlyEditing = !isCurrentlyEditing
-        editButton.title = isCurrentlyEditing ? "Done" : "Move"
+        editButton.title = isCurrentlyEditing ? "Done" : "Reorder"
         tableView.setEditing(isCurrentlyEditing, animated: true)
     }
     
@@ -43,6 +43,7 @@ class CategoryAndItemViewController: UIViewController {
         
         // Cell
         tableView.register(UINib(nibName: Keywords.shared.cellNibName, bundle: nil), forCellReuseIdentifier: Keywords.shared.categoryAndItemCellIdentifier)
+        
         
     }
     
@@ -120,35 +121,113 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
         
     }
     
+    
+    // Edit Actions For Row
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        
+        let category = self.itemModel.items[indexPath.row].category!
+        let level = Int(self.itemModel.items[indexPath.row].level)
+        let id = Int(self.itemModel.items[indexPath.row].id)
+        let name = self.itemModel.items[indexPath.row].name!
+        let parentID = Int(self.itemModel.items[indexPath.row].parentID)
+        let parentName = self.itemModel.items[indexPath.row].parentName!
         
         let delete = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
             
-            self.deleteRow(inTable: tableView, atIndexPath: indexPath)
+            self.itemModel.selectedItem = self.itemModel.items[indexPath.row]
+            
+            
+            // Delete Item
+            let deleteItem = UIAlertAction(title: "Delete Item", style: .destructive, handler: { (action) in
+                
+                self.deleteRow(inTable: tableView, atIndexPath: indexPath)
+                
+            })
+            
+            // Delete SubItems
+            let deleteSubItems = UIAlertAction(title: "Delete SubItems", style: .destructive, handler: { (action) in
+                
+                DataModel.shared.addSubItemsToDeleteQueue(forCategory: category, forLevel: level, forID: id, andName: name)
+                
+                DataModel.shared.deleteItemsInItemsToDeleteArray()
+                
+                tableView.reloadData()
+                
+            })
+            
+            // Cancel
+            let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            
+            
+            // Alert compilation
+            let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+            
+            alert.addAction(deleteItem)
+            alert.addAction(deleteSubItems)
+            alert.addAction(cancel)
+            
+            self.present(alert, animated: true, completion: nil)
         
         }
         
         let edit = UITableViewRowAction(style: .normal, title: "More") { (action, indexPath) in
             
             self.itemModel.selectedItem = self.itemModel.items[indexPath.row]
+
             
-            let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-            
-            let editNameAction = UIAlertAction(title: "Rename \"\(self.itemModel.items[indexPath.row].name!)\"", style: .default, handler: { (action) in
+            // Edit Name
+            let editName = UIAlertAction(title: "Edit Name", style: .default, handler: { (action) in
                 
                 self.isEditingSpecifics = true
+                
                 self.performSegue(withIdentifier: self.itemModel.editSegue, sender: self)
                 
             })
             
-            let editParentAction = UIAlertAction(title: "Change parent item", style: .default, handler: { (action) in
+            
+            // Move
+            let move = UIAlertAction(title: "Move", style: .default, handler: { (action) in
+                
+                self.isEditingSpecifics = true
+                
                 print(self.itemModel.items[indexPath.row].parentName!)
+                
             })
             
+            
+            // Check All
+            let checkAll = UIAlertAction(title: "Check All", style: .default, handler: { (action) in
+                
+                DataModel.shared.toggleDoneForAllItems(doneStatus: true, forCategory: category, forLevel: level, forParentID: parentID, andParentName: parentName)
+                
+//                tableView.reloadData()
+                
+                self.itemModel.reloadTableData()
+                
+            })
+            
+            
+            // Uncheck All
+            let uncheckAll = UIAlertAction(title: "Uncheck All", style: .default, handler: { (action) in
+                
+                DataModel.shared.toggleDoneForAllItems(doneStatus: false, forCategory: category, forLevel: level, forParentID: parentID, andParentName: parentName)
+                
+                tableView.reloadData()
+                
+            })
+            
+            
+            // Cancel
             let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
             
-            alert.addAction(editNameAction)
-            alert.addAction(editParentAction)
+            
+            // Alert compilation
+            let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+            
+            alert.addAction(editName)
+            alert.addAction(move)
+            alert.addAction(checkAll)
+            alert.addAction(uncheckAll)
             alert.addAction(cancel)
             
             self.present(alert, animated: true, completion: nil)

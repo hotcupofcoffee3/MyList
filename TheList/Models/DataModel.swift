@@ -266,6 +266,20 @@ class DataModel {
         
     }
     
+    func toggleDoneForAllItems(doneStatus: Bool, forCategory category: String, forLevel level: Int, forParentID parentID: Int, andParentName parentName: String) {
+        
+        let itemsToToggle = loadSpecificItems(forCategory: category, forLevel: level, forParentID: parentID, andParentName: parentName)
+        
+        for item in itemsToToggle {
+            
+            item.done = doneStatus
+            
+        }
+        
+        saveData()
+        
+    }
+    
     
     
     

@@ -47,7 +47,7 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" title="Home" id="6RD-ag-ojr">
-                        <barButtonItem key="rightBarButtonItem" title="Move" id="Ceq-hy-3y9">
+                        <barButtonItem key="rightBarButtonItem" title="Reorder" id="Ceq-hy-3y9">
                             <connections>
                                 <action selector="edit:" destination="BYZ-38-t0r" id="L1c-AJ-Klk"/>
                             </connections>
@@ -160,7 +160,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="x8m-H1-Ndp">
-                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="554"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" id="11A-zq-wUB">
@@ -188,7 +188,7 @@
                         <viewLayoutGuide key="safeArea" id="dfz-9J-z9I"/>
                     </view>
                     <navigationItem key="navigationItem" title="SubItems" id="wTe-j4-Z3a">
-                        <barButtonItem key="rightBarButtonItem" title="Move" id="AeD-03-ZBc">
+                        <barButtonItem key="rightBarButtonItem" title="Reorder" id="AeD-03-ZBc">
                             <connections>
                                 <action selector="edit:" destination="vyx-Yb-CY9" id="6os-ap-J9a"/>
                             </connections>
@@ -242,7 +242,7 @@
                         <viewLayoutGuide key="safeArea" id="yxV-sH-AWJ"/>
                     </view>
                     <navigationItem key="navigationItem" title="Errands" id="dER-3p-bpi">
-                        <barButtonItem key="rightBarButtonItem" title="Move" id="JeW-xi-NVm">
+                        <barButtonItem key="rightBarButtonItem" title="Reorder" id="JeW-xi-NVm">
                             <connections>
                                 <action selector="edit:" destination="Nf3-wR-jev" id="Q7T-6f-iOf"/>
                             </connections>
@@ -284,7 +284,7 @@
         <!--Home-->
         <scene sceneID="LHA-K4-WDS">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="bTH-7g-JXm" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="bTH-7g-JXm" customClass="NavigationViewController" customModule="MyList" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Home" id="63C-b6-x4M"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="frp-og-HkE">
@@ -293,6 +293,7 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
+                        <outlet property="home" destination="63C-b6-x4M" id="WEj-cw-q5p"/>
                         <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="frs-ZA-mdu"/>
                     </connections>
                 </navigationController>
@@ -303,7 +304,7 @@
         <!--Errands-->
         <scene sceneID="lYx-aF-nbP">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="uz5-OP-JH3" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="uz5-OP-JH3" customClass="NavigationViewController" customModule="MyList" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Errands" id="Z8f-41-KAt"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="EM5-6H-9vR">
@@ -312,6 +313,7 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
+                        <outlet property="errands" destination="Z8f-41-KAt" id="UbA-ZA-eHe"/>
                         <segue destination="Nf3-wR-jev" kind="relationship" relationship="rootViewController" id="26Z-6h-pNQ"/>
                     </connections>
                 </navigationController>
@@ -346,7 +348,7 @@
                         <viewLayoutGuide key="safeArea" id="CYo-yC-gKr"/>
                     </view>
                     <navigationItem key="navigationItem" title="Settings" id="Zh5-zK-UPY">
-                        <barButtonItem key="rightBarButtonItem" title="Move" id="JI5-U5-F5L"/>
+                        <barButtonItem key="rightBarButtonItem" title="Reorder" id="JI5-U5-F5L"/>
                     </navigationItem>
                     <connections>
                         <segue destination="qQo-DV-nZT" kind="presentation" identifier="settingsToFontPickerSegue" modalPresentationStyle="overCurrentContext" id="QIq-3X-6Ts"/>
@@ -393,7 +395,7 @@
                         <viewLayoutGuide key="safeArea" id="2B8-ff-x63"/>
                     </view>
                     <navigationItem key="navigationItem" title="Work" id="pU8-a2-dcN">
-                        <barButtonItem key="rightBarButtonItem" title="Move" id="iVy-yz-bX4">
+                        <barButtonItem key="rightBarButtonItem" title="Reorder" id="iVy-yz-bX4">
                             <connections>
                                 <action selector="edit:" destination="Nf7-E0-lld" id="aKn-I4-OAh"/>
                             </connections>
@@ -447,7 +449,7 @@
                         <viewLayoutGuide key="safeArea" id="hoM-QO-iWE"/>
                     </view>
                     <navigationItem key="navigationItem" title="Other" id="zPF-p0-8on">
-                        <barButtonItem key="rightBarButtonItem" title="Move" id="XIK-Ej-0oq">
+                        <barButtonItem key="rightBarButtonItem" title="Reorder" id="XIK-Ej-0oq">
                             <connections>
                                 <action selector="edit:" destination="JfK-1c-7QD" id="659-Fk-JbR"/>
                             </connections>
@@ -645,7 +647,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="T1f-8T-A8y">
-                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="554"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" id="OHM-6I-Emd">
@@ -673,7 +675,7 @@
                         <viewLayoutGuide key="safeArea" id="7ky-YY-JTV"/>
                     </view>
                     <navigationItem key="navigationItem" title="Title" id="DAc-cX-EVZ">
-                        <barButtonItem key="rightBarButtonItem" title="Move" id="YAk-rl-Sb6">
+                        <barButtonItem key="rightBarButtonItem" title="Reorder" id="YAk-rl-Sb6">
                             <connections>
                                 <action selector="edit:" destination="pYo-G2-EdQ" id="ob0-QW-4d2"/>
                             </connections>
@@ -692,7 +694,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="PHF-fa-WUR"/>
-        <segue reference="Vta-j7-sr1"/>
+        <segue reference="qAD-ln-2Bb"/>
+        <segue reference="9Ao-XS-uyY"/>
     </inferredMetricsTieBreakers>
 </document>
