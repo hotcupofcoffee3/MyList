@@ -67,14 +67,16 @@ class CategoryAndItemViewController: UIViewController {
         
         if itemModel.numberOfItems(forParentID: Int(itemModel.items[indexPath.row].id), andParentName: itemModel.items[indexPath.row].name!) > 0 {
             
-            let alert = UIAlertController(title: "Are you sure?", message: "You have Items in this Category", preferredStyle: .alert)
+            let alert = UIAlertController(title: "Are you sure?", message: "You have SubItems in this Item", preferredStyle: .alert)
             
             alert.addAction(UIAlertAction(title: "Delete", style: .default, handler: { (action) in
                 
                 DataModel.shared.deleteSpecificItem(forItem: self.itemModel.items[indexPath.row])
                 
                 self.itemModel.reloadItems()
+                
                 tableView.deleteRows(at: [indexPath], with: .left)
+                
                 self.hapticExecuted(as: .success)
                 
             }))
@@ -88,10 +90,39 @@ class CategoryAndItemViewController: UIViewController {
             DataModel.shared.deleteSpecificItem(forItem: itemModel.items[indexPath.row])
             
             itemModel.reloadItems()
+            
             tableView.deleteRows(at: [indexPath], with: .left)
+            
             hapticExecuted(as: .success)
             
         }
+        
+    }
+    
+    func deleteSubItems(inTable tableView: UITableView, atIndexPath indexPath: IndexPath) {
+        
+        let alert = UIAlertController(title: "Are you sure?", message: "This will delete all subitems", preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "Delete", style: .default, handler: { (action) in
+            
+            let category = self.itemModel.items[indexPath.row].category!
+            let level = Int(self.itemModel.items[indexPath.row].level)
+            let id = Int(self.itemModel.items[indexPath.row].id)
+            let name = self.itemModel.items[indexPath.row].name!
+            
+            DataModel.shared.addSubItemsToDeleteQueue(forCategory: category, forLevel: level, forID: id, andName: name)
+            
+            DataModel.shared.deleteItemsInItemsToDeleteArray()
+            
+            self.hapticExecuted(as: .success)
+            
+            tableView.reloadData()
+            
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        present(alert, animated: true, completion: nil)
         
     }
     
@@ -127,8 +158,6 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
         
         let category = self.itemModel.items[indexPath.row].category!
         let level = Int(self.itemModel.items[indexPath.row].level)
-        let id = Int(self.itemModel.items[indexPath.row].id)
-        let name = self.itemModel.items[indexPath.row].name!
         let parentID = Int(self.itemModel.items[indexPath.row].parentID)
         let parentName = self.itemModel.items[indexPath.row].parentName!
         
@@ -147,11 +176,7 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
             // Delete SubItems
             let deleteSubItems = UIAlertAction(title: "Delete SubItems", style: .destructive, handler: { (action) in
                 
-                DataModel.shared.addSubItemsToDeleteQueue(forCategory: category, forLevel: level, forID: id, andName: name)
-                
-                DataModel.shared.deleteItemsInItemsToDeleteArray()
-                
-                tableView.reloadData()
+                self.deleteSubItems(inTable: tableView, atIndexPath: indexPath)
                 
             })
             
