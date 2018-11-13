@@ -8,7 +8,7 @@
 
 import UIKit
 
-class EditViewController: UIViewController {
+class EditViewController: UIViewController, UITextFieldDelegate {
     
     var selectedCategory = SelectedCategory.home
     
@@ -25,8 +25,8 @@ class EditViewController: UIViewController {
     @IBAction func cancel(_ sender: UIButton) {
         dismiss(animated: true, completion: nil)
     }
-
-    @IBAction func submit(_ sender: UIButton) {
+    
+    func changeName() {
         
         if nameTextField.text != "" {
             
@@ -41,12 +41,26 @@ class EditViewController: UIViewController {
         }
         
     }
+
+    @IBAction func submit(_ sender: UIButton) {
+        
+        changeName()
+        
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         nameTextField.text = nameToEdit
+        nameTextField.delegate = self
         
     }
     
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        
+        changeName()
+        
+        return true
+        
+    }
     
 }

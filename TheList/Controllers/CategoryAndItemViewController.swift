@@ -340,7 +340,7 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
         
         DataModel.shared.updateIDs(forItems: itemModel.items)
         
-        tableView.reloadData()
+//        tableView.reloadData()
         
     }
     
