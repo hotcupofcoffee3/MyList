@@ -150,7 +150,7 @@ class ItemModel {
         
     }
     
-    func numberOfItems(forParentID parentID: Int, andParentName parentName: String) -> Int {
+    func numberOfSubItems(forParentID parentID: Int, andParentName parentName: String) -> Int {
         
 //        var totalNumberOfSubItems = Int()
 //

@@ -65,7 +65,7 @@ class CategoryAndItemViewController: UIViewController {
     
     func deleteRow(inTable tableView: UITableView, atIndexPath indexPath: IndexPath) {
         
-        if itemModel.numberOfItems(forParentID: Int(itemModel.items[indexPath.row].id), andParentName: itemModel.items[indexPath.row].name!) > 0 {
+        if itemModel.numberOfSubItems(forParentID: Int(itemModel.items[indexPath.row].id), andParentName: itemModel.items[indexPath.row].name!) > 0 {
             
             let alert = UIAlertController(title: "Are you sure?", message: "You have SubItems in this Item", preferredStyle: .alert)
             
@@ -156,46 +156,23 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
     // Edit Actions For Row
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         
+        let id = Int(self.itemModel.items[indexPath.row].id)
+        let name = self.itemModel.items[indexPath.row].name!
         let category = self.itemModel.items[indexPath.row].category!
         let level = Int(self.itemModel.items[indexPath.row].level)
         let parentID = Int(self.itemModel.items[indexPath.row].parentID)
         let parentName = self.itemModel.items[indexPath.row].parentName!
+        let numberOfSubitems = self.itemModel.numberOfSubItems(forParentID: id, andParentName: name)
         
         let delete = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
             
             self.itemModel.selectedItem = self.itemModel.items[indexPath.row]
             
+            self.deleteRow(inTable: tableView, atIndexPath: indexPath)
             
-            // Delete Item
-            let deleteItem = UIAlertAction(title: "Delete Item", style: .destructive, handler: { (action) in
-                
-                self.deleteRow(inTable: tableView, atIndexPath: indexPath)
-                
-            })
-            
-            // Delete SubItems
-            let deleteSubItems = UIAlertAction(title: "Delete SubItems", style: .destructive, handler: { (action) in
-                
-                self.deleteSubItems(inTable: tableView, atIndexPath: indexPath)
-                
-            })
-            
-            // Cancel
-            let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-            
-            
-            // Alert compilation
-            let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-            
-            alert.addAction(deleteItem)
-            alert.addAction(deleteSubItems)
-            alert.addAction(cancel)
-            
-            self.present(alert, animated: true, completion: nil)
-        
         }
         
-        let edit = UITableViewRowAction(style: .normal, title: "More") { (action, indexPath) in
+        let more = UITableViewRowAction(style: .normal, title: "More") { (action, indexPath) in
             
             self.itemModel.selectedItem = self.itemModel.items[indexPath.row]
 
@@ -206,6 +183,14 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
                 self.isEditingSpecifics = true
                 
                 self.performSegue(withIdentifier: self.itemModel.editSegue, sender: self)
+                
+            })
+            
+            
+            // Delete SubItems
+            let deleteSubItems = UIAlertAction(title: "Delete SubItems", style: .destructive, handler: { (action) in
+                
+                self.deleteSubItems(inTable: tableView, atIndexPath: indexPath)
                 
             })
             
@@ -248,6 +233,11 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
             let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
             
             alert.addAction(editName)
+            
+            if numberOfSubitems > 0 {
+                alert.addAction(deleteSubItems)
+            }
+            
             alert.addAction(move)
             alert.addAction(checkAll)
             alert.addAction(uncheckAll)
@@ -257,7 +247,7 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
             
         }
         
-        return [delete, edit]
+        return [delete, more]
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -281,7 +271,7 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
         
         cell.nameLabel?.text = "\(itemModel.items[indexPath.row].name!)"
         
-        let numOfSubItems = itemModel.numberOfItems(forParentID: Int(itemModel.items[indexPath.row].id), andParentName: itemModel.items[indexPath.row].name!)
+        let numOfSubItems = itemModel.numberOfSubItems(forParentID: Int(itemModel.items[indexPath.row].id), andParentName: itemModel.items[indexPath.row].name!)
         let numOfSubItemsDone = itemModel.numberOfItemsDone(forParentID: Int(itemModel.items[indexPath.row].id), andParentName: itemModel.items[indexPath.row].name!)
         
         if numOfSubItems > 0 {
@@ -308,7 +298,7 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
         
         tableView.deselectRow(at: indexPath, animated: true)
         
-        let numOfSubItems = itemModel.numberOfItems(forParentID: Int(itemModel.items[indexPath.row].id), andParentName: itemModel.items[indexPath.row].name!)
+        let numOfSubItems = itemModel.numberOfSubItems(forParentID: Int(itemModel.items[indexPath.row].id), andParentName: itemModel.items[indexPath.row].name!)
         
         if numOfSubItems == 0 {
             
@@ -340,13 +330,39 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
         
         DataModel.shared.updateIDs(forItems: itemModel.items)
         
-//        tableView.reloadData()
-        
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 60
     }
+    
+//    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+//
+//        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { (action, view, success) in
+//
+//            print("Closeted")
+//
+//        }
+//
+////        deleteAction.image = UIImage(named: "tick")
+////        deleteAction.backgroundColor = UIColor.purple
+//
+//        return UISwipeActionsConfiguration(actions: [deleteAction])
+//
+//    }
+    
+//    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+//
+//        let modifyAction = UIContextualAction(style: .destructive, title: "Update") { (action, view, success) in
+//            print("Updated")
+//        }
+//
+////        modifyAction.image = UIImage(named: "hammer")
+//        modifyAction.backgroundColor = UIColor.blue
+//
+//        return UISwipeActionsConfiguration(actions: [modifyAction])
+//
+//    }
     
 }
 
