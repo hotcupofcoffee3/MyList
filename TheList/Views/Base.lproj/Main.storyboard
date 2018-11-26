@@ -47,7 +47,7 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" title="Home" id="6RD-ag-ojr">
-                        <barButtonItem key="rightBarButtonItem" title="Reorder" id="Ceq-hy-3y9">
+                        <barButtonItem key="rightBarButtonItem" title="Move" id="Ceq-hy-3y9">
                             <connections>
                                 <action selector="edit:" destination="BYZ-38-t0r" id="L1c-AJ-Klk"/>
                             </connections>
@@ -188,7 +188,7 @@
                         <viewLayoutGuide key="safeArea" id="dfz-9J-z9I"/>
                     </view>
                     <navigationItem key="navigationItem" title="SubItems" id="wTe-j4-Z3a">
-                        <barButtonItem key="rightBarButtonItem" title="Reorder" id="AeD-03-ZBc">
+                        <barButtonItem key="rightBarButtonItem" title="Move" id="AeD-03-ZBc">
                             <connections>
                                 <action selector="edit:" destination="vyx-Yb-CY9" id="6os-ap-J9a"/>
                             </connections>
@@ -242,7 +242,7 @@
                         <viewLayoutGuide key="safeArea" id="yxV-sH-AWJ"/>
                     </view>
                     <navigationItem key="navigationItem" title="Errands" id="dER-3p-bpi">
-                        <barButtonItem key="rightBarButtonItem" title="Reorder" id="JeW-xi-NVm">
+                        <barButtonItem key="rightBarButtonItem" title="Move" id="JeW-xi-NVm">
                             <connections>
                                 <action selector="edit:" destination="Nf3-wR-jev" id="Q7T-6f-iOf"/>
                             </connections>
@@ -348,7 +348,7 @@
                         <viewLayoutGuide key="safeArea" id="CYo-yC-gKr"/>
                     </view>
                     <navigationItem key="navigationItem" title="Settings" id="Zh5-zK-UPY">
-                        <barButtonItem key="rightBarButtonItem" title="Reorder" id="JI5-U5-F5L"/>
+                        <barButtonItem key="rightBarButtonItem" title="Move" id="JI5-U5-F5L"/>
                     </navigationItem>
                     <connections>
                         <segue destination="qQo-DV-nZT" kind="presentation" identifier="settingsToFontPickerSegue" modalPresentationStyle="overCurrentContext" id="QIq-3X-6Ts"/>
@@ -395,7 +395,7 @@
                         <viewLayoutGuide key="safeArea" id="2B8-ff-x63"/>
                     </view>
                     <navigationItem key="navigationItem" title="Work" id="pU8-a2-dcN">
-                        <barButtonItem key="rightBarButtonItem" title="Reorder" id="iVy-yz-bX4">
+                        <barButtonItem key="rightBarButtonItem" title="Move" id="iVy-yz-bX4">
                             <connections>
                                 <action selector="edit:" destination="Nf7-E0-lld" id="aKn-I4-OAh"/>
                             </connections>
@@ -449,7 +449,7 @@
                         <viewLayoutGuide key="safeArea" id="hoM-QO-iWE"/>
                     </view>
                     <navigationItem key="navigationItem" title="Other" id="zPF-p0-8on">
-                        <barButtonItem key="rightBarButtonItem" title="Reorder" id="XIK-Ej-0oq">
+                        <barButtonItem key="rightBarButtonItem" title="Move" id="XIK-Ej-0oq">
                             <connections>
                                 <action selector="edit:" destination="JfK-1c-7QD" id="659-Fk-JbR"/>
                             </connections>
@@ -675,7 +675,7 @@
                         <viewLayoutGuide key="safeArea" id="7ky-YY-JTV"/>
                     </view>
                     <navigationItem key="navigationItem" title="Title" id="DAc-cX-EVZ">
-                        <barButtonItem key="rightBarButtonItem" title="Reorder" id="YAk-rl-Sb6">
+                        <barButtonItem key="rightBarButtonItem" title="Move" id="YAk-rl-Sb6">
                             <connections>
                                 <action selector="edit:" destination="pYo-G2-EdQ" id="ob0-QW-4d2"/>
                             </connections>
@@ -694,7 +694,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="qAD-ln-2Bb"/>
-        <segue reference="9Ao-XS-uyY"/>
+        <segue reference="nux-BO-Hot"/>
+        <segue reference="bMT-Jl-AiY"/>
     </inferredMetricsTieBreakers>
 </document>

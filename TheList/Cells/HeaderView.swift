@@ -14,7 +14,7 @@ class HeaderView: UITableViewHeaderFooterView, UITextFieldDelegate {
     
     var reloadTableListDelegate: ReloadTableListDelegate?
     
-    var checkForNameDuplicateDelegate: CheckForNameDuplicationDelegate?
+    var checkForInvalidNameDelegate: CheckForInvalidNameDelegate?
     
     var hapticDelegate: HapticDelegate?
     
@@ -40,7 +40,7 @@ class HeaderView: UITableViewHeaderFooterView, UITextFieldDelegate {
     
     func addNewItem() {
         
-        if ((addNewItemDelegate?.addNewItem(itemName: headerTextField.text!))!) {
+        if ((addNewItemDelegate?.addNewItem(itemName: String(headerTextField.text!)))!) {
             
             hapticDelegate?.hapticExecuted(as: .success)
             
@@ -54,7 +54,7 @@ class HeaderView: UITableViewHeaderFooterView, UITextFieldDelegate {
             
             hapticDelegate?.hapticExecuted(as: .warning)
             
-            checkForNameDuplicateDelegate?.presentDuplicateNameAlert()
+            checkForInvalidNameDelegate?.presentInvalidNameAlert()
             
         }
         

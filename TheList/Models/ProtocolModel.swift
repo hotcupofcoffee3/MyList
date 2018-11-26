@@ -17,8 +17,8 @@ protocol ReloadTableListDelegate {
     func reloadTableData()
 }
 
-protocol CheckForNameDuplicationDelegate {
-    func presentDuplicateNameAlert()
+protocol CheckForInvalidNameDelegate {
+    func presentInvalidNameAlert()
 }
 
 protocol HapticDelegate {

@@ -228,6 +228,18 @@ extension ItemModel: AddNewItemDelegate, ReloadTableListDelegate {
             }
         }
         
+        var numOfQsInARow = 0
+        for a in itemName {
+            if a == "?" {
+                numOfQsInARow += 1
+                if numOfQsInARow > 2 {
+                    canAdd = false
+                }
+            } else {
+                numOfQsInARow = 0
+            }
+        }
+        
         if canAdd && itemName != "" {
             DataModel.shared.addNewItem(name: itemName, forCategory: selectedCategory, level: level, parentID: selectedParentID, parentName: selectedParentName)
             items = DataModel.shared.loadSpecificItems(forCategory: selectedCategory.rawValue, forLevel: level, forParentID: selectedParentID, andParentName: selectedParentName)
