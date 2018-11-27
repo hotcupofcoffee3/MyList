@@ -21,6 +21,14 @@ protocol CheckForInvalidNameDelegate {
     func presentInvalidNameAlert()
 }
 
+protocol AddAnItemTextFieldIsActiveDelegate {
+    func addAnItemTextFieldIsActive()
+}
+
+protocol TouchedAwayFromHeaderTextFieldDelegate {
+    func touchedAwayFromHeaderTextField()
+}
+
 protocol HapticDelegate {
     func hapticExecuted(as: UINotificationFeedbackGenerator.FeedbackType)
 }

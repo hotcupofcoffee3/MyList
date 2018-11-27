@@ -8,13 +8,16 @@
 
 import UIKit
 
-class HeaderView: UITableViewHeaderFooterView, UITextFieldDelegate {
+class HeaderView: UITableViewHeaderFooterView, UITextFieldDelegate, TouchedAwayFromHeaderTextFieldDelegate {
+    
     
     var addNewItemDelegate: AddNewItemDelegate?
     
     var reloadTableListDelegate: ReloadTableListDelegate?
     
     var checkForInvalidNameDelegate: CheckForInvalidNameDelegate?
+    
+    var addAnItemTextFieldIsActiveDelegate: AddAnItemTextFieldIsActiveDelegate?
     
     var hapticDelegate: HapticDelegate?
     
@@ -30,12 +33,14 @@ class HeaderView: UITableViewHeaderFooterView, UITextFieldDelegate {
         
     }
     
+    @IBAction func headerTextFieldBecameActive(_ sender: UITextField) {
+        addAnItemTextFieldIsActiveDelegate?.addAnItemTextFieldIsActive()
+    }
+    
     @IBOutlet weak var addButton: UIButton!
     
     @IBAction func addButtonPressed(_ sender: UIButton) {
-        
         addNewItem()
-        
     }
     
     func addNewItem() {
@@ -114,9 +119,11 @@ class HeaderView: UITableViewHeaderFooterView, UITextFieldDelegate {
         
     }
     
+    func touchedAwayFromHeaderTextField() {
+        headerTextField.resignFirstResponder()
+    }
+    
 }
-
-
 
 
 

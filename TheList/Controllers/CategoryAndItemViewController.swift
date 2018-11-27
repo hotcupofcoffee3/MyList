@@ -18,9 +18,11 @@ class CategoryAndItemViewController: UIViewController {
     
     var isEditingSpecifics = false
     
+    var touchedAwayFromHeaderTextFieldDelegate: TouchedAwayFromHeaderTextFieldDelegate?
+    
     func toggleEditing() {
         isCurrentlyGrouping = !isCurrentlyGrouping
-        editButton.title = isCurrentlyGrouping ? "Done" : "Move"
+        editButton.title = isCurrentlyGrouping ? "Done" : "Sort"
         tableView.setEditing(isCurrentlyGrouping, animated: true)
     }
     
@@ -145,6 +147,10 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
         headerView.reloadTableListDelegate = itemModel
         
         headerView.checkForInvalidNameDelegate = self
+        
+        headerView.addAnItemTextFieldIsActiveDelegate = self
+        
+        self.touchedAwayFromHeaderTextFieldDelegate = headerView
         
         headerView.selectedParentID = itemModel.selectedParentID
         
@@ -287,7 +293,11 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
     }
     
     func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
+        
+        touchedAwayFromHeaderTextFieldDelegate?.touchedAwayFromHeaderTextField()
+        
         self.itemModel.selectedItem = itemModel.items[indexPath.row]
+        
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -414,7 +424,7 @@ extension CategoryAndItemViewController {
 
 
 
-extension CategoryAndItemViewController: CheckForInvalidNameDelegate, HapticDelegate, EditingCompleteDelegate {
+extension CategoryAndItemViewController: CheckForInvalidNameDelegate, HapticDelegate, EditingCompleteDelegate, AddAnItemTextFieldIsActiveDelegate {
     
     func presentInvalidNameAlert() {
         
@@ -437,6 +447,12 @@ extension CategoryAndItemViewController: CheckForInvalidNameDelegate, HapticDele
     func editingComplete() {
         self.itemModel.setViewDisplayed(tableView: tableView, selectedCategory: self.title!, level: level)
         tableView.reloadData()
+    }
+    
+    func addAnItemTextFieldIsActive() {
+        if isCurrentlyGrouping {
+            toggleEditing()
+        }
     }
     
 }
