@@ -217,6 +217,10 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
         let parentName = self.itemModel.items[indexPath.row].parentName!
         let numberOfSubitems = self.itemModel.numberOfSubItems(forParentID: id, andParentName: name)
         
+        
+        
+        // *** DELETE
+        
         let delete = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
             
             self.itemModel.selectedItem = self.itemModel.items[indexPath.row]
@@ -224,6 +228,10 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
             self.deleteRow(inTable: tableView, atIndexPath: indexPath)
             
         }
+        
+        
+        
+        // *** MORE
         
         let more = UITableViewRowAction(style: .normal, title: "More") { (action, indexPath) in
             
@@ -251,9 +259,17 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
             // Move
             let move = UIAlertAction(title: "Move", style: .default, handler: { (action) in
                 
-                self.isEditingSpecifics = true
+//                self.isEditingSpecifics = true
+//                print(self.itemModel.items[indexPath.row].parentName!)
                 
-                print(self.itemModel.items[indexPath.row].parentName!)
+            })
+            
+            
+            // Group
+            let group = UIAlertAction(title: "Group", style: .default, handler: { (action) in
+                
+                //                self.isEditingSpecifics = true
+                //                print(self.itemModel.items[indexPath.row].parentName!)
                 
             })
             
@@ -282,6 +298,7 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
             }
             
             alert.addAction(move)
+            alert.addAction(group)
             alert.addAction(uncheckAll)
             alert.addAction(cancel)
             
@@ -290,6 +307,7 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
         }
         
         return [delete, more]
+        
     }
     
     func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
