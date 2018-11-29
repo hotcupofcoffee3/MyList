@@ -75,6 +75,56 @@ class DataModel {
         
     }
     
+    func group(items: [Item], intoGroupName newGroupName: String, forCategory category: SelectedCategory, atLevel groupLevel: Int, withGroupedItemID groupedItemID: Int, withGroupParentID groupParentID: Int, andGroupParentName groupParentName: String) {
+        
+        // TODO:
+        
+        // 1 - Update all of the items to be grouped with a new level FIRST, so that all other information stays the same.
+        // ------ Use the 'updateLevels()' function.
+        // 2 - Next, load all of the Newly Grouped Items with the new level and update the parentName and ID.
+        // 3 - Once this is done, get the new ID for a New Group Item as the parent of this group by loading all of the items that belong to the New Group Item Level, aka, the current level.
+        // 4 - Add a new item with the new Group name and current ID.
+        // 5 - Use the loaded Newly Grouped Items to iterate and change their parentName and parentID to match the New Group Item's name and id.
+        
+        
+        
+        // New Group Item created for the grouped items to have as their parent
+        addNewItem(name: newGroupName, forCategory: category, level: groupLevel, parentID: groupParentID, parentName: groupParentName)
+        
+        // Grouped items update their parent name and level first, as well as a soon-to-be outdated ID.
+        // The New Group Item has an initial ID for when it was added to the whole group, including all of the subItems that will be added to it. This will change below.
+        // The 'oldIDForNewGroupedItem' will be used below to access this new group, as once the correct ID has been set for the New Group Item, its ID will not match those of its subItems.
+        let groupedItemsToUpdate = items
+        let newGroupedItem = loadParentItem(forID: groupedItemID, andName: newGroupName)
+        let oldIDForNewGroupedItem = Int(newGroupedItem.id)
+        
+        for item in groupedItemsToUpdate {
+            item.parentName = newGroupName
+            item.parentID = newGroupedItem.id
+        }
+        saveData()
+        
+        // Update the levels for all of the Grouped Items
+        updateLevels(forItems: groupedItemsToUpdate)
+        
+        // Now that the Grouped Items will not show up in the Items at the Grouped Item's level, the IDs can be updated to give the new Group Item created the correct ID.
+        let itemsAtParentLevel = loadSpecificItems(forCategory: category.rawValue, forLevel: groupLevel, forParentID: groupParentID, andParentName: groupParentName)
+        updateIDs(forItems: itemsAtParentLevel)
+        
+        // With the new ID for the New Group Item, the subItems can now be updated with the correct Parent ID.
+        // All of the items at the Parent level are now loaded, and since the New Group Item was created before any other things took place, the ID would be the highest in the group, and therefore at the end of the loaded array.
+        // Therefore, the last item in the 'itemsAtParentLevelWithCorrectIDs' would be the correct parent.
+        let newlyGroupedItems = loadSpecificItems(forCategory: category.rawValue, forLevel: groupLevel + 1, forParentID: oldIDForNewGroupedItem, andParentName: newGroupName)
+        let itemsAtParentLevelWithCorrectIDs = loadSpecificItems(forCategory: category.rawValue, forLevel: groupLevel, forParentID: groupParentID, andParentName: groupParentName)
+        
+        for item in newlyGroupedItems {
+            item.parentID = itemsAtParentLevelWithCorrectIDs[itemsAtParentLevelWithCorrectIDs.count - 1].id
+        }
+        
+        saveData()
+        
+    }
+    
     
     
     // MARK: - READ
@@ -253,6 +303,45 @@ class DataModel {
                 // After subItems taken care of, the current item's ID is updated.
                 item.id = Int64(id)
                 id += 1
+                
+                saveData()
+                
+            }
+            
+        } else {
+            
+            print("There was no array passed to the updateIDs() function in the DataModel.")
+            
+        }
+        
+    }
+    
+    func updateLevels(forItems items: [Item]?) {
+        
+        var subItems = [Item]()
+        
+        if items != nil {
+            
+            guard let items = items else { return print("There were no Items loaded in the updateIDs function in DataModel.") }
+            
+            for item in items {
+                
+                // ID and Level before new IDs are set
+                let itemID = Int(item.id)
+                let subItemLevel = Int(item.level + 1)
+                
+                // Reset array and load subitems based on item info before it is changed.
+                subItems = []
+                subItems = loadSpecificItems(forCategory: item.category!, forLevel: subItemLevel, forParentID: itemID, andParentName: item.name!)
+                
+                // If the old id AND name match, then the subItem's parentID is updated.
+                // Matching the name AND old id makes sure that when the new IDs are set for the parents, even if they match some of the other subItems' parentID, they won't match the name, as well, so this filters them out.
+                if subItems.count > 0 {
+                    updateLevels(forItems: subItems)
+                }
+                
+                // After subItems taken care of, the current item's level is updated.
+                item.level = item.level + 1
                 
                 saveData()
                 
