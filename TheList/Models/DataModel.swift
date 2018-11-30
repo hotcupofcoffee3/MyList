@@ -75,53 +75,57 @@ class DataModel {
         
     }
     
-    func group(items: [Item], intoGroupName newGroupName: String, forCategory category: SelectedCategory, atLevel groupLevel: Int, withGroupedItemID groupedItemID: Int, withGroupParentID groupParentID: Int, andGroupParentName groupParentName: String) {
-        
-        // TODO:
-        
-        // 1 - Update all of the items to be grouped with a new level FIRST, so that all other information stays the same.
-        // ------ Use the 'updateLevels()' function.
-        // 2 - Next, load all of the Newly Grouped Items with the new level and update the parentName and ID.
-        // 3 - Once this is done, get the new ID for a New Group Item as the parent of this group by loading all of the items that belong to the New Group Item Level, aka, the current level.
-        // 4 - Add a new item with the new Group name and current ID.
-        // 5 - Use the loaded Newly Grouped Items to iterate and change their parentName and parentID to match the New Group Item's name and id.
+    func group(items: [Item], intoNewItemName newItemName: String, forCategory category: SelectedCategory, atLevel newItemLevel: Int, withNewItemParentID newItemParentID: Int, andNewItemParentName newItemParentName: String) {
         
         
         
-        // New Group Item created for the grouped items to have as their parent
-        addNewItem(name: newGroupName, forCategory: category, level: groupLevel, parentID: groupParentID, parentName: groupParentName)
+        // 1:
+        // --- Update all of the items to be grouped with a new level FIRST, so that all other information stays the same.
+        // --- Use the 'updateLevels()' function.
+        updateLevels(forItems: items)
         
-        // Grouped items update their parent name and level first, as well as a soon-to-be outdated ID.
-        // The New Group Item has an initial ID for when it was added to the whole group, including all of the subItems that will be added to it. This will change below.
-        // The 'oldIDForNewGroupedItem' will be used below to access this new group, as once the correct ID has been set for the New Group Item, its ID will not match those of its subItems.
-        let groupedItemsToUpdate = items
-        let newGroupedItem = loadParentItem(forID: groupedItemID, andName: newGroupName)
-        let oldIDForNewGroupedItem = Int(newGroupedItem.id)
         
-        for item in groupedItemsToUpdate {
-            item.parentName = newGroupName
-            item.parentID = newGroupedItem.id
-        }
-        saveData()
         
-        // Update the levels for all of the Grouped Items
-        updateLevels(forItems: groupedItemsToUpdate)
+        // 2:
+        // --- Load all of the Newly Grouped Items with the new level.
+        // --- Update the parentName.
+        let newlyLeveledItems = loadSpecificItems(forCategory: category.rawValue, forLevel: newItemLevel + 1, forParentID: newItemParentID, andParentName: newItemParentName)
         
-        // Now that the Grouped Items will not show up in the Items at the Grouped Item's level, the IDs can be updated to give the new Group Item created the correct ID.
-        let itemsAtParentLevel = loadSpecificItems(forCategory: category.rawValue, forLevel: groupLevel, forParentID: groupParentID, andParentName: groupParentName)
-        updateIDs(forItems: itemsAtParentLevel)
-        
-        // With the new ID for the New Group Item, the subItems can now be updated with the correct Parent ID.
-        // All of the items at the Parent level are now loaded, and since the New Group Item was created before any other things took place, the ID would be the highest in the group, and therefore at the end of the loaded array.
-        // Therefore, the last item in the 'itemsAtParentLevelWithCorrectIDs' would be the correct parent.
-        let newlyGroupedItems = loadSpecificItems(forCategory: category.rawValue, forLevel: groupLevel + 1, forParentID: oldIDForNewGroupedItem, andParentName: newGroupName)
-        let itemsAtParentLevelWithCorrectIDs = loadSpecificItems(forCategory: category.rawValue, forLevel: groupLevel, forParentID: groupParentID, andParentName: groupParentName)
-        
-        for item in newlyGroupedItems {
-            item.parentID = itemsAtParentLevelWithCorrectIDs[itemsAtParentLevelWithCorrectIDs.count - 1].id
+        for leveledItem in newlyLeveledItems {
+            leveledItem.parentName = newItemName
         }
         
         saveData()
+        
+        
+        
+        // 3:
+        // --- Add new Item that will be the parent of the selected Items to be grouped.
+        addNewItem(name: newItemName, forCategory: category, level: newItemLevel, parentID: newItemParentID, parentName: newItemParentName)
+        
+        
+        
+        // 4:
+        // --- Get new Item's ID from the count of the items, at this is will be the last item that was added, and therefore the 'count' would be the item's ID.
+        // --- Load all of the Newly Grouped Items
+        // --- Update the parentID based on the 'newItemID'
+        let newItemID = loadSpecificItems(forCategory: category.rawValue, forLevel: newItemLevel, forParentID: newItemParentID, andParentName: newItemParentName).count
+        
+        // 'newItemParentID' is used initially because the 'newItemID' has not been set for this group of items.
+        let oldParentID = newItemParentID
+        let subItems = loadSpecificItems(forCategory: category.rawValue, forLevel: newItemLevel + 1, forParentID: oldParentID, andParentName: newItemName)
+        
+        for subItem in subItems {
+            subItem.parentID = Int64(newItemID)
+        }
+        saveData()
+        
+        
+        
+        // 5:
+        // --- Update the IDs of the grouped items, as they will now be different, since they are in their own group, and are therefore ordered differently.
+        let newlyGroupedItems = loadSpecificItems(forCategory: category.rawValue, forLevel: newItemLevel + 1, forParentID: newItemID, andParentName: newItemName)
+        updateIDs(forItems: newlyGroupedItems)
         
     }
     

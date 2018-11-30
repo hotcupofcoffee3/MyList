@@ -268,8 +268,47 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
             // Group
             let group = UIAlertAction(title: "Group", style: .default, handler: { (action) in
                 
-                //                self.isEditingSpecifics = true
-                //                print(self.itemModel.items[indexPath.row].parentName!)
+                let groupAlert = UIAlertController(title: "Group?", message: "Group these items?", preferredStyle: .alert)
+                
+                let groupItems = UIAlertAction(title: "OK", style: .default, handler: { (action) in
+
+                    var itemsToGroup = [Item]()
+                    for item in self.itemModel.items {
+                        if item.done {
+                            itemsToGroup.append(item)
+                        }
+                    }
+                    
+                    if itemsToGroup.count > 0 {
+                        DataModel.shared.group(items: itemsToGroup, intoNewItemName: itemsToGroup[0].name!, forCategory: self.itemModel.selectedCategory, atLevel: self.itemModel.level, withNewItemParentID: self.itemModel.selectedParentID, andNewItemParentName: self.itemModel.selectedParentName)
+                        
+                    }
+                    
+                    self.itemModel.reloadItems()
+                    tableView.reloadData()
+                })
+                
+                let cancelGroupingItems = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+                
+                groupAlert.addAction(groupItems)
+                groupAlert.addAction(cancelGroupingItems)
+                
+                self.present(groupAlert, animated: true, completion: nil)
+                
+//                var itemsToGroup = [Item]()
+//                for item in self.itemModel.items {
+//                    if item.done {
+//                        itemsToGroup.append(item)
+//                    }
+//                }
+//
+//                if itemsToGroup.count > 0 {
+//                    DataModel.shared.group(items: itemsToGroup, intoNewItemName: "Dog", forCategory: self.itemModel.selectedCategory, atLevel: self.itemModel.level, withNewItemParentID: self.itemModel.selectedParentID, andNewItemParentName: self.itemModel.selectedParentName)
+//
+//                }
+//
+//                self.itemModel.reloadItems()
+//                tableView.reloadData()
                 
             })
             
@@ -279,6 +318,7 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
                 
                 DataModel.shared.toggleDoneForAllItems(doneStatus: false, forCategory: category, forLevel: level, forParentID: parentID, andParentName: parentName)
                 
+                self.itemModel.reloadItems()
                 tableView.reloadData()
                 
             })
