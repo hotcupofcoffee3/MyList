@@ -268,10 +268,16 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
             // Group
             let group = UIAlertAction(title: "Group", style: .default, handler: { (action) in
                 
-                let groupAlert = UIAlertController(title: "Group?", message: "Group these items?", preferredStyle: .alert)
+                let groupAlert = UIAlertController(title: "Group?", message: "Enter a new Group Name for the selected items", preferredStyle: .alert)
+                
+                groupAlert.addTextField(configurationHandler: { (textField) in
+                    textField.placeholder = "New Group Name"
+                })
+                
+                let newGroupNameTextField = groupAlert.textFields![0] as UITextField
                 
                 let groupItems = UIAlertAction(title: "OK", style: .default, handler: { (action) in
-
+                    
                     var itemsToGroup = [Item]()
                     for item in self.itemModel.items {
                         if item.done {
@@ -280,7 +286,25 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
                     }
                     
                     if itemsToGroup.count > 0 {
-                        DataModel.shared.group(items: itemsToGroup, intoNewItemName: itemsToGroup[0].name!, forCategory: self.itemModel.selectedCategory, atLevel: self.itemModel.level, withNewItemParentID: self.itemModel.selectedParentID, andNewItemParentName: self.itemModel.selectedParentName)
+                        
+                        var newGroupName = newGroupNameTextField.text!
+                        
+                        let currentCategory = self.itemModel.selectedCategory
+                        let currentLevel = self.itemModel.level
+                        let currentParentID = self.itemModel.selectedParentID
+                        let currentParentName = self.itemModel.selectedParentName
+                        
+                        let currentLevelItems = DataModel.shared.loadSpecificItems(forCategory: currentCategory.rawValue, forLevel: currentLevel, forParentID: currentParentID, andParentName: currentParentName)
+                        
+                        for currentItem in currentLevelItems {
+                            if itemsToGroup.contains(currentItem) {
+                                continue
+                            } else if currentItem.name == newGroupNameTextField.text || newGroupName == "" {
+                                newGroupName = itemsToGroup[0].name!
+                            }
+                        }
+                        
+                        DataModel.shared.group(items: itemsToGroup, intoNewItemName: newGroupName, forCategory: currentCategory, atLevel: currentLevel, withNewItemParentID: currentParentID, andNewItemParentName: currentParentName)
                         
                     }
                     
@@ -294,21 +318,6 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
                 groupAlert.addAction(cancelGroupingItems)
                 
                 self.present(groupAlert, animated: true, completion: nil)
-                
-//                var itemsToGroup = [Item]()
-//                for item in self.itemModel.items {
-//                    if item.done {
-//                        itemsToGroup.append(item)
-//                    }
-//                }
-//
-//                if itemsToGroup.count > 0 {
-//                    DataModel.shared.group(items: itemsToGroup, intoNewItemName: "Dog", forCategory: self.itemModel.selectedCategory, atLevel: self.itemModel.level, withNewItemParentID: self.itemModel.selectedParentID, andNewItemParentName: self.itemModel.selectedParentName)
-//
-//                }
-//
-//                self.itemModel.reloadItems()
-//                tableView.reloadData()
                 
             })
             
