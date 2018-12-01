@@ -8,8 +8,6 @@
 
 import Foundation
 
-
-
 // The Chosen VC that displays the TableView
 
 enum SelectedCategory: String {

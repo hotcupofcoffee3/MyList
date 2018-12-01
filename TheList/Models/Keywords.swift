@@ -47,9 +47,12 @@ class Keywords {
     
     let checkboxChecked = UIImage(named: "checkboxChecked")
     let checkboxEmpty = UIImage(named: "checkboxEmpty")
+    let blueCheck = UIImage(named: "blueCheck")
     
     let lightGreenBackground33 = UIColor(red: 193/255, green: 255/255, blue: 171/255, alpha: 1.0)
     let lightGreenBackground18 = UIColor(red: 220/255, green: 255/255, blue: 208/255, alpha: 1.0)
     let lightGreenBackground12 = UIColor(red: 233/255, green: 255/255, blue: 225/255, alpha: 1.0)
+    
+    let lightBlueBackground = UIColor(red: 190/255, green: 219/255, blue: 255/255, alpha: 1.0)
     
 }

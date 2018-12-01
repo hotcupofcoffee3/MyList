@@ -14,20 +14,32 @@ class CategoryAndItemViewController: UIViewController {
     
     var level = 1
     
-    var isCurrentlyGrouping = false
-    
     var isEditingSpecifics = false
+    
+    var isSorting = false
+    
+    var isGrouping = false
     
     var touchedAwayFromHeaderTextFieldDelegate: TouchedAwayFromHeaderTextFieldDelegate?
     
-    func toggleEditing() {
-        isCurrentlyGrouping = !isCurrentlyGrouping
-        editButton.title = isCurrentlyGrouping ? "Done" : "Sort"
-        tableView.setEditing(isCurrentlyGrouping, animated: true)
+    func toggleSorting() {
+        
+        isSorting = !isSorting
+        editButton.title = isSorting ? "Done" : "Sort"
+        tableView.setEditing(isSorting, animated: true)
+        
     }
     
     @IBAction func edit(_ sender: UIBarButtonItem) {
-        toggleEditing()
+        if !isGrouping {
+            toggleSorting()
+        } else {
+            
+            editButton.title = "Done"
+            
+            // Present option to group from below
+            
+        }
     }
     
     @IBOutlet weak var editButton: UIBarButtonItem!
@@ -58,7 +70,7 @@ class CategoryAndItemViewController: UIViewController {
     }
     
     @objc func longPressGestureSelector(gestureRecognizer: UILongPressGestureRecognizer){
-        if !isCurrentlyGrouping {
+        if !isSorting {
             if gestureRecognizer.state == .began {
                 performSegue(withIdentifier: itemModel.typeOfSegue, sender: self)
             }
@@ -168,8 +180,13 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
         cell.addGestureRecognizer(longPress)
         
         if itemModel.items[indexPath.row].done {
-            cell.checkboxImageView.image = Keywords.shared.checkboxChecked
-            cell.backgroundColor = Keywords.shared.lightGreenBackground12
+            if isGrouping {
+                cell.checkboxImageView.image = Keywords.shared.blueCheck
+                cell.backgroundColor = UIColor.white
+            } else {
+                cell.checkboxImageView.image = Keywords.shared.checkboxChecked
+                cell.backgroundColor = Keywords.shared.lightGreenBackground12
+            }
         } else {
             cell.checkboxImageView.image = Keywords.shared.checkboxEmpty
             cell.backgroundColor = UIColor.white
@@ -375,9 +392,15 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
         
         if numOfSubItems == 0 {
             
-            DataModel.shared.updateItem(forProperty: .done, forItem: itemModel.items[indexPath.row], parentID: Int(itemModel.items[indexPath.row].parentID), parentName: itemModel.items[indexPath.row].parentName!, name: nil)
-            
-            itemModel.reloadItems()
+            if isGrouping {
+                
+                // New property needed for selecting items for grouping queue
+                
+            } else {
+                DataModel.shared.updateItem(forProperty: .done, forItem: itemModel.items[indexPath.row], parentID: Int(itemModel.items[indexPath.row].parentID), parentName: itemModel.items[indexPath.row].parentName!, name: nil)
+                
+                itemModel.reloadItems()
+            }
             
         } else {
             
@@ -390,7 +413,7 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
     }
     
     func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        return isCurrentlyGrouping
+        return isSorting
     }
     
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
@@ -517,8 +540,8 @@ extension CategoryAndItemViewController: CheckForInvalidNameDelegate, HapticDele
     }
     
     func addAnItemTextFieldIsActive() {
-        if isCurrentlyGrouping {
-            toggleEditing()
+        if isSorting {
+            toggleSorting()
         }
     }
     
