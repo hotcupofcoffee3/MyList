@@ -411,6 +411,7 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
                 for i in 0..<itemsToGroup.count {
                     if itemsToGroup[i] == itemToGroup {
                         itemsToGroup.remove(at: i)
+                        break
                     }
                 }
             } else {
