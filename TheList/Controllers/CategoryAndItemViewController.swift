@@ -20,6 +20,8 @@ class CategoryAndItemViewController: UIViewController {
     
     var isGrouping = false
     
+    var itemsToGroup = [Item]()
+    
     var touchedAwayFromHeaderTextFieldDelegate: TouchedAwayFromHeaderTextFieldDelegate?
     
     func toggleSorting() {
@@ -179,17 +181,30 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
         longPress.minimumPressDuration = 0.5
         cell.addGestureRecognizer(longPress)
         
-        if itemModel.items[indexPath.row].done {
-            if isGrouping {
+        if !isGrouping {
+            
+            if itemModel.items[indexPath.row].done {
                 cell.checkboxImageView.image = Keywords.shared.blueCheck
-                cell.backgroundColor = UIColor.white
             } else {
+                cell.checkboxImageView.image = Keywords.shared.noCheckBox
+            }
+            
+            if itemsToGroup.contains(itemModel.items[indexPath.row]) {
+                cell.backgroundColor = Keywords.shared.lightBlueBackground
+            } else {
+                cell.backgroundColor = UIColor.white
+            }
+            
+        } else {
+            
+            if itemModel.items[indexPath.row].done {
                 cell.checkboxImageView.image = Keywords.shared.checkboxChecked
                 cell.backgroundColor = Keywords.shared.lightGreenBackground12
+            } else {
+                cell.checkboxImageView.image = Keywords.shared.checkboxEmpty
+                cell.backgroundColor = UIColor.white
             }
-        } else {
-            cell.checkboxImageView.image = Keywords.shared.checkboxEmpty
-            cell.backgroundColor = UIColor.white
+            
         }
         
 //        cell.nameLabel?.text = "\(itemModel.items[indexPath.row].parentID). \(itemModel.items[indexPath.row].name!)"
@@ -385,26 +400,38 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+
         tableView.deselectRow(at: indexPath, animated: true)
         
-        let numOfSubItems = itemModel.numberOfSubItems(forParentID: Int(itemModel.items[indexPath.row].id), andParentName: itemModel.items[indexPath.row].name!)
-        
-        if numOfSubItems == 0 {
+        if !isGrouping {
             
-            if isGrouping {
-                
-                // New property needed for selecting items for grouping queue
-                
+            let itemToGroup = itemModel.items[indexPath.row]
+            
+            if itemsToGroup.contains(itemToGroup) {
+                for i in 0..<itemsToGroup.count {
+                    if itemsToGroup[i] == itemToGroup {
+                        itemsToGroup.remove(at: i)
+                    }
+                }
             } else {
-                DataModel.shared.updateItem(forProperty: .done, forItem: itemModel.items[indexPath.row], parentID: Int(itemModel.items[indexPath.row].parentID), parentName: itemModel.items[indexPath.row].parentName!, name: nil)
-                
-                itemModel.reloadItems()
+                itemsToGroup.append(itemToGroup)
             }
             
         } else {
             
-            performSegue(withIdentifier: itemModel.typeOfSegue, sender: self)
+            let numOfSubItems = itemModel.numberOfSubItems(forParentID: Int(itemModel.items[indexPath.row].id), andParentName: itemModel.items[indexPath.row].name!)
+            
+            if numOfSubItems == 0 {
+                
+                DataModel.shared.updateItem(forProperty: .done, forItem: itemModel.items[indexPath.row], parentID: Int(itemModel.items[indexPath.row].parentID), parentName: itemModel.items[indexPath.row].parentName!, name: nil)
+                
+                itemModel.reloadItems()
+                
+            } else {
+                
+                performSegue(withIdentifier: itemModel.typeOfSegue, sender: self)
+                
+            }
             
         }
         
