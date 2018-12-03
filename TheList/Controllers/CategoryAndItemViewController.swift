@@ -166,6 +166,21 @@ class CategoryAndItemViewController: UIViewController {
             let currentLevel = self.itemModel.level
             let currentParentID = self.itemModel.selectedParentID
             let currentParentName = self.itemModel.selectedParentName
+            
+            let currentLevelItems = DataModel.shared.loadSpecificItems(forCategory: currentCategory.rawValue, forLevel: currentLevel, forParentID: currentParentID, andParentName: currentParentName)
+            
+            for currentItem in currentLevelItems {
+                if self.itemsToGroup.contains(currentItem) {
+                    continue
+                } else if currentItem.name == newGroupNameTextField.text {
+                    newGroupName = self.itemsToGroup[0].name!
+                    
+                    
+                    // Add check to make sure that no name is the same.
+                    
+                    
+                }
+            }
 
             if newGroupName == "" {
                 newGroupName = self.itemsToGroup[0].name!
@@ -176,7 +191,6 @@ class CategoryAndItemViewController: UIViewController {
             self.itemModel.reloadItems()
             
             self.itemsToGroup = []
-            self.toggleGrouping()
             
             self.tableView.reloadData()
         })
@@ -359,7 +373,7 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
                 
                 self.isGrouping = true
                 
-                self.editButton.title = "Done"
+                self.editButton.title = (self.itemsToGroup.count == 0) ? "Done" : "Group"
                 
                 self.tableView.reloadData()
                 
