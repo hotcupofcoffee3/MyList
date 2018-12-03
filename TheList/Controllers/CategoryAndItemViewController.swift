@@ -25,10 +25,20 @@ class CategoryAndItemViewController: UIViewController {
     var touchedAwayFromHeaderTextFieldDelegate: TouchedAwayFromHeaderTextFieldDelegate?
     
     func toggleSorting() {
-        
         isSorting = !isSorting
         editButton.title = isSorting ? "Done" : "Sort"
         tableView.setEditing(isSorting, animated: true)
+    }
+    
+    func toggleGrouping() {
+        
+        if itemsToGroup.count > 0 {
+            groupItems()
+        } else {
+            isGrouping = false
+            editButton.title = "Sort"
+            tableView.reloadData()
+        }
         
     }
     
@@ -36,11 +46,7 @@ class CategoryAndItemViewController: UIViewController {
         if !isGrouping {
             toggleSorting()
         } else {
-            
-            editButton.title = "Done"
-            
-            // Present option to group from below
-            
+            toggleGrouping()
         }
     }
     
@@ -142,6 +148,56 @@ class CategoryAndItemViewController: UIViewController {
         
     }
     
+    func groupItems() {
+        
+        let groupAlert = UIAlertController(title: "Group?", message: "Enter a new Group Name for the selected items", preferredStyle: .alert)
+
+        groupAlert.addTextField(configurationHandler: { (textField) in
+            textField.placeholder = "New Group Name"
+        })
+
+        let newGroupNameTextField = groupAlert.textFields![0] as UITextField
+
+        let groupItems = UIAlertAction(title: "Group Items", style: .destructive, handler: { (action) in
+
+            var newGroupName = newGroupNameTextField.text!
+
+            let currentCategory = self.itemModel.selectedCategory
+            let currentLevel = self.itemModel.level
+            let currentParentID = self.itemModel.selectedParentID
+            let currentParentName = self.itemModel.selectedParentName
+
+            if newGroupName == "" {
+                newGroupName = self.itemsToGroup[0].name!
+            }
+
+            DataModel.shared.group(items: self.itemsToGroup, intoNewItemName: newGroupName, forCategory: currentCategory, atLevel: currentLevel, withNewItemParentID: currentParentID, andNewItemParentName: currentParentName)
+
+            self.itemModel.reloadItems()
+            
+            self.isGrouping = false
+            self.toggleGrouping()
+            self.tableView.reloadData()
+        })
+
+        let addMoreItemsToGroup = UIAlertAction(title: "Add More Items", style: .default, handler: nil)
+        let cancelGroupingItems = UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) in
+            
+            self.isGrouping = false
+            self.editButton.title = "Sort"
+            self.itemsToGroup = []
+            self.tableView.reloadData()
+            
+        })
+
+        groupAlert.addAction(groupItems)
+        groupAlert.addAction(addMoreItemsToGroup)
+        groupAlert.addAction(cancelGroupingItems)
+
+        self.present(groupAlert, animated: true, completion: nil)
+        
+    }
+    
 }
 
 
@@ -181,7 +237,7 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
         longPress.minimumPressDuration = 0.5
         cell.addGestureRecognizer(longPress)
         
-        if !isGrouping {
+        if isGrouping {
             
             if itemModel.items[indexPath.row].done {
                 cell.checkboxImageView.image = Keywords.shared.blueCheck
@@ -300,56 +356,11 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
             // Group
             let group = UIAlertAction(title: "Group", style: .default, handler: { (action) in
                 
-                let groupAlert = UIAlertController(title: "Group?", message: "Enter a new Group Name for the selected items", preferredStyle: .alert)
+                self.isGrouping = true
                 
-                groupAlert.addTextField(configurationHandler: { (textField) in
-                    textField.placeholder = "New Group Name"
-                })
+                self.editButton.title = "Done"
                 
-                let newGroupNameTextField = groupAlert.textFields![0] as UITextField
-                
-                let groupItems = UIAlertAction(title: "OK", style: .default, handler: { (action) in
-                    
-                    var itemsToGroup = [Item]()
-                    for item in self.itemModel.items {
-                        if item.done {
-                            itemsToGroup.append(item)
-                        }
-                    }
-                    
-                    if itemsToGroup.count > 0 {
-                        
-                        var newGroupName = newGroupNameTextField.text!
-                        
-                        let currentCategory = self.itemModel.selectedCategory
-                        let currentLevel = self.itemModel.level
-                        let currentParentID = self.itemModel.selectedParentID
-                        let currentParentName = self.itemModel.selectedParentName
-                        
-                        let currentLevelItems = DataModel.shared.loadSpecificItems(forCategory: currentCategory.rawValue, forLevel: currentLevel, forParentID: currentParentID, andParentName: currentParentName)
-                        
-                        for currentItem in currentLevelItems {
-                            if itemsToGroup.contains(currentItem) {
-                                continue
-                            } else if currentItem.name == newGroupNameTextField.text || newGroupName == "" {
-                                newGroupName = itemsToGroup[0].name!
-                            }
-                        }
-                        
-                        DataModel.shared.group(items: itemsToGroup, intoNewItemName: newGroupName, forCategory: currentCategory, atLevel: currentLevel, withNewItemParentID: currentParentID, andNewItemParentName: currentParentName)
-                        
-                    }
-                    
-                    self.itemModel.reloadItems()
-                    tableView.reloadData()
-                })
-                
-                let cancelGroupingItems = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-                
-                groupAlert.addAction(groupItems)
-                groupAlert.addAction(cancelGroupingItems)
-                
-                self.present(groupAlert, animated: true, completion: nil)
+                self.tableView.reloadData()
                 
             })
             
@@ -403,7 +414,7 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
 
         tableView.deselectRow(at: indexPath, animated: true)
         
-        if !isGrouping {
+        if isGrouping {
             
             let itemToGroup = itemModel.items[indexPath.row]
             
@@ -417,6 +428,8 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
             } else {
                 itemsToGroup.append(itemToGroup)
             }
+            
+            editButton.title = (itemsToGroup.count == 0) ? "Done" : "Group"
             
         } else {
             
