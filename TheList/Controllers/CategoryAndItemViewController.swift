@@ -257,7 +257,7 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
             if itemModel.items[indexPath.row].done {
                 cell.checkboxImageView.image = Keywords.shared.blueCheck
             } else {
-                cell.checkboxImageView.image = Keywords.shared.checkboxEmpty
+                cell.checkboxImageView.image = Keywords.shared.blueEmptyCheckbox
             }
             
             if itemsToGroup.contains(itemModel.items[indexPath.row]) {
