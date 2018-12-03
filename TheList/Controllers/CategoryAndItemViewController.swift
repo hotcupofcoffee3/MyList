@@ -43,10 +43,10 @@ class CategoryAndItemViewController: UIViewController {
     }
     
     @IBAction func edit(_ sender: UIBarButtonItem) {
-        if !isGrouping {
-            toggleSorting()
-        } else {
+        if isGrouping {
             toggleGrouping()
+        } else {
+            toggleSorting()
         }
     }
     
@@ -175,8 +175,9 @@ class CategoryAndItemViewController: UIViewController {
 
             self.itemModel.reloadItems()
             
-            self.isGrouping = false
+            self.itemsToGroup = []
             self.toggleGrouping()
+            
             self.tableView.reloadData()
         })
 
@@ -242,7 +243,7 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
             if itemModel.items[indexPath.row].done {
                 cell.checkboxImageView.image = Keywords.shared.blueCheck
             } else {
-                cell.checkboxImageView.image = Keywords.shared.noCheckBox
+                cell.checkboxImageView.image = Keywords.shared.checkboxEmpty
             }
             
             if itemsToGroup.contains(itemModel.items[indexPath.row]) {
