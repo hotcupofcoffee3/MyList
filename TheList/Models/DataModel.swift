@@ -121,7 +121,6 @@ class DataModel {
         saveData()
         
         
-        
         // 5:
         // --- Update the IDs of the grouped items, as they will now be different, since they are in their own group, and are therefore ordered differently.
         let newlyGroupedItems = loadSpecificItems(forCategory: category.rawValue, forLevel: newItemLevel + 1, forParentID: newItemID, andParentName: newItemName)

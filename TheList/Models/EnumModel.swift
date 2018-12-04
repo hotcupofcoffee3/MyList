@@ -21,6 +21,7 @@ enum ItemNameCheck: String {
     case success
     case duplicate = "There is already an item with that name."
     case threeQuestionMarks = "You cannot use more than 3 '?' in a row."
+//    case threeQuestionMarks = "You cannot use the following characters: \" \' ( ) * ! \\"
     
     // Only used for grouping
     case blank = "You have to give the item a name"

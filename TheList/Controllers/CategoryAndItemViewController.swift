@@ -66,7 +66,6 @@ class CategoryAndItemViewController: UIViewController {
         // Cell
         tableView.register(UINib(nibName: Keywords.shared.cellNibName, bundle: nil), forCellReuseIdentifier: Keywords.shared.categoryAndItemCellIdentifier)
         
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -170,24 +169,20 @@ class CategoryAndItemViewController: UIViewController {
             let currentLevelItems = DataModel.shared.loadSpecificItems(forCategory: currentCategory.rawValue, forLevel: currentLevel, forParentID: currentParentID, andParentName: currentParentName)
             
             for currentItem in currentLevelItems {
+                
                 if self.itemsToGroup.contains(currentItem) {
                     continue
                 } else if currentItem.name == newGroupNameTextField.text {
-                    newGroupName = self.itemsToGroup[0].name!
-                    
-                    
-                    // Add check to make sure that no name is the same.
-                    
-                    
+                    newGroupName = "\(self.itemsToGroup[0].name!)"
                 }
             }
 
             if newGroupName == "" {
                 newGroupName = self.itemsToGroup[0].name!
             }
-
+            
             DataModel.shared.group(items: self.itemsToGroup, intoNewItemName: newGroupName, forCategory: currentCategory, atLevel: currentLevel, withNewItemParentID: currentParentID, andNewItemParentName: currentParentName)
-
+            
             self.itemModel.reloadItems()
             
             self.itemsToGroup = []
