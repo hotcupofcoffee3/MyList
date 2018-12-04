@@ -11,6 +11,8 @@ import UIKit
 class HeaderView: UITableViewHeaderFooterView, UITextFieldDelegate, TouchedAwayFromHeaderTextFieldDelegate {
     
     
+    var isValidNameDelegate: IsValidNameDelegate?
+    
     var addNewItemDelegate: AddNewItemDelegate?
     
     var reloadTableListDelegate: ReloadTableListDelegate?
@@ -45,7 +47,13 @@ class HeaderView: UITableViewHeaderFooterView, UITextFieldDelegate, TouchedAwayF
     
     func addNewItem() {
         
-        if ((addNewItemDelegate?.addNewItem(itemName: String(headerTextField.text!)))!) {
+        let newItemName = String(headerTextField.text!)
+        
+        guard let checkNewItemName = isValidNameDelegate?.isValidName(forItemName: newItemName) else { return }
+        
+        if checkNewItemName == .success {
+            
+            addNewItemDelegate?.addNewItem(itemName: newItemName)
             
             hapticDelegate?.hapticExecuted(as: .success)
             
@@ -59,7 +67,7 @@ class HeaderView: UITableViewHeaderFooterView, UITextFieldDelegate, TouchedAwayF
             
             hapticDelegate?.hapticExecuted(as: .warning)
             
-            presentInvalidNameAlertDelegate?.presentInvalidNameAlert()
+            presentInvalidNameAlertDelegate?.presentInvalidNameAlert(withErrorMessage: checkNewItemName)
             
         }
         

@@ -209,42 +209,6 @@ class ItemModel {
         
     }
     
-    func isDuplicateName(forItemName itemName: String) -> Bool {
-        
-        var isDuplicate = false
-        
-        // Checks for duplicate name
-        for item in items {
-            if itemName == item.name || itemName == "" {
-                isDuplicate = true
-            }
-        }
-        
-        return isDuplicate
-        
-    }
-    
-    func isInvalidName(forItemName itemName: String) -> Bool {
-        
-        var isInvalidName = false
-        
-        var numOfQsInARow = 0
-        for a in itemName {
-            if a == "?" {
-                numOfQsInARow += 1
-                if numOfQsInARow > 2 {
-                    isInvalidName = true
-                }
-            } else {
-                numOfQsInARow = 0
-            }
-        }
-        print(numOfQsInARow)
-        
-        return isInvalidName
-        
-    }
-    
 }
 
 
@@ -252,22 +216,45 @@ class ItemModel {
 // MARK: - Delegate functions from the Header View, with the tableView set in the viewDidLoad
 
 
-extension ItemModel: AddNewItemDelegate, ReloadTableListDelegate {
+extension ItemModel: IsValidNameDelegate, AddNewItemDelegate, ReloadTableListDelegate {
     
-    func addNewItem(itemName: String) -> Bool {
+    func isValidName(forItemName itemName: String) -> ItemNameCheck {
         
-        var canAdd = true
+        var isValidName: ItemNameCheck = .success
         
-        if !isDuplicateName(forItemName: itemName) && !isInvalidName(forItemName: itemName) && itemName != "" {
-            DataModel.shared.addNewItem(name: itemName, forCategory: selectedCategory, level: level, parentID: selectedParentID, parentName: selectedParentName)
-            items = DataModel.shared.loadSpecificItems(forCategory: selectedCategory.rawValue, forLevel: level, forParentID: selectedParentID, andParentName: selectedParentName)
-            reloadItems()
-        } else {
-            canAdd = false
+        // Checks for duplicate name
+        for item in items {
+            if itemName == item.name {
+                isValidName = .duplicate
+            }
         }
         
-        return canAdd
+        // Cannot contain three "???"
+        var numOfQsInARow = 0
+        for a in itemName {
+            if a == "?" {
+                numOfQsInARow += 1
+                if numOfQsInARow > 2 {
+                    isValidName = .threeQuestionMarks
+                }
+            } else {
+                numOfQsInARow = 0
+            }
+        }
         
+        // Cannot be blank
+        if itemName == "" {
+            isValidName = .blank
+        }
+        
+        return isValidName
+        
+    }
+    
+    func addNewItem(itemName: String) {
+        DataModel.shared.addNewItem(name: itemName, forCategory: selectedCategory, level: level, parentID: selectedParentID, parentName: selectedParentName)
+        items = DataModel.shared.loadSpecificItems(forCategory: selectedCategory.rawValue, forLevel: level, forParentID: selectedParentID, andParentName: selectedParentName)
+        reloadItems()
     }
     
     func reloadTableData() {

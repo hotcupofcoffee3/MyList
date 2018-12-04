@@ -9,8 +9,12 @@
 import Foundation
 import UIKit
 
+protocol IsValidNameDelegate {
+    func isValidName(forItemName itemName: String) -> ItemNameCheck
+}
+
 protocol AddNewItemDelegate {
-    func addNewItem(itemName: String) -> Bool
+    func addNewItem(itemName: String)
 }
 
 protocol ReloadTableListDelegate {
@@ -18,7 +22,7 @@ protocol ReloadTableListDelegate {
 }
 
 protocol PresentInvalidNameAlertDelegate {
-    func presentInvalidNameAlert()
+    func presentInvalidNameAlert(withErrorMessage errorMessage: ItemNameCheck)
 }
 
 protocol AddAnItemTextFieldIsActiveDelegate {

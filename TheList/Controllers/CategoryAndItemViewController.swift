@@ -228,6 +228,8 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
         
         let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: Keywords.shared.headerIdentifier) as! HeaderView
         
+        headerView.isValidNameDelegate = itemModel
+        
         headerView.addNewItemDelegate = itemModel
         
         headerView.reloadTableListDelegate = itemModel
@@ -573,9 +575,9 @@ extension CategoryAndItemViewController {
 
 extension CategoryAndItemViewController: PresentInvalidNameAlertDelegate, HapticDelegate, EditingCompleteDelegate, AddAnItemTextFieldIsActiveDelegate {
     
-    func presentInvalidNameAlert() {
+    func presentInvalidNameAlert(withErrorMessage errorMessage: ItemNameCheck) {
         
-        let alert = UIAlertController(title: "Invalid Entry", message: "You have to enter a unique name or title.", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Invalid Entry", message: errorMessage.rawValue, preferredStyle: .alert)
 
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         
