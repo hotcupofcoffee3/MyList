@@ -209,6 +209,42 @@ class ItemModel {
         
     }
     
+    func isDuplicateName(forItemName itemName: String) -> Bool {
+        
+        var isDuplicate = false
+        
+        // Checks for duplicate name
+        for item in items {
+            if itemName == item.name || itemName == "" {
+                isDuplicate = true
+            }
+        }
+        
+        return isDuplicate
+        
+    }
+    
+    func isInvalidName(forItemName itemName: String) -> Bool {
+        
+        var isInvalidName = false
+        
+        var numOfQsInARow = 0
+        for a in itemName {
+            if a == "?" {
+                numOfQsInARow += 1
+                if numOfQsInARow > 2 {
+                    isInvalidName = true
+                }
+            } else {
+                numOfQsInARow = 0
+            }
+        }
+        print(numOfQsInARow)
+        
+        return isInvalidName
+        
+    }
+    
 }
 
 
@@ -222,25 +258,7 @@ extension ItemModel: AddNewItemDelegate, ReloadTableListDelegate {
         
         var canAdd = true
         
-        for item in items {
-            if itemName == item.name || itemName == "" {
-                canAdd = false
-            }
-        }
-        
-        var numOfQsInARow = 0
-        for a in itemName {
-            if a == "?" {
-                numOfQsInARow += 1
-                if numOfQsInARow > 2 {
-                    canAdd = false
-                }
-            } else {
-                numOfQsInARow = 0
-            }
-        }
-        
-        if canAdd && itemName != "" {
+        if !isDuplicateName(forItemName: itemName) && !isInvalidName(forItemName: itemName) && itemName != "" {
             DataModel.shared.addNewItem(name: itemName, forCategory: selectedCategory, level: level, parentID: selectedParentID, parentName: selectedParentName)
             items = DataModel.shared.loadSpecificItems(forCategory: selectedCategory.rawValue, forLevel: level, forParentID: selectedParentID, andParentName: selectedParentName)
             reloadItems()

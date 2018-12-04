@@ -191,6 +191,7 @@ class CategoryAndItemViewController: UIViewController {
             self.itemModel.reloadItems()
             
             self.itemsToGroup = []
+            self.toggleGrouping()
             
             self.tableView.reloadData()
         })
@@ -231,7 +232,7 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
         
         headerView.reloadTableListDelegate = itemModel
         
-        headerView.checkForInvalidNameDelegate = self
+        headerView.presentInvalidNameAlertDelegate = self
         
         headerView.addAnItemTextFieldIsActiveDelegate = self
         
@@ -570,7 +571,7 @@ extension CategoryAndItemViewController {
 
 
 
-extension CategoryAndItemViewController: CheckForInvalidNameDelegate, HapticDelegate, EditingCompleteDelegate, AddAnItemTextFieldIsActiveDelegate {
+extension CategoryAndItemViewController: PresentInvalidNameAlertDelegate, HapticDelegate, EditingCompleteDelegate, AddAnItemTextFieldIsActiveDelegate {
     
     func presentInvalidNameAlert() {
         

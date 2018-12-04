@@ -17,7 +17,7 @@ protocol ReloadTableListDelegate {
     func reloadTableData()
 }
 
-protocol CheckForInvalidNameDelegate {
+protocol PresentInvalidNameAlertDelegate {
     func presentInvalidNameAlert()
 }
 

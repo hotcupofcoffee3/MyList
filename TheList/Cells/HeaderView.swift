@@ -15,7 +15,7 @@ class HeaderView: UITableViewHeaderFooterView, UITextFieldDelegate, TouchedAwayF
     
     var reloadTableListDelegate: ReloadTableListDelegate?
     
-    var checkForInvalidNameDelegate: CheckForInvalidNameDelegate?
+    var presentInvalidNameAlertDelegate: PresentInvalidNameAlertDelegate?
     
     var addAnItemTextFieldIsActiveDelegate: AddAnItemTextFieldIsActiveDelegate?
     
@@ -59,7 +59,7 @@ class HeaderView: UITableViewHeaderFooterView, UITextFieldDelegate, TouchedAwayF
             
             hapticDelegate?.hapticExecuted(as: .warning)
             
-            checkForInvalidNameDelegate?.presentInvalidNameAlert()
+            presentInvalidNameAlertDelegate?.presentInvalidNameAlert()
             
         }
         
