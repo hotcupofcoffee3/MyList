@@ -1,26 +1,24 @@
 //
-//  NavigationViewController.swift
+//  MainTabBarViewController.swift
 //  MyList
 //
-//  Created by Adam Moore on 11/8/18.
+//  Created by Adam Moore on 12/5/18.
 //  Copyright © 2018 Adam Moore. All rights reserved.
 //
 
 import UIKit
 
-class NavigationViewController: UINavigationController {
+class MainTabBarViewController: UITabBarController {
 
-    @IBOutlet weak var home: UITabBarItem!
-    @IBOutlet weak var errands: UITabBarItem!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-//        home.badgeValue = ""
-        
         // Do any additional setup after loading the view.
     }
     
+    override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
+        print(item.title!.lowercased())
+    }
 
     /*
     // MARK: - Navigation

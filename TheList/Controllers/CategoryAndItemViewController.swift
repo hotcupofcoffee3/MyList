@@ -14,40 +14,54 @@ class CategoryAndItemViewController: UIViewController {
     
     var level = 1
     
-    var isEditingSpecifics = false
-    
-    var isSorting = false
-    
-    var isGrouping = false
+    var editingMode: EditingMode = .none
     
     var itemsToGroup = [Item]()
     
     var touchedAwayFromHeaderTextFieldDelegate: TouchedAwayFromHeaderTextFieldDelegate?
     
-    func toggleSorting() {
-        isSorting = !isSorting
-        editButton.title = isSorting ? "Done" : "Sort"
-        tableView.setEditing(isSorting, animated: true)
-    }
-    
-    func toggleGrouping() {
+    func toggleEditingMode(for selectedEditingMode: EditingMode) {
         
-        if itemsToGroup.count > 0 {
-            groupItems()
-        } else {
-            isGrouping = false
+        switch selectedEditingMode {
+            
+        case .sorting :
+            
+            editButton.title = "Done"
+            tableView.setEditing(true, animated: true)
+            
+        case .grouping :
+            
+            editButton.title = (itemsToGroup.count > 0) ? "Group" : "Done"
+            
+        default:
+            itemsToGroup = []
             editButton.title = "Sort"
-            tableView.reloadData()
+            tableView.setEditing(false, animated: true)
+            
         }
         
     }
     
     @IBAction func edit(_ sender: UIBarButtonItem) {
-        if isGrouping {
-            toggleGrouping()
-        } else {
-            toggleSorting()
+        
+        switch editingMode {
+            
+        case .none : editingMode = .sorting
+        case .sorting : editingMode = .none
+        case .specifics : editingMode = .none
+            
+        case .grouping :
+            
+            if itemsToGroup.count > 0 {
+                groupItems()
+            } else {
+                editingMode = .none
+                toggleEditingMode(for: editingMode)
+            }
+            
         }
+        
+        toggleEditingMode(for: editingMode)
     }
     
     @IBOutlet weak var editButton: UIBarButtonItem!
@@ -77,7 +91,7 @@ class CategoryAndItemViewController: UIViewController {
     }
     
     @objc func longPressGestureSelector(gestureRecognizer: UILongPressGestureRecognizer){
-        if !isSorting {
+        if editingMode == .none {
             if gestureRecognizer.state == .began {
                 performSegue(withIdentifier: itemModel.typeOfSegue, sender: self)
             }
@@ -193,8 +207,8 @@ class CategoryAndItemViewController: UIViewController {
             
             self.itemModel.reloadItems()
             
-            self.itemsToGroup = []
-            self.toggleGrouping()
+            self.editingMode = .none
+            self.toggleEditingMode(for: self.editingMode)
             
             self.tableView.reloadData()
         })
@@ -202,10 +216,10 @@ class CategoryAndItemViewController: UIViewController {
         let addMoreItemsToGroup = UIAlertAction(title: "Add More Items", style: .default, handler: nil)
         let cancelGroupingItems = UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) in
             
-            self.isGrouping = false
-            self.editButton.title = "Sort"
-            self.itemsToGroup = []
-            self.tableView.reloadData()
+            self.editingMode = .none
+            self.toggleEditingMode(for: self.editingMode)
+            
+//            self.tableView.reloadData()
             
         })
 
@@ -258,7 +272,7 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
         longPress.minimumPressDuration = 0.5
         cell.addGestureRecognizer(longPress)
         
-        if isGrouping {
+        if editingMode == .grouping {
             
             if itemModel.items[indexPath.row].done {
                 cell.checkboxImageView.image = Keywords.shared.blueCheck
@@ -318,108 +332,116 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
     // Edit Actions For Row
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         
-        let id = Int(self.itemModel.items[indexPath.row].id)
-        let name = self.itemModel.items[indexPath.row].name!
-        let category = self.itemModel.items[indexPath.row].category!
-        let level = Int(self.itemModel.items[indexPath.row].level)
-        let parentID = Int(self.itemModel.items[indexPath.row].parentID)
-        let parentName = self.itemModel.items[indexPath.row].parentName!
-        let numberOfSubitems = self.itemModel.numberOfSubItems(forParentID: id, andParentName: name)
-        
-        
-        
-        // *** DELETE
-        
-        let delete = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
+        if editingMode == .none {
             
-            self.itemModel.selectedItem = self.itemModel.items[indexPath.row]
-            
-            self.deleteRow(inTable: tableView, atIndexPath: indexPath)
-            
-        }
-        
-        
-        
-        // *** MORE
-        
-        let more = UITableViewRowAction(style: .normal, title: "More") { (action, indexPath) in
-            
-            self.itemModel.selectedItem = self.itemModel.items[indexPath.row]
+            let id = Int(self.itemModel.items[indexPath.row].id)
+            let name = self.itemModel.items[indexPath.row].name!
+            let category = self.itemModel.items[indexPath.row].category!
+            let level = Int(self.itemModel.items[indexPath.row].level)
+            let parentID = Int(self.itemModel.items[indexPath.row].parentID)
+            let parentName = self.itemModel.items[indexPath.row].parentName!
+            let numberOfSubitems = self.itemModel.numberOfSubItems(forParentID: id, andParentName: name)
             
             
-            // Edit Name
-            let editName = UIAlertAction(title: "Edit Name", style: .default, handler: { (action) in
+            
+            // *** DELETE
+            
+            let delete = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
                 
-                self.isEditingSpecifics = true
+                self.itemModel.selectedItem = self.itemModel.items[indexPath.row]
                 
-                self.performSegue(withIdentifier: self.itemModel.editSegue, sender: self)
+                self.deleteRow(inTable: tableView, atIndexPath: indexPath)
                 
-            })
-            
-            
-            // Delete SubItems
-            let deleteSubItems = UIAlertAction(title: "Delete SubItems", style: .destructive, handler: { (action) in
-                
-                self.deleteSubItems(inTable: tableView, atIndexPath: indexPath)
-                
-            })
-            
-            
-            // Move
-            let move = UIAlertAction(title: "Move", style: .default, handler: { (action) in
-                
-//                self.isEditingSpecifics = true
-//                print(self.itemModel.items[indexPath.row].parentName!)
-                
-            })
-            
-            
-            // Group
-            let group = UIAlertAction(title: "Group", style: .default, handler: { (action) in
-                
-                self.isGrouping = true
-                
-                self.editButton.title = (self.itemsToGroup.count == 0) ? "Done" : "Group"
-                
-                self.tableView.reloadData()
-                
-            })
-            
-            
-            // Uncheck All
-            let uncheckAll = UIAlertAction(title: "Uncheck All", style: .default, handler: { (action) in
-                
-                DataModel.shared.toggleDoneForAllItems(doneStatus: false, forCategory: category, forLevel: level, forParentID: parentID, andParentName: parentName)
-                
-                self.itemModel.reloadItems()
-                tableView.reloadData()
-                
-            })
-            
-            
-            // Cancel
-            let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-            
-            
-            // Alert compilation
-            let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-            
-            alert.addAction(editName)
-            
-            if numberOfSubitems > 0 {
-                alert.addAction(deleteSubItems)
             }
             
-            alert.addAction(move)
-            alert.addAction(group)
-            alert.addAction(uncheckAll)
-            alert.addAction(cancel)
             
-            self.present(alert, animated: true, completion: nil)
+            
+            // *** MORE
+            
+            let more = UITableViewRowAction(style: .normal, title: "More") { (action, indexPath) in
+                
+                self.itemModel.selectedItem = self.itemModel.items[indexPath.row]
+                
+                
+                // Edit Name
+                let editName = UIAlertAction(title: "Edit Name", style: .default, handler: { (action) in
+                    
+                    self.editingMode = .specifics
+                    
+                    self.performSegue(withIdentifier: self.itemModel.editSegue, sender: self)
+                    
+                })
+                
+                
+                // Delete SubItems
+                let deleteSubItems = UIAlertAction(title: "Delete SubItems", style: .destructive, handler: { (action) in
+                    
+                    self.deleteSubItems(inTable: tableView, atIndexPath: indexPath)
+                    
+                })
+                
+                
+                // Move
+                let move = UIAlertAction(title: "Move", style: .default, handler: { (action) in
+                    
+                    //                self.editingMode = .specifics
+                    //                print(self.itemModel.items[indexPath.row].parentName!)
+                    
+                })
+                
+                
+                // Group
+                let group = UIAlertAction(title: "Group", style: .default, handler: { (action) in
+                    
+                    self.editingMode = .grouping
+                    
+                    self.editButton.title = (self.itemsToGroup.count == 0) ? "Done" : "Group"
+                    
+                    self.tableView.reloadData()
+                    
+                })
+                
+                
+                // Uncheck All
+                let uncheckAll = UIAlertAction(title: "Uncheck All", style: .default, handler: { (action) in
+                    
+                    DataModel.shared.toggleDoneForAllItems(doneStatus: false, forCategory: category, forLevel: level, forParentID: parentID, andParentName: parentName)
+                    
+                    self.itemModel.reloadItems()
+                    tableView.reloadData()
+                    
+                })
+                
+                
+                // Cancel
+                let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+                
+                
+                // Alert compilation
+                let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+                
+                alert.addAction(editName)
+                
+                if numberOfSubitems > 0 {
+                    alert.addAction(deleteSubItems)
+                }
+                
+                alert.addAction(move)
+                alert.addAction(group)
+                alert.addAction(uncheckAll)
+                alert.addAction(cancel)
+                
+                self.present(alert, animated: true, completion: nil)
+                
+            }
+            
+            return [delete, more]
+            
+        } else {
+            
+            return []
             
         }
-        
-        return [delete, more]
         
     }
     
@@ -432,10 +454,10 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
+        
         tableView.deselectRow(at: indexPath, animated: true)
         
-        if isGrouping {
+        if editingMode == .grouping {
             
             let itemToGroup = itemModel.items[indexPath.row]
             
@@ -450,7 +472,7 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
                 itemsToGroup.append(itemToGroup)
             }
             
-            editButton.title = (itemsToGroup.count == 0) ? "Done" : "Group"
+            toggleEditingMode(for: .grouping)
             
         } else {
             
@@ -475,7 +497,7 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
     }
     
     func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        return isSorting
+        return editingMode == .sorting
     }
     
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
@@ -534,7 +556,7 @@ extension CategoryAndItemViewController {
         
         guard let item = self.itemModel.selectedItem else { return print("There was no item selected.") }
         
-        if !isEditingSpecifics {
+        if editingMode == .specifics {
             
             let destinationVC = segue.destination as! CategoryAndItemViewController
             
@@ -550,7 +572,8 @@ extension CategoryAndItemViewController {
             
         } else {
             
-            isEditingSpecifics = false
+//            isEditingSpecifics = false
+            editingMode = .none
             
             let destinationVC = segue.destination as! EditViewController
             
@@ -602,9 +625,11 @@ extension CategoryAndItemViewController: PresentInvalidNameAlertDelegate, Haptic
     }
     
     func addAnItemTextFieldIsActive() {
-        if isSorting {
-            toggleSorting()
+        if editingMode == .grouping {
+            tableView.reloadData()
         }
+        editingMode = .none
+        toggleEditingMode(for: editingMode)
     }
     
 }

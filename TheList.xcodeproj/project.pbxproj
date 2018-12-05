@@ -11,6 +11,7 @@
 		B52242902159F6F0002C164D /* TheList.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B5FAB70E2139D89C0046F976 /* TheList.xcdatamodeld */; };
 		B53549C5215C8E3A00D2EB1E /* EditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B53549C4215C8E3A00D2EB1E /* EditViewController.swift */; };
 		B53549C7215C8E6D00D2EB1E /* CategoryPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B53549C6215C8E6D00D2EB1E /* CategoryPickerViewController.swift */; };
+		B549378121B83F4A0096A1D4 /* MainTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B549378021B83F4A0096A1D4 /* MainTabBarViewController.swift */; };
 		B55497A621B6E3A5009E6C5A /* EnumModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55497A521B6E3A5009E6C5A /* EnumModel.swift */; };
 		B56A0728215A0150005436AE /* HeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B5F1E0EB21417B480041C472 /* HeaderView.xib */; };
 		B58E6A282141AA8A0056208C /* ProtocolModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58E6A272141AA8A0056208C /* ProtocolModel.swift */; };
@@ -20,7 +21,6 @@
 		B5A6C3D7213F12940029FF22 /* CategoryAndItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A6C3D5213F12940029FF22 /* CategoryAndItemTableViewCell.swift */; };
 		B5A6C3D8213F12940029FF22 /* CategoryAndItemTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B5A6C3D6213F12940029FF22 /* CategoryAndItemTableViewCell.xib */; };
 		B5A6C3DD213F1A1E0029FF22 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B5A6C3DC213F1A1E0029FF22 /* Default-568h@2x.png */; };
-		B5B8ECF02194D11000F1F7CE /* NavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5B8ECEF2194D11000F1F7CE /* NavigationViewController.swift */; };
 		B5F1E0EC21417B480041C472 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F1E0EA21417B480041C472 /* HeaderView.swift */; };
 		B5F1E0EF214191C60041C472 /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F1E0EE214191C60041C472 /* DataModel.swift */; };
 		B5FAB7082139D89C0046F976 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FAB7072139D89C0046F976 /* AppDelegate.swift */; };
@@ -33,6 +33,7 @@
 		B509B9B8215967A9006F7F79 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		B53549C4215C8E3A00D2EB1E /* EditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewController.swift; sourceTree = "<group>"; };
 		B53549C6215C8E6D00D2EB1E /* CategoryPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryPickerViewController.swift; sourceTree = "<group>"; };
+		B549378021B83F4A0096A1D4 /* MainTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarViewController.swift; sourceTree = "<group>"; };
 		B55497A521B6E3A5009E6C5A /* EnumModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnumModel.swift; sourceTree = "<group>"; };
 		B58E6A272141AA8A0056208C /* ProtocolModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProtocolModel.swift; sourceTree = "<group>"; };
 		B5A6C3CB213EE4150029FF22 /* CategoryAndItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryAndItemViewController.swift; sourceTree = "<group>"; };
@@ -41,7 +42,6 @@
 		B5A6C3D5213F12940029FF22 /* CategoryAndItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryAndItemTableViewCell.swift; sourceTree = "<group>"; };
 		B5A6C3D6213F12940029FF22 /* CategoryAndItemTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CategoryAndItemTableViewCell.xib; sourceTree = "<group>"; };
 		B5A6C3DC213F1A1E0029FF22 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		B5B8ECEF2194D11000F1F7CE /* NavigationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationViewController.swift; sourceTree = "<group>"; };
 		B5F1E0EA21417B480041C472 /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 		B5F1E0EB21417B480041C472 /* HeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HeaderView.xib; sourceTree = "<group>"; };
 		B5F1E0EE214191C60041C472 /* DataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
@@ -83,7 +83,7 @@
 			children = (
 				B5A6C3CB213EE4150029FF22 /* CategoryAndItemViewController.swift */,
 				B53549C4215C8E3A00D2EB1E /* EditViewController.swift */,
-				B5B8ECEF2194D11000F1F7CE /* NavigationViewController.swift */,
+				B549378021B83F4A0096A1D4 /* MainTabBarViewController.swift */,
 				B53549C6215C8E6D00D2EB1E /* CategoryPickerViewController.swift */,
 				B509B9B8215967A9006F7F79 /* SettingsViewController.swift */,
 			);
@@ -227,8 +227,8 @@
 				B55497A621B6E3A5009E6C5A /* EnumModel.swift in Sources */,
 				B5A6C3D7213F12940029FF22 /* CategoryAndItemTableViewCell.swift in Sources */,
 				B52242902159F6F0002C164D /* TheList.xcdatamodeld in Sources */,
+				B549378121B83F4A0096A1D4 /* MainTabBarViewController.swift in Sources */,
 				B53549C7215C8E6D00D2EB1E /* CategoryPickerViewController.swift in Sources */,
-				B5B8ECF02194D11000F1F7CE /* NavigationViewController.swift in Sources */,
 				B5A6C3CE213EE5B20029FF22 /* ItemModel.swift in Sources */,
 				B5FAB7082139D89C0046F976 /* AppDelegate.swift in Sources */,
 				B53549C5215C8E3A00D2EB1E /* EditViewController.swift in Sources */,

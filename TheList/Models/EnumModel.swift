@@ -26,3 +26,7 @@ enum ItemNameCheck: String {
     // Only used for grouping
     case blank = "You have to give the item a name"
 }
+
+enum EditingMode {
+    case none, sorting, grouping, specifics
+}

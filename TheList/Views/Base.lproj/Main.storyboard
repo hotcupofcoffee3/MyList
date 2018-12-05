@@ -259,10 +259,10 @@
             </objects>
             <point key="canvasLocation" x="2015" y="878"/>
         </scene>
-        <!--Tab Bar Controller-->
+        <!--Main Tab Bar View Controller-->
         <scene sceneID="BvI-Je-sKc">
             <objects>
-                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="AOU-Tb-h15" sceneMemberID="viewController">
+                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="AOU-Tb-h15" customClass="MainTabBarViewController" customModule="MyList" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="kaF-dl-TVq">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
@@ -284,7 +284,7 @@
         <!--Home-->
         <scene sceneID="LHA-K4-WDS">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="bTH-7g-JXm" customClass="NavigationViewController" customModule="MyList" customModuleProvider="target" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="bTH-7g-JXm" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Home" id="63C-b6-x4M"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="frp-og-HkE">
@@ -293,7 +293,6 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <outlet property="home" destination="63C-b6-x4M" id="WEj-cw-q5p"/>
                         <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="frs-ZA-mdu"/>
                     </connections>
                 </navigationController>
@@ -304,7 +303,7 @@
         <!--Errands-->
         <scene sceneID="lYx-aF-nbP">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="uz5-OP-JH3" customClass="NavigationViewController" customModule="MyList" customModuleProvider="target" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="uz5-OP-JH3" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Errands" id="Z8f-41-KAt"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="EM5-6H-9vR">
@@ -313,7 +312,6 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <outlet property="errands" destination="Z8f-41-KAt" id="UbA-ZA-eHe"/>
                         <segue destination="Nf3-wR-jev" kind="relationship" relationship="rootViewController" id="26Z-6h-pNQ"/>
                     </connections>
                 </navigationController>
