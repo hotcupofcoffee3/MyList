@@ -23,6 +23,7 @@ class Keywords {
     let levelMatch = "level MATCHES %@"
     let idKey = "id"
     
+    // To SubItems Segues
     let homeToSubItemsSegue = "homeToSubItemsSegue"
     let errandsToSubItemsSegue = "errandsToSubItemsSegue"
     let workToSubItemsSegue = "workToSubItemsSegue"
@@ -30,12 +31,22 @@ class Keywords {
     let subItems1ToSubItems2Segue = "subItems1ToSubItems2Segue"
     let subItems2ToSubItems1Segue = "subItems2ToSubItems1Segue"
     
+    // To Edit Name Segues
     let homeToEditSegue = "homeToEditSegue"
     let errandsToEditSegue = "errandsToEditSegue"
     let workToEditSegue = "workToEditSegue"
     let otherToEditSegue = "otherToEditSegue"
     let subItems1ToEditSegue = "subItems1ToEditSegue"
     let subItems2ToEditSegue = "subItems2ToEditSegue"
+    
+    // To Move Segues
+    let homeToMoveSegue = "homeToMoveSegue"
+    let errandsToMoveSegue = "errandsToMoveSegue"
+    let workToMoveSegue = "workToMoveSegue"
+    let otherToMoveSegue = "otherToMoveSegue"
+    let subItems1ToMoveSegue = "subItems1ToMoveSegue"
+    let subItems2ToMoveSegue = "subItems2ToMoveSegue"
+    
     
     let settingsToFontPickerSegue = "settingsToFontPickerSegue"
     

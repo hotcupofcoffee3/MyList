@@ -28,5 +28,5 @@ enum ItemNameCheck: String {
 }
 
 enum EditingMode {
-    case none, sorting, grouping, specifics
+    case none, sorting, grouping, moving, specifics
 }

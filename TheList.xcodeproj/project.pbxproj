@@ -14,7 +14,6 @@
 		B55497A621B6E3A5009E6C5A /* EnumModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55497A521B6E3A5009E6C5A /* EnumModel.swift */; };
 		B56A0728215A0150005436AE /* HeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B5F1E0EB21417B480041C472 /* HeaderView.xib */; };
 		B58E6A282141AA8A0056208C /* ProtocolModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58E6A272141AA8A0056208C /* ProtocolModel.swift */; };
-		B592843E21B84AB50031E308 /* MoveItemTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B592843D21B84AB50031E308 /* MoveItemTableViewController.swift */; };
 		B5A6C3CC213EE4150029FF22 /* CategoryAndItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A6C3CB213EE4150029FF22 /* CategoryAndItemViewController.swift */; };
 		B5A6C3CE213EE5B20029FF22 /* ItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A6C3CD213EE5B10029FF22 /* ItemModel.swift */; };
 		B5A6C3D0213EE7B60029FF22 /* Keywords.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A6C3CF213EE7B60029FF22 /* Keywords.swift */; };
@@ -27,6 +26,7 @@
 		B5FAB70D2139D89C0046F976 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B5FAB70B2139D89C0046F976 /* Main.storyboard */; };
 		B5FAB7122139D89E0046F976 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B5FAB7112139D89E0046F976 /* Assets.xcassets */; };
 		B5FAB7152139D89E0046F976 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B5FAB7132139D89E0046F976 /* LaunchScreen.storyboard */; };
+		B5FAD2C421B8714300ED5807 /* MoveItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FAD2C321B8714300ED5807 /* MoveItemViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,7 +35,6 @@
 		B549378021B83F4A0096A1D4 /* MainTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarViewController.swift; sourceTree = "<group>"; };
 		B55497A521B6E3A5009E6C5A /* EnumModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnumModel.swift; sourceTree = "<group>"; };
 		B58E6A272141AA8A0056208C /* ProtocolModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProtocolModel.swift; sourceTree = "<group>"; };
-		B592843D21B84AB50031E308 /* MoveItemTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveItemTableViewController.swift; sourceTree = "<group>"; };
 		B5A6C3CB213EE4150029FF22 /* CategoryAndItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryAndItemViewController.swift; sourceTree = "<group>"; };
 		B5A6C3CD213EE5B10029FF22 /* ItemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemModel.swift; sourceTree = "<group>"; };
 		B5A6C3CF213EE7B60029FF22 /* Keywords.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keywords.swift; sourceTree = "<group>"; };
@@ -52,6 +51,7 @@
 		B5FAB7112139D89E0046F976 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B5FAB7142139D89E0046F976 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B5FAB7162139D89E0046F976 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B5FAD2C321B8714300ED5807 /* MoveItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveItemViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,8 +83,8 @@
 			children = (
 				B5A6C3CB213EE4150029FF22 /* CategoryAndItemViewController.swift */,
 				B53549C4215C8E3A00D2EB1E /* EditViewController.swift */,
+				B5FAD2C321B8714300ED5807 /* MoveItemViewController.swift */,
 				B549378021B83F4A0096A1D4 /* MainTabBarViewController.swift */,
-				B592843D21B84AB50031E308 /* MoveItemTableViewController.swift */,
 				B509B9B8215967A9006F7F79 /* SettingsViewController.swift */,
 			);
 			path = Controllers;
@@ -225,7 +225,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				B55497A621B6E3A5009E6C5A /* EnumModel.swift in Sources */,
-				B592843E21B84AB50031E308 /* MoveItemTableViewController.swift in Sources */,
 				B5A6C3D7213F12940029FF22 /* CategoryAndItemTableViewCell.swift in Sources */,
 				B52242902159F6F0002C164D /* TheList.xcdatamodeld in Sources */,
 				B549378121B83F4A0096A1D4 /* MainTabBarViewController.swift in Sources */,
@@ -235,6 +234,7 @@
 				B5F1E0EF214191C60041C472 /* DataModel.swift in Sources */,
 				B5A6C3CC213EE4150029FF22 /* CategoryAndItemViewController.swift in Sources */,
 				B5A6C3D0213EE7B60029FF22 /* Keywords.swift in Sources */,
+				B5FAD2C421B8714300ED5807 /* MoveItemViewController.swift in Sources */,
 				B509B9B9215967A9006F7F79 /* SettingsViewController.swift in Sources */,
 				B58E6A282141AA8A0056208C /* ProtocolModel.swift in Sources */,
 				B5F1E0EC21417B480041C472 /* HeaderView.swift in Sources */,

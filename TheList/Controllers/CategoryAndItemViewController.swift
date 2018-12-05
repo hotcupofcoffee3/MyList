@@ -47,8 +47,8 @@ class CategoryAndItemViewController: UIViewController {
         switch editingMode {
             
         case .none : editingMode = .sorting
-        case .sorting : editingMode = .none
-        case .specifics : editingMode = .none
+//        case .sorting : editingMode = .none
+//        case .specifics : editingMode = .none
             
         case .grouping :
             
@@ -57,6 +57,8 @@ class CategoryAndItemViewController: UIViewController {
             } else {
                 resetEditingMode()
             }
+            
+        default: editingMode = .none
             
         }
         
@@ -395,8 +397,9 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
                 // Move
                 let move = UIAlertAction(title: "Move", style: .default, handler: { (action) in
                     
-                    //                self.editingMode = .specifics
-                    //                print(self.itemModel.items[indexPath.row].parentName!)
+                    self.editingMode = .moving
+                    
+                    self.performSegue(withIdentifier: self.itemModel.moveSegue, sender: self)
                     
                 })
                 
@@ -581,10 +584,9 @@ extension CategoryAndItemViewController {
             
             destinationVC.level = level + 1
             
-        } else {
-            
-//            isEditingSpecifics = false
-            editingMode = .none
+        } else if editingMode == .specifics {
+
+//            editingMode = .none
             
             let destinationVC = segue.destination as! EditViewController
             
@@ -601,6 +603,8 @@ extension CategoryAndItemViewController {
                 destinationVC.level = level
                 
             }
+            
+        } else if editingMode == .moving {
             
         }
         

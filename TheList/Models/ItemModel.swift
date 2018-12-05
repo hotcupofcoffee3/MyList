@@ -150,6 +150,32 @@ class ItemModel {
         
     }
     
+    var moveSegue: String {
+        
+        switch currentView {
+            
+        case .home:
+            return Keywords.shared.homeToMoveSegue
+            
+        case .errands:
+            return Keywords.shared.errandsToMoveSegue
+            
+        case .work:
+            return Keywords.shared.workToMoveSegue
+            
+        case .other:
+            return Keywords.shared.otherToMoveSegue
+            
+        case .subItems1:
+            return Keywords.shared.subItems1ToMoveSegue
+            
+        case .subItems2:
+            return Keywords.shared.subItems2ToMoveSegue
+            
+        }
+        
+    }
+    
     func numberOfSubItems(forParentID parentID: Int, andParentName parentName: String) -> Int {
         
 //        var totalNumberOfSubItems = Int()

@@ -58,6 +58,7 @@
                         <outlet property="tableView" destination="g6g-5S-dLA" id="ZIl-Kf-bt5"/>
                         <segue destination="vyx-Yb-CY9" kind="show" identifier="homeToSubItemsSegue" id="nux-BO-Hot"/>
                         <segue destination="rx6-qK-MYC" kind="presentation" identifier="homeToEditSegue" id="bMT-Jl-AiY"/>
+                        <segue destination="0DH-Xd-lek" kind="presentation" identifier="homeToMoveSegue" id="iMv-iF-ScB"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -148,7 +149,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AsM-WA-nEi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4121" y="134"/>
+            <point key="canvasLocation" x="3735" y="520"/>
         </scene>
         <!--subItems1-->
         <scene sceneID="QTZ-fV-BLZ">
@@ -198,6 +199,7 @@
                         <outlet property="tableView" destination="x8m-H1-Ndp" id="XE9-ev-Iw1"/>
                         <segue destination="rx6-qK-MYC" kind="presentation" identifier="subItems1ToEditSegue" id="9Ao-XS-uyY"/>
                         <segue destination="pYo-G2-EdQ" kind="show" identifier="subItems1ToSubItems2Segue" id="Hed-9k-OSx"/>
+                        <segue destination="0DH-Xd-lek" kind="presentation" identifier="subItems1ToMoveSegue" id="nXU-7R-ZJ2"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wnF-VX-T5l" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -252,6 +254,7 @@
                         <outlet property="tableView" destination="oKU-rj-Ocy" id="jl2-oM-nAA"/>
                         <segue destination="vyx-Yb-CY9" kind="show" identifier="errandsToSubItemsSegue" id="qAD-ln-2Bb"/>
                         <segue destination="rx6-qK-MYC" kind="presentation" identifier="errandsToEditSegue" id="q1b-3X-gdM"/>
+                        <segue destination="0DH-Xd-lek" kind="presentation" identifier="errandsToMoveSegue" id="pJd-M3-Bl6"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cJq-6e-awJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -403,6 +406,7 @@
                         <outlet property="tableView" destination="zhz-lY-r0J" id="Oex-qC-gBn"/>
                         <segue destination="vyx-Yb-CY9" kind="show" identifier="workToSubItemsSegue" id="W7y-kt-DcV"/>
                         <segue destination="rx6-qK-MYC" kind="presentation" identifier="workToEditSegue" id="fJ4-KA-VjC"/>
+                        <segue destination="0DH-Xd-lek" kind="presentation" identifier="workToMoveSegue" id="jyg-jz-Fuv"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nGo-yJ-56d" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -457,6 +461,7 @@
                         <outlet property="tableView" destination="l8U-aW-G5b" id="ZDK-W3-M4m"/>
                         <segue destination="vyx-Yb-CY9" kind="show" identifier="otherToSubItemsSegue" id="tW7-3W-El1"/>
                         <segue destination="rx6-qK-MYC" kind="presentation" identifier="otherToEditSegue" id="ZcG-xh-Vnv"/>
+                        <segue destination="0DH-Xd-lek" kind="presentation" identifier="otherToMoveSegue" id="i0T-IJ-h7q"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Nrr-1l-9aZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -614,16 +619,17 @@
                         <outlet property="tableView" destination="T1f-8T-A8y" id="xg5-AL-V5C"/>
                         <segue destination="vyx-Yb-CY9" kind="show" identifier="subItems2ToSubItems1Segue" id="PHF-fa-WUR"/>
                         <segue destination="rx6-qK-MYC" kind="presentation" identifier="subItems2ToEditSegue" id="Vta-j7-sr1"/>
+                        <segue destination="0DH-Xd-lek" kind="presentation" identifier="subItems2ToMoveSegue" id="ML5-7N-IbZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="P3b-PG-Gvj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="4990" y="1630"/>
         </scene>
-        <!--Move Item Table View Controller-->
+        <!--Move Item View Controller-->
         <scene sceneID="Zbr-cB-b9C">
             <objects>
-                <viewController id="0DH-Xd-lek" customClass="MoveItemTableViewController" customModule="MyList" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="0DH-Xd-lek" customClass="MoveItemViewController" customModule="MyList" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="KVm-ce-q7u">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -637,22 +643,32 @@
                                 <state key="normal" title="Ok">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
-                                <connections>
-                                    <action selector="submit:" destination="0DH-Xd-lek" eventType="touchUpInside" id="dfp-dQ-iay"/>
-                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sUH-N3-Ofh">
                                 <rect key="frame" x="20" y="40" width="48" height="30"/>
                                 <state key="normal" title="Cancel">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
+                                <connections>
+                                    <action selector="back:" destination="0DH-Xd-lek" eventType="touchUpInside" id="IuZ-b7-PNH"/>
+                                </connections>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="eqa-0C-K1g">
                                 <rect key="frame" x="0.0" y="90" width="375" height="517"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" id="Fej-Xk-GUT">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Fej-Xk-GUT" id="a7o-SU-BKJ">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
                                 <connections>
-                                    <outlet property="dataSource" destination="0DH-Xd-lek" id="RsQ-pV-rCp"/>
-                                    <outlet property="delegate" destination="0DH-Xd-lek" id="asl-UM-xnH"/>
+                                    <outlet property="dataSource" destination="0DH-Xd-lek" id="Amj-eb-Zr2"/>
+                                    <outlet property="delegate" destination="0DH-Xd-lek" id="p5g-vZ-Pzg"/>
                                 </connections>
                             </tableView>
                         </subviews>
@@ -674,10 +690,11 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nJW-1S-yDF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4912.8000000000002" y="-582.45877061469275"/>
+            <point key="canvasLocation" x="3734" y="-234"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
+        <segue reference="ML5-7N-IbZ"/>
         <segue reference="PHF-fa-WUR"/>
         <segue reference="Vta-j7-sr1"/>
     </inferredMetricsTieBreakers>
