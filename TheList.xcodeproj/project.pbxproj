@@ -10,7 +10,6 @@
 		B509B9B9215967A9006F7F79 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B509B9B8215967A9006F7F79 /* SettingsViewController.swift */; };
 		B52242902159F6F0002C164D /* TheList.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B5FAB70E2139D89C0046F976 /* TheList.xcdatamodeld */; };
 		B53549C5215C8E3A00D2EB1E /* EditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B53549C4215C8E3A00D2EB1E /* EditViewController.swift */; };
-		B53549C7215C8E6D00D2EB1E /* CategoryPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B53549C6215C8E6D00D2EB1E /* CategoryPickerViewController.swift */; };
 		B549378121B83F4A0096A1D4 /* MainTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B549378021B83F4A0096A1D4 /* MainTabBarViewController.swift */; };
 		B55497A621B6E3A5009E6C5A /* EnumModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55497A521B6E3A5009E6C5A /* EnumModel.swift */; };
 		B56A0728215A0150005436AE /* HeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B5F1E0EB21417B480041C472 /* HeaderView.xib */; };
@@ -33,7 +32,6 @@
 /* Begin PBXFileReference section */
 		B509B9B8215967A9006F7F79 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		B53549C4215C8E3A00D2EB1E /* EditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewController.swift; sourceTree = "<group>"; };
-		B53549C6215C8E6D00D2EB1E /* CategoryPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryPickerViewController.swift; sourceTree = "<group>"; };
 		B549378021B83F4A0096A1D4 /* MainTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarViewController.swift; sourceTree = "<group>"; };
 		B55497A521B6E3A5009E6C5A /* EnumModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnumModel.swift; sourceTree = "<group>"; };
 		B58E6A272141AA8A0056208C /* ProtocolModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProtocolModel.swift; sourceTree = "<group>"; };
@@ -87,7 +85,6 @@
 				B53549C4215C8E3A00D2EB1E /* EditViewController.swift */,
 				B549378021B83F4A0096A1D4 /* MainTabBarViewController.swift */,
 				B592843D21B84AB50031E308 /* MoveItemTableViewController.swift */,
-				B53549C6215C8E6D00D2EB1E /* CategoryPickerViewController.swift */,
 				B509B9B8215967A9006F7F79 /* SettingsViewController.swift */,
 			);
 			path = Controllers;
@@ -232,7 +229,6 @@
 				B5A6C3D7213F12940029FF22 /* CategoryAndItemTableViewCell.swift in Sources */,
 				B52242902159F6F0002C164D /* TheList.xcdatamodeld in Sources */,
 				B549378121B83F4A0096A1D4 /* MainTabBarViewController.swift in Sources */,
-				B53549C7215C8E6D00D2EB1E /* CategoryPickerViewController.swift in Sources */,
 				B5A6C3CE213EE5B20029FF22 /* ItemModel.swift in Sources */,
 				B5FAB7082139D89C0046F976 /* AppDelegate.swift in Sources */,
 				B53549C5215C8E3A00D2EB1E /* EditViewController.swift in Sources */,

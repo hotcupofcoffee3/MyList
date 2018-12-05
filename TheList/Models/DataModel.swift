@@ -174,9 +174,11 @@ class DataModel {
 //                        print("There are no Items loaded from the Data model")
         }
         
-//        if level > 1 && !items.isEmpty {
-//            updateAllItemsAreDone(forItems: items, onLevel: level, withParentID: parentID, andParentName: parentName)
-//        }
+        if !items.isEmpty {
+            for item in items {
+                updateAllItemsAreDone(forItem: item)
+            }
+        }
         
         return items
 
@@ -251,23 +253,30 @@ class DataModel {
         
     }
     
-    func updateAllItemsAreDone(forItems items: [Item], onLevel level:Int, withParentID parentID: Int, andParentName parentName: String) {
+    func updateAllItemsAreDone(forItem: Item) {
         
         var allItemsAreDone = true
         
-        for item in items {
+        let itemToUpdate = forItem
+        
+        let subItemCategory = forItem.category!
+        let subItemLevel = Int(forItem.level + 1)
+        let subItemParentID = Int(forItem.id)
+        let subItemParentName = forItem.name!
+        
+        let subItems = loadSpecificItems(forCategory: subItemCategory, forLevel: subItemLevel, forParentID: subItemParentID, andParentName: subItemParentName)
+        
+        if !subItems.isEmpty {
             
-            if item.done == false {
-                allItemsAreDone = false
+            for subItem in subItems {
+                
+                if subItem.done == false {
+                    allItemsAreDone = false
+                }
+                
             }
             
-        }
-        
-        if level > 1 {
-            
-            let parent = loadParentItem(forID: parentID, andName: parentName)
-            
-            parent.done = allItemsAreDone
+            itemToUpdate.done = allItemsAreDone
             
             saveData()
             
