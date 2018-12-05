@@ -556,7 +556,7 @@ extension CategoryAndItemViewController {
         
         guard let item = self.itemModel.selectedItem else { return print("There was no item selected.") }
         
-        if editingMode == .specifics {
+        if editingMode == .none {
             
             let destinationVC = segue.destination as! CategoryAndItemViewController
             
