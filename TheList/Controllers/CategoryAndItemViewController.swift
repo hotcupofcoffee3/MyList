@@ -90,12 +90,26 @@ class CategoryAndItemViewController: UIViewController {
         
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        resetEditingMode()
+    }
+    
     @objc func longPressGestureSelector(gestureRecognizer: UILongPressGestureRecognizer){
         if editingMode == .none {
             if gestureRecognizer.state == .began {
                 performSegue(withIdentifier: itemModel.typeOfSegue, sender: self)
             }
         }
+    }
+    
+    func resetEditingMode() {
+
+        if editingMode == .grouping {
+            tableView.reloadData()
+        }
+        editingMode = .none
+        toggleEditingMode(for: editingMode)
+        
     }
     
     func deleteRow(inTable tableView: UITableView, atIndexPath indexPath: IndexPath) {
@@ -625,11 +639,7 @@ extension CategoryAndItemViewController: PresentInvalidNameAlertDelegate, Haptic
     }
     
     func addAnItemTextFieldIsActive() {
-        if editingMode == .grouping {
-            tableView.reloadData()
-        }
-        editingMode = .none
-        toggleEditingMode(for: editingMode)
+        resetEditingMode()
     }
     
 }

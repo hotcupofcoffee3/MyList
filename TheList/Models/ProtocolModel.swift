@@ -44,3 +44,7 @@ protocol ItemEditedDelegate {
 protocol EditingCompleteDelegate {
     func editingComplete()
 }
+
+protocol DifferentTabClickedDelegate {
+    func differentTabClicked()
+}
