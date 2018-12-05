@@ -55,8 +55,7 @@ class CategoryAndItemViewController: UIViewController {
             if itemsToGroup.count > 0 {
                 groupItems()
             } else {
-                editingMode = .none
-                toggleEditingMode(for: editingMode)
+                resetEditingMode()
             }
             
         }
@@ -84,14 +83,12 @@ class CategoryAndItemViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         
+        resetEditingMode()
+        
         itemModel.reloadItems()
         
         tableView.reloadData()
         
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        resetEditingMode()
     }
     
     @objc func longPressGestureSelector(gestureRecognizer: UILongPressGestureRecognizer){
