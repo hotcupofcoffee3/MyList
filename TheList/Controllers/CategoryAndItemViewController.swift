@@ -22,6 +22,9 @@ class CategoryAndItemViewController: UIViewController {
     
     func toggleEditingMode(for selectedEditingMode: EditingMode) {
         
+//        print("Selected Editing Mode: \(selectedEditingMode)")
+//        print("Current Editing Mode: \(editingMode)")
+        
         switch selectedEditingMode {
             
         case .adding :
@@ -37,6 +40,9 @@ class CategoryAndItemViewController: UIViewController {
         case .sorting :
             
             editButton.title = "Done"
+            
+            // Have to set the mode here so the table reloads successfully for editing
+            editingMode = selectedEditingMode
             tableView.setEditing(true, animated: true)
             
         case .grouping :
@@ -56,42 +62,32 @@ class CategoryAndItemViewController: UIViewController {
         
         editingMode = selectedEditingMode
         
+//        print("New Editing Mode: \(editingMode)")
+        
     }
-    
-//    func resetEditingMode() {
-//
-//        if editingMode == .grouping {
-//            tableView.reloadData()
-//        }
-//
-//        toggleEditingMode(for: .none)
-//
-//    }
     
     @IBAction func edit(_ sender: UIBarButtonItem) {
         
         switch editingMode {
             
         case .none :
-            
-            editingMode = .sorting
+
+            toggleEditingMode(for: .sorting)
             
         case .grouping :
             
             if itemsToGroup.count > 0 {
                 groupItems()
             } else {
-//                resetEditingMode()
                 toggleEditingMode(for: .none)
             }
             
         default:
-            
-            editingMode = .none
+
+            toggleEditingMode(for: .none)
             
         }
         
-        toggleEditingMode(for: editingMode)
     }
     
     @IBOutlet weak var editButton: UIBarButtonItem!
@@ -248,8 +244,7 @@ class CategoryAndItemViewController: UIViewController {
         let addMoreItemsToGroup = UIAlertAction(title: "Add More Items", style: .default, handler: nil)
         let cancelGroupingItems = UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) in
             
-            self.editingMode = .none
-            self.toggleEditingMode(for: self.editingMode)
+            self.toggleEditingMode(for: .none)
             
 //            self.tableView.reloadData()
             
@@ -290,6 +285,8 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
         headerView.addAnItemTextFieldIsSubmittedDelegate = self
         
         self.touchedAwayFromHeaderTextFieldDelegate = headerView
+        
+        headerView.setEditingModeForDismissingKeyboardDelegate = self
         
         headerView.selectedParentID = itemModel.selectedParentID
         
@@ -420,7 +417,7 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
                 // Group
                 let group = UIAlertAction(title: "Group", style: .default, handler: { (action) in
                     
-                    self.editingMode = .grouping
+                    self.toggleEditingMode(for: .grouping)
                     
                     self.editButton.title = (self.itemsToGroup.count == 0) ? "Done" : "Group"
                     
@@ -635,7 +632,7 @@ extension CategoryAndItemViewController {
 
 
 
-extension CategoryAndItemViewController: PresentInvalidNameAlertDelegate, HapticDelegate, EditingCompleteDelegate, AddAnItemTextFieldIsActiveDelegate, AddAnItemTextFieldIsSubmitted {
+extension CategoryAndItemViewController: PresentInvalidNameAlertDelegate, HapticDelegate, EditingCompleteDelegate, AddAnItemTextFieldIsActiveDelegate, AddAnItemTextFieldIsSubmittedDelegate, SetEditingModeForDismissingKeyboardDelegate {
     
     func presentInvalidNameAlert(withErrorMessage errorMessage: ItemNameCheck) {
         
@@ -661,16 +658,16 @@ extension CategoryAndItemViewController: PresentInvalidNameAlertDelegate, Haptic
     }
     
     func addAnItemTextFieldIsActive() {
-//        resetEditingMode()
         toggleEditingMode(for: .adding)
     }
     
     func addAnItemTextFieldIsSubmitted() {
-//        resetEditingMode()
         toggleEditingMode(for: .none)
     }
     
-    
+    func setEditingModeForDismissingKeyboard() {
+        toggleEditingMode(for: .none)
+    }
     
 }
 

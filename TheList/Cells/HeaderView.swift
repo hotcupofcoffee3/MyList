@@ -8,7 +8,7 @@
 
 import UIKit
 
-class HeaderView: UITableViewHeaderFooterView, UITextFieldDelegate, TouchedAwayFromHeaderTextFieldDelegate {
+class HeaderView: UITableViewHeaderFooterView, UITextFieldDelegate {
     
     
     var isValidNameDelegate: IsValidNameDelegate?
@@ -21,7 +21,9 @@ class HeaderView: UITableViewHeaderFooterView, UITextFieldDelegate, TouchedAwayF
     
     var addAnItemTextFieldIsActiveDelegate: AddAnItemTextFieldIsActiveDelegate?
     
-    var addAnItemTextFieldIsSubmittedDelegate: AddAnItemTextFieldIsSubmitted?
+    var addAnItemTextFieldIsSubmittedDelegate: AddAnItemTextFieldIsSubmittedDelegate?
+    
+    var setEditingModeForDismissingKeyboardDelegate: SetEditingModeForDismissingKeyboardDelegate?
     
     var hapticDelegate: HapticDelegate?
     
@@ -54,6 +56,8 @@ class HeaderView: UITableViewHeaderFooterView, UITextFieldDelegate, TouchedAwayF
         if checkNewItemName == .success {
             
             addAnItemTextFieldIsSubmittedDelegate?.addAnItemTextFieldIsSubmitted()
+            
+            setEditingModeForDismissingKeyboardDelegate?.setEditingModeForDismissingKeyboard()
             
             addNewItemDelegate?.addNewItem(itemName: newItemName)
             
@@ -129,8 +133,13 @@ class HeaderView: UITableViewHeaderFooterView, UITextFieldDelegate, TouchedAwayF
         
     }
     
+}
+
+extension HeaderView: TouchedAwayFromHeaderTextFieldDelegate {
+    
     func touchedAwayFromHeaderTextField() {
         headerTextField.resignFirstResponder()
+        setEditingModeForDismissingKeyboardDelegate?.setEditingModeForDismissingKeyboard()
     }
     
 }

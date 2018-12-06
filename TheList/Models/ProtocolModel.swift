@@ -29,12 +29,16 @@ protocol AddAnItemTextFieldIsActiveDelegate {
     func addAnItemTextFieldIsActive()
 }
 
-protocol AddAnItemTextFieldIsSubmitted {
+protocol AddAnItemTextFieldIsSubmittedDelegate {
     func addAnItemTextFieldIsSubmitted()
 }
 
 protocol TouchedAwayFromHeaderTextFieldDelegate {
     func touchedAwayFromHeaderTextField()
+}
+
+protocol SetEditingModeForDismissingKeyboardDelegate {
+    func setEditingModeForDismissingKeyboard()
 }
 
 protocol HapticDelegate {
