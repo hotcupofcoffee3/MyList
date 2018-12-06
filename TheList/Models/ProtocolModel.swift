@@ -29,6 +29,10 @@ protocol AddAnItemTextFieldIsActiveDelegate {
     func addAnItemTextFieldIsActive()
 }
 
+protocol AddAnItemTextFieldIsSubmitted {
+    func addAnItemTextFieldIsSubmitted()
+}
+
 protocol TouchedAwayFromHeaderTextFieldDelegate {
     func touchedAwayFromHeaderTextField()
 }

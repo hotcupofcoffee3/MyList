@@ -29,7 +29,6 @@
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="next"/>
                                 <connections>
                                     <action selector="headerTextChanged:" destination="-1" eventType="editingChanged" id="JAX-Ij-Abi"/>
-                                    <action selector="headerTextChanged:" destination="KGk-i7-Jjw" eventType="editingDidEnd" id="KYF-ha-eQv"/>
                                     <action selector="headerTextFieldBecameActive:" destination="-1" eventType="editingDidBegin" id="uhQ-04-B0d"/>
                                 </connections>
                             </textField>

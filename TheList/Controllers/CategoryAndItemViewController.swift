@@ -23,7 +23,17 @@ class CategoryAndItemViewController: UIViewController {
     func toggleEditingMode(for selectedEditingMode: EditingMode) {
         
         switch selectedEditingMode {
-           
+            
+        case .adding :
+            
+            if editingMode == .grouping {
+                itemsToGroup = []
+                tableView.reloadData()
+            }
+            
+            editButton.title = "Done"
+            tableView.setEditing(false, animated: true)
+         
         case .sorting :
             
             editButton.title = "Done"
@@ -33,15 +43,30 @@ class CategoryAndItemViewController: UIViewController {
             
             editButton.title = (itemsToGroup.count > 0) ? "Group" : "Done"
             
-        default:
+        case .none, .moving, .specifics :
             
-            itemsToGroup = []
+            if editingMode == .grouping {
+                itemsToGroup = []
+                tableView.reloadData()
+            }
             editButton.title = "Sort"
             tableView.setEditing(false, animated: true)
             
         }
         
+        editingMode = selectedEditingMode
+        
     }
+    
+//    func resetEditingMode() {
+//
+//        if editingMode == .grouping {
+//            tableView.reloadData()
+//        }
+//
+//        toggleEditingMode(for: .none)
+//
+//    }
     
     @IBAction func edit(_ sender: UIBarButtonItem) {
         
@@ -56,7 +81,8 @@ class CategoryAndItemViewController: UIViewController {
             if itemsToGroup.count > 0 {
                 groupItems()
             } else {
-                resetEditingMode()
+//                resetEditingMode()
+                toggleEditingMode(for: .none)
             }
             
         default:
@@ -88,7 +114,8 @@ class CategoryAndItemViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         
-        resetEditingMode()
+//        resetEditingMode()
+        toggleEditingMode(for: .none)
         
         itemModel.reloadItems()
         
@@ -102,17 +129,6 @@ class CategoryAndItemViewController: UIViewController {
                 performSegue(withIdentifier: itemModel.typeOfSegue, sender: self)
             }
         }
-    }
-    
-    func resetEditingMode() {
-
-        if editingMode == .grouping {
-            tableView.reloadData()
-        }
-        
-        editingMode = .none
-        toggleEditingMode(for: editingMode)
-        
     }
     
     func deleteRow(inTable tableView: UITableView, atIndexPath indexPath: IndexPath) {
@@ -224,8 +240,7 @@ class CategoryAndItemViewController: UIViewController {
             
             self.itemModel.reloadItems()
             
-            self.editingMode = .none
-            self.toggleEditingMode(for: self.editingMode)
+            self.toggleEditingMode(for: .none)
             
             self.tableView.reloadData()
         })
@@ -271,6 +286,8 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
         headerView.presentInvalidNameAlertDelegate = self
         
         headerView.addAnItemTextFieldIsActiveDelegate = self
+        
+        headerView.addAnItemTextFieldIsSubmittedDelegate = self
         
         self.touchedAwayFromHeaderTextFieldDelegate = headerView
         
@@ -618,7 +635,7 @@ extension CategoryAndItemViewController {
 
 
 
-extension CategoryAndItemViewController: PresentInvalidNameAlertDelegate, HapticDelegate, EditingCompleteDelegate, AddAnItemTextFieldIsActiveDelegate {
+extension CategoryAndItemViewController: PresentInvalidNameAlertDelegate, HapticDelegate, EditingCompleteDelegate, AddAnItemTextFieldIsActiveDelegate, AddAnItemTextFieldIsSubmitted {
     
     func presentInvalidNameAlert(withErrorMessage errorMessage: ItemNameCheck) {
         
@@ -644,9 +661,16 @@ extension CategoryAndItemViewController: PresentInvalidNameAlertDelegate, Haptic
     }
     
     func addAnItemTextFieldIsActive() {
-        editingMode = .adding
-        resetEditingMode()
+//        resetEditingMode()
+        toggleEditingMode(for: .adding)
     }
+    
+    func addAnItemTextFieldIsSubmitted() {
+//        resetEditingMode()
+        toggleEditingMode(for: .none)
+    }
+    
+    
     
 }
 

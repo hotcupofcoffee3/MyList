@@ -21,6 +21,8 @@ class HeaderView: UITableViewHeaderFooterView, UITextFieldDelegate, TouchedAwayF
     
     var addAnItemTextFieldIsActiveDelegate: AddAnItemTextFieldIsActiveDelegate?
     
+    var addAnItemTextFieldIsSubmittedDelegate: AddAnItemTextFieldIsSubmitted?
+    
     var hapticDelegate: HapticDelegate?
     
     var selectedParentID = Int()
@@ -30,9 +32,7 @@ class HeaderView: UITableViewHeaderFooterView, UITextFieldDelegate, TouchedAwayF
     @IBOutlet weak var headerTextField: UITextField!
     
     @IBAction func headerTextChanged(_ sender: UITextField) {
-        
         toggleAddButtonEnabled()
-        
     }
     
     @IBAction func headerTextFieldBecameActive(_ sender: UITextField) {
@@ -52,6 +52,8 @@ class HeaderView: UITableViewHeaderFooterView, UITextFieldDelegate, TouchedAwayF
         guard let checkNewItemName = isValidNameDelegate?.isValidName(forItemName: newItemName) else { return }
         
         if checkNewItemName == .success {
+            
+            addAnItemTextFieldIsSubmittedDelegate?.addAnItemTextFieldIsSubmitted()
             
             addNewItemDelegate?.addNewItem(itemName: newItemName)
             
