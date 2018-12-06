@@ -23,7 +23,7 @@ class CategoryAndItemViewController: UIViewController {
     func toggleEditingMode(for selectedEditingMode: EditingMode) {
         
         switch selectedEditingMode {
-            
+           
         case .sorting :
             
             editButton.title = "Done"
@@ -34,6 +34,7 @@ class CategoryAndItemViewController: UIViewController {
             editButton.title = (itemsToGroup.count > 0) ? "Group" : "Done"
             
         default:
+            
             itemsToGroup = []
             editButton.title = "Sort"
             tableView.setEditing(false, animated: true)
@@ -46,9 +47,9 @@ class CategoryAndItemViewController: UIViewController {
         
         switch editingMode {
             
-        case .none : editingMode = .sorting
-//        case .sorting : editingMode = .none
-//        case .specifics : editingMode = .none
+        case .none :
+            
+            editingMode = .sorting
             
         case .grouping :
             
@@ -58,7 +59,9 @@ class CategoryAndItemViewController: UIViewController {
                 resetEditingMode()
             }
             
-        default: editingMode = .none
+        default:
+            
+            editingMode = .none
             
         }
         
@@ -106,6 +109,7 @@ class CategoryAndItemViewController: UIViewController {
         if editingMode == .grouping {
             tableView.reloadData()
         }
+        
         editingMode = .none
         toggleEditingMode(for: editingMode)
         
@@ -386,14 +390,6 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
                 })
                 
                 
-                // Delete SubItems
-                let deleteSubItems = UIAlertAction(title: "Delete SubItems", style: .destructive, handler: { (action) in
-                    
-                    self.deleteSubItems(inTable: tableView, atIndexPath: indexPath)
-                    
-                })
-                
-                
                 // Move
                 let move = UIAlertAction(title: "Move", style: .default, handler: { (action) in
                     
@@ -427,6 +423,14 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
                 })
                 
                 
+                // Delete SubItems
+                let deleteSubItems = UIAlertAction(title: "Delete SubItems", style: .destructive, handler: { (action) in
+                    
+                    self.deleteSubItems(inTable: tableView, atIndexPath: indexPath)
+                    
+                })
+                
+                
                 // Cancel
                 let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
                 
@@ -435,14 +439,14 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
                 let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
                 
                 alert.addAction(editName)
+                alert.addAction(move)
+                alert.addAction(group)
+                alert.addAction(uncheckAll)
                 
                 if numberOfSubitems > 0 {
                     alert.addAction(deleteSubItems)
                 }
                 
-                alert.addAction(move)
-                alert.addAction(group)
-                alert.addAction(uncheckAll)
                 alert.addAction(cancel)
                 
                 self.present(alert, animated: true, completion: nil)
@@ -640,6 +644,7 @@ extension CategoryAndItemViewController: PresentInvalidNameAlertDelegate, Haptic
     }
     
     func addAnItemTextFieldIsActive() {
+        editingMode = .adding
         resetEditingMode()
     }
     
