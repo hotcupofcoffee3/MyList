@@ -41,6 +41,10 @@ protocol SetEditingModeForDismissingKeyboardDelegate {
     func setEditingModeForDismissingKeyboard()
 }
 
+protocol DismissKeyboardFromMainViewControllerDelegate {
+    func dismissKeyboardFromMainViewController()
+}
+
 protocol HapticDelegate {
     func hapticExecuted(as: UINotificationFeedbackGenerator.FeedbackType)
 }

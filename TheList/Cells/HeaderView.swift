@@ -103,6 +103,8 @@ class HeaderView: UITableViewHeaderFooterView, UITextFieldDelegate {
         
     }
     
+    
+    
     // MARK: - Toolbar with 'Done' button
     
     @objc func dismissKeyboard() {
@@ -112,6 +114,7 @@ class HeaderView: UITableViewHeaderFooterView, UITextFieldDelegate {
             addNewItem()
             headerTextField.resignFirstResponder()
         }
+        setEditingModeForDismissingKeyboardDelegate?.setEditingModeForDismissingKeyboard()
     }
     
     func addToolBarToKeyboard(textField: UITextField) {
@@ -135,11 +138,15 @@ class HeaderView: UITableViewHeaderFooterView, UITextFieldDelegate {
     
 }
 
-extension HeaderView: TouchedAwayFromHeaderTextFieldDelegate {
+extension HeaderView: TouchedAwayFromHeaderTextFieldDelegate, DismissKeyboardFromMainViewControllerDelegate {
     
     func touchedAwayFromHeaderTextField() {
         headerTextField.resignFirstResponder()
         setEditingModeForDismissingKeyboardDelegate?.setEditingModeForDismissingKeyboard()
+    }
+    
+    func dismissKeyboardFromMainViewController() {
+        headerTextField.resignFirstResponder()
     }
     
 }

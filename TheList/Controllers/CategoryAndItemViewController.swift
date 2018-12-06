@@ -20,10 +20,12 @@ class CategoryAndItemViewController: UIViewController {
     
     var touchedAwayFromHeaderTextFieldDelegate: TouchedAwayFromHeaderTextFieldDelegate?
     
+    var dismissKeyboardFromMainViewControllerDelegate: DismissKeyboardFromMainViewControllerDelegate?
+    
     func toggleEditingMode(for selectedEditingMode: EditingMode) {
         
-//        print("Selected Editing Mode: \(selectedEditingMode)")
-//        print("Current Editing Mode: \(editingMode)")
+        print("Selected Editing Mode: \(selectedEditingMode)")
+        print("Current Editing Mode: \(editingMode)")
         
         switch selectedEditingMode {
             
@@ -34,7 +36,7 @@ class CategoryAndItemViewController: UIViewController {
                 tableView.reloadData()
             }
             
-            editButton.title = "Done"
+            editButton.title = "Cancel"
             tableView.setEditing(false, animated: true)
          
         case .sorting :
@@ -62,7 +64,7 @@ class CategoryAndItemViewController: UIViewController {
         
         editingMode = selectedEditingMode
         
-//        print("New Editing Mode: \(editingMode)")
+        print("New Editing Mode: \(editingMode)\n")
         
     }
     
@@ -81,6 +83,11 @@ class CategoryAndItemViewController: UIViewController {
             } else {
                 toggleEditingMode(for: .none)
             }
+            
+        case .adding :
+            
+            dismissKeyboardFromMainViewControllerDelegate?.dismissKeyboardFromMainViewController()
+            toggleEditingMode(for: .none)
             
         default:
 
@@ -284,9 +291,11 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
         
         headerView.addAnItemTextFieldIsSubmittedDelegate = self
         
+        headerView.setEditingModeForDismissingKeyboardDelegate = self
+        
         self.touchedAwayFromHeaderTextFieldDelegate = headerView
         
-        headerView.setEditingModeForDismissingKeyboardDelegate = self
+        self.dismissKeyboardFromMainViewControllerDelegate = headerView
         
         headerView.selectedParentID = itemModel.selectedParentID
         
