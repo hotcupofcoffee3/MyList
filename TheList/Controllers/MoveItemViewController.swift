@@ -25,7 +25,9 @@ class MoveItemViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         tableView.register(UINib(nibName: Keywords.shared.categoryAndItemNibName, bundle: nil), forCellReuseIdentifier: Keywords.shared.categoryAndItemCellIdentifier)
+
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -64,8 +66,15 @@ extension MoveItemViewController: UITableViewDelegate, UITableViewDataSource {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: Keywords.shared.categoryAndItemCellIdentifier, for: indexPath) as! CategoryAndItemTableViewCell
         
+        cell.backgroundColor = Keywords.shared.lightBlueBackground
+        
         cell.nameLabel.text = items[indexPath.row].name!
         
+        cell.numberLabel.text = ""
+        cell.numberLabelWidth.constant = 0
+        
+        cell.checkboxImageWidth.constant = 0
+       
         // Set up the cell's contents
         
         return cell

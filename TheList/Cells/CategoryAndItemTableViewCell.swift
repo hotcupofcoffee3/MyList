@@ -22,6 +22,8 @@ class CategoryAndItemTableViewCell: UITableViewCell {
     
     @IBOutlet weak var numberLabelWidth: NSLayoutConstraint!
     
+    @IBOutlet weak var checkboxImageWidth: NSLayoutConstraint!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         

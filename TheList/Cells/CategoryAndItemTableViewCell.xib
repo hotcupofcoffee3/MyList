@@ -71,6 +71,7 @@
             <connections>
                 <outlet property="cellBackgroundView" destination="PBH-dH-9uK" id="W2M-Dm-Mbj"/>
                 <outlet property="checkboxImageView" destination="ERM-Ay-y7K" id="mJu-85-0dV"/>
+                <outlet property="checkboxImageWidth" destination="tN1-8t-Xu7" id="hsC-Cm-Oik"/>
                 <outlet property="nameLabel" destination="d5F-vj-huO" id="U7Z-ai-9g0"/>
                 <outlet property="numberLabel" destination="44v-DW-ACp" id="0lL-Cs-8Yu"/>
                 <outlet property="numberLabelWidth" destination="eYa-uI-N9W" id="40N-5A-5Ze"/>
