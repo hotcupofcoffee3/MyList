@@ -26,20 +26,20 @@ class DataModel {
         
         if defaultItems.count == 0 {
             
-            print("Default items starting items: \(defaultItems.count)")
+//            print("Default items starting items: \(defaultItems.count)")
             
             addNewItem(name: "Home", forCategory: .none, level: 0, parentID: 0, parentName: none)
             addNewItem(name: "Errands", forCategory: .none, level: 0, parentID: 0, parentName: none)
             addNewItem(name: "Work", forCategory: .none, level: 0, parentID: 0, parentName: none)
             addNewItem(name: "Other", forCategory: .none, level: 0, parentID: 0, parentName: none)
             
-            let newlyCreatedDefaultItems = loadSpecificItems(forCategory: none, forLevel: 0, forParentID: 0, andParentName: none)
+//            let newlyCreatedDefaultItems = loadSpecificItems(forCategory: none, forLevel: 0, forParentID: 0, andParentName: none)
             
-            print("Default items created: \(newlyCreatedDefaultItems.count)")
+//            print("Default items created: \(newlyCreatedDefaultItems.count)")
             
         } else {
             
-            print("Default items already created: \(defaultItems.count)")
+//            print("Default items already created: \(defaultItems.count)")
             
         }
         
