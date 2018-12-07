@@ -56,7 +56,7 @@ class Keywords {
     let headerIdentifier = "headerView"
     
     // Table Cell Nibs
-    let cellNibName = "CategoryAndItemTableViewCell"
+    let categoryAndItemNibName = "CategoryAndItemTableViewCell"
     let headerNibName = "HeaderView"
     
     // Checkbox Images for Table Cells

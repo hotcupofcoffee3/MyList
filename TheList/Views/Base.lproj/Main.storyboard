@@ -635,7 +635,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="eqa-0C-K1g">
-                                <rect key="frame" x="0.0" y="64" width="375" height="559"/>
+                                <rect key="frame" x="0.0" y="20" width="375" height="603"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" id="Fej-Xk-GUT">
@@ -681,6 +681,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="tableView" destination="eqa-0C-K1g" id="sJU-Zg-96A"/>
                         <segue destination="s2H-8x-sjc" kind="show" identifier="moveItem1ToMoveItem2Segue" id="zkd-XX-iSA"/>
                     </connections>
                 </viewController>
@@ -715,7 +716,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="y9O-Xu-rgU">
-                                <rect key="frame" x="0.0" y="64" width="375" height="559"/>
+                                <rect key="frame" x="0.0" y="20" width="375" height="603"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" id="vDe-ao-vou">
@@ -761,6 +762,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="tableView" destination="y9O-Xu-rgU" id="iHm-wZ-6Mu"/>
                         <segue destination="0DH-Xd-lek" kind="show" identifier="moveItem2ToMoveItem1Segue" id="Qwi-DP-9MS"/>
                     </connections>
                 </viewController>
@@ -771,7 +773,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="iMv-iF-ScB"/>
-        <segue reference="YqC-tZ-qui"/>
+        <segue reference="Qwi-DP-9MS"/>
         <segue reference="PHF-fa-WUR"/>
         <segue reference="bMT-Jl-AiY"/>
     </inferredMetricsTieBreakers>

@@ -17,19 +17,19 @@ class MoveItemViewController: UIViewController {
     
     var newlySelectedItemName = String()
     
+    @IBOutlet weak var tableView: UITableView!
+    
     @IBAction func cancel(_ sender: UIBarButtonItem) {
         dismiss(animated: true, completion: nil)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        tableView.register(UINib(nibName: Keywords.shared.categoryAndItemNibName, bundle: nil), forCellReuseIdentifier: Keywords.shared.categoryAndItemCellIdentifier)
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        
         currentMoveVC = self.title!
-        
     }
 
 }
@@ -62,9 +62,11 @@ extension MoveItemViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = UITableViewCell(style: .default, reuseIdentifier: "cell")
+        let cell = tableView.dequeueReusableCell(withIdentifier: Keywords.shared.categoryAndItemCellIdentifier, for: indexPath) as! CategoryAndItemTableViewCell
         
-        cell.textLabel?.text = items[indexPath.row].name!
+        cell.nameLabel.text = items[indexPath.row].name!
+        
+        // Set up the cell's contents
         
         return cell
     }
