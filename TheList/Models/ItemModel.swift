@@ -120,6 +120,8 @@ class ItemModel {
         case .subItems2:
             return Keywords.shared.subItems2ToSubItems1Segue
             
+        default: return "Type of Segue was not set because it was the 0 Category one."
+            
         }
         
     }
@@ -146,6 +148,8 @@ class ItemModel {
         case .subItems2:
             return Keywords.shared.subItems2ToEditSegue
             
+        default: return "Edit Segue was not set because it was the 0 Category one."
+            
         }
         
     }
@@ -171,6 +175,8 @@ class ItemModel {
             
         case .subItems2:
             return Keywords.shared.subItems2ToMoveSegue
+            
+        default: return "Move Segue was not set because it was the 0 Category one."
             
         }
         

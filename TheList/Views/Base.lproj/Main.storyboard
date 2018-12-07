@@ -58,7 +58,7 @@
                         <outlet property="tableView" destination="g6g-5S-dLA" id="ZIl-Kf-bt5"/>
                         <segue destination="vyx-Yb-CY9" kind="show" identifier="homeToSubItemsSegue" id="nux-BO-Hot"/>
                         <segue destination="rx6-qK-MYC" kind="presentation" identifier="homeToEditSegue" id="bMT-Jl-AiY"/>
-                        <segue destination="0DH-Xd-lek" kind="presentation" identifier="homeToMoveSegue" id="iMv-iF-ScB"/>
+                        <segue destination="He0-NJ-Qvf" kind="presentation" identifier="homeToMoveSegue" id="iMv-iF-ScB"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -199,7 +199,7 @@
                         <outlet property="tableView" destination="x8m-H1-Ndp" id="XE9-ev-Iw1"/>
                         <segue destination="rx6-qK-MYC" kind="presentation" identifier="subItems1ToEditSegue" id="9Ao-XS-uyY"/>
                         <segue destination="pYo-G2-EdQ" kind="show" identifier="subItems1ToSubItems2Segue" id="Hed-9k-OSx"/>
-                        <segue destination="0DH-Xd-lek" kind="presentation" identifier="subItems1ToMoveSegue" id="nXU-7R-ZJ2"/>
+                        <segue destination="He0-NJ-Qvf" kind="presentation" identifier="subItems1ToMoveSegue" id="nXU-7R-ZJ2"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wnF-VX-T5l" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -254,7 +254,7 @@
                         <outlet property="tableView" destination="oKU-rj-Ocy" id="jl2-oM-nAA"/>
                         <segue destination="vyx-Yb-CY9" kind="show" identifier="errandsToSubItemsSegue" id="qAD-ln-2Bb"/>
                         <segue destination="rx6-qK-MYC" kind="presentation" identifier="errandsToEditSegue" id="q1b-3X-gdM"/>
-                        <segue destination="0DH-Xd-lek" kind="presentation" identifier="errandsToMoveSegue" id="pJd-M3-Bl6"/>
+                        <segue destination="He0-NJ-Qvf" kind="presentation" identifier="errandsToMoveSegue" id="pJd-M3-Bl6"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cJq-6e-awJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -406,7 +406,7 @@
                         <outlet property="tableView" destination="zhz-lY-r0J" id="Oex-qC-gBn"/>
                         <segue destination="vyx-Yb-CY9" kind="show" identifier="workToSubItemsSegue" id="W7y-kt-DcV"/>
                         <segue destination="rx6-qK-MYC" kind="presentation" identifier="workToEditSegue" id="fJ4-KA-VjC"/>
-                        <segue destination="0DH-Xd-lek" kind="presentation" identifier="workToMoveSegue" id="jyg-jz-Fuv"/>
+                        <segue destination="He0-NJ-Qvf" kind="presentation" identifier="workToMoveSegue" id="jyg-jz-Fuv"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nGo-yJ-56d" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -461,7 +461,7 @@
                         <outlet property="tableView" destination="l8U-aW-G5b" id="ZDK-W3-M4m"/>
                         <segue destination="vyx-Yb-CY9" kind="show" identifier="otherToSubItemsSegue" id="tW7-3W-El1"/>
                         <segue destination="rx6-qK-MYC" kind="presentation" identifier="otherToEditSegue" id="ZcG-xh-Vnv"/>
-                        <segue destination="0DH-Xd-lek" kind="presentation" identifier="otherToMoveSegue" id="i0T-IJ-h7q"/>
+                        <segue destination="He0-NJ-Qvf" kind="presentation" identifier="otherToMoveSegue" id="i0T-IJ-h7q"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Nrr-1l-9aZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -619,42 +619,23 @@
                         <outlet property="tableView" destination="T1f-8T-A8y" id="xg5-AL-V5C"/>
                         <segue destination="vyx-Yb-CY9" kind="show" identifier="subItems2ToSubItems1Segue" id="PHF-fa-WUR"/>
                         <segue destination="rx6-qK-MYC" kind="presentation" identifier="subItems2ToEditSegue" id="Vta-j7-sr1"/>
-                        <segue destination="0DH-Xd-lek" kind="presentation" identifier="subItems2ToMoveSegue" id="ML5-7N-IbZ"/>
+                        <segue destination="He0-NJ-Qvf" kind="presentation" identifier="subItems2ToMoveSegue" id="ML5-7N-IbZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="P3b-PG-Gvj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="4990" y="1630"/>
         </scene>
-        <!--Move Item View Controller-->
+        <!--moveItem1-->
         <scene sceneID="Zbr-cB-b9C">
             <objects>
-                <viewController id="0DH-Xd-lek" customClass="MoveItemViewController" customModule="MyList" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="moveItem1" id="0DH-Xd-lek" customClass="MoveItemViewController" customModule="MyList" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="KVm-ce-q7u">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ycs-9G-80g">
-                                <rect key="frame" x="0.0" y="607" width="375" height="60"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="60" id="MfY-wG-2ua"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="Optima-Regular" family="Optima" pointSize="30"/>
-                                <state key="normal" title="Ok">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sUH-N3-Ofh">
-                                <rect key="frame" x="20" y="40" width="48" height="30"/>
-                                <state key="normal" title="Cancel">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <connections>
-                                    <action selector="back:" destination="0DH-Xd-lek" eventType="touchUpInside" id="IuZ-b7-PNH"/>
-                                </connections>
-                            </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="eqa-0C-K1g">
-                                <rect key="frame" x="0.0" y="90" width="375" height="517"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="559"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" id="Fej-Xk-GUT">
@@ -671,31 +652,127 @@
                                     <outlet property="delegate" destination="0DH-Xd-lek" id="p5g-vZ-Pzg"/>
                                 </connections>
                             </tableView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2v7-wF-ozu">
+                                <rect key="frame" x="0.0" y="623" width="375" height="44"/>
+                                <items>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="fuX-gD-Jms"/>
+                                    <barButtonItem title="Move" id="TSB-LJ-07P"/>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="JO5-sE-WWi"/>
+                                </items>
+                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="YtG-eK-6qU" firstAttribute="bottom" secondItem="ycs-9G-80g" secondAttribute="bottom" id="6bz-6R-al8"/>
-                            <constraint firstItem="sUH-N3-Ofh" firstAttribute="top" secondItem="YtG-eK-6qU" secondAttribute="top" constant="20" id="85I-B4-GTK"/>
-                            <constraint firstItem="ycs-9G-80g" firstAttribute="leading" secondItem="YtG-eK-6qU" secondAttribute="leading" id="Pyu-IZ-Nx0"/>
+                            <constraint firstItem="2v7-wF-ozu" firstAttribute="trailing" secondItem="YtG-eK-6qU" secondAttribute="trailing" id="0MI-qz-1l2"/>
+                            <constraint firstItem="eqa-0C-K1g" firstAttribute="top" secondItem="YtG-eK-6qU" secondAttribute="top" id="3Co-ds-n1l"/>
                             <constraint firstItem="YtG-eK-6qU" firstAttribute="trailing" secondItem="eqa-0C-K1g" secondAttribute="trailing" id="QEb-cx-eRn"/>
-                            <constraint firstItem="YtG-eK-6qU" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="sUH-N3-Ofh" secondAttribute="trailing" symbolic="YES" id="ZhW-aR-pyG"/>
-                            <constraint firstItem="sUH-N3-Ofh" firstAttribute="leading" secondItem="YtG-eK-6qU" secondAttribute="leading" constant="20" id="gD9-a2-huv"/>
-                            <constraint firstItem="YtG-eK-6qU" firstAttribute="trailing" secondItem="ycs-9G-80g" secondAttribute="trailing" id="j1h-Yh-oCR"/>
+                            <constraint firstItem="2v7-wF-ozu" firstAttribute="bottom" secondItem="YtG-eK-6qU" secondAttribute="bottom" id="ZMh-Tw-8VA"/>
+                            <constraint firstItem="2v7-wF-ozu" firstAttribute="leading" secondItem="YtG-eK-6qU" secondAttribute="leading" id="eOH-52-aFz"/>
+                            <constraint firstItem="2v7-wF-ozu" firstAttribute="top" secondItem="eqa-0C-K1g" secondAttribute="bottom" id="inP-R7-uMq"/>
                             <constraint firstItem="eqa-0C-K1g" firstAttribute="leading" secondItem="YtG-eK-6qU" secondAttribute="leading" id="n3r-WC-SlC"/>
-                            <constraint firstItem="eqa-0C-K1g" firstAttribute="top" secondItem="sUH-N3-Ofh" secondAttribute="bottom" constant="20" id="vmr-B6-jT5"/>
-                            <constraint firstItem="ycs-9G-80g" firstAttribute="top" secondItem="eqa-0C-K1g" secondAttribute="bottom" id="zhw-lE-QPW"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="YtG-eK-6qU"/>
                     </view>
+                    <navigationItem key="navigationItem" title="Move Item" id="WeU-0D-acU">
+                        <barButtonItem key="rightBarButtonItem" title="Cancel" id="SOd-jm-Eg2">
+                            <connections>
+                                <action selector="cancel:" destination="0DH-Xd-lek" id="XKo-G5-Vmf"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <segue destination="s2H-8x-sjc" kind="show" identifier="moveItem1ToMoveItem2Segue" id="zkd-XX-iSA"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nJW-1S-yDF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3734" y="-234"/>
+            <point key="canvasLocation" x="4672.8000000000002" y="-234.33283358320841"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="MoU-Bi-aTB">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="He0-NJ-Qvf" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="fmQ-LV-5nF">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="0DH-Xd-lek" kind="relationship" relationship="rootViewController" id="YqC-tZ-qui"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8gE-OT-oyy" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3733.5999999999999" y="-234.33283358320841"/>
+        </scene>
+        <!--moveItem2-->
+        <scene sceneID="hLg-kj-XKU">
+            <objects>
+                <viewController title="moveItem2" id="s2H-8x-sjc" customClass="MoveItemViewController" customModule="MyList" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="p0B-mo-jfI">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="y9O-Xu-rgU">
+                                <rect key="frame" x="0.0" y="64" width="375" height="559"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" id="vDe-ao-vou">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="vDe-ao-vou" id="czj-vl-ROp">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="s2H-8x-sjc" id="fy4-2h-YpX"/>
+                                    <outlet property="delegate" destination="s2H-8x-sjc" id="pan-8d-Ami"/>
+                                </connections>
+                            </tableView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ny5-cq-T62">
+                                <rect key="frame" x="0.0" y="623" width="375" height="44"/>
+                                <items>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="5S7-H0-2Zh"/>
+                                    <barButtonItem title="Move" id="lVn-xg-R9a"/>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="58g-FC-xUt"/>
+                                </items>
+                            </toolbar>
+                        </subviews>
+                        <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="ny5-cq-T62" firstAttribute="trailing" secondItem="I1E-5X-sX9" secondAttribute="trailing" id="FIR-Hd-hPq"/>
+                            <constraint firstItem="ny5-cq-T62" firstAttribute="leading" secondItem="I1E-5X-sX9" secondAttribute="leading" id="FYJ-FY-Zdn"/>
+                            <constraint firstItem="y9O-Xu-rgU" firstAttribute="leading" secondItem="I1E-5X-sX9" secondAttribute="leading" id="MlL-fd-ZAU"/>
+                            <constraint firstItem="y9O-Xu-rgU" firstAttribute="top" secondItem="I1E-5X-sX9" secondAttribute="top" id="TK4-tY-eEh"/>
+                            <constraint firstItem="I1E-5X-sX9" firstAttribute="trailing" secondItem="y9O-Xu-rgU" secondAttribute="trailing" id="bJH-x5-wgf"/>
+                            <constraint firstItem="ny5-cq-T62" firstAttribute="top" secondItem="y9O-Xu-rgU" secondAttribute="bottom" id="eyc-WT-Jdo"/>
+                            <constraint firstItem="ny5-cq-T62" firstAttribute="bottom" secondItem="I1E-5X-sX9" secondAttribute="bottom" id="o01-ol-qjX"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="I1E-5X-sX9"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Move Item" id="x70-SK-Byd">
+                        <barButtonItem key="rightBarButtonItem" title="Cancel" id="odO-Fp-7ls">
+                            <connections>
+                                <action selector="cancel:" destination="s2H-8x-sjc" id="Yg2-Cp-KPP"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <segue destination="0DH-Xd-lek" kind="show" identifier="moveItem2ToMoveItem1Segue" id="Qwi-DP-9MS"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="o9Q-EP-iSN" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5454" y="-234"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="ML5-7N-IbZ"/>
+        <segue reference="iMv-iF-ScB"/>
+        <segue reference="YqC-tZ-qui"/>
         <segue reference="PHF-fa-WUR"/>
-        <segue reference="Vta-j7-sr1"/>
+        <segue reference="bMT-Jl-AiY"/>
     </inferredMetricsTieBreakers>
 </document>

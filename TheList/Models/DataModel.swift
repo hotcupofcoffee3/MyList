@@ -18,7 +18,32 @@ class DataModel {
     static var shared = DataModel()
     var itemsToDeleteQueue = [Item]()
     
-    private init() { }
+    private init() {
+        
+        let none = SelectedCategory.none.rawValue
+        
+        let defaultItems = loadSpecificItems(forCategory: none, forLevel: 0, forParentID: 0, andParentName: none)
+        
+        if defaultItems.count == 0 {
+            
+            print("Default items starting items: \(defaultItems.count)")
+            
+            addNewItem(name: "Home", forCategory: .none, level: 0, parentID: 0, parentName: none)
+            addNewItem(name: "Errands", forCategory: .none, level: 0, parentID: 0, parentName: none)
+            addNewItem(name: "Work", forCategory: .none, level: 0, parentID: 0, parentName: none)
+            addNewItem(name: "Other", forCategory: .none, level: 0, parentID: 0, parentName: none)
+            
+            let newlyCreatedDefaultItems = loadSpecificItems(forCategory: none, forLevel: 0, forParentID: 0, andParentName: none)
+            
+            print("Default items created: \(newlyCreatedDefaultItems.count)")
+            
+        } else {
+            
+            print("Default items already created: \(defaultItems.count)")
+            
+        }
+        
+    }
     
     
     
@@ -45,7 +70,7 @@ class DataModel {
             case .errands:  newParentID = 2
             case .work:     newParentID = 3
             case .other:    newParentID = 4
-            case .subItems1, .subItems2: print("SubItems category was selected for adding a new Item.")
+            default: print("SubItems category was selected for adding a new Item.")
                 
             }
             
@@ -145,6 +170,11 @@ class DataModel {
         
         return allItems
         
+    }
+    
+    // This one is strictly for readability in the MoveItemVC
+    func loadDefaultItems() -> [Item] {
+        return loadSpecificItems(forCategory: SelectedCategory.none.rawValue, forLevel: 0, forParentID: 0, andParentName: SelectedCategory.none.rawValue)
     }
     
     func loadSpecificItems(forCategory category: String, forLevel level: Int, forParentID parentID: Int, andParentName parentName: String) -> [Item] {

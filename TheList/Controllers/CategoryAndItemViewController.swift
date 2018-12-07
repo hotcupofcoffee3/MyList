@@ -22,52 +22,6 @@ class CategoryAndItemViewController: UIViewController {
     
     var dismissKeyboardFromMainViewControllerDelegate: DismissKeyboardFromMainViewControllerDelegate?
     
-    func toggleEditingMode(for selectedEditingMode: EditingMode) {
-        
-        print("Selected Editing Mode: \(selectedEditingMode)")
-        print("Current Editing Mode: \(editingMode)")
-        
-        switch selectedEditingMode {
-            
-        case .adding :
-            
-            if editingMode == .grouping {
-                itemsToGroup = []
-                tableView.reloadData()
-            }
-            
-            editButton.title = "Cancel"
-            tableView.setEditing(false, animated: true)
-         
-        case .sorting :
-            
-            editButton.title = "Done"
-            
-            // Have to set the mode here so the table reloads successfully for editing
-            editingMode = selectedEditingMode
-            tableView.setEditing(true, animated: true)
-            
-        case .grouping :
-            
-            editButton.title = (itemsToGroup.count > 0) ? "Group" : "Done"
-            
-        case .none, .moving, .specifics :
-            
-            if editingMode == .grouping {
-                itemsToGroup = []
-                tableView.reloadData()
-            }
-            editButton.title = "Sort"
-            tableView.setEditing(false, animated: true)
-            
-        }
-        
-        editingMode = selectedEditingMode
-        
-        print("New Editing Mode: \(editingMode)\n")
-        
-    }
-    
     @IBAction func edit(_ sender: UIBarButtonItem) {
         
         switch editingMode {
@@ -94,6 +48,52 @@ class CategoryAndItemViewController: UIViewController {
             toggleEditingMode(for: .none)
             
         }
+        
+    }
+    
+    func toggleEditingMode(for selectedEditingMode: EditingMode) {
+        
+        //        print("Selected Editing Mode: \(selectedEditingMode)")
+        //        print("Current Editing Mode: \(editingMode)")
+        
+        switch selectedEditingMode {
+            
+        case .adding :
+            
+            if editingMode == .grouping {
+                itemsToGroup = []
+                tableView.reloadData()
+            }
+            
+            editButton.title = "Cancel"
+            tableView.setEditing(false, animated: true)
+            
+        case .sorting :
+            
+            editButton.title = "Done"
+            
+            // Have to set the mode here so the table reloads successfully for editing
+            editingMode = selectedEditingMode
+            tableView.setEditing(true, animated: true)
+            
+        case .grouping :
+            
+            editButton.title = (itemsToGroup.count > 0) ? "Group" : "Done"
+            
+        case .none, .moving, .specifics :
+            
+            if editingMode == .grouping {
+                itemsToGroup = []
+                tableView.reloadData()
+            }
+            editButton.title = "Sort"
+            tableView.setEditing(false, animated: true)
+            
+        }
+        
+        editingMode = selectedEditingMode
+        
+        //        print("New Editing Mode: \(editingMode)\n")
         
     }
     
