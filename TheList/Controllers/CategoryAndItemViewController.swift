@@ -126,7 +126,7 @@ class CategoryAndItemViewController: UIViewController {
         
     }
     
-    @objc func longPressGestureSelector(gestureRecognizer: UILongPressGestureRecognizer){
+    @objc func longPressGestureSelector(gestureRecognizer: UILongPressGestureRecognizer) {
         if editingMode == .none {
             if gestureRecognizer.state == .began {
                 performSegue(withIdentifier: itemModel.typeOfSegue, sender: self)

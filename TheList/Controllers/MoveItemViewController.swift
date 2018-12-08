@@ -22,6 +22,8 @@ class MoveItemViewController: UIViewController {
     var selectedParentID = Int()
     
     var newlySelectedItem: Item?
+    var cellIsSelected = false
+    var selectedIndexPath = IndexPath()
     
     var itemModel = ItemModel()
     var items = DataModel.shared.loadDefaultItems()
@@ -42,6 +44,32 @@ class MoveItemViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         currentMoveVC = self.title!
     }
+    
+    @objc func longPressGestureSelector(gestureRecognizer: UILongPressGestureRecognizer) {
+        if gestureRecognizer.state == .began {
+            
+            if currentMoveVC == "moveItem1" {
+                performSegue(withIdentifier: Keywords.shared.moveItem1ToMoveItem2Segue, sender: self)
+            } else {
+                performSegue(withIdentifier: Keywords.shared.moveItem2ToMoveItem1Segue, sender: self)
+            }
+            
+        }
+    }
+    
+    func selectItem(forIndexPath indexPath: IndexPath) {
+        selectedCategory = (currentLevel == 0) ? items[indexPath.row].name!.lowercased() : items[indexPath.row].category!
+        selectedParentName = items[indexPath.row].name!
+        selectedLevel = Int(items[indexPath.row].level) + 1
+        selectedParentID = Int(items[indexPath.row].id)
+    }
+    
+    func deselectItem() {
+        selectedCategory = ""
+        selectedParentName = ""
+        selectedLevel = 0
+        selectedParentID = 0
+    }
 
 }
 
@@ -60,6 +88,7 @@ extension MoveItemViewController {
         destinationVC.currentParentName = selectedParentName
         destinationVC.currentParentID = selectedParentID
         
+        // Level 1 items automatically have the parentName of the rawValue of the SelectedCategory. The rest will have a parentName that is the string of the item, so casing will be mixed.
         let casedParentName = (currentLevel == 0) ? selectedParentName.lowercased() : selectedParentName
         
         destinationVC.items = DataModel.shared.loadSpecificItems(forCategory: selectedCategory, forLevel: selectedLevel, forParentID: selectedParentID, andParentName: casedParentName)
@@ -82,6 +111,13 @@ extension MoveItemViewController: UITableViewDelegate, UITableViewDataSource {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: Keywords.shared.categoryAndItemCellIdentifier, for: indexPath) as! CategoryAndItemTableViewCell
         
+        
+        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(longPressGestureSelector(gestureRecognizer:)))
+        
+        longPress.minimumPressDuration = 0.5
+        cell.addGestureRecognizer(longPress)
+        
+        
         cell.backgroundColor = Keywords.shared.lightBlueBackground
         
         cell.nameLabel.text = items[indexPath.row].name!
@@ -96,22 +132,27 @@ extension MoveItemViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
+        
+        // Maybe make it check if the selected cell is the same index path that was selected, and if so, do nothing.
+        // Otherwise, deselect the cell that was the selectedIndexPath???
+        
+        // At this point, the long press is not selecting any cell if it wasn't already clicked on to be selected.
+        
+    }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        tableView.deselectRow(at: indexPath, animated: true)
-        
-        selectedCategory = (currentLevel == 0) ? items[indexPath.row].name!.lowercased() : items[indexPath.row].category!
-        
-        selectedParentName = items[indexPath.row].name!
-        selectedLevel = Int(items[indexPath.row].level) + 1
-        selectedParentID = Int(items[indexPath.row].id)
-        
-        if currentMoveVC == "moveItem1" {
-            performSegue(withIdentifier: Keywords.shared.moveItem1ToMoveItem2Segue, sender: self)
+        cellIsSelected = (selectedIndexPath == indexPath) ? false : true
+
+        if cellIsSelected {
+            selectItem(forIndexPath: indexPath)
+            selectedIndexPath = indexPath
         } else {
-            performSegue(withIdentifier: Keywords.shared.moveItem2ToMoveItem1Segue, sender: self)
+            tableView.deselectRow(at: selectedIndexPath, animated: true)
+            deselectItem()
         }
-        
+
     }
     
 }
