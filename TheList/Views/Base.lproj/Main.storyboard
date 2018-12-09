@@ -690,10 +690,10 @@
             </objects>
             <point key="canvasLocation" x="4672.8000000000002" y="-234.33283358320841"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Nav For Move View Controller-->
         <scene sceneID="MoU-Bi-aTB">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="He0-NJ-Qvf" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="He0-NJ-Qvf" customClass="NavForMoveViewController" customModule="MyList" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="fmQ-LV-5nF">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
