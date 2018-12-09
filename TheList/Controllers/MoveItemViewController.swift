@@ -11,19 +11,25 @@ import UIKit
 class MoveItemViewController: UIViewController {
     
     var currentMoveVC = String()
+    
     var currentLevel = Int()
-    var currentCategory = String()
-    var currentParentName = String()
-    var currentParentID = Int()
     
-    var selectedLevel = Int()
-    var selectedCategory = String()
-    var selectedParentName = String()
-    var selectedParentID = Int()
+//    var currentCategory = String()
+//    var currentParentName = String()
+//    var currentParentID = Int()
+//
+//    var selectedLevel = Int()
+//    var selectedCategory = String()
+//    var selectedParentName = String()
+//    var selectedParentID = Int()
     
-    var newlySelectedItem: Item?
-    var cellIsSelected = false
-    var selectedIndexPath = IndexPath()
+    // currentItem is only used for moving if it is clicked and opened to see its children, but no children are selected.
+    var currentItem: Item?
+    
+    // selectedItem is used every other time when an item is selected, except for, as above, when an item is opened to see its children, but no child item is selected.
+    var selectedItem: Item?
+    var cellIsHighlighted = false
+    var highlightedIndexPath = IndexPath()
     
     var itemModel = ItemModel()
     var items = DataModel.shared.loadDefaultItems()
@@ -48,6 +54,9 @@ class MoveItemViewController: UIViewController {
     @objc func longPressGestureSelector(gestureRecognizer: UILongPressGestureRecognizer) {
         if gestureRecognizer.state == .began {
             
+            cellIsHighlighted = false
+            highlightedIndexPath = IndexPath()
+            
             if currentMoveVC == "moveItem1" {
                 performSegue(withIdentifier: Keywords.shared.moveItem1ToMoveItem2Segue, sender: self)
             } else {
@@ -58,17 +67,19 @@ class MoveItemViewController: UIViewController {
     }
     
     func selectItem(forIndexPath indexPath: IndexPath) {
-        selectedCategory = (currentLevel == 0) ? items[indexPath.row].name!.lowercased() : items[indexPath.row].category!
-        selectedParentName = items[indexPath.row].name!
-        selectedLevel = Int(items[indexPath.row].level) + 1
-        selectedParentID = Int(items[indexPath.row].id)
+//        selectedCategory = (currentLevel == 0) ? items[indexPath.row].name!.lowercased() : items[indexPath.row].category!
+//        selectedParentName = items[indexPath.row].name!
+//        selectedLevel = Int(items[indexPath.row].level) + 1
+//        selectedParentID = Int(items[indexPath.row].id)
+        selectedItem = items[indexPath.row]
     }
     
     func deselectItem() {
-        selectedCategory = ""
-        selectedParentName = ""
-        selectedLevel = 0
-        selectedParentID = 0
+//        selectedCategory = ""
+//        selectedParentName = ""
+//        selectedLevel = 0
+//        selectedParentID = 0
+        selectedItem = nil
     }
 
 }
@@ -83,17 +94,33 @@ extension MoveItemViewController {
         
         let destinationVC = segue.destination as! MoveItemViewController
         
-        destinationVC.currentLevel = selectedLevel
-        destinationVC.currentCategory = selectedCategory
-        destinationVC.currentParentName = selectedParentName
-        destinationVC.currentParentID = selectedParentID
+//        destinationVC.currentLevel = selectedLevel
+//        destinationVC.currentCategory = selectedCategory
+//        destinationVC.currentParentName = selectedParentName
+//        destinationVC.currentParentID = selectedParentID
+        destinationVC.currentItem = selectedItem
         
         // Level 1 items automatically have the parentName of the rawValue of the SelectedCategory. The rest will have a parentName that is the string of the item, so casing will be mixed.
-        let casedParentName = (currentLevel == 0) ? selectedParentName.lowercased() : selectedParentName
+//        let casedParentName = (currentLevel == 0) ? selectedParentName.lowercased() : selectedParentName
+//
+//        destinationVC.items = DataModel.shared.loadSpecificItems(forCategory: selectedCategory, forLevel: selectedLevel, forParentID: selectedParentID, andParentName: casedParentName)
+//
+//        destinationVC.navigationItem.title = selectedParentName
         
-        destinationVC.items = DataModel.shared.loadSpecificItems(forCategory: selectedCategory, forLevel: selectedLevel, forParentID: selectedParentID, andParentName: casedParentName)
-        
-        destinationVC.navigationItem.title = selectedParentName
+        if let sItem = selectedItem {
+            
+            destinationVC.currentLevel = Int(sItem.level) + 1
+            
+            let casedParentName = (currentLevel == 0) ? sItem.name!.lowercased() : sItem.name!
+            let category = (currentLevel == 0) ? sItem.name!.lowercased() : sItem.category!
+
+            destinationVC.items = DataModel.shared.loadSpecificItems(forCategory: category, forLevel: Int(sItem.level) + 1, forParentID: Int(sItem.id), andParentName: casedParentName)
+            
+            destinationVC.navigationItem.title = sItem.name!
+            
+        } else {
+            print("No item selected")
+        }
         
     }
     
@@ -117,8 +144,11 @@ extension MoveItemViewController: UITableViewDelegate, UITableViewDataSource {
         longPress.minimumPressDuration = 0.5
         cell.addGestureRecognizer(longPress)
         
-        
-        cell.backgroundColor = Keywords.shared.lightBlueBackground
+        if highlightedIndexPath == indexPath {
+            cell.backgroundColor = Keywords.shared.lightGreenBackground12
+        } else {
+            cell.backgroundColor = Keywords.shared.lightBlueBackground
+        }
         
         cell.nameLabel.text = items[indexPath.row].name!
         
@@ -134,25 +164,39 @@ extension MoveItemViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
         
-        // Maybe make it check if the selected cell is the same index path that was selected, and if so, do nothing.
-        // Otherwise, deselect the cell that was the selectedIndexPath???
+        // Selects new item when a new cell is highlighted than was previously highlighted.
+        // If highlightedIndexPath does not match the current indexPath, it deselects the old highlightedIndexPath, selects the new item at the current indexPath, and sets the highlightedIndexPath to the newly indexPath.
         
-        // At this point, the long press is not selecting any cell if it wasn't already clicked on to be selected.
+        // If the same cell that was recently selected is highlighted again, then the row is deselected and the highlightedIndexPath is set to NOTHING.
+        // The didSelectRowAt is responsible for deselecting the item, as if the user longPresses, then only didHighlightRowAt gets called, so we don't want to deselect the Item, as this will send us to the child.
+        // So didSelectRowAt gets called now, and since the highlightedIndexPath gets set to NOTHING, it means that the same cell was clicked on again, not just highlighted, and it deselects the row, as well as deselecting the item, so there is no item chosen.
+        
+        if highlightedIndexPath != indexPath {
+            tableView.deselectRow(at: highlightedIndexPath, animated: false)
+            selectItem(forIndexPath: indexPath)
+            highlightedIndexPath = indexPath
+        } else {
+            tableView.deselectRow(at: highlightedIndexPath, animated: false)
+            highlightedIndexPath = IndexPath()
+        }
         
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        cellIsSelected = (selectedIndexPath == indexPath) ? false : true
-
-        if cellIsSelected {
-            selectItem(forIndexPath: indexPath)
-            selectedIndexPath = indexPath
-        } else {
-            tableView.deselectRow(at: selectedIndexPath, animated: true)
+        // If highlightedIndexPath is set back to NOTHING, then it means the cell that was already selected was clicked again, meaning it needs to deselect the row, as well as deselecting the item, so that there is not item chosen.
+        
+        if highlightedIndexPath != indexPath {
+            tableView.deselectRow(at: indexPath, animated: false)
             deselectItem()
         }
-
+        
     }
     
 }
+
+
+
+
+
+
