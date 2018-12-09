@@ -53,8 +53,8 @@ class CategoryAndItemViewController: UIViewController {
     
     func toggleEditingMode(for selectedEditingMode: EditingMode) {
         
-        //        print("Selected Editing Mode: \(selectedEditingMode)")
-        //        print("Current Editing Mode: \(editingMode)")
+//        print("Selected Editing Mode: \(selectedEditingMode)")
+//        print("Current Editing Mode: \(editingMode)")
         
         switch selectedEditingMode {
             
@@ -93,7 +93,7 @@ class CategoryAndItemViewController: UIViewController {
         
         editingMode = selectedEditingMode
         
-        //        print("New Editing Mode: \(editingMode)\n")
+//        print("New Editing Mode: \(editingMode)\n")
         
     }
     
@@ -488,7 +488,9 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
     
     func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
         
-        touchedAwayFromHeaderTextFieldDelegate?.touchedAwayFromHeaderTextField()
+        if editingMode == .adding {
+            touchedAwayFromHeaderTextFieldDelegate?.touchedAwayFromHeaderTextField()
+        }
         
         self.itemModel.selectedItem = itemModel.items[indexPath.row]
         
