@@ -10,6 +10,8 @@ import UIKit
 
 class HeaderView: UITableViewHeaderFooterView, UITextFieldDelegate {
     
+    // MARK: - DELEGATES
+    
     // Delegates called by the ItemModel, set in the CategoryAndItemVC.
     var isValidNameDelegate: IsValidNameDelegate?
     var addNewItemDelegate: AddNewItemDelegate?
@@ -23,7 +25,10 @@ class HeaderView: UITableViewHeaderFooterView, UITextFieldDelegate {
     var textFieldIsSubmittedDelegate: TextFieldIsSubmittedDelegate?
     var setEditingModeForDismissingKeyboardDelegate: SetEditingModeForDismissingKeyboardDelegate?
     
+    // General success haptic
     var hapticDelegate: HapticDelegate?
+    
+    
     
     var selectedParentID = Int()
     
@@ -77,18 +82,13 @@ class HeaderView: UITableViewHeaderFooterView, UITextFieldDelegate {
         
     }
     
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if textField.text == "" {
-            textField.resignFirstResponder()
-        } else {
-            addNewItem()
-        }
-        return true
-    }
-    
     func toggleAddButtonEnabled() {
         addButton.isEnabled = (self.headerTextField.text != "")
     }
+    
+    
+    
+    // MARK: - SDK FUNCTIONS
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -101,9 +101,22 @@ class HeaderView: UITableViewHeaderFooterView, UITextFieldDelegate {
         
     }
     
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField.text == "" {
+            textField.resignFirstResponder()
+        } else {
+            addNewItem()
+        }
+        return true
+    }
     
-    
-    // MARK: - Toolbar with 'Done' button
+}
+
+
+
+// MARK: - Toolbar with 'Done' button
+
+extension HeaderView {
     
     @objc func dismissKeyboard() {
         if headerTextField.text == "" {
@@ -135,6 +148,8 @@ class HeaderView: UITableViewHeaderFooterView, UITextFieldDelegate {
     }
     
 }
+
+
 
 extension HeaderView: TouchedAwayFromTextFieldDelegate, DismissKeyboardFromMainViewControllerDelegate {
     
