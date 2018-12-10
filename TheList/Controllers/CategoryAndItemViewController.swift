@@ -216,7 +216,7 @@ class CategoryAndItemViewController: UIViewController {
             let currentParentID = self.itemModel.selectedParentID
             let currentParentName = self.itemModel.selectedParentName
             
-            let currentLevelItems = DataModel.shared.loadSpecificItems(forCategory: currentCategory.rawValue, forLevel: currentLevel, forParentID: currentParentID, andParentName: currentParentName)
+            let currentLevelItems = DataModel.shared.loadSpecificItems(forCategory: currentCategory.rawValue, forLevel: currentLevel, forParentID: currentParentID, andParentName: currentParentName, ascending: true)
             
             for currentItem in currentLevelItems {
                 
@@ -550,6 +550,8 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
         itemModel.items.remove(at: sourceIndexPath.row)
         
         itemModel.items.insert(itemMoving, at: destinationIndexPath.row)
+
+//        itemModel.reloadItems()
         
         DataModel.shared.updateIDs(forItems: itemModel.items)
         

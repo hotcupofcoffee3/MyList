@@ -114,7 +114,7 @@ extension MoveItemViewController {
             let casedParentName = (currentLevel == 0) ? sItem.name!.lowercased() : sItem.name!
             let category = (currentLevel == 0) ? sItem.name!.lowercased() : sItem.category!
 
-            destinationVC.items = DataModel.shared.loadSpecificItems(forCategory: category, forLevel: Int(sItem.level) + 1, forParentID: Int(sItem.id), andParentName: casedParentName)
+            destinationVC.items = DataModel.shared.loadSpecificItems(forCategory: category, forLevel: Int(sItem.level) + 1, forParentID: Int(sItem.id), andParentName: casedParentName, ascending: true)
             
             destinationVC.navigationItem.title = sItem.name!
             

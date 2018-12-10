@@ -24,7 +24,7 @@ class ItemModel {
     var selectedParentName = String()
     
     func reloadItems() {
-        items = DataModel.shared.loadSpecificItems(forCategory: selectedCategory.rawValue, forLevel: level, forParentID: selectedParentID, andParentName: selectedParentName)
+        items = DataModel.shared.loadSpecificItems(forCategory: selectedCategory.rawValue, forLevel: level, forParentID: selectedParentID, andParentName: selectedParentName, ascending: true)
     }
     
     
@@ -210,13 +210,13 @@ class ItemModel {
 //
 //        return totalNumberOfSubItems
         
-        return DataModel.shared.loadSpecificItems(forCategory: selectedCategory.rawValue, forLevel: level + 1, forParentID: parentID, andParentName: parentName).count
+        return DataModel.shared.loadSpecificItems(forCategory: selectedCategory.rawValue, forLevel: level + 1, forParentID: parentID, andParentName: parentName, ascending: true).count
         
     }
     
     func numberOfItemsDone(forParentID parentID: Int, andParentName parentName: String) -> Int {
         var numberLeft = Int()
-        let items = DataModel.shared.loadSpecificItems(forCategory: selectedCategory.rawValue, forLevel: level + 1, forParentID: parentID, andParentName: parentName)
+        let items = DataModel.shared.loadSpecificItems(forCategory: selectedCategory.rawValue, forLevel: level + 1, forParentID: parentID, andParentName: parentName, ascending: true)
         for item in items {
             numberLeft += item.done ? 1 : 0
         }
@@ -285,7 +285,7 @@ extension ItemModel: IsValidNameDelegate, AddNewItemDelegate, ReloadTableListDel
     
     func addNewItem(itemName: String) {
         DataModel.shared.addNewItem(name: itemName, forCategory: selectedCategory, level: level, parentID: selectedParentID, parentName: selectedParentName)
-        items = DataModel.shared.loadSpecificItems(forCategory: selectedCategory.rawValue, forLevel: level, forParentID: selectedParentID, andParentName: selectedParentName)
+        items = DataModel.shared.loadSpecificItems(forCategory: selectedCategory.rawValue, forLevel: level, forParentID: selectedParentID, andParentName: selectedParentName, ascending: true)
         reloadItems()
     }
     

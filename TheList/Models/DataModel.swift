@@ -22,7 +22,7 @@ class DataModel {
         
         let none = SelectedCategory.none.rawValue
         
-        let defaultItems = loadSpecificItems(forCategory: none, forLevel: 0, forParentID: 0, andParentName: none)
+        let defaultItems = loadSpecificItems(forCategory: none, forLevel: 0, forParentID: 0, andParentName: none, ascending: true)
         
         if defaultItems.count == 0 {
             
@@ -84,7 +84,7 @@ class DataModel {
         }
         
         
-        let calculatedID = loadSpecificItems(forCategory: category.rawValue, forLevel: level, forParentID: parentID, andParentName: parentName).count + 1
+        let calculatedID = loadSpecificItems(forCategory: category.rawValue, forLevel: level, forParentID: parentID, andParentName: parentName, ascending: true).count + 1
         
         let newItem = Item(context: context)
         newItem.name = name
@@ -114,7 +114,7 @@ class DataModel {
         // 2:
         // --- Load all of the Newly Grouped Items with the new level.
         // --- Update the parentName.
-        let newlyLeveledItems = loadSpecificItems(forCategory: category.rawValue, forLevel: newItemLevel + 1, forParentID: newItemParentID, andParentName: newItemParentName)
+        let newlyLeveledItems = loadSpecificItems(forCategory: category.rawValue, forLevel: newItemLevel + 1, forParentID: newItemParentID, andParentName: newItemParentName, ascending: true)
         
         for leveledItem in newlyLeveledItems {
             leveledItem.parentName = newItemName
@@ -134,11 +134,11 @@ class DataModel {
         // --- Get new Item's ID from the count of the items, at this is will be the last item that was added, and therefore the 'count' would be the item's ID.
         // --- Load all of the Newly Grouped Items
         // --- Update the parentID based on the 'newItemID'
-        let newItemID = loadSpecificItems(forCategory: category.rawValue, forLevel: newItemLevel, forParentID: newItemParentID, andParentName: newItemParentName).count
+        let newItemID = loadSpecificItems(forCategory: category.rawValue, forLevel: newItemLevel, forParentID: newItemParentID, andParentName: newItemParentName, ascending: true).count
         
         // 'newItemParentID' is used initially because the 'newItemID' has not been set for this group of items.
         let oldParentID = newItemParentID
-        let subItems = loadSpecificItems(forCategory: category.rawValue, forLevel: newItemLevel + 1, forParentID: oldParentID, andParentName: newItemName)
+        let subItems = loadSpecificItems(forCategory: category.rawValue, forLevel: newItemLevel + 1, forParentID: oldParentID, andParentName: newItemName, ascending: true)
         
         for subItem in subItems {
             subItem.parentID = Int64(newItemID)
@@ -148,7 +148,7 @@ class DataModel {
         
         // 5:
         // --- Update the IDs of the grouped items, as they will now be different, since they are in their own group, and are therefore ordered differently.
-        let newlyGroupedItems = loadSpecificItems(forCategory: category.rawValue, forLevel: newItemLevel + 1, forParentID: newItemID, andParentName: newItemName)
+        let newlyGroupedItems = loadSpecificItems(forCategory: category.rawValue, forLevel: newItemLevel + 1, forParentID: newItemID, andParentName: newItemName, ascending: true)
         updateIDs(forItems: newlyGroupedItems)
         
     }
@@ -174,10 +174,13 @@ class DataModel {
     
     // This one is strictly for readability in the MoveItemVC
     func loadDefaultItems() -> [Item] {
-        return loadSpecificItems(forCategory: SelectedCategory.none.rawValue, forLevel: 0, forParentID: 0, andParentName: SelectedCategory.none.rawValue)
+        return loadSpecificItems(forCategory: SelectedCategory.none.rawValue, forLevel: 0, forParentID: 0, andParentName: SelectedCategory.none.rawValue, ascending: true)
     }
     
-    func loadSpecificItems(forCategory category: String, forLevel level: Int, forParentID parentID: Int, andParentName parentName: String) -> [Item] {
+    
+    // *** MAKE ASCENDING TO BE A PARAMETER
+    
+    func loadSpecificItems(forCategory category: String, forLevel level: Int, forParentID parentID: Int, andParentName parentName: String, ascending: Bool) -> [Item] {
 
         var items = [Item]()
 
@@ -192,7 +195,7 @@ class DataModel {
 
         request.predicate = predicate
         
-        request.sortDescriptors = [NSSortDescriptor(key: Keywords.shared.idKey, ascending: true)]
+        request.sortDescriptors = [NSSortDescriptor(key: Keywords.shared.idKey, ascending: ascending)]
 
         do {
             items = try context.fetch(request)
@@ -261,7 +264,7 @@ class DataModel {
             
             if name != nil && name != "" {
                 
-                let subItems = loadSpecificItems(forCategory: itemToUpdate.category!, forLevel: Int(itemToUpdate.level + 1), forParentID: Int(itemToUpdate.id), andParentName: itemToUpdate.name!)
+                let subItems = loadSpecificItems(forCategory: itemToUpdate.category!, forLevel: Int(itemToUpdate.level + 1), forParentID: Int(itemToUpdate.id), andParentName: itemToUpdate.name!, ascending: true)
                 
                 for subItem in subItems {
                     subItem.parentName = name!
@@ -294,7 +297,7 @@ class DataModel {
         let subItemParentID = Int(forItem.id)
         let subItemParentName = forItem.name!
         
-        let subItems = loadSpecificItems(forCategory: subItemCategory, forLevel: subItemLevel, forParentID: subItemParentID, andParentName: subItemParentName)
+        let subItems = loadSpecificItems(forCategory: subItemCategory, forLevel: subItemLevel, forParentID: subItemParentID, andParentName: subItemParentName, ascending: true)
         
         if !subItems.isEmpty {
             
@@ -332,7 +335,7 @@ class DataModel {
                 
                 // Reset array and load subitems based on item info before it is changed.
                 subItems = []
-                subItems = loadSpecificItems(forCategory: item.category!, forLevel: subItemLevel, forParentID: oldID, andParentName: item.name!)
+                subItems = loadSpecificItems(forCategory: item.category!, forLevel: subItemLevel, forParentID: oldID, andParentName: item.name!, ascending: true)
                 
                 // If the old id AND name match, then the subItem's parentID is updated.
                 // Matching the name AND old id makes sure that when the new IDs are set for the parents, even if they match some of the other subItems' parentID, they won't match the name, as well, so this filters them out.
@@ -374,7 +377,7 @@ class DataModel {
                 
                 // Reset array and load subitems based on item info before it is changed.
                 subItems = []
-                subItems = loadSpecificItems(forCategory: item.category!, forLevel: subItemLevel, forParentID: itemID, andParentName: item.name!)
+                subItems = loadSpecificItems(forCategory: item.category!, forLevel: subItemLevel, forParentID: itemID, andParentName: item.name!, ascending: true)
                 
                 // If the old id AND name match, then the subItem's parentID is updated.
                 // Matching the name AND old id makes sure that when the new IDs are set for the parents, even if they match some of the other subItems' parentID, they won't match the name, as well, so this filters them out.
@@ -399,7 +402,7 @@ class DataModel {
     
     func toggleDoneForAllItems(doneStatus: Bool, forCategory category: String, forLevel level: Int, forParentID parentID: Int, andParentName parentName: String) {
         
-        let itemsToToggle = loadSpecificItems(forCategory: category, forLevel: level, forParentID: parentID, andParentName: parentName)
+        let itemsToToggle = loadSpecificItems(forCategory: category, forLevel: level, forParentID: parentID, andParentName: parentName, ascending: true)
         
         for item in itemsToToggle {
             
@@ -438,7 +441,7 @@ class DataModel {
         
         let subItemLevel = level + 1
         
-        let subItems = loadSpecificItems(forCategory: category, forLevel: subItemLevel, forParentID: id, andParentName: name)
+        let subItems = loadSpecificItems(forCategory: category, forLevel: subItemLevel, forParentID: id, andParentName: name, ascending: true)
         
         for subItem in subItems {
             
@@ -447,7 +450,7 @@ class DataModel {
             let subItemLevel = Int(subItem.level)
             let furtherSubItemLevel = Int(subItem.level + 1)
             
-            let furtherSubItems = loadSpecificItems(forCategory: category, forLevel: furtherSubItemLevel, forParentID: subItemID, andParentName: subItemName)
+            let furtherSubItems = loadSpecificItems(forCategory: category, forLevel: furtherSubItemLevel, forParentID: subItemID, andParentName: subItemName, ascending: true)
             
             if !furtherSubItems.isEmpty {
             
@@ -473,7 +476,7 @@ class DataModel {
         context.delete(item)
         saveData()
         
-        let currentItemGroup = loadSpecificItems(forCategory: itemCategory, forLevel: itemLevel, forParentID: itemParentID, andParentName: itemParentName)
+        let currentItemGroup = loadSpecificItems(forCategory: itemCategory, forLevel: itemLevel, forParentID: itemParentID, andParentName: itemParentName, ascending: true)
         
         updateIDs(forItems: currentItemGroup)
         
