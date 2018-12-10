@@ -215,12 +215,12 @@ class ItemModel {
     }
     
     func numberOfItemsDone(forParentID parentID: Int, andParentName parentName: String) -> Int {
-        var numberLeft = Int()
+        var numberDone = Int()
         let items = DataModel.shared.loadSpecificItems(forCategory: selectedCategory.rawValue, forLevel: level + 1, forParentID: parentID, andParentName: parentName, ascending: true)
         for item in items {
-            numberLeft += item.done ? 1 : 0
+            numberDone += item.done ? 1 : 0
         }
-        return numberLeft
+        return numberDone
     }
     
     func getItemType(item: Item) -> SelectedCategory {

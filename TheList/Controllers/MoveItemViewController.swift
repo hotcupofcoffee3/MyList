@@ -144,20 +144,42 @@ extension MoveItemViewController: UITableViewDelegate, UITableViewDataSource {
         longPress.minimumPressDuration = 0.5
         cell.addGestureRecognizer(longPress)
         
+        let item = items[indexPath.row]
+        
         if highlightedIndexPath == indexPath {
             cell.backgroundColor = Keywords.shared.lightGreenBackground12
         } else {
             cell.backgroundColor = Keywords.shared.lightBlueBackground
         }
         
-        cell.nameLabel.text = items[indexPath.row].name!
+        cell.nameLabel.text = item.name!
         
-        cell.numberLabel.text = "\(items[indexPath.row].id)"
+        cell.numberLabel.text = "\(item.id)"
 //        cell.numberLabelWidth.constant = 0
         
         cell.checkboxImageWidth.constant = 0
-       
-        // Set up the cell's contents
+        
+        // Consolidate this information into the model
+        
+        let numOfSubItems = DataModel.shared.loadSpecificItems(forCategory: item.category!, forLevel: Int(item.level) + 1, forParentID: Int(item.id), andParentName: item.name!, ascending: true).count
+        
+        var numOfSubItemsDone = Int()
+        let subItems = DataModel.shared.loadSpecificItems(forCategory: item.category!, forLevel: Int(item.level) + 1, forParentID: Int(item.id), andParentName: item.name!, ascending: true)
+        for subItem in subItems {
+            numOfSubItemsDone += subItem.done ? 1 : 0
+        }
+        
+        if numOfSubItems > 0 {
+            
+            cell.numberLabel.text = "\(numOfSubItemsDone)/\(numOfSubItems)"
+            cell.numberLabelWidth.constant = 60
+            
+        } else {
+            
+            cell.numberLabel.text = ""
+            cell.numberLabelWidth.constant = 0
+            
+        }
         
         return cell
     }

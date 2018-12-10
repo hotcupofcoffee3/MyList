@@ -312,15 +312,17 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
         longPress.minimumPressDuration = 0.5
         cell.addGestureRecognizer(longPress)
         
+        let item = itemModel.items[indexPath.row]
+        
         if editingMode == .grouping {
             
-            if itemModel.items[indexPath.row].done {
+            if item.done {
                 cell.checkboxImageView.image = Keywords.shared.blueCheck
             } else {
                 cell.checkboxImageView.image = Keywords.shared.blueEmptyCheckbox
             }
             
-            if itemsToGroup.contains(itemModel.items[indexPath.row]) {
+            if itemsToGroup.contains(item) {
                 cell.backgroundColor = Keywords.shared.lightBlueBackground
             } else {
                 cell.backgroundColor = UIColor.white
@@ -328,7 +330,7 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
             
         } else {
             
-            if itemModel.items[indexPath.row].done {
+            if item.done {
                 cell.checkboxImageView.image = Keywords.shared.checkboxChecked
                 cell.backgroundColor = Keywords.shared.lightGreenBackground12
             } else {
@@ -338,12 +340,12 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
             
         }
         
-//        cell.nameLabel?.text = "\(itemModel.items[indexPath.row].parentID). \(itemModel.items[indexPath.row].name!)"
+//        cell.nameLabel?.text = "\(item.parentID). \(item.name!)"
         
-        cell.nameLabel?.text = "\(itemModel.items[indexPath.row].name!)"
+        cell.nameLabel?.text = "\(item.name!)"
         
-        let numOfSubItems = itemModel.numberOfSubItems(forParentID: Int(itemModel.items[indexPath.row].id), andParentName: itemModel.items[indexPath.row].name!)
-        let numOfSubItemsDone = itemModel.numberOfItemsDone(forParentID: Int(itemModel.items[indexPath.row].id), andParentName: itemModel.items[indexPath.row].name!)
+        let numOfSubItems = itemModel.numberOfSubItems(forParentID: Int(item.id), andParentName: item.name!)
+        let numOfSubItemsDone = itemModel.numberOfItemsDone(forParentID: Int(item.id), andParentName: item.name!)
         
         if numOfSubItems > 0 {
             
@@ -500,33 +502,35 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
         
         tableView.deselectRow(at: indexPath, animated: true)
         
+        let item = itemModel.items[indexPath.row]
+        
         if editingMode == .grouping {
             
-            let itemToGroup = itemModel.items[indexPath.row]
-            
-            if itemsToGroup.contains(itemToGroup) {
+            if itemsToGroup.contains(item) {
                 for i in 0..<itemsToGroup.count {
-                    if itemsToGroup[i] == itemToGroup {
+                    if itemsToGroup[i] == item {
                         itemsToGroup.remove(at: i)
                         break
                     }
                 }
             } else {
-                itemsToGroup.append(itemToGroup)
+                itemsToGroup.append(item)
             }
             
             toggleEditingMode(for: .grouping)
             
         } else {
             
-            let numOfSubItems = itemModel.numberOfSubItems(forParentID: Int(itemModel.items[indexPath.row].id), andParentName: itemModel.items[indexPath.row].name!)
+            let numOfSubItems = itemModel.numberOfSubItems(forParentID: Int(item.id), andParentName: item.name!)
             
+            // If there are no subitems for the item clicked, then toggle the "Done" status of the item.
             if numOfSubItems == 0 {
                 
-                DataModel.shared.updateItem(forProperty: .done, forItem: itemModel.items[indexPath.row], parentID: Int(itemModel.items[indexPath.row].parentID), parentName: itemModel.items[indexPath.row].parentName!, name: nil)
+                DataModel.shared.updateItem(forProperty: .done, forItem: item, parentID: Int(item.parentID), parentName: item.parentName!, name: nil)
                 
                 itemModel.reloadItems()
                 
+            // Otherwise, go to the subitems
             } else {
                 
                 performSegue(withIdentifier: itemModel.typeOfSegue, sender: self)
@@ -551,8 +555,6 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
         
         itemModel.items.insert(itemMoving, at: destinationIndexPath.row)
 
-//        itemModel.reloadItems()
-        
         DataModel.shared.updateIDs(forItems: itemModel.items)
         
     }
