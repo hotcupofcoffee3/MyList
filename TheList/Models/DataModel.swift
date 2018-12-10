@@ -414,6 +414,33 @@ class DataModel {
         
     }
     
+    func move(item itemToMove: Item, toParentItem parentItem: Item) {
+        
+        let category = parentItem.category!
+        let siblingLevel = Int(parentItem.level + 1)
+        let parentID = Int(parentItem.id)
+        let parentName = parentItem.name!
+        
+        let newSiblingItems = loadSpecificItems(forCategory: category, forLevel: siblingLevel, forParentID: parentID, andParentName: parentName, ascending: true)
+        
+        for siblingItem in newSiblingItems {
+            if siblingItem.name == itemToMove.name {
+                
+                // Present alert that it cannot be done.
+                // Still have to code this alert.
+                // Maybe use the nameCheck protocol and alert???
+                
+            }
+        }
+        
+        // Load subItems for itemToMove.
+        // Update itemToMove: category, level, parentID, id, and parentName.
+        // SAVE HERE.
+        // Update DIRECT subItems with: category, level, parentID, and parentName.
+        // Update all REST of subItems BELOW the DIRECT subItems with: category and level.
+        // SAVE HERE.
+        
+    }
     
     
     
