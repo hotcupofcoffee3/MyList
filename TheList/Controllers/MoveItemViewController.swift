@@ -161,10 +161,24 @@ extension MoveItemViewController: UITableViewDelegate, UITableViewDataSource {
         
         // Consolidate this information into the model
         
-        let numOfSubItems = DataModel.shared.loadSpecificItems(forCategory: item.category!, forLevel: Int(item.level) + 1, forParentID: Int(item.id), andParentName: item.name!, ascending: true).count
-        
+        var numOfSubItems = Int()
         var numOfSubItemsDone = Int()
-        let subItems = DataModel.shared.loadSpecificItems(forCategory: item.category!, forLevel: Int(item.level) + 1, forParentID: Int(item.id), andParentName: item.name!, ascending: true)
+        var subItems = [Item]()
+        
+        if currentLevel == 0 {
+            
+            numOfSubItems = DataModel.shared.loadSpecificItems(forCategory: item.name!.lowercased(), forLevel: Int(item.level) + 1, forParentID: Int(item.id), andParentName: item.name!.lowercased(), ascending: true).count
+            
+            subItems = DataModel.shared.loadSpecificItems(forCategory: item.name!.lowercased(), forLevel: Int(item.level) + 1, forParentID: Int(item.id), andParentName: item.name!.lowercased(), ascending: true)
+            
+        } else {
+            
+            numOfSubItems = DataModel.shared.loadSpecificItems(forCategory: item.category!, forLevel: Int(item.level) + 1, forParentID: Int(item.id), andParentName: item.name!, ascending: true).count
+            
+            subItems = DataModel.shared.loadSpecificItems(forCategory: item.category!, forLevel: Int(item.level) + 1, forParentID: Int(item.id), andParentName: item.name!, ascending: true)
+            
+        }
+        
         for subItem in subItems {
             numOfSubItemsDone += subItem.done ? 1 : 0
         }
