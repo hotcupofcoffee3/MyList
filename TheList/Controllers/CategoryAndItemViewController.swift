@@ -18,8 +18,8 @@ class CategoryAndItemViewController: UIViewController {
     
     var itemsToGroup = [Item]()
     
-    var touchedAwayFromHeaderTextFieldDelegate: TouchedAwayFromHeaderTextFieldDelegate?
-    
+    // Delegates called by the HeaderView
+    var touchedAwayFromTextFieldDelegate: TouchedAwayFromTextFieldDelegate?
     var dismissKeyboardFromMainViewControllerDelegate: DismissKeyboardFromMainViewControllerDelegate?
     
     @IBAction func edit(_ sender: UIBarButtonItem) {
@@ -279,22 +279,21 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
         
         let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: Keywords.shared.headerIdentifier) as! HeaderView
         
+        // itemModel-specific delegates
         headerView.isValidNameDelegate = itemModel
-        
         headerView.addNewItemDelegate = itemModel
-        
         headerView.reloadTableListDelegate = itemModel
         
+        // General invalid name alert, which should probably be in the 'itemModel'
         headerView.presentInvalidNameAlertDelegate = self
         
-        headerView.addAnItemTextFieldIsActiveDelegate = self
-        
-        headerView.addAnItemTextFieldIsSubmittedDelegate = self
-        
+        // Header-specific delegates
+        headerView.textFieldIsActiveDelegate = self
+        headerView.textFieldIsSubmittedDelegate = self
         headerView.setEditingModeForDismissingKeyboardDelegate = self
         
-        self.touchedAwayFromHeaderTextFieldDelegate = headerView
-        
+        // CategoryAndItemVC-specific delegates
+        self.touchedAwayFromTextFieldDelegate = headerView
         self.dismissKeyboardFromMainViewControllerDelegate = headerView
         
         headerView.selectedParentID = itemModel.selectedParentID
@@ -491,7 +490,7 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
     func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
         
         if editingMode == .adding {
-            touchedAwayFromHeaderTextFieldDelegate?.touchedAwayFromHeaderTextField()
+            touchedAwayFromTextFieldDelegate?.touchedAwayFromTextField()
         }
         
         self.itemModel.selectedItem = itemModel.items[indexPath.row]
@@ -647,7 +646,7 @@ extension CategoryAndItemViewController {
 
 
 
-extension CategoryAndItemViewController: PresentInvalidNameAlertDelegate, HapticDelegate, EditingCompleteDelegate, AddAnItemTextFieldIsActiveDelegate, AddAnItemTextFieldIsSubmittedDelegate, SetEditingModeForDismissingKeyboardDelegate {
+extension CategoryAndItemViewController: PresentInvalidNameAlertDelegate, HapticDelegate, EditingCompleteDelegate, TextFieldIsActiveDelegate, TextFieldIsSubmittedDelegate, SetEditingModeForDismissingKeyboardDelegate {
     
     func presentInvalidNameAlert(withErrorMessage errorMessage: ItemNameCheck) {
         
@@ -667,16 +666,22 @@ extension CategoryAndItemViewController: PresentInvalidNameAlertDelegate, Haptic
         
     }
     
+    
+    
+    // Editing delegate
     func editingComplete() {
         self.itemModel.setViewDisplayed(tableView: tableView, selectedCategory: self.title!, level: level)
         tableView.reloadData()
     }
     
-    func addAnItemTextFieldIsActive() {
+    
+    
+    // Header-specific delegate methods declared
+    func textFieldIsActive() {
         toggleEditingMode(for: .adding)
     }
     
-    func addAnItemTextFieldIsSubmitted() {
+    func textFieldIsSubmitted() {
         toggleEditingMode(for: .none)
     }
     

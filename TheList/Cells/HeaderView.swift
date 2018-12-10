@@ -10,19 +10,17 @@ import UIKit
 
 class HeaderView: UITableViewHeaderFooterView, UITextFieldDelegate {
     
-    
+    // Delegates called by the ItemModel, set in the CategoryAndItemVC.
     var isValidNameDelegate: IsValidNameDelegate?
-    
     var addNewItemDelegate: AddNewItemDelegate?
-    
     var reloadTableListDelegate: ReloadTableListDelegate?
     
+    // General invalid name alert, which should probably be in the 'itemModel'. Is currently set in the CategoryAndItemVC
     var presentInvalidNameAlertDelegate: PresentInvalidNameAlertDelegate?
     
-    var addAnItemTextFieldIsActiveDelegate: AddAnItemTextFieldIsActiveDelegate?
-    
-    var addAnItemTextFieldIsSubmittedDelegate: AddAnItemTextFieldIsSubmittedDelegate?
-    
+    // Delegates called by the CategoryAndItemVC, set in the same.
+    var textFieldIsActiveDelegate: TextFieldIsActiveDelegate?
+    var textFieldIsSubmittedDelegate: TextFieldIsSubmittedDelegate?
     var setEditingModeForDismissingKeyboardDelegate: SetEditingModeForDismissingKeyboardDelegate?
     
     var hapticDelegate: HapticDelegate?
@@ -38,7 +36,7 @@ class HeaderView: UITableViewHeaderFooterView, UITextFieldDelegate {
     }
     
     @IBAction func headerTextFieldBecameActive(_ sender: UITextField) {
-        addAnItemTextFieldIsActiveDelegate?.addAnItemTextFieldIsActive()
+        textFieldIsActiveDelegate?.textFieldIsActive()
     }
     
     @IBOutlet weak var addButton: UIButton!
@@ -55,7 +53,7 @@ class HeaderView: UITableViewHeaderFooterView, UITextFieldDelegate {
         
         if checkNewItemName == .success {
             
-            addAnItemTextFieldIsSubmittedDelegate?.addAnItemTextFieldIsSubmitted()
+            textFieldIsSubmittedDelegate?.textFieldIsSubmitted()
             
             setEditingModeForDismissingKeyboardDelegate?.setEditingModeForDismissingKeyboard()
             
@@ -138,13 +136,13 @@ class HeaderView: UITableViewHeaderFooterView, UITextFieldDelegate {
     
 }
 
-extension HeaderView: TouchedAwayFromHeaderTextFieldDelegate, DismissKeyboardFromMainViewControllerDelegate {
+extension HeaderView: TouchedAwayFromTextFieldDelegate, DismissKeyboardFromMainViewControllerDelegate {
     
-    func touchedAwayFromHeaderTextField() {
+    // Delegates used by the CategoryAndItemVC
+    func touchedAwayFromTextField() {
         headerTextField.resignFirstResponder()
         setEditingModeForDismissingKeyboardDelegate?.setEditingModeForDismissingKeyboard()
     }
-    
     func dismissKeyboardFromMainViewController() {
         headerTextField.resignFirstResponder()
     }

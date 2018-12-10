@@ -9,9 +9,36 @@
 import Foundation
 import UIKit
 
+
+
+// Item information check
 protocol IsValidNameDelegate {
     func isValidName(forItemName itemName: String) -> ItemNameCheck
 }
+protocol PresentInvalidNameAlertDelegate {
+    func presentInvalidNameAlert(withErrorMessage errorMessage: ItemNameCheck)
+}
+
+
+
+// TextField Delegates
+protocol TextFieldIsActiveDelegate {
+    func textFieldIsActive()
+}
+protocol TextFieldIsSubmittedDelegate {
+    func textFieldIsSubmitted()
+}
+protocol TouchedAwayFromTextFieldDelegate {
+    func touchedAwayFromTextField()
+}
+protocol SetEditingModeForDismissingKeyboardDelegate {
+    func setEditingModeForDismissingKeyboard()
+}
+protocol DismissKeyboardFromMainViewControllerDelegate {
+    func dismissKeyboardFromMainViewController()
+}
+
+
 
 protocol AddNewItemDelegate {
     func addNewItem(itemName: String)
@@ -19,30 +46,6 @@ protocol AddNewItemDelegate {
 
 protocol ReloadTableListDelegate {
     func reloadTableData()
-}
-
-protocol PresentInvalidNameAlertDelegate {
-    func presentInvalidNameAlert(withErrorMessage errorMessage: ItemNameCheck)
-}
-
-protocol AddAnItemTextFieldIsActiveDelegate {
-    func addAnItemTextFieldIsActive()
-}
-
-protocol AddAnItemTextFieldIsSubmittedDelegate {
-    func addAnItemTextFieldIsSubmitted()
-}
-
-protocol TouchedAwayFromHeaderTextFieldDelegate {
-    func touchedAwayFromHeaderTextField()
-}
-
-protocol SetEditingModeForDismissingKeyboardDelegate {
-    func setEditingModeForDismissingKeyboard()
-}
-
-protocol DismissKeyboardFromMainViewControllerDelegate {
-    func dismissKeyboardFromMainViewController()
 }
 
 protocol HapticDelegate {
