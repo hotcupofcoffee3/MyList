@@ -227,8 +227,6 @@ class CategoryAndItemViewController: UIViewController {
             
             self.toggleEditingMode(for: .none)
             
-//            self.tableView.reloadData()
-            
         })
 
         groupAlert.addAction(groupItems)

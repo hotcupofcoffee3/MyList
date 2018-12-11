@@ -75,9 +75,9 @@
 				B58E6A272141AA8A0056208C /* ProtocolModel.swift */,
 				B55497A521B6E3A5009E6C5A /* EnumModel.swift */,
 				B5F1E0EE214191C60041C472 /* DataModel.swift */,
-				B5406CB221C012A0007F8542 /* HapticsModel.swift */,
 				B5A6C3CD213EE5B10029FF22 /* ItemModel.swift */,
 				B5A6C3CF213EE7B60029FF22 /* Keywords.swift */,
+				B5406CB221C012A0007F8542 /* HapticsModel.swift */,
 				B5FAB70E2139D89C0046F976 /* TheList.xcdatamodeld */,
 			);
 			path = Models;

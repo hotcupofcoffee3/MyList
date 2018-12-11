@@ -656,7 +656,11 @@
                                 <rect key="frame" x="0.0" y="623" width="375" height="44"/>
                                 <items>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="fuX-gD-Jms"/>
-                                    <barButtonItem title="Move" id="TSB-LJ-07P"/>
+                                    <barButtonItem title="Move" id="TSB-LJ-07P">
+                                        <connections>
+                                            <action selector="move:" destination="0DH-Xd-lek" id="7Lz-GI-zWP"/>
+                                        </connections>
+                                    </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="JO5-sE-WWi"/>
                                 </items>
                             </toolbar>
@@ -682,6 +686,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="moveButton" destination="TSB-LJ-07P" id="U3X-m5-ooQ"/>
                         <outlet property="tableView" destination="eqa-0C-K1g" id="sJU-Zg-96A"/>
                         <segue destination="s2H-8x-sjc" kind="show" identifier="moveItem1ToMoveItem2Segue" id="zkd-XX-iSA"/>
                     </connections>
@@ -743,7 +748,11 @@
                                 <rect key="frame" x="0.0" y="623" width="375" height="44"/>
                                 <items>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="5S7-H0-2Zh"/>
-                                    <barButtonItem title="Move" id="lVn-xg-R9a"/>
+                                    <barButtonItem title="Move" id="lVn-xg-R9a">
+                                        <connections>
+                                            <action selector="move:" destination="s2H-8x-sjc" id="VbH-0b-gLX"/>
+                                        </connections>
+                                    </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="58g-FC-xUt"/>
                                 </items>
                             </toolbar>
@@ -769,6 +778,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="moveButton" destination="lVn-xg-R9a" id="c1U-hb-Sll"/>
                         <outlet property="tableView" destination="y9O-Xu-rgU" id="iHm-wZ-6Mu"/>
                         <segue destination="0DH-Xd-lek" kind="show" identifier="moveItem2ToMoveItem1Segue" id="Qwi-DP-9MS"/>
                     </connections>
