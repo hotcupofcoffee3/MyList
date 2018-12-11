@@ -170,33 +170,6 @@ class CategoryAndItemViewController: UIViewController {
         
     }
     
-    func deleteSubItems(inTable tableView: UITableView, atIndexPath indexPath: IndexPath) {
-        
-        let alert = UIAlertController(title: "Are you sure?", message: "This will delete all subitems", preferredStyle: .alert)
-        
-        alert.addAction(UIAlertAction(title: "Delete", style: .default, handler: { (action) in
-            
-            let category = self.itemModel.items[indexPath.row].category!
-            let level = Int(self.itemModel.items[indexPath.row].level)
-            let id = Int(self.itemModel.items[indexPath.row].id)
-            let name = self.itemModel.items[indexPath.row].name!
-            
-            DataModel.shared.addSubItemsToDeleteQueue(forCategory: category, forLevel: level, forID: id, andName: name)
-            
-            DataModel.shared.deleteItemsInItemsToDeleteArray()
-            
-            self.hapticExecuted(as: .success)
-            
-            tableView.reloadData()
-            
-        }))
-        
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        
-        present(alert, animated: true, completion: nil)
-        
-    }
-    
     func groupItems() {
         
         let groupAlert = UIAlertController(title: "Group?", message: "Enter a new Group Name for the selected items", preferredStyle: .alert)
@@ -450,7 +423,8 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
                 // Delete SubItems
                 let deleteSubItems = UIAlertAction(title: "Delete SubItems", style: .destructive, handler: { (action) in
                     
-                    self.deleteSubItems(inTable: tableView, atIndexPath: indexPath)
+                    let alert = DataModel.shared.deleteSubItems(forItem: self.itemModel.items[indexPath.row], inTable: self.tableView)
+                    self.present(alert, animated: true, completion: nil)
                     
                 })
                 

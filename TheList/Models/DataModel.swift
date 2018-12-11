@@ -513,6 +513,34 @@ class DataModel {
         
     }
     
+    // TEST TO SEE IF IT WORKS FOR DELETING AN ITEM FROM THE CATEGORYANDITEMVC
+    func deleteSubItems(forItem parentItem: Item, inTable tableView: UITableView) -> UIAlertController {
+        
+        let alert = UIAlertController(title: "Are you sure?", message: "This will delete all subitems", preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "Delete", style: .default, handler: { (action) in
+            
+            let category = parentItem.category!
+            let level = Int(parentItem.level)
+            let id = Int(parentItem.id)
+            let name = parentItem.name!
+            
+            DataModel.shared.addSubItemsToDeleteQueue(forCategory: category, forLevel: level, forID: id, andName: name)
+            
+            DataModel.shared.deleteItemsInItemsToDeleteArray()
+            
+//            self.hapticExecuted(as: .success)
+            
+            tableView.reloadData()
+            
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        return alert
+        
+    }
+    
 }
 
 
