@@ -513,7 +513,6 @@ class DataModel {
         
     }
     
-    // TEST TO SEE IF IT WORKS FOR DELETING AN ITEM FROM THE CATEGORYANDITEMVC
     func deleteSubItems(forItem parentItem: Item, inTable tableView: UITableView) -> UIAlertController {
         
         let alert = UIAlertController(title: "Are you sure?", message: "This will delete all subitems", preferredStyle: .alert)
@@ -529,7 +528,7 @@ class DataModel {
             
             DataModel.shared.deleteItemsInItemsToDeleteArray()
             
-//            self.hapticExecuted(as: .success)
+            HapticsModel.shared.hapticExecuted(as: .success)
             
             tableView.reloadData()
             
@@ -538,6 +537,75 @@ class DataModel {
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         
         return alert
+        
+    }
+    
+    func groupItems() {
+        
+//        let groupAlert = UIAlertController(title: "Group?", message: "Enter a new Group Name for the selected items", preferredStyle: .alert)
+//        
+//        groupAlert.addTextField(configurationHandler: { (textField) in
+//            textField.placeholder = "New Group Name"
+//        })
+//        
+//        let newGroupNameTextField = groupAlert.textFields![0] as UITextField
+//        
+//        let groupItems = UIAlertAction(title: "Group Items", style: .destructive, handler: { (action) in
+//            
+//            var newGroupName = newGroupNameTextField.text!
+//            
+//            let currentCategory = self.itemModel.selectedCategory
+//            let currentLevel = self.itemModel.level
+//            let currentParentID = self.itemModel.selectedParentID
+//            let currentParentName = self.itemModel.selectedParentName
+//            
+//            let currentLevelItems = DataModel.shared.loadSpecificItems(forCategory: currentCategory.rawValue, forLevel: currentLevel, forParentID: currentParentID, andParentName: currentParentName, ascending: true)
+//            
+//            for currentItem in currentLevelItems {
+//                
+//                if self.itemsToGroup.contains(currentItem) {
+//                    continue
+//                } else if currentItem.name == newGroupNameTextField.text {
+//                    newGroupName = "\(self.itemsToGroup[0].name!)"
+//                    
+//                    // In the meantime, this alert will signify that the name was a duplicate, and the new name set was one that was the first one in the group.
+//                    
+//                    let alert = UIAlertController(title: "Duplicate Name", message: "Since the name was a duplicate, the group was named \"\(self.itemsToGroup[0].name!)\".", preferredStyle: .alert)
+//                    alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+//                    self.present(alert, animated: true, completion: nil)
+//                    
+//                    
+//                }
+//            }
+//            
+//            if newGroupName == "" {
+//                newGroupName = self.itemsToGroup[0].name!
+//            }
+//            
+//            DataModel.shared.group(items: self.itemsToGroup, intoNewItemName: newGroupName, forCategory: currentCategory, atLevel: currentLevel, withNewItemParentID: currentParentID, andNewItemParentName: currentParentName)
+//            
+//            self.itemModel.reloadItems()
+//            
+//            self.toggleEditingMode(for: .none)
+//            
+//            self.tableView.reloadData()
+//            
+//        })
+//        
+//        let addMoreItemsToGroup = UIAlertAction(title: "Add More Items", style: .default, handler: nil)
+//        let cancelGroupingItems = UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) in
+//            
+//            self.toggleEditingMode(for: .none)
+//            
+//            //            self.tableView.reloadData()
+//            
+//        })
+//        
+//        groupAlert.addAction(groupItems)
+//        groupAlert.addAction(addMoreItemsToGroup)
+//        groupAlert.addAction(cancelGroupingItems)
+//        
+//        self.present(groupAlert, animated: true, completion: nil)
         
     }
     

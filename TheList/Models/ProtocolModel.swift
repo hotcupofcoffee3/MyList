@@ -48,10 +48,6 @@ protocol ReloadTableListDelegate {
     func reloadTableData()
 }
 
-protocol HapticDelegate {
-    func hapticExecuted(as: UINotificationFeedbackGenerator.FeedbackType)
-}
-
 protocol ItemEditedDelegate {
     func itemHasBeenEdited()
 }

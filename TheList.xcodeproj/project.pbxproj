@@ -10,6 +10,7 @@
 		B509B9B9215967A9006F7F79 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B509B9B8215967A9006F7F79 /* SettingsViewController.swift */; };
 		B52242902159F6F0002C164D /* TheList.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B5FAB70E2139D89C0046F976 /* TheList.xcdatamodeld */; };
 		B53549C5215C8E3A00D2EB1E /* EditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B53549C4215C8E3A00D2EB1E /* EditViewController.swift */; };
+		B5406CB321C012A0007F8542 /* HapticsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5406CB221C012A0007F8542 /* HapticsModel.swift */; };
 		B549378121B83F4A0096A1D4 /* MainTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B549378021B83F4A0096A1D4 /* MainTabBarViewController.swift */; };
 		B55497A621B6E3A5009E6C5A /* EnumModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55497A521B6E3A5009E6C5A /* EnumModel.swift */; };
 		B56A0728215A0150005436AE /* HeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B5F1E0EB21417B480041C472 /* HeaderView.xib */; };
@@ -33,6 +34,7 @@
 /* Begin PBXFileReference section */
 		B509B9B8215967A9006F7F79 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		B53549C4215C8E3A00D2EB1E /* EditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewController.swift; sourceTree = "<group>"; };
+		B5406CB221C012A0007F8542 /* HapticsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticsModel.swift; sourceTree = "<group>"; };
 		B549378021B83F4A0096A1D4 /* MainTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarViewController.swift; sourceTree = "<group>"; };
 		B55497A521B6E3A5009E6C5A /* EnumModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnumModel.swift; sourceTree = "<group>"; };
 		B58E6A272141AA8A0056208C /* ProtocolModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProtocolModel.swift; sourceTree = "<group>"; };
@@ -73,6 +75,7 @@
 				B58E6A272141AA8A0056208C /* ProtocolModel.swift */,
 				B55497A521B6E3A5009E6C5A /* EnumModel.swift */,
 				B5F1E0EE214191C60041C472 /* DataModel.swift */,
+				B5406CB221C012A0007F8542 /* HapticsModel.swift */,
 				B5A6C3CD213EE5B10029FF22 /* ItemModel.swift */,
 				B5A6C3CF213EE7B60029FF22 /* Keywords.swift */,
 				B5FAB70E2139D89C0046F976 /* TheList.xcdatamodeld */,
@@ -237,6 +240,7 @@
 				B53549C5215C8E3A00D2EB1E /* EditViewController.swift in Sources */,
 				B5F1E0EF214191C60041C472 /* DataModel.swift in Sources */,
 				B5A6C3CC213EE4150029FF22 /* CategoryAndItemViewController.swift in Sources */,
+				B5406CB321C012A0007F8542 /* HapticsModel.swift in Sources */,
 				B5A6C3D0213EE7B60029FF22 /* Keywords.swift in Sources */,
 				B5FAD2C421B8714300ED5807 /* MoveItemViewController.swift in Sources */,
 				B509B9B9215967A9006F7F79 /* SettingsViewController.swift in Sources */,

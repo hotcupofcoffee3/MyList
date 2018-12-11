@@ -148,7 +148,7 @@ class CategoryAndItemViewController: UIViewController {
                 
                 tableView.deleteRows(at: [indexPath], with: .left)
                 
-                self.hapticExecuted(as: .success)
+                HapticsModel.shared.hapticExecuted(as: .success)
                 
             }))
             
@@ -164,7 +164,7 @@ class CategoryAndItemViewController: UIViewController {
             
             tableView.deleteRows(at: [indexPath], with: .left)
             
-            hapticExecuted(as: .success)
+            HapticsModel.shared.hapticExecuted(as: .success)
             
         }
         
@@ -219,6 +219,7 @@ class CategoryAndItemViewController: UIViewController {
             self.toggleEditingMode(for: .none)
             
             self.tableView.reloadData()
+            
         })
 
         let addMoreItemsToGroup = UIAlertAction(title: "Add More Items", style: .default, handler: nil)
@@ -620,7 +621,7 @@ extension CategoryAndItemViewController {
 
 
 
-extension CategoryAndItemViewController: PresentInvalidNameAlertDelegate, HapticDelegate, EditingCompleteDelegate, TextFieldIsActiveDelegate, TextFieldIsSubmittedDelegate, SetEditingModeForDismissingKeyboardDelegate {
+extension CategoryAndItemViewController: PresentInvalidNameAlertDelegate, EditingCompleteDelegate, TextFieldIsActiveDelegate, TextFieldIsSubmittedDelegate, SetEditingModeForDismissingKeyboardDelegate {
     
     func presentInvalidNameAlert(withErrorMessage errorMessage: ItemNameCheck) {
         
@@ -629,14 +630,6 @@ extension CategoryAndItemViewController: PresentInvalidNameAlertDelegate, Haptic
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         
         present(alert, animated: true, completion: nil)
-        
-    }
-    
-    func hapticExecuted(as hapticType: UINotificationFeedbackGenerator.FeedbackType) {
-        
-        // Success notification haptic
-        let successHaptic = UINotificationFeedbackGenerator()
-        successHaptic.notificationOccurred(hapticType)
         
     }
     

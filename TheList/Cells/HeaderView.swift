@@ -25,9 +25,6 @@ class HeaderView: UITableViewHeaderFooterView, UITextFieldDelegate {
     var textFieldIsSubmittedDelegate: TextFieldIsSubmittedDelegate?
     var setEditingModeForDismissingKeyboardDelegate: SetEditingModeForDismissingKeyboardDelegate?
     
-    // General success haptic
-    var hapticDelegate: HapticDelegate?
-    
     
     
     var selectedParentID = Int()
@@ -64,7 +61,7 @@ class HeaderView: UITableViewHeaderFooterView, UITextFieldDelegate {
             
             addNewItemDelegate?.addNewItem(itemName: newItemName)
             
-            hapticDelegate?.hapticExecuted(as: .success)
+            HapticsModel.shared.hapticExecuted(as: .success)
             
             headerTextField.text = ""
             
@@ -74,7 +71,7 @@ class HeaderView: UITableViewHeaderFooterView, UITextFieldDelegate {
             
         } else {
             
-            hapticDelegate?.hapticExecuted(as: .warning)
+            HapticsModel.shared.hapticExecuted(as: .warning)
             
             presentInvalidNameAlertDelegate?.presentInvalidNameAlert(withErrorMessage: checkNewItemName)
             
