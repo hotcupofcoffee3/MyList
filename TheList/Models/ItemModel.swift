@@ -250,7 +250,8 @@ class ItemModel {
 
 extension ItemModel: IsValidNameDelegate, AddNewItemDelegate, ReloadTableListDelegate {
     
-    // All of these three are header-specific delegates, set in the CategoryAndItemVC
+    // All of these three are header-specific delegates, set in the CategoryAndItemVC.
+    // Also, the MoveVC checks for an invalidName.
     
     func isValidName(forItemName itemName: String) -> ItemNameCheck {
         

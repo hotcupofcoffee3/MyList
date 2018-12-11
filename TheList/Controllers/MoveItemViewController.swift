@@ -34,8 +34,34 @@ class MoveItemViewController: UIViewController {
     
     @IBAction func move(_ sender: UIBarButtonItem) {
         if let item = selectedItem {
-            print("Level \(currentLevel): \((Int(item.level) == 0) ? item.name!.lowercased() : item.name!)")
-            print("ParentLevel: \(Int(item.level))")
+//            print("Level \(currentLevel): \((Int(item.level) == 0) ? item.name!.lowercased() : item.name!)")
+//            print("ParentLevel: \(Int(item.level))")
+            
+            let itemName = (Int(item.level) == 0) ? item.name!.lowercased() : item.name!
+            itemModel.items = items
+            
+            
+            // Need to make the clicking of the item from the main view a variable that is sent here, so there is an item that is being moved.
+            // Need to check on the isValidName function to see why it is saying that you can add an item with the same name in the same area, as it seems like the check is loading the siblings of the one being clicked in the move area, because when an item is clicked within a parent, in otherwords, a sibling that matches, it SHOULD check to see if there is a matching item INSIDE that clicked item, but it isn't.
+            // All of these checks need to be made in the 'move()' function in the DataModel, and maybe a different 'isValidName' function needs to be in the MoveVC, or maybe a modification of the function in the itemModel to make it take a parameter???
+            // Either way, the alerts are popping up, just not quite right.
+            // Also, maybe clean up the 'items' and 'itemModel' variables in the MoveVC so that there aren't two different instances of the variable 'items' that are being thrown around, as the 'itemModel.items' is the standard one that is used in the main area, but the local 'items' variable is the one used mostly here, so they are disconnected from the 'isValidName()' function that uses the 'itemModel's instance of 'items' to run its function, which is why there is no parameter needed for it. But that is throwing things off for me in the MoveVC, since it uses a different instance of 'items' that has been set locally.
+            
+            
+            if itemModel.isValidName(forItemName: itemName) == .success {
+                print(item.name!)
+                let alert = UIAlertController(title: "Good!", message: "You can add it!", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+                present(alert, animated: true, completion: nil)
+            } else {
+                print(item.name!)
+                let alert = UIAlertController(title: "Nope!", message: "You canNOT add it!", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Shit", style: .default, handler: nil))
+                alert.addAction(UIAlertAction(title: "Try again", style: .cancel, handler: nil))
+                present(alert, animated: true, completion: nil)
+            }
+            
         } else {
             print("No item on clicking 'Move' selected.")
         }
@@ -195,7 +221,11 @@ extension MoveItemViewController {
             let casedParentName = (currentLevel == 0) ? sItem.name!.lowercased() : sItem.name!
             let category = (currentLevel == 0) ? sItem.name!.lowercased() : sItem.category!
             
-            destinationVC.items = DataModel.shared.loadSpecificItems(forCategory: category, forLevel: Int(sItem.level) + 1, forParentID: Int(sItem.id), andParentName: casedParentName, ascending: true)
+            let itemsToOpen = DataModel.shared.loadSpecificItems(forCategory: category, forLevel: Int(sItem.level) + 1, forParentID: Int(sItem.id), andParentName: casedParentName, ascending: true)
+            
+            destinationVC.items = itemsToOpen
+            
+            destinationVC.itemModel.items = itemsToOpen
             
             destinationVC.navigationItem.title = sItem.name!
             
