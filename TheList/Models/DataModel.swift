@@ -416,32 +416,50 @@ class DataModel {
     
     func move(item itemToMove: Item, toParentItem parentItem: Item) {
         
-        // The main Home, Errands, Work, and Other have a level of 0 and category of "none", so these have to be checked.
-        let isParentLevel0 = (Int(parentItem.level) == 0) ? true : false
+        // ****** Have to uncomment and finish this section, but for now, it does nothing when clicked from the "MoveVC"
         
-        let category = isParentLevel0 ? parentItem.name!.lowercased() : parentItem.category!
-        let siblingLevel = Int(parentItem.level + 1)
-        let parentID = Int(parentItem.id)
-        let parentName = isParentLevel0 ? parentItem.name!.lowercased() : parentItem.name!
+//        // The main Home, Errands, Work, and Other have a level of 0 and category of "none", so these have to be checked.
+//        let isParentLevel0 = (Int(parentItem.level) == 0) ? true : false
+//
+//        let itemToMoveName = itemToMove.name!
+//        let oldCategory = itemToMove.category!
+//        let oldLevel = Int(itemToMove.level)
+//        let itemToMoveSubitemLevel = oldLevel + 1
+//        let oldItemToMoveID = Int(itemToMove.id)
+//
+//        let newCategory = isParentLevel0 ? parentItem.name!.lowercased() : parentItem.category!
+//        let newLevel = parentItem.level + 1
+//        let newParentID = parentItem.id
+//        let newParentName = isParentLevel0 ? parentItem.name!.lowercased() : parentItem.name!
+//
+//        // Update itemToMove: category, level, parentID, and parentName.
+//        itemToMove.category = newCategory
+//        itemToMove.level = newLevel
+//        itemToMove.parentID = newParentID
+//        itemToMove.parentName = newParentName
+//
+//        saveData()
+//
+//
+//        // Update itemToMove id
+//        // It won't affect any children, as being newly moved to a new parent means that there would be no children for it when loaded with its new information.
+//        // But below, loading the subItems using the old information, they can be updated with their parent's new information.
+//        let newSiblingItems = loadSpecificItems(forCategory: newCategory, forLevel: Int(newLevel), forParentID: Int(newParentID), andParentName: newParentName, ascending: true)
+//
+//        updateIDs(forItems: newSiblingItems)
+//
+//
+//        // Load subItems for itemToMove using the old information.
+//        let subItemsForItemToMove = loadSpecificItems(forCategory: oldCategory, forLevel: itemToMoveSubitemLevel, forParentID: oldItemToMoveID, andParentName: itemToMoveName, ascending: true)
+//
+//
+//
+//        // Update DIRECT subItems with: category, level, and parentID.
+//        // Have to write a function that updates these three by iterating through any subItems each subItem might have.
+//
+//
+//        saveData()
         
-        let newSiblingItems = loadSpecificItems(forCategory: category, forLevel: siblingLevel, forParentID: parentID, andParentName: parentName, ascending: true)
-        
-        for siblingItem in newSiblingItems {
-            if siblingItem.name == itemToMove.name {
-                
-                // Present alert that it cannot be done.
-                // Still have to code this alert.
-                // Maybe use the nameCheck protocol and alert???
-                
-            }
-        }
-        
-        // Load subItems for itemToMove.
-        // Update itemToMove: category, level, parentID, id, and parentName.
-        // SAVE HERE.
-        // Update DIRECT subItems with: category, level, parentID, and parentName.
-        // Update all REST of subItems BELOW the DIRECT subItems with: category and level.
-        // SAVE HERE.
         
     }
     

@@ -113,6 +113,8 @@ class MoveItemViewController: UIViewController {
                 
                 if ValidationModel.shared.isValid(itemName: itemBeingMoved.name!, forItems: possibleSiblingItems, isGrouping: false, itemsToGroup: nil) == .success {
                     
+                    DataModel.shared.move(item: itemBeingMoved, toParentItem: newParentItem)
+                    
                     let confirmationAlert = UIAlertController(title: "Done!", message: "\(itemBeingMoved.name!) is now in \(newParentItem.name!)", preferredStyle: .alert)
                     
                     confirmationAlert.addAction(UIAlertAction(title: "Ok", style: .default) { (action) in
@@ -188,6 +190,16 @@ extension MoveItemViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
+        
+        
+        
+        // ****** ADD A CHECK IF THE ITEM CLICKED IS THE SAME AS THE 'itemBeingMoved' BECAUSE IF IT IS, THEN IT CANNOT BE CLICKED.
+        // ****** POP UP AN ALERT LETTING THE USER KNOW THAT IT IS THE ITEM BEING MOVED THAT THEY ARE CLICKING ON.
+        
+        
+        
+        
+        
         let item = items[indexPath.row]
         
         let itemName = (currentLevel == 0) ? item.name!.lowercased() : item.name!
@@ -220,12 +232,11 @@ extension MoveItemViewController: UITableViewDelegate, UITableViewDataSource {
             
         }
         
-        if let sItem = selectedItem {
-            print("\(sItem.name!)")
-        } else {
-            print("There was no item in the table selected.")
-        }
-        
+//        if let sItem = selectedItem {
+//            print("\(sItem.name!)")
+//        } else {
+//            print("There was no item in the table selected.")
+//        }
         
     }
     
