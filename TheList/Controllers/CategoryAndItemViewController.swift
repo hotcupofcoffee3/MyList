@@ -615,7 +615,9 @@ extension CategoryAndItemViewController {
             
         } else if editingMode == .moving {
             
-            let destinationVC = segue.destination as! MoveItemViewController
+            let navVC = segue.destination as! UINavigationController
+            
+            let destinationVC = navVC.topViewController as! MoveItemViewController
             
             destinationVC.itemBeingMoved = itemToMove
             
