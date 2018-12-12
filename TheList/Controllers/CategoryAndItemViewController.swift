@@ -200,7 +200,11 @@ class CategoryAndItemViewController: UIViewController {
                 } else if currentItem.name == newGroupNameTextField.text {
                     newGroupName = "\(self.itemsToGroup[0].name!)"
                     
+                    
+                    
                     // In the meantime, this alert will signify that the name was a duplicate, and the new name set was one that was the first one in the group.
+                    // Need to check for duplicates and ask for a different name.
+                    
                     
                     let alert = UIAlertController(title: "Duplicate Name", message: "Since the name was a duplicate, the group was named \"\(self.itemsToGroup[0].name!)\".", preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
