@@ -184,32 +184,6 @@ class ItemModel {
     
     func numberOfSubItems(forParentID parentID: Int, andParentName parentName: String) -> Int {
         
-//        var totalNumberOfSubItems = Int()
-//
-//        let subItems = DataModel.shared.loadSpecificItems(forCategory: selectedCategory.rawValue, forLevel: level + 1, forParentID: parentID, andParentName: parentName)
-//
-//        if subItems.count > 0 {
-//
-//            for subItem in subItems {
-//
-//                let furtherSubItems = DataModel.shared.loadSpecificItems(forCategory: selectedCategory.rawValue, forLevel: Int(subItem.level + 1), forParentID: Int(subItem.id), andParentName: subItem.name!)
-//
-//                if furtherSubItems.count > 0 {
-//
-//                    totalNumberOfSubItems += numberOfItems(forParentID: Int(subItem.id), andParentName: subItem.name!)
-//
-//                } else {
-//
-//                    totalNumberOfSubItems += 1
-//
-//                }
-//
-//            }
-//
-//        }
-//
-//        return totalNumberOfSubItems
-        
         return DataModel.shared.loadSpecificItems(forCategory: selectedCategory.rawValue, forLevel: level + 1, forParentID: parentID, andParentName: parentName, ascending: true).count
         
     }

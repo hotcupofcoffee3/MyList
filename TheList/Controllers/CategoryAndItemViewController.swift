@@ -18,6 +18,8 @@ class CategoryAndItemViewController: UIViewController {
     
     var itemsToGroup = [Item]()
     
+    var itemToMove: Item?
+    
     // Delegates called by the HeaderView
     var touchedAwayFromTextFieldDelegate: TouchedAwayFromTextFieldDelegate?
     var dismissKeyboardFromMainViewControllerDelegate: DismissKeyboardFromMainViewControllerDelegate?
@@ -391,6 +393,8 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
                     
                     self.editingMode = .moving
                     
+                    self.itemToMove = self.itemModel.items[indexPath.row]
+                    
                     self.performSegue(withIdentifier: self.itemModel.moveSegue, sender: self)
                     
                 })
@@ -610,6 +614,10 @@ extension CategoryAndItemViewController {
             }
             
         } else if editingMode == .moving {
+            
+            let destinationVC = segue.destination as! MoveItemViewController
+            
+            destinationVC.itemBeingMoved = itemToMove
             
         }
         

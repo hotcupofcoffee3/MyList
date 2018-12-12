@@ -10,6 +10,8 @@ import UIKit
 
 class MoveItemViewController: UIViewController {
     
+    var itemBeingMoved: Item?
+    
     var currentMoveVC = String()
     
     var currentLevel = Int()
@@ -38,7 +40,14 @@ class MoveItemViewController: UIViewController {
 //            print("ParentLevel: \(Int(item.level))")
             
             let itemName = (Int(item.level) == 0) ? item.name!.lowercased() : item.name!
-            itemModel.items = items
+            let itemCategory = (Int(item.level) == 0) ? item.name!.lowercased() : item.category!
+            let itemLevel = Int(item.level)
+            let itemID = Int(item.id)
+            
+            let possibleSiblingItems = DataModel.shared.loadSpecificItems(forCategory: itemCategory, forLevel: itemLevel + 1, forParentID: itemID, andParentName: itemName, ascending: true)
+            
+            // For right now, this is set for the 'isValidName()' until that function is potentially worked into having some parameter or option in it to account for comparing to sibling items when selectedItem is either shown as being clicked, or opened with no subItem clicked.
+            itemModel.items = possibleSiblingItems
             
             
             // Need to make the clicking of the item from the main view a variable that is sent here, so there is an item that is being moved.
@@ -77,13 +86,20 @@ class MoveItemViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         currentMoveVC = self.title!
-        toggleMoveButton()
-        if let item = selectedItem {
-            print("Level \(currentLevel): \((currentLevel == 0) ? item.name!.lowercased() : item.name!)")
-            print("ParentLevel: \(Int(item.level))")
+        
+        if let itemBeingMoved = itemBeingMoved {
+            print("\(itemBeingMoved.name!)")
         } else {
-            print("There was no 'selectedItem' when the view appeared.")
+            print("There was no item in itemBeingMoved.")
         }
+        
+        toggleMoveButton()
+//        if let item = selectedItem {
+//            print("Level \(currentLevel): \((currentLevel == 0) ? item.name!.lowercased() : item.name!)")
+//            print("ParentLevel: \(Int(item.level))")
+//        } else {
+//            print("There was no 'selectedItem' when the view appeared.")
+//        }
     }
     
     func toggleMoveButton() {
@@ -215,6 +231,8 @@ extension MoveItemViewController {
         destinationVC.selectedItem = selectedItem
         
         if let sItem = selectedItem {
+            
+            destinationVC.itemBeingMoved = selectedItem
             
             destinationVC.currentLevel = Int(sItem.level) + 1
             
