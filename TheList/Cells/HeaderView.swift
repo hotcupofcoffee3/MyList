@@ -73,7 +73,7 @@ class HeaderView: UITableViewHeaderFooterView, UITextFieldDelegate {
             
             HapticsModel.shared.hapticExecuted(as: .warning)
             
-            presentInvalidNameAlertDelegate?.presentInvalidNameAlert(withErrorMessage: checkNewItemName)
+            presentInvalidNameAlertDelegate?.presentInvalidNameAlert()
             
         }
         

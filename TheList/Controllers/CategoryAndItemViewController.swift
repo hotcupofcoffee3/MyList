@@ -174,6 +174,8 @@ class CategoryAndItemViewController: UIViewController {
     
     func groupItems() {
         
+//        var canGroup = true
+        
         let groupAlert = UIAlertController(title: "Group?", message: "Enter a new Group Name for the selected items", preferredStyle: .alert)
 
         groupAlert.addTextField(configurationHandler: { (textField) in
@@ -184,8 +186,8 @@ class CategoryAndItemViewController: UIViewController {
 
         let groupItems = UIAlertAction(title: "Group Items", style: .destructive, handler: { (action) in
 
-            var newGroupName = newGroupNameTextField.text!
-
+            let newGroupName = newGroupNameTextField.text!
+           
             let currentCategory = self.itemModel.selectedCategory
             let currentLevel = self.itemModel.level
             let currentParentID = self.itemModel.selectedParentID
@@ -193,39 +195,26 @@ class CategoryAndItemViewController: UIViewController {
             
             let currentLevelItems = DataModel.shared.loadSpecificItems(forCategory: currentCategory.rawValue, forLevel: currentLevel, forParentID: currentParentID, andParentName: currentParentName, ascending: true)
             
-            for currentItem in currentLevelItems {
+            if ValidationModel.shared.isValid(itemName: newGroupName, forItems: currentLevelItems, isGrouping: true, itemsToGroup: self.itemsToGroup) != .success {
                 
-                if self.itemsToGroup.contains(currentItem) {
-                    continue
-                } else if currentItem.name == newGroupNameTextField.text {
-                    newGroupName = "\(self.itemsToGroup[0].name!)"
+                self.present(ValidationModel.shared.alertForInvalidItem(doSomethingElse: {
                     
+                    self.groupItems()
                     
-                    
-                    // In the meantime, this alert will signify that the name was a duplicate, and the new name set was one that was the first one in the group.
-                    // Need to check for duplicates and ask for a different name.
-                    
-                    
-                    let alert = UIAlertController(title: "Duplicate Name", message: "Since the name was a duplicate, the group was named \"\(self.itemsToGroup[0].name!)\".", preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-                    self.present(alert, animated: true, completion: nil)
-                    
-                    
-                }
+                }), animated: true, completion: nil)
+                
+            } else {
+                
+                DataModel.shared.group(items: self.itemsToGroup, intoNewItemName: newGroupName, forCategory: currentCategory, atLevel: currentLevel, withNewItemParentID: currentParentID, andNewItemParentName: currentParentName)
+                
+                self.itemModel.reloadItems()
+                
+                self.toggleEditingMode(for: .none)
+                
+                self.tableView.reloadData()
+                
             }
 
-            if newGroupName == "" {
-                newGroupName = self.itemsToGroup[0].name!
-            }
-            
-            DataModel.shared.group(items: self.itemsToGroup, intoNewItemName: newGroupName, forCategory: currentCategory, atLevel: currentLevel, withNewItemParentID: currentParentID, andNewItemParentName: currentParentName)
-            
-            self.itemModel.reloadItems()
-            
-            self.toggleEditingMode(for: .none)
-            
-            self.tableView.reloadData()
-            
         })
 
         let addMoreItemsToGroup = UIAlertAction(title: "Add More Items", style: .default, handler: nil)
@@ -635,14 +624,8 @@ extension CategoryAndItemViewController {
 
 extension CategoryAndItemViewController: PresentInvalidNameAlertDelegate, EditingCompleteDelegate, TextFieldIsActiveDelegate, TextFieldIsSubmittedDelegate, SetEditingModeForDismissingKeyboardDelegate {
     
-    func presentInvalidNameAlert(withErrorMessage errorMessage: ItemNameCheck) {
-        
-        let alert = UIAlertController(title: "Invalid Entry", message: errorMessage.rawValue, preferredStyle: .alert)
-
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        
-        present(alert, animated: true, completion: nil)
-        
+    func presentInvalidNameAlert() {
+        present(ValidationModel.shared.alertForInvalidItem(doSomethingElse: nil), animated: true, completion: nil)
     }
     
     

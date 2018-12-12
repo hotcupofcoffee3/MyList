@@ -16,7 +16,7 @@ protocol IsValidNameDelegate {
     func isValidName(forItemName itemName: String) -> ItemNameCheck
 }
 protocol PresentInvalidNameAlertDelegate {
-    func presentInvalidNameAlert(withErrorMessage errorMessage: ItemNameCheck)
+    func presentInvalidNameAlert()
 }
 
 

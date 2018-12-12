@@ -225,39 +225,10 @@ class ItemModel {
 extension ItemModel: IsValidNameDelegate, AddNewItemDelegate, ReloadTableListDelegate {
     
     // All of these three are header-specific delegates, set in the CategoryAndItemVC.
-    // Also, the MoveVC checks for an invalidName.
     
     func isValidName(forItemName itemName: String) -> ItemNameCheck {
-        
-        var isValidName: ItemNameCheck = .success
-        
-        // Checks for duplicate name
-        for item in items {
-            if itemName == item.name {
-                isValidName = .duplicate
-            }
-        }
-        
-        // Cannot contain three "???"
-        var numOfQsInARow = 0
-        for a in itemName {
-            if a == "?" {
-                numOfQsInARow += 1
-                if numOfQsInARow > 2 {
-                    isValidName = .threeQuestionMarks
-                }
-            } else {
-                numOfQsInARow = 0
-            }
-        }
-        
-        // Cannot be blank
-        if itemName == "" {
-            isValidName = .blank
-        }
-        
-        return isValidName
-        
+        // As the HeaderView does not have any 'items' in it, since it is only used for adding new items to the existing displayed table, this delegate is used so only the 'itemName' is supplied and is checked against the 'items' already loaded in the 'ItemModel'
+        return ValidationModel.shared.isValid(itemName: itemName, forItems: items, isGrouping: false, itemsToGroup: nil)
     }
     
     func addNewItem(itemName: String) {
