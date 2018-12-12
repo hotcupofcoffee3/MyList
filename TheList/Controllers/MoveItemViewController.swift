@@ -35,29 +35,26 @@ class MoveItemViewController: UIViewController {
     }
     
     @IBAction func move(_ sender: UIBarButtonItem) {
-        if let newParentItem = selectedItem {
-
-            if let itemBeingMoved = itemBeingMoved {
-                
-                let newParentItemName = (Int(newParentItem.level) == 0) ? newParentItem.name!.lowercased() : newParentItem.name!
-                let newParentItemCategory = (Int(newParentItem.level) == 0) ? newParentItem.name!.lowercased() : newParentItem.category!
-                let newParentItemLevel = Int(newParentItem.level)
-                let newParentItemID = Int(newParentItem.id)
-                
-                let possibleSiblingItems = DataModel.shared.loadSpecificItems(forCategory: newParentItemCategory, forLevel: newParentItemLevel + 1, forParentID: newParentItemID, andParentName: newParentItemName, ascending: true)
-                
-                if ValidationModel.shared.isValid(itemName: itemBeingMoved.name!, forItems: possibleSiblingItems, isGrouping: false, itemsToGroup: nil) == .success {
-                    let alert = ValidationModel.shared.alertForInvalidItem(doSomethingElse: nil)
-                    present(alert, animated: true, completion: nil)
-                } else {
-                    let alert = ValidationModel.shared.alertForInvalidItem(doSomethingElse: nil)
-                    present(alert, animated: true, completion: nil)
-                }
-                
+        
+        if let itemBeingMoved = itemBeingMoved, let selectedItem = selectedItem {
+            
+            let alert = UIAlertController(title: nil, message: "Move \(itemBeingMoved.name!) to \(selectedItem.name!)?", preferredStyle: .alert)
+            
+            let yes = UIAlertAction(title: "Yes", style: .destructive) { (action) in
+                self.moveItem()
             }
             
+            let no = UIAlertAction(title: "No", style: .cancel, handler: nil)
+            
+            alert.addAction(yes)
+            alert.addAction(no)
+            
+            present(alert, animated: true, completion: nil)
+            
         } else {
-            print("No item on clicking 'Move' selected.")
+            
+            print("There was no item selected to move, so something messed up.")
+            
         }
         
     }
@@ -99,6 +96,44 @@ class MoveItemViewController: UIViewController {
         }
         
         toggleMoveButton()
+    }
+    
+    func moveItem() {
+        
+        if let newParentItem = selectedItem {
+            
+            if let itemBeingMoved = itemBeingMoved {
+                
+                let newParentItemName = (Int(newParentItem.level) == 0) ? newParentItem.name!.lowercased() : newParentItem.name!
+                let newParentItemCategory = (Int(newParentItem.level) == 0) ? newParentItem.name!.lowercased() : newParentItem.category!
+                let newParentItemLevel = Int(newParentItem.level)
+                let newParentItemID = Int(newParentItem.id)
+                
+                let possibleSiblingItems = DataModel.shared.loadSpecificItems(forCategory: newParentItemCategory, forLevel: newParentItemLevel + 1, forParentID: newParentItemID, andParentName: newParentItemName, ascending: true)
+                
+                if ValidationModel.shared.isValid(itemName: itemBeingMoved.name!, forItems: possibleSiblingItems, isGrouping: false, itemsToGroup: nil) == .success {
+                    
+                    let confirmationAlert = UIAlertController(title: "Done!", message: "\(itemBeingMoved.name!) is now in \(newParentItem.name!)", preferredStyle: .alert)
+                    
+                    confirmationAlert.addAction(UIAlertAction(title: "Ok", style: .default) { (action) in
+                        
+                        self.dismiss(animated: true, completion: nil)
+                        
+                    })
+                    
+                    present(confirmationAlert, animated: true, completion: nil)
+                    
+                } else {
+                    let alert = ValidationModel.shared.alertForInvalidItem(doSomethingElse: nil)
+                    present(alert, animated: true, completion: nil)
+                }
+                
+            }
+            
+        } else {
+            print("No item on clicking 'Move' selected.")
+        }
+        
     }
 
 }
