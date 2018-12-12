@@ -36,8 +36,7 @@ class MoveItemViewController: UIViewController {
     
     @IBAction func move(_ sender: UIBarButtonItem) {
         if let newParentItem = selectedItem {
-//            print("Level \(currentLevel): \((Int(item.level) == 0) ? item.name!.lowercased() : item.name!)")
-//            print("ParentLevel: \(Int(item.level))")
+
             if let itemBeingMoved = itemBeingMoved {
                 
                 let newParentItemName = (Int(newParentItem.level) == 0) ? newParentItem.name!.lowercased() : newParentItem.name!
@@ -47,26 +46,11 @@ class MoveItemViewController: UIViewController {
                 
                 let possibleSiblingItems = DataModel.shared.loadSpecificItems(forCategory: newParentItemCategory, forLevel: newParentItemLevel + 1, forParentID: newParentItemID, andParentName: newParentItemName, ascending: true)
                 
-                // For right now, this is set for the 'isValidName()' until that function is potentially worked into having some parameter or option in it to account for comparing to sibling items when selectedItem is either shown as being clicked, or opened with no subItem clicked.
-                itemModel.items = possibleSiblingItems
-                
-                
-                // Need to make the clicking of the item from the main view a variable that is sent here, so there is an item that is being moved.
-                // Need to check on the isValidName function to see why it is saying that you can add an item with the same name in the same area, as it seems like the check is loading the siblings of the one being clicked in the move area, because when an item is clicked within a parent, in otherwords, a sibling that matches, it SHOULD check to see if there is a matching item INSIDE that clicked item, but it isn't.
-                // All of these checks need to be made in the 'move()' function in the DataModel, and maybe a different 'isValidName' function needs to be in the MoveVC, or maybe a modification of the function in the itemModel to make it take a parameter???
-                // Either way, the alerts are popping up, just not quite right.
-                // Also, maybe clean up the 'items' and 'itemModel' variables in the MoveVC so that there aren't two different instances of the variable 'items' that are being thrown around, as the 'itemModel.items' is the standard one that is used in the main area, but the local 'items' variable is the one used mostly here, so they are disconnected from the 'isValidName()' function that uses the 'itemModel's instance of 'items' to run its function, which is why there is no parameter needed for it. But that is throwing things off for me in the MoveVC, since it uses a different instance of 'items' that has been set locally.
-                
-                
-                if itemModel.isValidName(forItemName: itemBeingMoved.name!) == .success {
-                    let alert = UIAlertController(title: "Good!", message: "You can add it!", preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-                    alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+                if ValidationModel.shared.isValid(itemName: itemBeingMoved.name!, forItems: possibleSiblingItems, isGrouping: false, itemsToGroup: nil) == .success {
+                    let alert = ValidationModel.shared.alertForInvalidItem(doSomethingElse: nil)
                     present(alert, animated: true, completion: nil)
                 } else {
-                    let alert = UIAlertController(title: "Nope!", message: "You canNOT add it!", preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "Shit", style: .default, handler: nil))
-                    alert.addAction(UIAlertAction(title: "Try again", style: .cancel, handler: nil))
+                    let alert = ValidationModel.shared.alertForInvalidItem(doSomethingElse: nil)
                     present(alert, animated: true, completion: nil)
                 }
                 
@@ -86,21 +70,15 @@ class MoveItemViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        
         currentMoveVC = self.title!
         
-        if let itemBeingMoved = itemBeingMoved {
-            print("\(itemBeingMoved.name!)")
-        } else {
-            print("There was no item in itemBeingMoved.")
+        toggleMoveButton()
+        
+        if selectedItem == nil {
+            selectedItem = currentItem
         }
         
-        toggleMoveButton()
-        if let item = selectedItem {
-            print("Level \(currentLevel): \((currentLevel == 0) ? item.name!.lowercased() : item.name!)")
-            print("ParentLevel: \(Int(item.level))")
-        } else {
-            print("There was no 'selectedItem' when the view appeared.")
-        }
     }
     
     func toggleMoveButton() {
