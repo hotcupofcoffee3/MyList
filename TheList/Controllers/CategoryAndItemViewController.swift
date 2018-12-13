@@ -30,7 +30,25 @@ class CategoryAndItemViewController: UIViewController {
             
         case .none :
 
-            toggleEditingMode(for: .sorting)
+            let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+            
+            let rearrange = UIAlertAction(title: "Reorder", style: .default) { (action) in
+                self.toggleEditingMode(for: .sorting)
+            }
+            
+            let group = UIAlertAction(title: "Group", style: .default) { (action) in
+                self.toggleEditingMode(for: .grouping)
+            }
+            
+            let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            
+            alert.addAction(rearrange)
+            alert.addAction(group)
+            alert.addAction(cancel)
+            
+            present(alert, animated: true, completion: nil)
+            
+//            toggleEditingMode(for: .sorting)
             
         case .grouping :
             
@@ -80,6 +98,7 @@ class CategoryAndItemViewController: UIViewController {
             
         case .grouping :
             
+            tableView.reloadData()
             editButton.title = (itemsToGroup.count > 0) ? "Group" : "Done"
             
         case .none, .moving, .specifics :
@@ -344,11 +363,13 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
             
             let id = Int(self.itemModel.items[indexPath.row].id)
             let name = self.itemModel.items[indexPath.row].name!
-            let category = self.itemModel.items[indexPath.row].category!
-            let level = Int(self.itemModel.items[indexPath.row].level)
-            let parentID = Int(self.itemModel.items[indexPath.row].parentID)
-            let parentName = self.itemModel.items[indexPath.row].parentName!
             let numberOfSubitems = self.itemModel.numberOfSubItems(forParentID: id, andParentName: name)
+            
+//            // "Uncheck all"-specific variables
+//            let category = self.itemModel.items[indexPath.row].category!
+//            let level = Int(self.itemModel.items[indexPath.row].level)
+//            let parentID = Int(self.itemModel.items[indexPath.row].parentID)
+//            let parentName = self.itemModel.items[indexPath.row].parentName!
             
             
             
@@ -393,27 +414,27 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
                 })
                 
                 
-                // Group
-                let group = UIAlertAction(title: "Group", style: .default, handler: { (action) in
-                    
-                    self.toggleEditingMode(for: .grouping)
-                    
-                    self.editButton.title = (self.itemsToGroup.count == 0) ? "Done" : "Group"
-                    
-                    self.tableView.reloadData()
-                    
-                })
+//                // Group
+//                let group = UIAlertAction(title: "Group", style: .default, handler: { (action) in
+//
+//                    self.toggleEditingMode(for: .grouping)
+//
+//                    self.editButton.title = (self.itemsToGroup.count == 0) ? "Done" : "Group"
+//
+//                    self.tableView.reloadData()
+//
+//                })
                 
                 
                 // Uncheck All
-                let uncheckAll = UIAlertAction(title: "Uncheck All", style: .default, handler: { (action) in
-                    
-                    DataModel.shared.toggleDoneForAllItems(doneStatus: false, forCategory: category, forLevel: level, forParentID: parentID, andParentName: parentName)
-                    
-                    self.itemModel.reloadItems()
-                    tableView.reloadData()
-                    
-                })
+//                let uncheckAll = UIAlertAction(title: "Uncheck All", style: .default, handler: { (action) in
+//
+//                    DataModel.shared.toggleDoneForAllItems(doneStatus: false, forCategory: category, forLevel: level, forParentID: parentID, andParentName: parentName)
+//
+//                    self.itemModel.reloadItems()
+//                    tableView.reloadData()
+//
+//                })
                 
                 
                 // Delete SubItems
@@ -434,8 +455,8 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
                 
                 alert.addAction(editName)
                 alert.addAction(move)
-                alert.addAction(group)
-                alert.addAction(uncheckAll)
+//                alert.addAction(group)
+//                alert.addAction(uncheckAll)
                 
                 if numberOfSubitems > 0 {
                     alert.addAction(deleteSubItems)
@@ -532,6 +553,14 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
         return 60
     }
     
+    
+    // ******
+    // *** TODO: - TODO - The Swipe Actions
+    // ******
+    
+    // - Set up the Swipe Actions
+    
+    
 //    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
 //
 //        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { (action, view, success) in
@@ -559,6 +588,10 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
 //        return UISwipeActionsConfiguration(actions: [modifyAction])
 //
 //    }
+    
+    
+    
+    
     
 }
 
