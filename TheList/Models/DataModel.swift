@@ -106,8 +106,11 @@ class DataModel {
         
         // 1:
         // --- Update all of the items to be grouped with a new level FIRST, so that all other information stays the same.
-        // --- Use the 'updateLevels()' function.
-        updateLevels(forItems: items)
+        // --- Use the 'updateLevel()' function.
+        for item in items {
+            updateLevel(forItem: item)
+        }
+        
         
         
         
@@ -251,38 +254,40 @@ class DataModel {
     
     // MARK: - UPDATE
     
-    func updateItem(forProperty property: ItemProperty, forItem item: Item, parentID: Int, parentName: String, name: String?) {
+    func updateItem(forProperties itemProperties: [ItemProperty], forItem item: Item, atNewLevel newLevel: Int?, inNewCategory newCategory: String?, withNewParentID newParentID: Int?, andNewParentName newParentName: String?, withNewName newName: String?, withNewID newID: Int?) {
         
         let itemToUpdate = item
         
-        switch property {
+        for property in itemProperties {
             
-        case .parentID :
-            itemToUpdate.parentID = Int64(parentID)
-            
-        case .name :
-            
-            if name != nil && name != "" {
+            switch property {
                 
-                let subItems = loadSpecificItems(forCategory: itemToUpdate.category!, forLevel: Int(itemToUpdate.level + 1), forParentID: Int(itemToUpdate.id), andParentName: itemToUpdate.name!, ascending: true)
+            case .done :
+                itemToUpdate.done = !itemToUpdate.done
                 
-                for subItem in subItems {
-                    subItem.parentName = name!
-                }
+            case .level :
+                itemToUpdate.level = Int64(newLevel!)
                 
-                itemToUpdate.name = name
+            case .category :
+                itemToUpdate.category = newCategory!
+                
+            case .parentID :
+                itemToUpdate.parentID = Int64(newParentID!)
+                
+            case .parentName :
+                itemToUpdate.parentName = newParentName!
+                
+            case .name :
+                updateName(forItem: itemToUpdate, withNewName: newName!)
+                
+            case .id :
+                itemToUpdate.id = Int64(newID!)
                 
             }
             
-        case .done :
-            itemToUpdate.done = !itemToUpdate.done
-            
-        default:
-            break
-            
+            saveData()
+                
         }
-        
-        saveData()
         
     }
     
@@ -317,86 +322,130 @@ class DataModel {
         
     }
     
-    func updateIDs(forItems items: [Item]?) {
+    func updateIDs(forItems items: [Item]) {
         
         var id = 1
         
         var subItems = [Item]()
         
-        if items != nil {
+        for item in items {
+                
+            // ID and Level before new IDs are set
+            let oldID = Int(item.id)
+            let subItemLevel = Int(item.level + 1)
             
-            guard let items = items else { return print("There were no Items loaded in the updateIDs function in DataModel.") }
+            // Reset array and load subitems based on item info before it is changed.
+            subItems = []
+            subItems = loadSpecificItems(forCategory: item.category!, forLevel: subItemLevel, forParentID: oldID, andParentName: item.name!, ascending: true)
             
-            for item in items {
-                
-                // ID and Level before new IDs are set
-                let oldID = Int(item.id)
-                let subItemLevel = Int(item.level + 1)
-                
-                // Reset array and load subitems based on item info before it is changed.
-                subItems = []
-                subItems = loadSpecificItems(forCategory: item.category!, forLevel: subItemLevel, forParentID: oldID, andParentName: item.name!, ascending: true)
-                
-                // If the old id AND name match, then the subItem's parentID is updated.
-                // Matching the name AND old id makes sure that when the new IDs are set for the parents, even if they match some of the other subItems' parentID, they won't match the name, as well, so this filters them out.
-                if subItems.count > 0 {
-                    for subItem in subItems {
-                        subItem.parentID = Int64(id)
-                    }
+            // If the old id AND name match, then the subItem's parentID is updated.
+            // Matching the name AND old id makes sure that when the new IDs are set for the parents, even if they match some of the other subItems' parentID, they won't match the name, as well, so this filters them out.
+            if subItems.count > 0 {
+                for subItem in subItems {
+                    subItem.parentID = Int64(id)
                 }
-                
-                // After subItems taken care of, the current item's ID is updated.
-                item.id = Int64(id)
-                id += 1
-                
-                saveData()
-                
             }
             
-        } else {
+            // After subItems taken care of, the current item's ID is updated.
+            item.id = Int64(id)
+            id += 1
             
-            print("There was no array passed to the updateIDs() function in the DataModel.")
+            saveData()
             
         }
         
     }
     
-    func updateLevels(forItems items: [Item]?) {
+    func updateName(forItem itemToUpdate: Item, withNewName newName: String?) {
+        
+        if newName != nil && newName != "" {
+            
+            let subItems = loadSpecificItems(forCategory: itemToUpdate.category!, forLevel: Int(itemToUpdate.level + 1), forParentID: Int(itemToUpdate.id), andParentName: itemToUpdate.name!, ascending: true)
+            
+            updateParentName(forItems: subItems, withNewParentName: newName)
+            
+            itemToUpdate.name = newName
+            
+        }
+        
+        saveData()
+        
+    }
+    
+    func updateCategory(forItems items: [Item], withNewCategory newCategory: String) {
         
         var subItems = [Item]()
         
-        if items != nil {
+        for item in items {
+                
+            // ID and Level before new IDs are set
+            let itemID = Int(item.id)
+            let subItemLevel = Int(item.level + 1)
             
-            guard let items = items else { return print("There were no Items loaded in the updateIDs function in DataModel.") }
+            // Reset array and load subitems based on item info before it is changed.
+            subItems = []
+            subItems = loadSpecificItems(forCategory: item.category!, forLevel: subItemLevel, forParentID: itemID, andParentName: item.name!, ascending: true)
             
-            for item in items {
-                
-                // ID and Level before new IDs are set
-                let itemID = Int(item.id)
-                let subItemLevel = Int(item.level + 1)
-                
-                // Reset array and load subitems based on item info before it is changed.
-                subItems = []
-                subItems = loadSpecificItems(forCategory: item.category!, forLevel: subItemLevel, forParentID: itemID, andParentName: item.name!, ascending: true)
-                
-                // If the old id AND name match, then the subItem's parentID is updated.
-                // Matching the name AND old id makes sure that when the new IDs are set for the parents, even if they match some of the other subItems' parentID, they won't match the name, as well, so this filters them out.
-                if subItems.count > 0 {
-                    updateLevels(forItems: subItems)
-                }
-                
-                // After subItems taken care of, the current item's level is updated.
-                item.level = item.level + 1
-                
-                saveData()
-                
+            // If the old id AND name match, then the subItem's parentID is updated.
+            // Matching the name AND old id makes sure that when the new IDs are set for the parents, even if they match some of the other subItems' parentID, they won't match the name, as well, so this filters them out.
+            if subItems.count > 0 {
+                updateCategory(forItems: subItems, withNewCategory: newCategory)
             }
             
-        } else {
+            // After subItems taken care of, the current item's level is updated.
+            item.category = newCategory
             
-            print("There was no array passed to the updateIDs() function in the DataModel.")
+            saveData()
+                
+        }
+        
+    }
+    
+    func updateLevel(forItem item: Item) {
+        
+        var subItems = [Item]()
+        
+        // ID and Level before new IDs are set
+        let itemID = Int(item.id)
+        let subItemLevel = Int(item.level + 1)
+        
+        // Reset array and load subitems based on item info before it is changed.
+        subItems = []
+        subItems = loadSpecificItems(forCategory: item.category!, forLevel: subItemLevel, forParentID: itemID, andParentName: item.name!, ascending: true)
+        
+        // If the old id AND name match, then the subItem's parentID is updated.
+        // Matching the name AND old id makes sure that when the new IDs are set for the parents, even if they match some of the other subItems' parentID, they won't match the name, as well, so this filters them out.
+        if subItems.count > 0 {
+            for subItem in subItems {
+                updateLevel(forItem: subItem)
+            }
             
         }
+        
+        // After subItems taken care of, the current item's level is updated.
+        item.level = item.level + 1
+        
+        saveData()
+        
+    }
+    
+    func updateParentID(forItems items: [Item], withNewParentID newParentID: Int) {
+        
+        for item in items {
+            item.parentID = Int64(newParentID)
+        }
+        
+        saveData()
+        
+    }
+    
+    func updateParentName(forItems items: [Item], withNewParentName newParentName: String?) {
+        
+        for item in items {
+            item.parentName = newParentName
+        }
+        
+        saveData()
         
     }
     
@@ -418,48 +467,42 @@ class DataModel {
         
         // ****** Have to uncomment and finish this section, but for now, it does nothing when clicked from the "MoveVC"
         
-//        // The main Home, Errands, Work, and Other have a level of 0 and category of "none", so these have to be checked.
-//        let isParentLevel0 = (Int(parentItem.level) == 0) ? true : false
-//
-//        let itemToMoveName = itemToMove.name!
-//        let oldCategory = itemToMove.category!
-//        let oldLevel = Int(itemToMove.level)
-//        let itemToMoveSubitemLevel = oldLevel + 1
-//        let oldItemToMoveID = Int(itemToMove.id)
-//
-//        let newCategory = isParentLevel0 ? parentItem.name!.lowercased() : parentItem.category!
-//        let newLevel = parentItem.level + 1
-//        let newParentID = parentItem.id
-//        let newParentName = isParentLevel0 ? parentItem.name!.lowercased() : parentItem.name!
-//
-//        // Update itemToMove: category, level, parentID, and parentName.
-//        itemToMove.category = newCategory
-//        itemToMove.level = newLevel
-//        itemToMove.parentID = newParentID
-//        itemToMove.parentName = newParentName
-//
-//        saveData()
-//
-//
-//        // Update itemToMove id
-//        // It won't affect any children, as being newly moved to a new parent means that there would be no children for it when loaded with its new information.
-//        // But below, loading the subItems using the old information, they can be updated with their parent's new information.
-//        let newSiblingItems = loadSpecificItems(forCategory: newCategory, forLevel: Int(newLevel), forParentID: Int(newParentID), andParentName: newParentName, ascending: true)
-//
-//        updateIDs(forItems: newSiblingItems)
-//
-//
-//        // Load subItems for itemToMove using the old information.
-//        let subItemsForItemToMove = loadSpecificItems(forCategory: oldCategory, forLevel: itemToMoveSubitemLevel, forParentID: oldItemToMoveID, andParentName: itemToMoveName, ascending: true)
-//
-//
-//
-//        // Update DIRECT subItems with: category, level, and parentID.
-//        // Have to write a function that updates these three by iterating through any subItems each subItem might have.
-//
-//
-//        saveData()
+        // The main Home, Errands, Work, and Other have a level of 0 and category of "none", so these have to be checked.
+        let isParentLevel0 = (Int(parentItem.level) == 0) ? true : false
+
+        let sameName = itemToMove.name!
+        let oldCategory = itemToMove.category!
+        let oldLevel = Int(itemToMove.level)
+        let oldSubitemLevel = oldLevel + 1
+        let oldID = Int(itemToMove.id)
+
+        let newCategory = isParentLevel0 ? parentItem.name!.lowercased() : parentItem.category!
+        let newLevel = Int(parentItem.level + 1)
+        let newParentID = Int(parentItem.id)
+        let newParentName = isParentLevel0 ? parentItem.name!.lowercased() : parentItem.name!
+        let newID = loadSpecificItems(forCategory: newCategory, forLevel: Int(newLevel), forParentID: Int(newParentID), andParentName: newParentName, ascending: true).count + 1
         
+        let newSubItemCategory = newCategory
+        let newSubItemLevel = newLevel + 1
+        let newSubItemParentID = newID
+
+        
+        // *** Subitems only need their category, level, and parentID updated.
+        // *** Category and level can be updated here, but parentID has to be updated below after the itemToMove's id has been updated.
+        
+        
+        // Update subItems for itemToMove using the old information for retrieval and new information for updating.
+
+        let subItems = loadSpecificItems(forCategory: oldCategory, forLevel: oldSubitemLevel, forParentID: oldID, andParentName: sameName, ascending: true)
+        
+        for subItem in subItems {
+            updateItem(forProperties: [.category, .level, .parentID], forItem: subItem, atNewLevel: newSubItemLevel, inNewCategory: newSubItemCategory, withNewParentID: newSubItemParentID, andNewParentName: nil, withNewName: nil, withNewID: nil)
+        }
+        
+        
+        // Update itemToMove: category, level, parentID, parentName, and id
+        
+        updateItem(forProperties: [.category, .level, .parentID, .parentName, .id], forItem: itemToMove, atNewLevel: newLevel, inNewCategory: newCategory, withNewParentID: newParentID, andNewParentName: newParentName, withNewName: nil, withNewID: newID)
         
     }
     

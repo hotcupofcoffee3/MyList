@@ -31,7 +31,7 @@ class EditViewController: UIViewController, UITextFieldDelegate {
         if nameTextField.text != "" {
             
             if let item = item {
-                DataModel.shared.updateItem(forProperty: .name, forItem: item, parentID: Int(item.parentID), parentName: item.parentName!, name: nameTextField.text!)
+                DataModel.shared.updateItem(forProperties: [.name], forItem: item, atNewLevel: Int(item.parentID), inNewCategory: item.parentName!, withNewParentID: nil, andNewParentName: nil, withNewName: nameTextField.text!, withNewID: nil)
             }
             
             editingCompleteDelegate?.editingComplete()

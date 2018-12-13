@@ -14,7 +14,7 @@ enum SelectedCategory: String {
 }
 
 enum ItemProperty {
-    case category, level, parentID, id, name, done
+    case category, level, parentID, parentName, id, name, done
 }
 
 enum ItemNameCheck: String {
