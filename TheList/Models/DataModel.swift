@@ -262,9 +262,6 @@ class DataModel {
             
             switch property {
                 
-            case .done :
-                itemToUpdate.done = !itemToUpdate.done
-                
             case .level :
                 itemToUpdate.level = Int64(newLevel!)
                 
@@ -282,6 +279,8 @@ class DataModel {
                 
             case .id :
                 itemToUpdate.id = Int64(newID!)
+                
+            default: break
                 
             }
             
@@ -320,6 +319,11 @@ class DataModel {
             
         }
         
+    }
+    
+    func updateDone(forItem item: Item) {
+        item.done = !item.done
+        saveData()
     }
     
     func updateIDs(forItems items: [Item]) {

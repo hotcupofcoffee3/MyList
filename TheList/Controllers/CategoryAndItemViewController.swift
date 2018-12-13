@@ -516,7 +516,7 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
             // If there are no subitems for the item clicked, then toggle the "Done" status of the item.
             if numOfSubItems == 0 {
                 
-                DataModel.shared.updateItem(forProperties: [.done], forItem: item, atNewLevel: nil, inNewCategory: nil, withNewParentID: nil, andNewParentName: nil, withNewName: nil, withNewID: nil)
+                DataModel.shared.updateDone(forItem: item)
                 
                 itemModel.reloadItems()
                 
