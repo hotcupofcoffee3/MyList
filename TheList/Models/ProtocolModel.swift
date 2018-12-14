@@ -20,7 +20,6 @@ protocol PresentInvalidNameAlertDelegate {
 }
 
 
-
 // TextField Delegates
 protocol TextFieldIsActiveDelegate {
     func textFieldIsActive()
