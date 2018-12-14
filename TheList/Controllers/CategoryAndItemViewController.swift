@@ -490,16 +490,9 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
         return 60
     }
     
-    
-    // ******
-    // *** TODO: - TODO - The Swipe Actions
-    // ******
-    
-    // - Set up the Swipe Actions
-    
-    
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
 
+        
         // *** RENAME
         
         let rename = UIContextualAction(style: .destructive, title: "Rename") { (action, view, success) in
@@ -512,11 +505,6 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
 
         }
 
-//        rename.image = UIImage(named: "tick")
-        rename.backgroundColor = UIColor.darkGray
-        
-        
-        
         // *** MOVE
         
         let move = UIContextualAction(style: .destructive, title: "Move") { (action, view, success) in
@@ -531,7 +519,9 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
             
         }
         
-        //        move.image = UIImage(named: "tick")
+//        rename.image = UIImage(named: "tick")
+//        move.image = UIImage(named: "tick")
+        rename.backgroundColor = UIColor.darkGray
         move.backgroundColor = UIColor.orange
 
         return UISwipeActionsConfiguration(actions: [rename, move])
