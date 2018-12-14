@@ -561,20 +561,20 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
     // - Set up the Swipe Actions
     
     
-//    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-//
-//        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { (action, view, success) in
-//
-//            print("Closeted")
-//
-//        }
-//
-////        deleteAction.image = UIImage(named: "tick")
-////        deleteAction.backgroundColor = UIColor.purple
-//
-//        return UISwipeActionsConfiguration(actions: [deleteAction])
-//
-//    }
+    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+
+        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { (action, view, success) in
+
+            print("Closeted")
+
+        }
+
+//        deleteAction.image = UIImage(named: "tick")
+        deleteAction.backgroundColor = UIColor.purple
+
+        return UISwipeActionsConfiguration(actions: [deleteAction])
+
+    }
     
 //    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
 //
