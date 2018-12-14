@@ -29,26 +29,8 @@ class CategoryAndItemViewController: UIViewController {
         switch editingMode {
             
         case .none :
-
-            let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
             
-            let rearrange = UIAlertAction(title: "Reorder", style: .default) { (action) in
-                self.toggleEditingMode(for: .sorting)
-            }
-            
-            let group = UIAlertAction(title: "Group", style: .default) { (action) in
-                self.toggleEditingMode(for: .grouping)
-            }
-            
-            let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-            
-            alert.addAction(rearrange)
-            alert.addAction(group)
-            alert.addAction(cancel)
-            
-            present(alert, animated: true, completion: nil)
-            
-//            toggleEditingMode(for: .sorting)
+            toggleEditingMode(for: .sorting)
             
         case .grouping :
             
@@ -356,6 +338,8 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
         return false
     }
     
+    
+    
     // Edit Actions For Row
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         
@@ -363,13 +347,6 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
             
             let id = Int(self.itemModel.items[indexPath.row].id)
             let name = self.itemModel.items[indexPath.row].name!
-            let numberOfSubitems = self.itemModel.numberOfSubItems(forParentID: id, andParentName: name)
-            
-//            // "Uncheck all"-specific variables
-//            let category = self.itemModel.items[indexPath.row].category!
-//            let level = Int(self.itemModel.items[indexPath.row].level)
-//            let parentID = Int(self.itemModel.items[indexPath.row].parentID)
-//            let parentName = self.itemModel.items[indexPath.row].parentName!
             
             
             
@@ -379,96 +356,56 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
                 
                 self.itemModel.selectedItem = self.itemModel.items[indexPath.row]
                 
-                self.deleteRow(inTable: tableView, atIndexPath: indexPath)
+                let numberOfSubitems = self.itemModel.numberOfSubItems(forParentID: id, andParentName: name)
                 
-            }
-            
-            
-            
-            // *** MORE
-            
-            let more = UITableViewRowAction(style: .normal, title: "More") { (action, indexPath) in
-                
-                self.itemModel.selectedItem = self.itemModel.items[indexPath.row]
-                
-                
-                // Edit Name
-                let editName = UIAlertAction(title: "Edit Name", style: .default, handler: { (action) in
+                if numberOfSubitems == 0 {
                     
-                    self.editingMode = .specifics
+                    self.deleteRow(inTable: tableView, atIndexPath: indexPath)
                     
-                    self.performSegue(withIdentifier: self.itemModel.editSegue, sender: self)
+                } else {
                     
-                })
-                
-                
-                // Move
-                let move = UIAlertAction(title: "Move", style: .default, handler: { (action) in
+                    let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
                     
-                    self.editingMode = .moving
+                    // Delete Item
+                    let deleteItem = UIAlertAction(title: "Delete Item", style: .destructive, handler: { (action) in
+                        
+                        self.deleteRow(inTable: tableView, atIndexPath: indexPath)
+                        
+                    })
                     
-                    self.itemToMove = self.itemModel.items[indexPath.row]
+                    // Delete SubItems
+                    let deleteSubItems = UIAlertAction(title: "Delete SubItems", style: .destructive, handler: { (action) in
+                        
+                        // Alert confirming deletion of subItems
+                        let alert = DataModel.shared.deleteSubItems(forItem: self.itemModel.items[indexPath.row], inTable: self.tableView)
+                        self.present(alert, animated: true, completion: nil)
+                        
+                    })
                     
-                    self.performSegue(withIdentifier: self.itemModel.moveSegue, sender: self)
+                    // Cancel
+                    let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
                     
-                })
-                
-                
-//                // Group
-//                let group = UIAlertAction(title: "Group", style: .default, handler: { (action) in
-//
-//                    self.toggleEditingMode(for: .grouping)
-//
-//                    self.editButton.title = (self.itemsToGroup.count == 0) ? "Done" : "Group"
-//
-//                    self.tableView.reloadData()
-//
-//                })
-                
-                
-                // Uncheck All
-//                let uncheckAll = UIAlertAction(title: "Uncheck All", style: .default, handler: { (action) in
-//
-//                    DataModel.shared.toggleDoneForAllItems(doneStatus: false, forCategory: category, forLevel: level, forParentID: parentID, andParentName: parentName)
-//
-//                    self.itemModel.reloadItems()
-//                    tableView.reloadData()
-//
-//                })
-                
-                
-                // Delete SubItems
-                let deleteSubItems = UIAlertAction(title: "Delete SubItems", style: .destructive, handler: { (action) in
+                    alert.addAction(deleteItem)
+                    alert.addAction(deleteSubItems)
+                    alert.addAction(cancel)
                     
-                    let alert = DataModel.shared.deleteSubItems(forItem: self.itemModel.items[indexPath.row], inTable: self.tableView)
                     self.present(alert, animated: true, completion: nil)
                     
-                })
-                
-                
-                // Cancel
-                let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-                
-                
-                // Alert compilation
-                let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-                
-                alert.addAction(editName)
-                alert.addAction(move)
-//                alert.addAction(group)
-//                alert.addAction(uncheckAll)
-                
-                if numberOfSubitems > 0 {
-                    alert.addAction(deleteSubItems)
                 }
-                
-                alert.addAction(cancel)
-                
-                self.present(alert, animated: true, completion: nil)
                 
             }
             
-            return [delete, more]
+            
+            
+            // *** GROUP
+            
+            let group = UITableViewRowAction(style: .normal, title: "Group") { (action, indexPath) in
+                
+                self.toggleEditingMode(for: .grouping)
+                
+            }
+            
+            return [delete, group]
             
         } else {
             
@@ -563,35 +500,43 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
     
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
 
-        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { (action, view, success) in
+        // *** RENAME
+        
+        let rename = UIContextualAction(style: .destructive, title: "Rename") { (action, view, success) in
 
-            print("Closeted")
+            self.editingMode = .specifics
+            
+            self.itemModel.selectedItem = self.itemModel.items[indexPath.row]
+            
+            self.performSegue(withIdentifier: self.itemModel.editSegue, sender: self)
 
         }
 
-//        deleteAction.image = UIImage(named: "tick")
-        deleteAction.backgroundColor = UIColor.purple
+//        rename.image = UIImage(named: "tick")
+        rename.backgroundColor = UIColor.darkGray
+        
+        
+        
+        // *** MOVE
+        
+        let move = UIContextualAction(style: .destructive, title: "Move") { (action, view, success) in
+            
+            self.editingMode = .moving
+            
+            self.itemModel.selectedItem = self.itemModel.items[indexPath.row]
+            
+            self.itemToMove = self.itemModel.items[indexPath.row]
+            
+            self.performSegue(withIdentifier: self.itemModel.moveSegue, sender: self)
+            
+        }
+        
+        //        move.image = UIImage(named: "tick")
+        move.backgroundColor = UIColor.orange
 
-        return UISwipeActionsConfiguration(actions: [deleteAction])
+        return UISwipeActionsConfiguration(actions: [rename, move])
 
     }
-    
-//    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-//
-//        let modifyAction = UIContextualAction(style: .destructive, title: "Update") { (action, view, success) in
-//            print("Updated")
-//        }
-//
-////        modifyAction.image = UIImage(named: "hammer")
-//        modifyAction.backgroundColor = UIColor.blue
-//
-//        return UISwipeActionsConfiguration(actions: [modifyAction])
-//
-//    }
-    
-    
-    
-    
     
 }
 
@@ -603,7 +548,7 @@ extension CategoryAndItemViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        guard let item = self.itemModel.selectedItem else { return print("There was no item selected.") }
+        guard let item = self.itemModel.selectedItem else { return print("There was no item selected for the segue.") }
         
         if editingMode == .none {
             
