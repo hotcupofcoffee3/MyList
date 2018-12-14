@@ -15,6 +15,9 @@ class Keywords {
     
     static var shared = Keywords()
     
+    // Unique ID
+    let lastUsedID = "lastUsedID"
+    
     // CoreData
     let parentIDMatch = "parentID MATCHES %@"
     let parentNameMatch = "parentName MATCHES %@"

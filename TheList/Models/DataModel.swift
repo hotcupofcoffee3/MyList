@@ -20,27 +20,22 @@ class DataModel {
     
     private init() {
         
+        if UserDefaults.standard.object(forKey: Keywords.shared.lastUsedID) == nil {
+            UserDefaults.standard.set(0, forKey: Keywords.shared.lastUsedID)
+        }
+        
         let none = SelectedCategory.none.rawValue
-        
         let defaultItems = loadSpecificItems(forCategory: none, forLevel: 0, forParentID: 0, andParentName: none, ascending: true)
-        
         if defaultItems.count == 0 {
-            
-//            print("Default items starting items: \(defaultItems.count)")
-            
             addNewItem(name: "Home", forCategory: .none, level: 0, parentID: 0, parentName: none)
             addNewItem(name: "Errands", forCategory: .none, level: 0, parentID: 0, parentName: none)
             addNewItem(name: "Work", forCategory: .none, level: 0, parentID: 0, parentName: none)
             addNewItem(name: "Other", forCategory: .none, level: 0, parentID: 0, parentName: none)
-            
-//            let newlyCreatedDefaultItems = loadSpecificItems(forCategory: none, forLevel: 0, forParentID: 0, andParentName: none)
-            
-//            print("Default items created: \(newlyCreatedDefaultItems.count)")
-            
-        } else {
-            
-//            print("Default items already created: \(defaultItems.count)")
-            
+        }
+        
+        let items = loadAllItems()
+        for item in items {
+            print(item.id)
         }
         
     }
@@ -55,6 +50,12 @@ class DataModel {
         } catch {
             print("Error saving in the Data model: \(error)")
         }
+    }
+    
+    func assignAndSaveNextUniqueID() -> Int {
+        let id = (UserDefaults.standard.object(forKey: Keywords.shared.lastUsedID) as! Int) + 1
+        UserDefaults.standard.set(id, forKey: Keywords.shared.lastUsedID)
+        return id
     }
     
     func addNewItem(name: String, forCategory category: SelectedCategory, level: Int, parentID: Int, parentName: String) {
@@ -84,16 +85,18 @@ class DataModel {
         }
         
         
-        let calculatedID = loadSpecificItems(forCategory: category.rawValue, forLevel: level, forParentID: parentID, andParentName: parentName, ascending: true).count + 1
+        let newID = assignAndSaveNextUniqueID()
+        let newOrderNumber = loadSpecificItems(forCategory: category.rawValue, forLevel: level, forParentID: parentID, andParentName: parentName, ascending: true).count + 1
         
         let newItem = Item(context: context)
         newItem.name = name
         newItem.done = false
-        newItem.id = Int64(calculatedID)
+        newItem.id = Int64(newID)
         newItem.parentID = Int64(newParentID)
         newItem.parentName = newParentName
         newItem.category = category.rawValue
         newItem.level = Int64(level)
+        newItem.orderNumber = Int64(newOrderNumber)
         newItem.numOfSubItems = 0
         
         saveData()
