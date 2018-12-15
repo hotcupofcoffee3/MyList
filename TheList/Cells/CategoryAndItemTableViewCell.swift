@@ -30,7 +30,7 @@ class CategoryAndItemTableViewCell: UITableViewCell {
         super.awakeFromNib()
         
         cellBackgroundView.layer.borderWidth = 2
-       cellBackgroundView.layer.cornerRadius = 12
+        cellBackgroundView.layer.cornerRadius = 12
         
     }
 
