@@ -173,8 +173,6 @@ class CategoryAndItemViewController: UIViewController {
     
     func groupItems() {
         
-//        var canGroup = true
-        
         let groupAlert = UIAlertController(title: "Group?", message: "Enter a new Group Name for the selected items", preferredStyle: .alert)
 
         groupAlert.addTextField(configurationHandler: { (textField) in
@@ -202,13 +200,13 @@ class CategoryAndItemViewController: UIViewController {
             } else {
                 
                 DataModel.shared.group(items: self.itemsToGroup, intoNewItemName: newGroupName, withNewItemParentID: currentParentID)
-                
+                print(8)
                 self.itemModel.reloadItems()
-                
+                print(9)
                 self.toggleEditingMode(for: .none)
-                
+                print(10)
                 self.tableView.reloadData()
-                
+                print(11)
             }
 
         })

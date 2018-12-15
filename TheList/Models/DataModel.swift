@@ -61,6 +61,7 @@ class DataModel {
     func addNewItem(name: String, parentID: Int) {
         
         let newID = assignAndSaveNextUniqueID()
+        
         let newOrderNumber = loadSpecificItems(forParentID: parentID, ascending: true).count + 1
         
         let newItem = Item(context: context)
@@ -113,7 +114,7 @@ class DataModel {
         } catch {
 //                        print("Error loading All Items in the Data model: \(error)")
         }
-
+        
         if items.count == 0 {
 //                        print("There are no Items loaded from the Data model")
         }
@@ -316,7 +317,7 @@ class DataModel {
         // --- Add new Item that will be the parent of the selected Items to be grouped.
         addNewItem(name: newItemName, parentID: newItemParentID)
         
-        
+
         // 2:
         // --- Get new Item's ID from the most recently assigned ID.
         // --- Load all of the Newly Grouped Items
@@ -325,20 +326,32 @@ class DataModel {
         
         // 'newItemParentID' is the main sibling group's starting parentID, so these need to be loaded with the one that was previously set for all items in the group.
         // 'newItemParentID' is used initially because the 'newItemID' has not been set for this group of items.
+        
+        
+        
+        
+        // ****** This is loading ALL of the old items, and now needs to load specifically just the ones that are being grouped, or maybe just updating the items that have been submitted as an argument because no level is needing to be updated, so can just do that ahead as I was going to do before by setting the new id for the parent item to be whatever is the current one plus one, as that'll be the new one created once the new parent item that the group will belong to has been created will have.
+        // ******
+        
+        
+        
+        
         let oldParentID = newItemParentID
         let subItems = loadSpecificItems(forParentID: oldParentID, ascending: true)
         
         for subItem in subItems {
+            
             subItem.parentID = Int64(idForNewItem)
+            print("Name: \(subItem.name!)")
         }
         saveData()
         
         
-        // 3:
-        // --- Update the IDs of the grouped items, as they will now be different, since they are in their own group, and are therefore ordered differently.
-        let newlyGroupedItems = loadSpecificItems(forParentID: idForNewItem, ascending: true)
-        updateOrderNumbers(forItems: newlyGroupedItems)
         
+        let newlyGroupedItems = loadSpecificItems(forParentID: idForNewItem, ascending: true)
+        print(6.5)
+        updateOrderNumbers(forItems: newlyGroupedItems)
+        print(7)
     }
     
     
