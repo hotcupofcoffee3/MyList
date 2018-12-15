@@ -15,16 +15,16 @@ class Keywords {
     
     static var shared = Keywords()
     
+    // Default Categories Created
+    let defaultCategoriesCreated = "defaultCategoriesCreated"
+    
     // Unique ID
     let lastUsedID = "lastUsedID"
     
     // CoreData
     let parentIDMatch = "parentID MATCHES %@"
-    let parentNameMatch = "parentName MATCHES %@"
     let idMatch = "id MATCHES %@"
     let nameMatch = "name MATCHES %@"
-    let categoryMatch = "category MATCHES %@"
-    let levelMatch = "level MATCHES %@"
     let orderNumberKey = "orderNumber"
     
     // To SubItems Segues
@@ -50,8 +50,8 @@ class Keywords {
     let otherToMoveSegue = "otherToMoveSegue"
     let subItems1ToMoveSegue = "subItems1ToMoveSegue"
     let subItems2ToMoveSegue = "subItems2ToMoveSegue"
-    let moveItem1ToMoveItem2Segue = "moveItem1ToMoveItem2Segue"
-    let moveItem2ToMoveItem1Segue = "moveItem2ToMoveItem1Segue"
+    let move1ToMove2Segue = "move1ToMove2Segue"
+    let move2ToMove1Segue = "move2ToMove1Segue"
     let settingsToFontPickerSegue = "settingsToFontPickerSegue"
     
     // Table Cell Identifiers

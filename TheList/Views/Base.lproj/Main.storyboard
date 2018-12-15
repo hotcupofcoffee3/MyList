@@ -626,10 +626,10 @@
             </objects>
             <point key="canvasLocation" x="4990" y="1630"/>
         </scene>
-        <!--moveItem1-->
+        <!--move1-->
         <scene sceneID="Zbr-cB-b9C">
             <objects>
-                <viewController title="moveItem1" id="0DH-Xd-lek" customClass="MoveItemViewController" customModule="MyList" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="move1" id="0DH-Xd-lek" customClass="MoveItemViewController" customModule="MyList" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="KVm-ce-q7u">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -701,7 +701,7 @@
                     <connections>
                         <outlet property="moveButton" destination="TSB-LJ-07P" id="U3X-m5-ooQ"/>
                         <outlet property="tableView" destination="eqa-0C-K1g" id="sJU-Zg-96A"/>
-                        <segue destination="s2H-8x-sjc" kind="show" identifier="moveItem1ToMoveItem2Segue" id="zkd-XX-iSA"/>
+                        <segue destination="s2H-8x-sjc" kind="show" identifier="move1ToMove2Segue" id="zkd-XX-iSA"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nJW-1S-yDF" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -731,10 +731,10 @@
             </objects>
             <point key="canvasLocation" x="3733.5999999999999" y="-234.33283358320841"/>
         </scene>
-        <!--moveItem2-->
+        <!--move2-->
         <scene sceneID="hLg-kj-XKU">
             <objects>
-                <viewController title="moveItem2" id="s2H-8x-sjc" customClass="MoveItemViewController" customModule="MyList" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="move2" id="s2H-8x-sjc" customClass="MoveItemViewController" customModule="MyList" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="p0B-mo-jfI">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -806,7 +806,7 @@
                     <connections>
                         <outlet property="moveButton" destination="lVn-xg-R9a" id="c1U-hb-Sll"/>
                         <outlet property="tableView" destination="y9O-Xu-rgU" id="iHm-wZ-6Mu"/>
-                        <segue destination="0DH-Xd-lek" kind="show" identifier="moveItem2ToMoveItem1Segue" id="Qwi-DP-9MS"/>
+                        <segue destination="0DH-Xd-lek" kind="show" identifier="move2ToMove1Segue" id="Qwi-DP-9MS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="o9Q-EP-iSN" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -21,10 +21,8 @@ class ItemModel {
     
     var selectedParentID = Int()
     
-    var selectedParentName = String()
-    
     func reloadItems() {
-        items = DataModel.shared.loadSpecificItems(forCategory: selectedCategory.rawValue, forLevel: level, forParentID: selectedParentID, andParentName: selectedParentName, ascending: true)
+        items = DataModel.shared.loadSpecificItems(forParentID: selectedParentID, ascending: true)
     }
     
     
@@ -34,63 +32,48 @@ class ItemModel {
     // TableView is used for the reloading of the table data in the delegates.
     var table: UITableView?
     
-    var selectedCategory = SelectedCategory.home
-    
-    var currentView = SelectedCategory.home
-    
-    var level = Int()
+    var selectedView = SelectedView.home
     
     var subItemsNumber = 0
     
     var selectedItem: Item?
     
-    func setViewDisplayed(tableView: UITableView, selectedCategory category: String, level: Int) {
-        
-        if level == 1 {
-            
-            switch category {
-                
-            case SelectedCategory.home.rawValue: selectedParentID = 1
-            case SelectedCategory.errands.rawValue: selectedParentID = 2
-            case SelectedCategory.work.rawValue: selectedParentID = 3
-            case SelectedCategory.other.rawValue: selectedParentID = 4
-            default: break
-                
-            }
-            
-            selectedParentName = category
-            
-        }
+    func setViewDisplayed(tableView: UITableView, selectedView view: String) {
         
         self.table = tableView
         
-        self.level = level
-        
-        switch category {
+        switch view {
             
-        case SelectedCategory.home.rawValue:
-            selectedCategory = .home
-            currentView = .home
+        case SelectedView.home.rawValue:
+            selectedView = .home
+            selectedParentID = 1
             
-        case SelectedCategory.errands.rawValue:
-            selectedCategory = .errands
-            currentView = .errands
+        case SelectedView.errands.rawValue:
+            selectedView = .errands
+            selectedParentID = 2
             
-        case SelectedCategory.work.rawValue:
-            selectedCategory = .work
-            currentView = .work
+        case SelectedView.work.rawValue:
+            selectedView = .work
+            selectedParentID = 3
             
-        case SelectedCategory.other.rawValue:
-            selectedCategory = .other
-            currentView = .other
+        case SelectedView.other.rawValue:
+            selectedView = .other
+            selectedParentID = 4
             
-        case SelectedCategory.subItems1.rawValue:
-            currentView = .subItems1
+        case SelectedView.subItems1.rawValue:
+            selectedView = .subItems1
             
-        case SelectedCategory.subItems2.rawValue:
-            currentView = .subItems2
+        case SelectedView.subItems2.rawValue:
+            selectedView = .subItems2
             
-        default: print("There was no 'view' set that matched anything.")
+        case SelectedView.move1.rawValue:
+            selectedView = .move1
+            
+        case SelectedView.move2.rawValue:
+            selectedView = .move2
+            
+        default:
+            print("There was some other String sent to the 'setViewDisplayed()' function in the ItemModel.")
             
         }
         
@@ -100,7 +83,7 @@ class ItemModel {
     
     var typeOfSegue: String {
         
-        switch currentView {
+        switch selectedView {
             
         case .home:
             return Keywords.shared.homeToSubItemsSegue
@@ -120,7 +103,11 @@ class ItemModel {
         case .subItems2:
             return Keywords.shared.subItems2ToSubItems1Segue
             
-        default: return "Type of Segue was not set because it was the 0 Category one."
+        case .move1:
+            return Keywords.shared.move1ToMove2Segue
+            
+        case .move2:
+            return Keywords.shared.move2ToMove1Segue
             
         }
         
@@ -128,7 +115,7 @@ class ItemModel {
     
     var editSegue: String {
         
-        switch currentView {
+        switch selectedView {
             
         case .home:
             return Keywords.shared.homeToEditSegue
@@ -156,7 +143,7 @@ class ItemModel {
     
     var moveSegue: String {
         
-        switch currentView {
+        switch selectedView {
             
         case .home:
             return Keywords.shared.homeToMoveSegue
@@ -182,37 +169,17 @@ class ItemModel {
         
     }
     
-    func numberOfSubItems(forParentID parentID: Int, andParentName parentName: String) -> Int {
-        
-        return DataModel.shared.loadSpecificItems(forCategory: selectedCategory.rawValue, forLevel: level + 1, forParentID: parentID, andParentName: parentName, ascending: true).count
-        
+    func numberOfSubItems(forParentID parentID: Int) -> Int {
+        return DataModel.shared.loadSpecificItems(forParentID: parentID, ascending: true).count
     }
     
-    func numberOfItemsDone(forParentID parentID: Int, andParentName parentName: String) -> Int {
+    func numberOfItemsDone(forParentID parentID: Int) -> Int {
         var numberDone = Int()
-        let items = DataModel.shared.loadSpecificItems(forCategory: selectedCategory.rawValue, forLevel: level + 1, forParentID: parentID, andParentName: parentName, ascending: true)
+        let items = DataModel.shared.loadSpecificItems(forParentID: parentID, ascending: true)
         for item in items {
             numberDone += item.done ? 1 : 0
         }
         return numberDone
-    }
-    
-    func getItemType(item: Item) -> SelectedCategory {
-        
-        var itemType = SelectedCategory.home
-        
-        switch item.category! {
-            
-        case SelectedCategory.home.rawValue: itemType = .home
-        case SelectedCategory.errands.rawValue: itemType = .errands
-        case SelectedCategory.work.rawValue: itemType = .work
-        case SelectedCategory.other.rawValue: itemType = .other
-        default: break
-            
-        }
-        
-        return itemType
-        
     }
     
 }
@@ -232,8 +199,8 @@ extension ItemModel: IsValidNameDelegate, AddNewItemDelegate, ReloadTableListDel
     }
     
     func addNewItem(itemName: String) {
-        DataModel.shared.addNewItem(name: itemName, forCategory: selectedCategory, level: level, parentID: selectedParentID, parentName: selectedParentName)
-        items = DataModel.shared.loadSpecificItems(forCategory: selectedCategory.rawValue, forLevel: level, forParentID: selectedParentID, andParentName: selectedParentName, ascending: true)
+        DataModel.shared.addNewItem(name: itemName, parentID: selectedParentID)
+        items = DataModel.shared.loadSpecificItems(forParentID: selectedParentID, ascending: true)
         reloadItems()
     }
     

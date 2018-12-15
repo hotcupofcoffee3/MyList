@@ -12,8 +12,6 @@ class CategoryAndItemViewController: UIViewController {
     
     let itemModel = ItemModel()
     
-    var level = 1
-    
     var editingMode: EditingMode = .none
     
     var itemsToGroup = [Item]()
@@ -108,7 +106,7 @@ class CategoryAndItemViewController: UIViewController {
         super.viewDidLoad()
         
         // Chosen VC and TableView set, with the 'title' being set in the Storyboard
-        self.itemModel.setViewDisplayed(tableView: tableView, selectedCategory: self.title!, level: level)
+        self.itemModel.setViewDisplayed(tableView: tableView, selectedView: self.title!)
         
         // Header
         tableView.register(UINib(nibName: Keywords.shared.headerNibName, bundle: nil), forHeaderFooterViewReuseIdentifier: Keywords.shared.headerIdentifier)
@@ -139,7 +137,7 @@ class CategoryAndItemViewController: UIViewController {
     
     func deleteRow(inTable tableView: UITableView, atIndexPath indexPath: IndexPath) {
         
-        if itemModel.numberOfSubItems(forParentID: Int(itemModel.items[indexPath.row].id), andParentName: itemModel.items[indexPath.row].name!) > 0 {
+        if itemModel.numberOfSubItems(forParentID: Int(itemModel.items[indexPath.row].id)) > 0 {
             
             let alert = UIAlertController(title: "Are you sure?", message: "You have SubItems in this Item", preferredStyle: .alert)
             
@@ -189,14 +187,11 @@ class CategoryAndItemViewController: UIViewController {
 
             let newGroupName = newGroupNameTextField.text!
            
-            let currentCategory = self.itemModel.selectedCategory
-            let currentLevel = self.itemModel.level
             let currentParentID = self.itemModel.selectedParentID
-            let currentParentName = self.itemModel.selectedParentName
             
-            let currentLevelItems = DataModel.shared.loadSpecificItems(forCategory: currentCategory.rawValue, forLevel: currentLevel, forParentID: currentParentID, andParentName: currentParentName, ascending: true)
+            let currentItems = DataModel.shared.loadSpecificItems(forParentID: currentParentID, ascending: true)
             
-            if ValidationModel.shared.isValid(itemName: newGroupName, forItems: currentLevelItems, isGrouping: true, itemsToGroup: self.itemsToGroup) != .success {
+            if ValidationModel.shared.isValid(itemName: newGroupName, forItems: currentItems, isGrouping: true, itemsToGroup: self.itemsToGroup) != .success {
                 
                 self.present(ValidationModel.shared.alertForInvalidItem(doSomethingElse: {
                     
@@ -206,7 +201,7 @@ class CategoryAndItemViewController: UIViewController {
                 
             } else {
                 
-                DataModel.shared.group(items: self.itemsToGroup, intoNewItemName: newGroupName, forCategory: currentCategory, atLevel: currentLevel, withNewItemParentID: currentParentID, andNewItemParentName: currentParentName)
+                DataModel.shared.group(items: self.itemsToGroup, intoNewItemName: newGroupName, withNewItemParentID: currentParentID)
                 
                 self.itemModel.reloadItems()
                 
@@ -281,7 +276,7 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
         
         let item = itemModel.items[indexPath.row]
         
-        print("\(item.name!): \(item.orderNumber)")
+//        print("\(item.name!): \(item.orderNumber)")
         
         if editingMode == .grouping {
             
@@ -313,8 +308,8 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
         
         cell.nameLabel?.text = "\(item.name!)"
         
-        let numOfSubItems = itemModel.numberOfSubItems(forParentID: Int(item.id), andParentName: item.name!)
-        let numOfSubItemsDone = itemModel.numberOfItemsDone(forParentID: Int(item.id), andParentName: item.name!)
+        let numOfSubItems = itemModel.numberOfSubItems(forParentID: Int(item.id))
+        let numOfSubItemsDone = itemModel.numberOfItemsDone(forParentID: Int(item.id))
         
         if numOfSubItems > 0 {
             cell.numberLabel.text = "\(numOfSubItemsDone)/\(numOfSubItems)"
@@ -344,9 +339,6 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
         if editingMode == .none {
             
             let id = Int(self.itemModel.items[indexPath.row].id)
-            let name = self.itemModel.items[indexPath.row].name!
-            
-            
             
             // *** DELETE
             
@@ -354,7 +346,7 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
                 
                 self.itemModel.selectedItem = self.itemModel.items[indexPath.row]
                 
-                let numberOfSubitems = self.itemModel.numberOfSubItems(forParentID: id, andParentName: name)
+                let numberOfSubitems = self.itemModel.numberOfSubItems(forParentID: id)
                 
                 if numberOfSubitems == 0 {
                     
@@ -446,7 +438,7 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
             
         } else {
             
-            let numOfSubItems = itemModel.numberOfSubItems(forParentID: Int(item.id), andParentName: item.name!)
+            let numOfSubItems = itemModel.numberOfSubItems(forParentID: Int(item.id))
             
             // If there are no subitems for the item clicked, then toggle the "Done" status of the item.
             if numOfSubItems == 0 {
@@ -546,11 +538,7 @@ extension CategoryAndItemViewController {
             
             destinationVC.itemModel.selectedParentID = Int(item.id)
             
-            destinationVC.itemModel.selectedParentName = item.name!
-            
-            destinationVC.itemModel.selectedCategory = self.itemModel.selectedCategory
-            
-            destinationVC.level = level + 1
+            destinationVC.itemModel.selectedView = self.itemModel.selectedView
             
         } else if editingMode == .specifics {
 
@@ -560,15 +548,13 @@ extension CategoryAndItemViewController {
             
             destinationVC.editingCompleteDelegate = self
             
-            destinationVC.selectedCategory = itemModel.selectedCategory
+            destinationVC.selectedView = itemModel.selectedView
             
             if let item = self.itemModel.selectedItem {
                 
                 destinationVC.item = item
                 
                 destinationVC.nameToEdit = item.name!
-                
-                destinationVC.level = level
                 
             }
             
@@ -598,7 +584,7 @@ extension CategoryAndItemViewController: PresentInvalidNameAlertDelegate, Editin
     
     // Editing delegate
     func editingComplete() {
-        self.itemModel.setViewDisplayed(tableView: tableView, selectedCategory: self.title!, level: level)
+        self.itemModel.setViewDisplayed(tableView: tableView, selectedView: self.title!)
         tableView.reloadData()
     }
     

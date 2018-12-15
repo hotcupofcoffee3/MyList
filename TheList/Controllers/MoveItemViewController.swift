@@ -12,9 +12,9 @@ class MoveItemViewController: UIViewController {
     
     var itemBeingMoved: Item?
     
-    var currentMoveVC = String()
+    var isMainCategoryLevel = true
     
-    var currentLevel = Int()
+    var selectedView = String()
     
     // Used for when an item is opened to see the subItems, but no subItem is clicked.
     // This makes the opened item the CURRENT item, and allows for moving an item to that new parent item.
@@ -68,7 +68,7 @@ class MoveItemViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         
-        currentMoveVC = self.title!
+        selectedView = self.title!
         
         toggleMoveButton()
         
@@ -79,7 +79,7 @@ class MoveItemViewController: UIViewController {
     }
     
     func toggleMoveButton() {
-        moveButton.isEnabled = (currentLevel == 0 && selectedItem == nil) ? false : true
+        moveButton.isEnabled = (isMainCategoryLevel && selectedItem == nil) ? false : true
     }
     
     func selectItem(forIndexPath indexPath: IndexPath) {
@@ -89,11 +89,7 @@ class MoveItemViewController: UIViewController {
     
     func deselectItem() {
         
-        if currentLevel == 0 {
-            selectedItem = nil
-        } else {
-            selectedItem = currentItem
-        }
+        selectedItem = isMainCategoryLevel ? nil : currentItem
         
         toggleMoveButton()
     }
@@ -104,12 +100,9 @@ class MoveItemViewController: UIViewController {
             
             if let itemBeingMoved = itemBeingMoved {
                 
-                let newParentItemName = (Int(newParentItem.level) == 0) ? newParentItem.name!.lowercased() : newParentItem.name!
-                let newParentItemCategory = (Int(newParentItem.level) == 0) ? newParentItem.name!.lowercased() : newParentItem.category!
-                let newParentItemLevel = Int(newParentItem.level)
                 let newParentItemID = Int(newParentItem.id)
                 
-                let possibleSiblingItems = DataModel.shared.loadSpecificItems(forCategory: newParentItemCategory, forLevel: newParentItemLevel + 1, forParentID: newParentItemID, andParentName: newParentItemName, ascending: true)
+                let possibleSiblingItems = DataModel.shared.loadSpecificItems(forParentID: newParentItemID, ascending: true)
                 
                 if ValidationModel.shared.isValid(itemName: itemBeingMoved.name!, forItems: possibleSiblingItems, isGrouping: false, itemsToGroup: nil) == .success {
                     
@@ -169,9 +162,8 @@ extension MoveItemViewController: UITableViewDelegate, UITableViewDataSource {
         // Consolidate this information into the model
         
         var numOfSubItemsDone = Int()
-        let itemName = (currentLevel == 0) ? item.name!.lowercased() : item.name!
-        let itemCategory = (currentLevel == 0) ? item.name!.lowercased() : item.category!
-        let subItems = DataModel.shared.loadSpecificItems(forCategory: itemCategory, forLevel: Int(item.level) + 1, forParentID: Int(item.id), andParentName: itemName, ascending: true)
+
+        let subItems = DataModel.shared.loadSpecificItems(forParentID: Int(item.id), ascending: true)
         
         for subItem in subItems {
             numOfSubItemsDone += subItem.done ? 1 : 0
@@ -202,18 +194,16 @@ extension MoveItemViewController: UITableViewDelegate, UITableViewDataSource {
         
         let item = items[indexPath.row]
         
-        let itemName = (currentLevel == 0) ? item.name!.lowercased() : item.name!
-        let itemCategory = (currentLevel == 0) ? item.name!.lowercased() : item.category!
-        let subItems = DataModel.shared.loadSpecificItems(forCategory: itemCategory, forLevel: Int(item.level) + 1, forParentID: Int(item.id), andParentName: itemName, ascending: true)
+        let subItems = DataModel.shared.loadSpecificItems(forParentID: Int(item.id), ascending: true)
         
         if subItems.count > 0 {
             
             selectItem(forIndexPath: indexPath)
             
-            if currentMoveVC == "moveItem1" {
-                performSegue(withIdentifier: Keywords.shared.moveItem1ToMoveItem2Segue, sender: self)
+            if selectedView == SelectedView.move1.rawValue {
+                performSegue(withIdentifier: Keywords.shared.move1ToMove2Segue, sender: self)
             } else {
-                performSegue(withIdentifier: Keywords.shared.moveItem2ToMoveItem1Segue, sender: self)
+                performSegue(withIdentifier: Keywords.shared.move2ToMove1Segue, sender: self)
             }
             
             tableView.deselectRow(at: indexPath, animated: true)
@@ -257,14 +247,11 @@ extension MoveItemViewController {
         
         if let sItem = selectedItem {
             
+            destinationVC.isMainCategoryLevel = false
+            
             destinationVC.itemBeingMoved = itemBeingMoved
             
-            destinationVC.currentLevel = Int(sItem.level) + 1
-            
-            let casedParentName = (currentLevel == 0) ? sItem.name!.lowercased() : sItem.name!
-            let category = (currentLevel == 0) ? sItem.name!.lowercased() : sItem.category!
-            
-            let itemsToOpen = DataModel.shared.loadSpecificItems(forCategory: category, forLevel: Int(sItem.level) + 1, forParentID: Int(sItem.id), andParentName: casedParentName, ascending: true)
+            let itemsToOpen = DataModel.shared.loadSpecificItems(forParentID: Int(sItem.id), ascending: true)
             
             destinationVC.items = itemsToOpen
             
