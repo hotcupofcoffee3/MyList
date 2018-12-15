@@ -446,6 +446,7 @@ class DataModel {
     
     func group(items: [Item], intoNewItemName newItemName: String, forCategory category: SelectedCategory, atLevel newItemLevel: Int, withNewItemParentID newItemParentID: Int, andNewItemParentName newItemParentName: String) {
         
+        
         // 1:
         // --- Update all of the items to be grouped with a new level FIRST, so that all other information stays the same.
         // --- Use the 'updateLevel()' function.
@@ -453,6 +454,7 @@ class DataModel {
         for item in items {
             updateLevel(forItem: item)
         }
+        
         
         // 2:
         // --- Load all of the Newly Grouped Items with the new level.
@@ -465,9 +467,11 @@ class DataModel {
         
         saveData()
         
+        
         // 3:
         // --- Add new Item that will be the parent of the selected Items to be grouped.
         addNewItem(name: newItemName, forCategory: category, level: newItemLevel, parentID: newItemParentID, parentName: newItemParentName)
+        
         
         // 4:
         // --- Get new Item's ID from the most recently assigned ID.
@@ -484,6 +488,7 @@ class DataModel {
             subItem.parentID = Int64(idForNewItem)
         }
         saveData()
+        
         
         // 5:
         // --- Update the IDs of the grouped items, as they will now be different, since they are in their own group, and are therefore ordered differently.
