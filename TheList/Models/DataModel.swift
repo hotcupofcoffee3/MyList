@@ -285,8 +285,8 @@ class DataModel {
         let newSubItemParentID = sameID
 
         
-        // *** Subitems only need their category, level, and parentID updated.
-        // *** Category and level can be updated here, but parentID has to be updated below after the itemToMove's id has been updated.
+        // *** Subitems only need their parentID updated.
+        // *** ParentID has to be updated below after the itemToMove's id has been updated.
         
         
         // Update subItems for itemToMove using the old information for retrieval and new information for updating.
@@ -298,7 +298,7 @@ class DataModel {
         }
         
         
-        // Update itemToMove: category, level, parentID, parentName, and id
+        // Update itemToMove parentID
         
         updateItem(forProperties: [.parentID, .orderNumber], forItem: itemToMove, withNewParentID: newParentID, withNewName: nil, withNewOrderNumber: newOrderNumber)
         
@@ -313,45 +313,22 @@ class DataModel {
     
     func group(items: [Item], intoNewItemName newItemName: String, withNewItemParentID newItemParentID: Int) {
         
-        // 1:
-        // --- Add new Item that will be the parent of the selected Items to be grouped.
-        addNewItem(name: newItemName, parentID: newItemParentID)
+        // 1. Get new Item's ID from the most recently assigned ID + 1, as this will be the new one once the new parent is created.
+        let idForNewItem = (UserDefaults.standard.object(forKey: Keywords.shared.lastUsedID) as! Int) + 1
         
-
-        // 2:
-        // --- Get new Item's ID from the most recently assigned ID.
-        // --- Load all of the Newly Grouped Items
-        // --- Update the parentID based on the 'newItemID'
-        let idForNewItem = UserDefaults.standard.object(forKey: Keywords.shared.lastUsedID) as! Int
-        
-        // 'newItemParentID' is the main sibling group's starting parentID, so these need to be loaded with the one that was previously set for all items in the group.
-        // 'newItemParentID' is used initially because the 'newItemID' has not been set for this group of items.
-        
-        
-        
-        
-        // ****** This is loading ALL of the old items, and now needs to load specifically just the ones that are being grouped, or maybe just updating the items that have been submitted as an argument because no level is needing to be updated, so can just do that ahead as I was going to do before by setting the new id for the parent item to be whatever is the current one plus one, as that'll be the new one created once the new parent item that the group will belong to has been created will have.
-        // ******
-        
-        
-        
-        
-        let oldParentID = newItemParentID
-        let subItems = loadSpecificItems(forParentID: oldParentID, ascending: true)
-        
-        for subItem in subItems {
-            
-            subItem.parentID = Int64(idForNewItem)
-            print("Name: \(subItem.name!)")
+        // 2. Update the parentID based on the 'idForNewItem'
+        for item in items {
+            item.parentID = Int64(idForNewItem)
         }
+        
+        // 3. Update order numbers
+        updateOrderNumbers(forItems: items)
+        
         saveData()
         
+        // 4: Add new Item that will be the parent of the selected Items to be grouped.
+        addNewItem(name: newItemName, parentID: newItemParentID)
         
-        
-        let newlyGroupedItems = loadSpecificItems(forParentID: idForNewItem, ascending: true)
-        print(6.5)
-        updateOrderNumbers(forItems: newlyGroupedItems)
-        print(7)
     }
     
     

@@ -200,13 +200,13 @@ class CategoryAndItemViewController: UIViewController {
             } else {
                 
                 DataModel.shared.group(items: self.itemsToGroup, intoNewItemName: newGroupName, withNewItemParentID: currentParentID)
-                print(8)
+                
                 self.itemModel.reloadItems()
-                print(9)
+                
                 self.toggleEditingMode(for: .none)
-                print(10)
+                
                 self.tableView.reloadData()
-                print(11)
+                
             }
 
         })
