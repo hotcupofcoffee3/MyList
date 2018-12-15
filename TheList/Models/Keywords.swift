@@ -25,7 +25,7 @@ class Keywords {
     let nameMatch = "name MATCHES %@"
     let categoryMatch = "category MATCHES %@"
     let levelMatch = "level MATCHES %@"
-    let idKey = "id"
+    let orderNumberKey = "orderNumber"
     
     // To SubItems Segues
     let homeToSubItemsSegue = "homeToSubItemsSegue"
