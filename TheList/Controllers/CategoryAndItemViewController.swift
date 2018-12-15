@@ -114,6 +114,8 @@ class CategoryAndItemViewController: UIViewController {
         // Cell
         tableView.register(UINib(nibName: Keywords.shared.categoryAndItemNibName, bundle: nil), forCellReuseIdentifier: Keywords.shared.categoryAndItemCellIdentifier)
         
+        tableView.separatorStyle = .none
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -285,19 +287,27 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
             }
             
             if itemsToGroup.contains(item) {
-                cell.backgroundColor = Keywords.shared.lightBlueBackground
+//                cell.backgroundColor = Keywords.shared.lightBlueBackground
+                cell.cellBackgroundView.backgroundColor = Keywords.shared.lightBlueBackground
+                cell.cellBackgroundView.layer.borderColor = Keywords.shared.blueBorderDarker.cgColor
             } else {
-                cell.backgroundColor = UIColor.white
+//                cell.backgroundColor = UIColor.white
+                cell.cellBackgroundView.backgroundColor = UIColor.white
+                cell.cellBackgroundView.layer.borderColor = Keywords.shared.blueBorderLighter.cgColor
             }
             
         } else {
             
             if item.done {
                 cell.checkboxImageView.image = Keywords.shared.checkboxChecked
-                cell.backgroundColor = Keywords.shared.lightGreenBackground12
+//                cell.backgroundColor = Keywords.shared.lightGreenBackground12
+                cell.cellBackgroundView.backgroundColor = Keywords.shared.lightGreenBackground12
+                cell.cellBackgroundView.layer.borderColor = Keywords.shared.greenBorder.cgColor
             } else {
                 cell.checkboxImageView.image = Keywords.shared.checkboxEmpty
-                cell.backgroundColor = UIColor.white
+//                cell.backgroundColor = UIColor.white
+                cell.cellBackgroundView.backgroundColor = UIColor.white
+                cell.cellBackgroundView.layer.borderColor = Keywords.shared.greyBorder.cgColor
             }
             
         }

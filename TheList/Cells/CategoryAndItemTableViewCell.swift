@@ -29,6 +29,9 @@ class CategoryAndItemTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
+        cellBackgroundView.layer.borderWidth = 2
+       cellBackgroundView.layer.cornerRadius = 12
+        
     }
 
 }
