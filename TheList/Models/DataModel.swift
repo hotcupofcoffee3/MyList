@@ -449,6 +449,7 @@ class DataModel {
         // 1:
         // --- Update all of the items to be grouped with a new level FIRST, so that all other information stays the same.
         // --- Use the 'updateLevel()' function.
+        // --- This has to be done first because it loads the items, since all subitems would also need a change in level.
         for item in items {
             updateLevel(forItem: item)
         }
