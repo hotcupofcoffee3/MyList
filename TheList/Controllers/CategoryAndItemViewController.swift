@@ -281,6 +281,8 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
         
         let item = itemModel.items[indexPath.row]
         
+        print("\(item.name!): \(item.orderNumber)")
+        
         if editingMode == .grouping {
             
             if item.done {
@@ -315,15 +317,11 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
         let numOfSubItemsDone = itemModel.numberOfItemsDone(forParentID: Int(item.id), andParentName: item.name!)
         
         if numOfSubItems > 0 {
-            
             cell.numberLabel.text = "\(numOfSubItemsDone)/\(numOfSubItems)"
             cell.numberLabelWidth.constant = 60
-            
         } else {
-            
             cell.numberLabel.text = ""
             cell.numberLabelWidth.constant = 0
-            
         }
         
         return cell

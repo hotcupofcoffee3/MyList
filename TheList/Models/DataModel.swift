@@ -33,10 +33,10 @@ class DataModel {
             addNewItem(name: "Other", forCategory: .none, level: 0, parentID: 0, parentName: none)
         }
         
-        let items = loadAllItems()
-        for item in items {
-            print(item.id)
-        }
+//        let items = loadAllItems()
+//        for item in items {
+//            print(item.id)
+//        }
         
     }
     
@@ -198,7 +198,7 @@ class DataModel {
     
     // MARK: - UPDATE
     
-    func updateItem(forProperties itemProperties: [ItemProperty], forItem item: Item, atNewLevel newLevel: Int?, inNewCategory newCategory: String?, withNewParentID newParentID: Int?, andNewParentName newParentName: String?, withNewName newName: String?) {
+    func updateItem(forProperties itemProperties: [ItemProperty], forItem item: Item, atNewLevel newLevel: Int?, inNewCategory newCategory: String?, withNewParentID newParentID: Int?, andNewParentName newParentName: String?, withNewName newName: String?, withNewOrderNumber newOrderNumber: Int?) {
         
         let itemToUpdate = item
         
@@ -220,6 +220,9 @@ class DataModel {
                 
             case .name :
                 updateName(forItem: itemToUpdate, withNewName: newName!)
+                
+            case .orderNumber :
+                itemToUpdate.orderNumber = Int64(newOrderNumber!)
                
             default: break
                 
@@ -397,6 +400,8 @@ class DataModel {
         let sameName = itemToMove.name!
         let oldCategory = itemToMove.category!
         let oldLevel = Int(itemToMove.level)
+        let oldParentID = Int(itemToMove.parentID)
+        let oldParentName = itemToMove.parentName!
         let oldSubitemLevel = oldLevel + 1
         let sameID = Int(itemToMove.id)
 
@@ -404,6 +409,9 @@ class DataModel {
         let newLevel = Int(parentItem.level + 1)
         let newParentID = Int(parentItem.id)
         let newParentName = isParentLevel0 ? parentItem.name!.lowercased() : parentItem.name!
+        let newOrderNumber = loadSpecificItems(forCategory: newCategory, forLevel: newLevel, forParentID: newParentID, andParentName: newParentName, ascending: true).count + 1
+        
+        print("New Order Number:\(newOrderNumber)")
         
         let newSubItemCategory = newCategory
         let newSubItemLevel = newLevel + 1
@@ -419,13 +427,20 @@ class DataModel {
         let subItems = loadSpecificItems(forCategory: oldCategory, forLevel: oldSubitemLevel, forParentID: sameID, andParentName: sameName, ascending: true)
         
         for subItem in subItems {
-            updateItem(forProperties: [.category, .level, .parentID], forItem: subItem, atNewLevel: newSubItemLevel, inNewCategory: newSubItemCategory, withNewParentID: newSubItemParentID, andNewParentName: nil, withNewName: nil)
+            updateItem(forProperties: [.category, .level, .parentID], forItem: subItem, atNewLevel: newSubItemLevel, inNewCategory: newSubItemCategory, withNewParentID: newSubItemParentID, andNewParentName: nil, withNewName: nil, withNewOrderNumber: nil)
         }
         
         
         // Update itemToMove: category, level, parentID, parentName, and id
         
-        updateItem(forProperties: [.category, .level, .parentID, .parentName], forItem: itemToMove, atNewLevel: newLevel, inNewCategory: newCategory, withNewParentID: newParentID, andNewParentName: newParentName, withNewName: nil)
+        updateItem(forProperties: [.category, .level, .parentID, .parentName, .orderNumber], forItem: itemToMove, atNewLevel: newLevel, inNewCategory: newCategory, withNewParentID: newParentID, andNewParentName: newParentName, withNewName: nil, withNewOrderNumber: newOrderNumber)
+        
+        
+        // Update orderNumber for the old sibling items, now that it is no longer in there.
+        
+        let oldSiblings = loadSpecificItems(forCategory: oldCategory, forLevel: oldLevel, forParentID: oldParentID, andParentName: oldParentName, ascending: true)
+        
+        updateOrderNumbers(forItems: oldSiblings)
         
     }
     

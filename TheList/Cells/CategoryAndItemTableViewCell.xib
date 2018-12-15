@@ -30,7 +30,7 @@
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d5F-vj-huO" userLabel="Name">
-                                <rect key="frame" x="42" y="6" width="206" height="47.5"/>
+                                <rect key="frame" x="42" y="6" width="218" height="47.5"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="36" id="eIV-AS-qgf"/>
                                 </constraints>
@@ -49,13 +49,13 @@
                             </label>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="44v-DW-ACp" firstAttribute="leading" secondItem="d5F-vj-huO" secondAttribute="trailing" constant="12" id="82d-7F-ppf"/>
                             <constraint firstItem="ERM-Ay-y7K" firstAttribute="centerY" secondItem="PBH-dH-9uK" secondAttribute="centerY" id="8n6-OY-wVO"/>
                             <constraint firstItem="ERM-Ay-y7K" firstAttribute="leading" secondItem="PBH-dH-9uK" secondAttribute="leading" constant="12" id="COw-DE-2IL"/>
                             <constraint firstAttribute="trailing" secondItem="44v-DW-ACp" secondAttribute="trailing" constant="12" id="MDf-RM-f5n"/>
                             <constraint firstItem="d5F-vj-huO" firstAttribute="leading" secondItem="ERM-Ay-y7K" secondAttribute="trailing" constant="12" id="Zjo-eb-6Ak"/>
                             <constraint firstAttribute="bottom" secondItem="d5F-vj-huO" secondAttribute="bottom" constant="6" id="jup-pP-9Jh"/>
                             <constraint firstItem="d5F-vj-huO" firstAttribute="top" secondItem="PBH-dH-9uK" secondAttribute="top" constant="6" id="rRQ-Vr-s1M"/>
+                            <constraint firstItem="44v-DW-ACp" firstAttribute="leading" secondItem="d5F-vj-huO" secondAttribute="trailing" id="tav-xv-dvk"/>
                             <constraint firstItem="44v-DW-ACp" firstAttribute="centerY" secondItem="PBH-dH-9uK" secondAttribute="centerY" id="zbs-Yr-WvX"/>
                         </constraints>
                     </view>
@@ -73,9 +73,11 @@
                 <outlet property="checkboxImageView" destination="ERM-Ay-y7K" id="mJu-85-0dV"/>
                 <outlet property="checkboxImageWidth" destination="tN1-8t-Xu7" id="hsC-Cm-Oik"/>
                 <outlet property="nameLabel" destination="d5F-vj-huO" id="U7Z-ai-9g0"/>
+                <outlet property="nameLabelTrailingConstraint" destination="tav-xv-dvk" id="VDx-WL-DlB"/>
                 <outlet property="numberLabel" destination="44v-DW-ACp" id="0lL-Cs-8Yu"/>
                 <outlet property="numberLabelWidth" destination="eYa-uI-N9W" id="40N-5A-5Ze"/>
             </connections>
+            <point key="canvasLocation" x="48" y="48.575712143928037"/>
         </tableViewCell>
     </objects>
     <resources>
