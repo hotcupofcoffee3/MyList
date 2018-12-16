@@ -324,13 +324,15 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
             
             let id = Int(self.itemModel.items[indexPath.row].id)
             
+            
+            self.itemModel.selectedItem = self.itemModel.items[indexPath.row]
+            
+            let numberOfSubitems = self.itemModel.numberOfSubItems(forParentID: id)
+            
+            
             // *** DELETE
             
             let delete = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
-                
-                self.itemModel.selectedItem = self.itemModel.items[indexPath.row]
-                
-                let numberOfSubitems = self.itemModel.numberOfSubItems(forParentID: id)
                 
                 if numberOfSubitems == 0 {
                     
@@ -371,15 +373,46 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
             
             
             
-            // *** GROUP
+            // *** MORE
             
-            let group = UITableViewRowAction(style: .normal, title: "Group") { (action, indexPath) in
+            let more = UITableViewRowAction(style: .normal, title: "More") { (action, indexPath) in
                 
-                self.toggleEditingMode(for: .grouping)
+                guard let selectedItem = self.itemModel.selectedItem else { return print("No item was selected in 'More'.") }
+                
+                let alert = UIAlertController(title: "Selected Item:", message: selectedItem.name!, preferredStyle: .actionSheet)
+                
+                // Delete SubItems
+                let deleteSubItems = UIAlertAction(title: "Delete SubItems", style: .destructive, handler: { (action) in
+                    
+                    // Alert confirming deletion of subItems
+                    let alert = DataModel.shared.deleteSubItems(forItem: self.itemModel.items[indexPath.row], inTable: self.tableView)
+                    self.present(alert, animated: true, completion: nil)
+                    
+                })
+                
+                // Group
+                let group = UIAlertAction(title: "Group Items", style: .default, handler: { (action) in
+                    
+                    self.toggleEditingMode(for: .grouping)
+                    
+                })
+                
+                // Cancel
+                let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+                
+                alert.addAction(group)
+                
+                if numberOfSubitems > 0 {
+                    alert.addAction(deleteSubItems)
+                }
+                
+                alert.addAction(cancel)
+                
+                self.present(alert, animated: true, completion: nil)
                 
             }
             
-            return [delete, group]
+            return [delete, more]
             
         } else {
             
