@@ -276,43 +276,19 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
         
         let item = itemModel.items[indexPath.row]
         
-//        print("\(item.name!): \(item.orderNumber)")
-        
         if editingMode == .grouping {
-            
-            if item.done {
-                cell.checkboxImageView.image = Keywords.shared.blueCheck
-            } else {
-                cell.checkboxImageView.image = Keywords.shared.blueEmptyCheckbox
-            }
-            
+
             if itemsToGroup.contains(item) {
-//                cell.backgroundColor = Keywords.shared.lightBlueBackground
-                cell.cellBackgroundView.backgroundColor = Keywords.shared.lightBlueBackground
-                cell.cellBackgroundView.layer.borderColor = Keywords.shared.blueBorderDarker.cgColor
+                cell.setCellColorAndImageDisplay(colorSelector: .groupingSelected, doneStatus: item.done)
             } else {
-//                cell.backgroundColor = UIColor.white
-                cell.cellBackgroundView.backgroundColor = UIColor.white
-                cell.cellBackgroundView.layer.borderColor = Keywords.shared.blueBorderLighter.cgColor
+                cell.setCellColorAndImageDisplay(colorSelector: .groupingUnselected, doneStatus: item.done)
             }
             
         } else {
             
-            if item.done {
-                cell.checkboxImageView.image = Keywords.shared.checkboxChecked
-//                cell.backgroundColor = Keywords.shared.lightGreenBackground12
-                cell.cellBackgroundView.backgroundColor = Keywords.shared.lightGreenBackground12
-                cell.cellBackgroundView.layer.borderColor = Keywords.shared.greenBorder.cgColor
-            } else {
-                cell.checkboxImageView.image = Keywords.shared.checkboxEmpty
-//                cell.backgroundColor = UIColor.white
-                cell.cellBackgroundView.backgroundColor = UIColor.white
-                cell.cellBackgroundView.layer.borderColor = Keywords.shared.greyBorder.cgColor
-            }
+            cell.setCellColorAndImageDisplay(colorSelector: .regular, doneStatus: item.done)
             
         }
-        
-//        cell.nameLabel?.text = "\(item.parentID). \(item.name!)"
         
         cell.nameLabel?.text = "\(item.name!)"
         

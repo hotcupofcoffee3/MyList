@@ -80,4 +80,9 @@ class Keywords {
     let blueBorderDarker = UIColor(red: 0/255, green: 118/255, blue: 186/255, alpha: 1.0)
     let blueBorderLighter = UIColor(red: 51/255, green: 180/255, blue: 255/255, alpha: 1.0)
     
+    let purpleBorder = UIColor(red: 167/255, green: 87/255, blue: 255/255, alpha: 1.0)
+    let purpleBackground = UIColor(red: 202/255, green: 158/255, blue: 255/255, alpha: 1.0)
+    let orangeBorder = UIColor(red: 255/255, green: 168/255, blue: 87/255, alpha: 1.0)
+    let orangeBackground = UIColor(red: 255/255, green: 202/255, blue: 158/255, alpha: 1.0)
+    
 }

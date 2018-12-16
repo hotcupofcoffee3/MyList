@@ -26,6 +26,8 @@ class MoveItemViewController: UIViewController {
     var itemModel = ItemModel()
     var items = DataModel.shared.loadDefaultItems()
     
+    @IBOutlet weak var labelForItemBeingMoved: UILabel!
+    
     @IBOutlet weak var tableView: UITableView!
     
     @IBOutlet weak var moveButton: UIBarButtonItem!
@@ -63,6 +65,13 @@ class MoveItemViewController: UIViewController {
         super.viewDidLoad()
         
         tableView.register(UINib(nibName: Keywords.shared.categoryAndItemNibName, bundle: nil), forCellReuseIdentifier: Keywords.shared.categoryAndItemCellIdentifier)
+        
+        tableView.separatorStyle = .none
+        
+        if let item = itemBeingMoved {
+            labelForItemBeingMoved.text = "Move: \"\(item.name!)\""
+        }
+        
         
     }
     
@@ -150,9 +159,9 @@ extension MoveItemViewController: UITableViewDelegate, UITableViewDataSource {
         let item = items[indexPath.row]
         
         if selectedIndexPath == indexPath {
-            cell.backgroundColor = Keywords.shared.lightGreenBackground12
+            cell.setCellColorAndImageDisplay(colorSelector: .movingSelected, doneStatus: nil)
         } else {
-            cell.backgroundColor = Keywords.shared.lightBlueBackground
+            cell.setCellColorAndImageDisplay(colorSelector: .movingUnselected, doneStatus: nil)
         }
         
         cell.nameLabel.text = item.name!
@@ -182,15 +191,7 @@ extension MoveItemViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        
-        
-        
-        // ****** ADD A CHECK IF THE ITEM CLICKED IS THE SAME AS THE 'itemBeingMoved' BECAUSE IF IT IS, THEN IT CANNOT BE CLICKED.
-        // ****** POP UP AN ALERT LETTING THE USER KNOW THAT IT IS THE ITEM BEING MOVED THAT THEY ARE CLICKING ON.
-        
-        
-        
-        
+        tableView.deselectRow(at: indexPath, animated: true)
         
         let item = items[indexPath.row]
         
@@ -206,27 +207,19 @@ extension MoveItemViewController: UITableViewDelegate, UITableViewDataSource {
                 performSegue(withIdentifier: Keywords.shared.move2ToMove1Segue, sender: self)
             }
             
-            tableView.deselectRow(at: indexPath, animated: true)
-            
         } else {
             
             if selectedIndexPath != indexPath {
-                tableView.deselectRow(at: selectedIndexPath, animated: false)
                 selectItem(forIndexPath: indexPath)
                 selectedIndexPath = indexPath
             } else {
-                tableView.deselectRow(at: selectedIndexPath, animated: false)
                 selectedIndexPath = IndexPath()
                 deselectItem()
             }
             
         }
         
-//        if let sItem = selectedItem {
-//            print("\(sItem.name!)")
-//        } else {
-//            print("There was no item in the table selected.")
-//        }
+        tableView.reloadData()
         
     }
     

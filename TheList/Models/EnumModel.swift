@@ -29,3 +29,7 @@ enum ItemNameCheck: String {
 enum EditingMode {
     case none, adding, sorting, grouping, moving, specifics
 }
+
+enum CellColorAndImageDisplaySelector {
+    case regular, groupingSelected, groupingUnselected, movingSelected, movingUnselected
+}

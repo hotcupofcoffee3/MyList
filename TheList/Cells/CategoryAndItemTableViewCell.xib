@@ -60,6 +60,7 @@
                         </constraints>
                     </view>
                 </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
                     <constraint firstItem="PBH-dH-9uK" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="1.5" id="3j7-fu-baP"/>
                     <constraint firstItem="PBH-dH-9uK" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="DZI-76-fm0"/>
@@ -68,6 +69,7 @@
                     <constraint firstAttribute="bottom" secondItem="PBH-dH-9uK" secondAttribute="bottom" constant="1.5" id="vga-S8-Vhe"/>
                 </constraints>
             </tableViewCellContentView>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="cellBackgroundView" destination="PBH-dH-9uK" id="W2M-Dm-Mbj"/>
