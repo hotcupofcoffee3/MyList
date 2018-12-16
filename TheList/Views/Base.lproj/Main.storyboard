@@ -74,39 +74,45 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vz9-Wq-A6W" userLabel="Item View">
-                                <rect key="frame" x="30" y="130" width="315" height="60"/>
+                                <rect key="frame" x="30" y="130" width="315" height="156"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hcg-R4-CKI">
-                                        <rect key="frame" x="12" y="12" width="60" height="36"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hcg-R4-CKI">
+                                        <rect key="frame" x="12" y="12" width="291" height="30"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="60" id="Jtd-VN-h1t"/>
+                                            <constraint firstAttribute="height" constant="30" id="Pbk-AZ-SIE"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gef-Oa-phA">
-                                        <rect key="frame" x="84" y="12" width="219" height="36"/>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="text for name" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="3Id-Rs-VLD">
+                                        <rect key="frame" x="12" y="54" width="291" height="90"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" relation="lessThanOrEqual" constant="90" id="Hmr-ao-WC5"/>
+                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="90" id="hlk-rr-0WG"/>
+                                        </constraints>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" returnKeyType="done"/>
-                                    </textField>
+                                        <fontDescription key="fontDescription" name="Palatino-Roman" family="Palatino" pointSize="15"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="no" smartInsertDeleteType="no" smartQuotesType="no"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="rx6-qK-MYC" id="TlP-f2-A9k"/>
+                                        </connections>
+                                    </textView>
                                 </subviews>
                                 <color key="backgroundColor" white="0.242431640625" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstItem="hcg-R4-CKI" firstAttribute="centerY" secondItem="Vz9-Wq-A6W" secondAttribute="centerY" id="36b-lL-hCe"/>
                                     <constraint firstItem="hcg-R4-CKI" firstAttribute="top" secondItem="Vz9-Wq-A6W" secondAttribute="top" constant="12" id="BnP-Ff-2P4"/>
-                                    <constraint firstAttribute="trailing" secondItem="gef-Oa-phA" secondAttribute="trailing" constant="12" id="DWr-WV-fGD"/>
-                                    <constraint firstItem="gef-Oa-phA" firstAttribute="leading" secondItem="hcg-R4-CKI" secondAttribute="trailing" constant="12" id="ENx-pg-Nm6"/>
-                                    <constraint firstAttribute="bottom" secondItem="gef-Oa-phA" secondAttribute="bottom" constant="12" id="Fxk-id-YQ6"/>
+                                    <constraint firstAttribute="trailing" secondItem="3Id-Rs-VLD" secondAttribute="trailing" constant="12" id="Ide-1S-Tkp"/>
+                                    <constraint firstAttribute="bottom" secondItem="3Id-Rs-VLD" secondAttribute="bottom" constant="12" id="Ucz-pC-Pup"/>
                                     <constraint firstItem="hcg-R4-CKI" firstAttribute="leading" secondItem="Vz9-Wq-A6W" secondAttribute="leading" constant="12" id="Z9D-4q-niZ"/>
-                                    <constraint firstItem="gef-Oa-phA" firstAttribute="top" secondItem="Vz9-Wq-A6W" secondAttribute="top" constant="12" id="aon-KI-7dc"/>
-                                    <constraint firstAttribute="height" constant="60" id="qaq-ED-jwd"/>
-                                    <constraint firstAttribute="bottom" secondItem="hcg-R4-CKI" secondAttribute="bottom" constant="12" id="utG-1h-y1T"/>
+                                    <constraint firstItem="3Id-Rs-VLD" firstAttribute="leading" secondItem="Vz9-Wq-A6W" secondAttribute="leading" constant="12" id="gQo-ZF-Lqp"/>
+                                    <constraint firstAttribute="trailing" secondItem="hcg-R4-CKI" secondAttribute="trailing" constant="12" id="taV-aU-AUD"/>
+                                    <constraint firstItem="3Id-Rs-VLD" firstAttribute="top" secondItem="hcg-R4-CKI" secondAttribute="bottom" constant="12" id="xDe-w7-YXv"/>
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XNI-p0-l5y">
-                                <rect key="frame" x="127.5" y="250" width="120" height="60"/>
+                                <rect key="frame" x="127.5" y="346" width="120" height="60"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="60" id="2cg-nj-KKs"/>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="120" id="Pem-8V-UBy"/>
@@ -144,12 +150,12 @@
                         <viewLayoutGuide key="safeArea" id="8DS-2c-wMX"/>
                     </view>
                     <connections>
-                        <outlet property="nameTextField" destination="gef-Oa-phA" id="0JU-3V-rwq"/>
+                        <outlet property="nameTextView" destination="3Id-Rs-VLD" id="v4r-zz-cn7"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AsM-WA-nEi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3735" y="520"/>
+            <point key="canvasLocation" x="3733.5999999999999" y="519.49025487256381"/>
         </scene>
         <!--subItems1-->
         <scene sceneID="QTZ-fV-BLZ">

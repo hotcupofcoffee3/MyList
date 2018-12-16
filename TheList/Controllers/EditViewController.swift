@@ -8,7 +8,7 @@
 
 import UIKit
 
-class EditViewController: UIViewController, UITextFieldDelegate {
+class EditViewController: UIViewController, UITextViewDelegate {
     
     var selectedView = SelectedView.home
     
@@ -18,7 +18,7 @@ class EditViewController: UIViewController, UITextFieldDelegate {
     
     var editingCompleteDelegate: EditingCompleteDelegate?
     
-    @IBOutlet weak var nameTextField: UITextField!
+    @IBOutlet weak var nameTextView: UITextView!
     
     @IBAction func cancel(_ sender: UIButton) {
         dismiss(animated: true, completion: nil)
@@ -26,10 +26,10 @@ class EditViewController: UIViewController, UITextFieldDelegate {
     
     func changeName() {
         
-        if nameTextField.text != "" {
+        if nameTextView.text != "" {
             
             if let item = item {
-                DataModel.shared.updateItem(forProperties: [.name], forItem: item, withNewParentID: nil, withNewName: nameTextField.text!, withNewOrderNumber: nil)
+                DataModel.shared.updateItem(forProperties: [.name], forItem: item, withNewParentID: nil, withNewName: nameTextView.text!, withNewOrderNumber: nil)
             }
             
             editingCompleteDelegate?.editingComplete()
@@ -48,17 +48,13 @@ class EditViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        nameTextField.text = nameToEdit
-        nameTextField.delegate = self
+        nameTextView.text = nameToEdit
+        nameTextView.delegate = self
         
     }
     
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        
+    func textViewDidEndEditing(_ textView: UITextView) {
         changeName()
-        
-        return true
-        
     }
     
 }
