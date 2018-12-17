@@ -94,8 +94,6 @@ class CategoryAndItemViewController: UIViewController {
         
         editingMode = selectedEditingMode
         
-//        print("New Editing Mode: \(editingMode)\n")
-        
     }
     
     @IBOutlet weak var editButton: UIBarButtonItem!
@@ -160,18 +158,14 @@ class CategoryAndItemViewController: UIViewController {
             present(alert, animated: true, completion: nil)
             
         } else {
-            print(1)
+
             DataModel.shared.deleteSpecificItem(forItem: itemModel.items[indexPath.row])
-            print(2)
+
             itemModel.reloadItems()
-            print(3)
-            
-            // ******
-            // *** Fails here
-            // ******
-            
+
+            // *** Loading a default placeholder cell breaks here because it tries to reload the table with one less cell than was there before, but if the default is placed in place of the cells, and there is only one cell left in 'items', then it assumes that the number of new cells showing is 0, but the placeholder cell requires 1 to be left, so it crashes.
             tableView.deleteRows(at: [indexPath], with: .left)
-            print(4)
+
             HapticsModel.shared.hapticExecuted(as: .success)
             
         }
@@ -240,7 +234,7 @@ class CategoryAndItemViewController: UIViewController {
 extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return (itemModel.items.count == 0) ? 1 : itemModel.items.count
+        return itemModel.items.count
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -272,52 +266,45 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
        
-        if itemModel.items.count == 0 {
-            let placeHolderCell = UITableViewCell(style: .default, reuseIdentifier: "cell")
-            placeHolderCell.textLabel?.textColor = UIColor.lightGray
-            placeHolderCell.textLabel?.text = "There are no items in here yet."
-            placeHolderCell.selectionStyle = .none
-            return placeHolderCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: Keywords.shared.categoryAndItemCellIdentifier, for: indexPath) as! CategoryAndItemTableViewCell
+        
+        cell.selectionStyle = .none
+        
+        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(longPressGestureSelector(gestureRecognizer:)))
+        
+        longPress.minimumPressDuration = 0.5
+        cell.addGestureRecognizer(longPress)
+        
+        let item = itemModel.items[indexPath.row]
+        
+        if editingMode == .grouping {
+            
+            if itemsToGroup.contains(item) {
+                cell.setCellColorAndImageDisplay(colorSelector: .groupingSelected, doneStatus: item.done)
+            } else {
+                cell.setCellColorAndImageDisplay(colorSelector: .groupingUnselected, doneStatus: item.done)
+            }
+            
         } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: Keywords.shared.categoryAndItemCellIdentifier, for: indexPath) as! CategoryAndItemTableViewCell
             
-            cell.selectionStyle = .none
+            cell.setCellColorAndImageDisplay(colorSelector: .regular, doneStatus: item.done)
             
-            let longPress = UILongPressGestureRecognizer(target: self, action: #selector(longPressGestureSelector(gestureRecognizer:)))
-            
-            longPress.minimumPressDuration = 0.5
-            cell.addGestureRecognizer(longPress)
-            
-            let item = itemModel.items[indexPath.row]
-            
-            if editingMode == .grouping {
-                
-                if itemsToGroup.contains(item) {
-                    cell.setCellColorAndImageDisplay(colorSelector: .groupingSelected, doneStatus: item.done)
-                } else {
-                    cell.setCellColorAndImageDisplay(colorSelector: .groupingUnselected, doneStatus: item.done)
-                }
-                
-            } else {
-                
-                cell.setCellColorAndImageDisplay(colorSelector: .regular, doneStatus: item.done)
-                
-            }
-            
-            cell.nameLabel?.text = "\(item.name!)"
-            
-            let numOfSubItems = itemModel.numberOfSubItems(forParentID: Int(item.id))
-            let numOfSubItemsDone = itemModel.numberOfItemsDone(forParentID: Int(item.id))
-            
-            if numOfSubItems > 0 {
-                cell.numberLabel.text = "\(numOfSubItemsDone)/\(numOfSubItems)"
-                cell.numberLabelWidth.constant = 60
-            } else {
-                cell.numberLabel.text = ""
-                cell.numberLabelWidth.constant = 0
-            }
-            return cell
         }
+        
+        cell.nameLabel?.text = "\(item.name!)"
+        
+        let numOfSubItems = itemModel.numberOfSubItems(forParentID: Int(item.id))
+        let numOfSubItemsDone = itemModel.numberOfItemsDone(forParentID: Int(item.id))
+        
+        if numOfSubItems > 0 {
+            cell.numberLabel.text = "\(numOfSubItemsDone)/\(numOfSubItems)"
+            cell.numberLabelWidth.constant = 60
+        } else {
+            cell.numberLabel.text = ""
+            cell.numberLabelWidth.constant = 0
+        }
+        
+        return cell
         
     }
     
@@ -441,9 +428,8 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
         if editingMode == .adding {
             touchedAwayFromTextFieldDelegate?.touchedAwayFromTextField()
         }
-        if itemModel.items.count > 0 {
-            self.itemModel.selectedItem = itemModel.items[indexPath.row]
-        }
+        
+        self.itemModel.selectedItem = itemModel.items[indexPath.row]
         
     }
     
@@ -451,48 +437,44 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
         
         tableView.deselectRow(at: indexPath, animated: true)
         
-        if itemModel.items.count > 0 {
+        let item = itemModel.items[indexPath.row]
+        
+        if editingMode == .grouping {
             
-            let item = itemModel.items[indexPath.row]
-            
-            if editingMode == .grouping {
-                
-                if itemsToGroup.contains(item) {
-                    for i in 0..<itemsToGroup.count {
-                        if itemsToGroup[i] == item {
-                            itemsToGroup.remove(at: i)
-                            break
-                        }
+            if itemsToGroup.contains(item) {
+                for i in 0..<itemsToGroup.count {
+                    if itemsToGroup[i] == item {
+                        itemsToGroup.remove(at: i)
+                        break
                     }
-                } else {
-                    itemsToGroup.append(item)
                 }
+            } else {
+                itemsToGroup.append(item)
+            }
+            
+            toggleEditingMode(for: .grouping)
+            
+        } else {
+            
+            let numOfSubItems = itemModel.numberOfSubItems(forParentID: Int(item.id))
+            
+            // If there are no subitems for the item clicked, then toggle the "Done" status of the item.
+            if numOfSubItems == 0 {
                 
-                toggleEditingMode(for: .grouping)
+                DataModel.shared.updateDone(forItem: item)
                 
+                itemModel.reloadItems()
+                
+                // Otherwise, go to the subitems
             } else {
                 
-                let numOfSubItems = itemModel.numberOfSubItems(forParentID: Int(item.id))
-                
-                // If there are no subitems for the item clicked, then toggle the "Done" status of the item.
-                if numOfSubItems == 0 {
-                    
-                    DataModel.shared.updateDone(forItem: item)
-                    
-                    itemModel.reloadItems()
-                    
-                    // Otherwise, go to the subitems
-                } else {
-                    
-                    performSegue(withIdentifier: itemModel.typeOfSegue, sender: self)
-                    
-                }
+                performSegue(withIdentifier: itemModel.typeOfSegue, sender: self)
                 
             }
             
-            tableView.reloadData()
-            
         }
+        
+        tableView.reloadData()
         
     }
     
