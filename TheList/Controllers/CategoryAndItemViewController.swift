@@ -160,13 +160,18 @@ class CategoryAndItemViewController: UIViewController {
             present(alert, animated: true, completion: nil)
             
         } else {
-            
+            print(1)
             DataModel.shared.deleteSpecificItem(forItem: itemModel.items[indexPath.row])
-            
+            print(2)
             itemModel.reloadItems()
+            print(3)
+            
+            // ******
+            // *** Fails here
+            // ******
             
             tableView.deleteRows(at: [indexPath], with: .left)
-            
+            print(4)
             HapticsModel.shared.hapticExecuted(as: .success)
             
         }
