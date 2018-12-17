@@ -41,20 +41,58 @@ class EditViewController: UIViewController, UITextViewDelegate {
     }
 
     @IBAction func submit(_ sender: UIButton) {
-        
         changeName()
-        
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         nameTextView.text = nameToEdit
         nameTextView.delegate = self
         
+        addToolBarToKeyboard(textView: nameTextView)
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
         changeName()
+    }
+    
+}
+
+
+
+
+
+// MARK: - Toolbar with 'Done' button
+
+extension EditViewController {
+    
+    @objc func submitNameChange() {
+        if nameTextView.text == "" {
+            dismiss(animated: true, completion: nil)
+        } else {
+            changeName()
+        }
+        
+    }
+    
+    func addToolBarToKeyboard(textView: UITextView) {
+        
+        let toolbar = UIToolbar()
+        //        toolbar.barTintColor = UIColor.black
+        
+        toolbar.sizeToFit()
+        
+        let doneButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.done, target: self, action: #selector(self.submitNameChange))
+        
+        //        doneButton.tintColor = UIColor.white
+        
+        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
+        
+        toolbar.setItems([flexibleSpace, doneButton], animated: true)
+        
+        textView.inputAccessoryView = toolbar
+        
     }
     
 }
