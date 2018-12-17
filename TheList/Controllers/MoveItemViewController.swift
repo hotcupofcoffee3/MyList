@@ -28,6 +28,8 @@ class MoveItemViewController: UIViewController {
     
     @IBOutlet weak var labelForItemBeingMoved: UILabel!
     
+    @IBOutlet weak var textFieldForNewParentItem: UITextField!
+    
     @IBOutlet weak var tableView: UITableView!
     
     @IBOutlet weak var moveButton: UIBarButtonItem!
@@ -40,7 +42,7 @@ class MoveItemViewController: UIViewController {
         
         if let itemBeingMoved = itemBeingMoved, let selectedItem = selectedItem {
             
-            let alert = UIAlertController(title: nil, message: "Move \(itemBeingMoved.name!) to \(selectedItem.name!)?", preferredStyle: .alert)
+            let alert = UIAlertController(title: nil, message: "Move: \(itemBeingMoved.name!)\n\nTo: \(selectedItem.name!)", preferredStyle: .alert)
             
             let yes = UIAlertAction(title: "Yes", style: .destructive) { (action) in
                 self.moveItem()
@@ -68,11 +70,6 @@ class MoveItemViewController: UIViewController {
         
         tableView.separatorStyle = .none
         
-        if let item = itemBeingMoved {
-            labelForItemBeingMoved.text = "Move: \"\(item.name!)\""
-        }
-        
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -87,19 +84,34 @@ class MoveItemViewController: UIViewController {
         
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        
+        selectedView = self.title!
+        
+        toggleMoveButton()
+        
+        if selectedItem == nil {
+            selectedItem = currentItem
+        }
+        
+        labelForItemBeingMoved.text = itemBeingMoved?.name! ?? ""
+        textFieldForNewParentItem.text = selectedItem?.name! ?? ""
+        
+    }
+    
     func toggleMoveButton() {
         moveButton.isEnabled = (isMainCategoryLevel && selectedItem == nil) ? false : true
     }
     
     func selectItem(forIndexPath indexPath: IndexPath) {
         selectedItem = items[indexPath.row]
+        textFieldForNewParentItem.text = selectedItem?.name! ?? ""
         toggleMoveButton()
     }
     
     func deselectItem() {
-        
         selectedItem = isMainCategoryLevel ? nil : currentItem
-        
+        textFieldForNewParentItem.text = selectedItem?.name! ?? ""
         toggleMoveButton()
     }
     
@@ -155,6 +167,8 @@ extension MoveItemViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     
         let cell = tableView.dequeueReusableCell(withIdentifier: Keywords.shared.categoryAndItemCellIdentifier, for: indexPath) as! CategoryAndItemTableViewCell
+        
+        cell.selectionStyle = .none
         
         let item = items[indexPath.row]
         

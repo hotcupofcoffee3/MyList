@@ -235,7 +235,7 @@ class CategoryAndItemViewController: UIViewController {
 extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return itemModel.items.count
+        return (itemModel.items.count == 0) ? 1 : itemModel.items.count
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -266,44 +266,53 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        let cell = tableView.dequeueReusableCell(withIdentifier: Keywords.shared.categoryAndItemCellIdentifier, for: indexPath) as! CategoryAndItemTableViewCell
-        
-        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(longPressGestureSelector(gestureRecognizer:)))
-        
-        longPress.minimumPressDuration = 0.5
-        cell.addGestureRecognizer(longPress)
-        
-        let item = itemModel.items[indexPath.row]
-        
-        if editingMode == .grouping {
-
-            if itemsToGroup.contains(item) {
-                cell.setCellColorAndImageDisplay(colorSelector: .groupingSelected, doneStatus: item.done)
+       
+        if itemModel.items.count == 0 {
+            let placeHolderCell = UITableViewCell(style: .default, reuseIdentifier: "cell")
+            placeHolderCell.textLabel?.textColor = UIColor.lightGray
+            placeHolderCell.textLabel?.text = "There are no items in here yet."
+            placeHolderCell.selectionStyle = .none
+            return placeHolderCell
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: Keywords.shared.categoryAndItemCellIdentifier, for: indexPath) as! CategoryAndItemTableViewCell
+            
+            cell.selectionStyle = .none
+            
+            let longPress = UILongPressGestureRecognizer(target: self, action: #selector(longPressGestureSelector(gestureRecognizer:)))
+            
+            longPress.minimumPressDuration = 0.5
+            cell.addGestureRecognizer(longPress)
+            
+            let item = itemModel.items[indexPath.row]
+            
+            if editingMode == .grouping {
+                
+                if itemsToGroup.contains(item) {
+                    cell.setCellColorAndImageDisplay(colorSelector: .groupingSelected, doneStatus: item.done)
+                } else {
+                    cell.setCellColorAndImageDisplay(colorSelector: .groupingUnselected, doneStatus: item.done)
+                }
+                
             } else {
-                cell.setCellColorAndImageDisplay(colorSelector: .groupingUnselected, doneStatus: item.done)
+                
+                cell.setCellColorAndImageDisplay(colorSelector: .regular, doneStatus: item.done)
+                
             }
             
-        } else {
+            cell.nameLabel?.text = "\(item.name!)"
             
-            cell.setCellColorAndImageDisplay(colorSelector: .regular, doneStatus: item.done)
+            let numOfSubItems = itemModel.numberOfSubItems(forParentID: Int(item.id))
+            let numOfSubItemsDone = itemModel.numberOfItemsDone(forParentID: Int(item.id))
             
+            if numOfSubItems > 0 {
+                cell.numberLabel.text = "\(numOfSubItemsDone)/\(numOfSubItems)"
+                cell.numberLabelWidth.constant = 60
+            } else {
+                cell.numberLabel.text = ""
+                cell.numberLabelWidth.constant = 0
+            }
+            return cell
         }
-        
-        cell.nameLabel?.text = "\(item.name!)"
-        
-        let numOfSubItems = itemModel.numberOfSubItems(forParentID: Int(item.id))
-        let numOfSubItemsDone = itemModel.numberOfItemsDone(forParentID: Int(item.id))
-        
-        if numOfSubItems > 0 {
-            cell.numberLabel.text = "\(numOfSubItemsDone)/\(numOfSubItems)"
-            cell.numberLabelWidth.constant = 60
-        } else {
-            cell.numberLabel.text = ""
-            cell.numberLabelWidth.constant = 0
-        }
-        
-        return cell
         
     }
     
@@ -427,8 +436,9 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
         if editingMode == .adding {
             touchedAwayFromTextFieldDelegate?.touchedAwayFromTextField()
         }
-        
-        self.itemModel.selectedItem = itemModel.items[indexPath.row]
+        if itemModel.items.count > 0 {
+            self.itemModel.selectedItem = itemModel.items[indexPath.row]
+        }
         
     }
     
@@ -436,44 +446,48 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
         
         tableView.deselectRow(at: indexPath, animated: true)
         
-        let item = itemModel.items[indexPath.row]
-        
-        if editingMode == .grouping {
+        if itemModel.items.count > 0 {
             
-            if itemsToGroup.contains(item) {
-                for i in 0..<itemsToGroup.count {
-                    if itemsToGroup[i] == item {
-                        itemsToGroup.remove(at: i)
-                        break
+            let item = itemModel.items[indexPath.row]
+            
+            if editingMode == .grouping {
+                
+                if itemsToGroup.contains(item) {
+                    for i in 0..<itemsToGroup.count {
+                        if itemsToGroup[i] == item {
+                            itemsToGroup.remove(at: i)
+                            break
+                        }
                     }
+                } else {
+                    itemsToGroup.append(item)
                 }
-            } else {
-                itemsToGroup.append(item)
-            }
-            
-            toggleEditingMode(for: .grouping)
-            
-        } else {
-            
-            let numOfSubItems = itemModel.numberOfSubItems(forParentID: Int(item.id))
-            
-            // If there are no subitems for the item clicked, then toggle the "Done" status of the item.
-            if numOfSubItems == 0 {
                 
-                DataModel.shared.updateDone(forItem: item)
+                toggleEditingMode(for: .grouping)
                 
-                itemModel.reloadItems()
-                
-            // Otherwise, go to the subitems
             } else {
                 
-                performSegue(withIdentifier: itemModel.typeOfSegue, sender: self)
+                let numOfSubItems = itemModel.numberOfSubItems(forParentID: Int(item.id))
+                
+                // If there are no subitems for the item clicked, then toggle the "Done" status of the item.
+                if numOfSubItems == 0 {
+                    
+                    DataModel.shared.updateDone(forItem: item)
+                    
+                    itemModel.reloadItems()
+                    
+                    // Otherwise, go to the subitems
+                } else {
+                    
+                    performSegue(withIdentifier: itemModel.typeOfSegue, sender: self)
+                    
+                }
                 
             }
+            
+            tableView.reloadData()
             
         }
-        
-        tableView.reloadData()
         
     }
     
