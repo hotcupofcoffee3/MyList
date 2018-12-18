@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B509B9B9215967A9006F7F79 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B509B9B8215967A9006F7F79 /* SettingsViewController.swift */; };
 		B52242902159F6F0002C164D /* TheList.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B5FAB70E2139D89C0046F976 /* TheList.xcdatamodeld */; };
 		B53549C5215C8E3A00D2EB1E /* EditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B53549C4215C8E3A00D2EB1E /* EditViewController.swift */; };
 		B5406CB321C012A0007F8542 /* HapticsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5406CB221C012A0007F8542 /* HapticsModel.swift */; };
@@ -23,6 +22,7 @@
 		B5A6C3D8213F12940029FF22 /* CategoryAndItemTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B5A6C3D6213F12940029FF22 /* CategoryAndItemTableViewCell.xib */; };
 		B5A6C3DD213F1A1E0029FF22 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B5A6C3DC213F1A1E0029FF22 /* Default-568h@2x.png */; };
 		B5CAFEF121BDCEB50049389F /* NavForMoveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5CAFEF021BDCEB50049389F /* NavForMoveViewController.swift */; };
+		B5E6042B21C9974900E090FC /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E6042A21C9974900E090FC /* SettingsViewController.swift */; };
 		B5F1E0EC21417B480041C472 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F1E0EA21417B480041C472 /* HeaderView.swift */; };
 		B5F1E0EF214191C60041C472 /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F1E0EE214191C60041C472 /* DataModel.swift */; };
 		B5FAB7082139D89C0046F976 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FAB7072139D89C0046F976 /* AppDelegate.swift */; };
@@ -33,7 +33,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		B509B9B8215967A9006F7F79 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		B53549C4215C8E3A00D2EB1E /* EditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewController.swift; sourceTree = "<group>"; };
 		B5406CB221C012A0007F8542 /* HapticsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticsModel.swift; sourceTree = "<group>"; };
 		B549378021B83F4A0096A1D4 /* MainTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarViewController.swift; sourceTree = "<group>"; };
@@ -47,6 +46,7 @@
 		B5A6C3D6213F12940029FF22 /* CategoryAndItemTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CategoryAndItemTableViewCell.xib; sourceTree = "<group>"; };
 		B5A6C3DC213F1A1E0029FF22 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		B5CAFEF021BDCEB50049389F /* NavForMoveViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavForMoveViewController.swift; sourceTree = "<group>"; };
+		B5E6042A21C9974900E090FC /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		B5F1E0EA21417B480041C472 /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 		B5F1E0EB21417B480041C472 /* HeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HeaderView.xib; sourceTree = "<group>"; };
 		B5F1E0EE214191C60041C472 /* DataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
@@ -94,7 +94,7 @@
 				B5FAD2C321B8714300ED5807 /* MoveItemViewController.swift */,
 				B549378021B83F4A0096A1D4 /* MainTabBarViewController.swift */,
 				B5CAFEF021BDCEB50049389F /* NavForMoveViewController.swift */,
-				B509B9B8215967A9006F7F79 /* SettingsViewController.swift */,
+				B5E6042A21C9974900E090FC /* SettingsViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -245,8 +245,8 @@
 				B5A6C3CC213EE4150029FF22 /* CategoryAndItemViewController.swift in Sources */,
 				B5406CB321C012A0007F8542 /* HapticsModel.swift in Sources */,
 				B5A6C3D0213EE7B60029FF22 /* Keywords.swift in Sources */,
+				B5E6042B21C9974900E090FC /* SettingsViewController.swift in Sources */,
 				B5FAD2C421B8714300ED5807 /* MoveItemViewController.swift in Sources */,
-				B509B9B9215967A9006F7F79 /* SettingsViewController.swift in Sources */,
 				B58E6A282141AA8A0056208C /* ProtocolModel.swift in Sources */,
 				B5F1E0EC21417B480041C472 /* HeaderView.swift in Sources */,
 				B56BEE0921C169F10052F527 /* ValidationModel.swift in Sources */,
