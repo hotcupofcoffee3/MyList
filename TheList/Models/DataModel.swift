@@ -223,14 +223,14 @@ class DataModel {
         saveData()
     }
     
-    func updateOrderNumbers(forItems items: [Item]) {
+    func updateOrderNumbers(forItems items: [Item], ascending: Bool) {
         
-        var orderNumber = 1
+        var orderNumber = ascending ? 1 : items.count
         
         for item in items {
                 
             item.orderNumber = Int64(orderNumber)
-            orderNumber += 1
+            orderNumber = ascending ? (orderNumber + 1) : (orderNumber - 1)
             
             saveData()
             
@@ -307,7 +307,7 @@ class DataModel {
         
         let oldSiblings = loadSpecificItems(forParentID: oldParentID, ascending: true)
         
-        updateOrderNumbers(forItems: oldSiblings)
+        updateOrderNumbers(forItems: oldSiblings, ascending: true)
         
     }
     
@@ -322,7 +322,7 @@ class DataModel {
         }
         
         // 3. Update order numbers
-        updateOrderNumbers(forItems: items)
+        updateOrderNumbers(forItems: items, ascending: true)
         
         saveData()
         
@@ -385,7 +385,7 @@ class DataModel {
         
         let currentItemGroup = loadSpecificItems(forParentID: itemParentID, ascending: true)
         
-        updateOrderNumbers(forItems: currentItemGroup)
+        updateOrderNumbers(forItems: currentItemGroup, ascending: true)
         
         addSubItemsToDeleteQueue(forID: itemID)
         

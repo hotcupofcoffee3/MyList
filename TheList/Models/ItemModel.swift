@@ -22,7 +22,7 @@ class ItemModel {
     var selectedParentID = Int()
     
     func reloadItems() {
-        items = DataModel.shared.loadSpecificItems(forParentID: selectedParentID, ascending: true)
+        items = DataModel.shared.loadSpecificItems(forParentID: selectedParentID, ascending: false)
     }
     
     

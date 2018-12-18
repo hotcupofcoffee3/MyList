@@ -490,7 +490,7 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
         
         itemModel.items.insert(itemMoving, at: destinationIndexPath.row)
 
-        DataModel.shared.updateOrderNumbers(forItems: itemModel.items)
+        DataModel.shared.updateOrderNumbers(forItems: itemModel.items, ascending: false)
         
     }
     
