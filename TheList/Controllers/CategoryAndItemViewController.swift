@@ -117,8 +117,7 @@ class CategoryAndItemViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        
-//        resetEditingMode()
+
         toggleEditingMode(for: .none)
         
         itemModel.reloadItems()
