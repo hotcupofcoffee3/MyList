@@ -258,7 +258,7 @@ extension MoveItemViewController {
             
             destinationVC.itemBeingMoved = itemBeingMoved
             
-            let itemsToOpen = DataModel.shared.loadSpecificItems(forParentID: Int(sItem.id), ascending: true)
+            let itemsToOpen = DataModel.shared.loadSpecificItems(forParentID: Int(sItem.id), ascending: false)
             
             destinationVC.items = itemsToOpen
             
