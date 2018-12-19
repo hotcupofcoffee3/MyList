@@ -14,7 +14,7 @@ class CategoryAndItemViewController: UIViewController {
     
     var editingMode: EditingMode = .none
     
-    var itemsToGroup = [Item]()
+    var selectedItems = [Item]()
     
     var itemToMove: Item?
     
@@ -28,15 +28,15 @@ class CategoryAndItemViewController: UIViewController {
             
         case .none :
             
-            toggleEditingMode(for: .sorting)
+            toggleEditingMode(for: .selecting)
             
-        case .grouping :
-            
-            if itemsToGroup.count > 0 {
-                groupItems()
-            } else {
-                toggleEditingMode(for: .none)
-            }
+//        case .grouping :
+//
+//            if itemsToGroup.count > 0 {
+//                groupItems()
+//            } else {
+//                toggleEditingMode(for: .none)
+//            }
             
         case .adding :
             
@@ -60,15 +60,15 @@ class CategoryAndItemViewController: UIViewController {
             
         case .adding :
             
-            if editingMode == .grouping {
-                itemsToGroup = []
+            if editingMode == .selecting {
+                selectedItems = []
                 tableView.reloadData()
             }
             
             editButton.title = "Cancel"
             tableView.setEditing(false, animated: true)
             
-        case .sorting :
+        case .selecting :
             
             editButton.title = "Done"
             
@@ -76,16 +76,11 @@ class CategoryAndItemViewController: UIViewController {
             editingMode = selectedEditingMode
             tableView.setEditing(true, animated: true)
             
-        case .grouping :
-            
-            tableView.reloadData()
-            editButton.title = (itemsToGroup.count > 0) ? "Group" : "Done"
-            
         case .none, .moving, .specifics :
             
-            if editingMode == .grouping {
-                itemsToGroup = []
-                tableView.reloadData()
+            if editingMode == .selecting {
+                selectedItems = []
+//                tableView.reloadData()
             }
             editButton.title = "Sort"
             tableView.setEditing(false, animated: true)
@@ -113,6 +108,8 @@ class CategoryAndItemViewController: UIViewController {
         tableView.register(UINib(nibName: Keywords.shared.categoryAndItemNibName, bundle: nil), forCellReuseIdentifier: Keywords.shared.categoryAndItemCellIdentifier)
         
         tableView.separatorStyle = .none
+        
+        tableView.allowsMultipleSelectionDuringEditing = true
         
     }
     
@@ -189,7 +186,7 @@ class CategoryAndItemViewController: UIViewController {
             
             let currentItems = DataModel.shared.loadSpecificItems(forParentID: currentParentID, ascending: true)
             
-            if ValidationModel.shared.isValid(itemName: newGroupName, forItems: currentItems, isGrouping: true, itemsToGroup: self.itemsToGroup) != .success {
+            if ValidationModel.shared.isValid(itemName: newGroupName, forItems: currentItems, isGrouping: true, itemsToGroup: self.selectedItems) != .success {
                 
                 self.present(ValidationModel.shared.alertForInvalidItem(doSomethingElse: {
                     
@@ -199,7 +196,7 @@ class CategoryAndItemViewController: UIViewController {
                 
             } else {
                 
-                DataModel.shared.group(items: self.itemsToGroup, intoNewItemName: newGroupName, withNewItemParentID: currentParentID)
+                DataModel.shared.group(items: self.selectedItems, intoNewItemName: newGroupName, withNewItemParentID: currentParentID)
                 
                 self.itemModel.reloadItems()
                 
@@ -276,9 +273,9 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
         
         let item = itemModel.items[indexPath.row]
         
-        if editingMode == .grouping {
+        if editingMode == .selecting && selectedItems.count > 0 {
             
-            if itemsToGroup.contains(item) {
+            if selectedItems.contains(item) {
                 cell.setCellColorAndImageDisplay(colorSelector: .groupingSelected, doneStatus: item.done)
             } else {
                 cell.setCellColorAndImageDisplay(colorSelector: .groupingUnselected, doneStatus: item.done)
@@ -390,17 +387,17 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
                     
                 })
                 
-                // Group
-                let group = UIAlertAction(title: "Group Items", style: .default, handler: { (action) in
-                    
-                    self.toggleEditingMode(for: .grouping)
-                    
-                })
+//                // Group
+//                let group = UIAlertAction(title: "Group Items", style: .default, handler: { (action) in
+//
+//                    self.toggleEditingMode(for: .grouping)
+//
+//                })
                 
                 // Cancel
                 let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
                 
-                alert.addAction(group)
+//                alert.addAction(group)
                 
                 if numberOfSubitems > 0 {
                     alert.addAction(deleteSubItems)
@@ -438,20 +435,24 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
         
         let item = itemModel.items[indexPath.row]
         
-        if editingMode == .grouping {
+        if editingMode == .selecting {
             
-            if itemsToGroup.contains(item) {
-                for i in 0..<itemsToGroup.count {
-                    if itemsToGroup[i] == item {
-                        itemsToGroup.remove(at: i)
+            if selectedItems.contains(item) {
+                for i in 0..<selectedItems.count {
+                    if selectedItems[i] == item {
+                        selectedItems.remove(at: i)
                         break
                     }
                 }
             } else {
-                itemsToGroup.append(item)
+                selectedItems.append(item)
             }
             
-            toggleEditingMode(for: .grouping)
+            if selectedItems.count > 0 {
+                editButton.title = "Actions"
+            } else {
+                editButton.title = "Done"
+            }
             
         } else {
             
@@ -478,7 +479,7 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
     }
     
     func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        return editingMode == .sorting
+        return editingMode == .selecting
     }
     
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {

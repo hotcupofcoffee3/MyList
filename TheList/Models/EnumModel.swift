@@ -26,8 +26,8 @@ enum ItemNameCheck: String {
     case blank = "You have to give the item a name"
 }
 
-enum EditingMode { // Add 'selecting' in place of sorting, grouping, and moving, as these will no be offered in an Action Sheet
-    case none, adding, sorting, grouping, moving, specifics
+enum EditingMode {
+    case none, adding, selecting, moving, specifics
 }
 
 enum CellColorAndImageDisplaySelector {
