@@ -30,13 +30,13 @@ class CategoryAndItemViewController: UIViewController {
             
             toggleEditingMode(for: .selecting)
             
-//        case .grouping :
-//
-//            if itemsToGroup.count > 0 {
-//                groupItems()
-//            } else {
-//                toggleEditingMode(for: .none)
-//            }
+        case .selecting :
+
+            if selectedItems.count > 0 {
+                groupItems()
+            } else {
+                toggleEditingMode(for: .none)
+            }
             
         case .adding :
             
@@ -53,9 +53,6 @@ class CategoryAndItemViewController: UIViewController {
     
     func toggleEditingMode(for selectedEditingMode: EditingMode) {
         
-//        print("Selected Editing Mode: \(selectedEditingMode)")
-//        print("Current Editing Mode: \(editingMode)")
-        
         switch selectedEditingMode {
             
         case .adding :
@@ -70,7 +67,11 @@ class CategoryAndItemViewController: UIViewController {
             
         case .selecting :
             
-            editButton.title = "Done"
+            editButton.title = (selectedItems.count > 0) ? "Actions" : "Done"
+            
+            if selectedItems.count == 0 && editingMode != .none {
+                tableView.reloadData()
+            }
             
             // Have to set the mode here so the table reloads successfully for editing
             editingMode = selectedEditingMode
@@ -109,7 +110,7 @@ class CategoryAndItemViewController: UIViewController {
         
         tableView.separatorStyle = .none
         
-        tableView.allowsMultipleSelectionDuringEditing = true
+        tableView.allowsSelectionDuringEditing = true
         
     }
     
@@ -211,7 +212,8 @@ class CategoryAndItemViewController: UIViewController {
         let addMoreItemsToGroup = UIAlertAction(title: "Add More Items", style: .default, handler: nil)
         let cancelGroupingItems = UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) in
             
-            self.toggleEditingMode(for: .none)
+            self.selectedItems = []
+            self.toggleEditingMode(for: .selecting)
             
         })
 
@@ -448,11 +450,7 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
                 selectedItems.append(item)
             }
             
-            if selectedItems.count > 0 {
-                editButton.title = "Actions"
-            } else {
-                editButton.title = "Done"
-            }
+            toggleEditingMode(for: .selecting)
             
         } else {
             
