@@ -33,3 +33,7 @@ enum EditingMode {
 enum CellColorAndImageDisplaySelector {
     case regular, groupingSelected, groupingUnselected, movingSelected, movingUnselected
 }
+
+enum ActionOptions {
+    case rename, move, group, delete, deleteSubItems
+}

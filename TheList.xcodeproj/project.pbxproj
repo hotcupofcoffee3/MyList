@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		B52242902159F6F0002C164D /* TheList.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B5FAB70E2139D89C0046F976 /* TheList.xcdatamodeld */; };
 		B53549C5215C8E3A00D2EB1E /* EditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B53549C4215C8E3A00D2EB1E /* EditViewController.swift */; };
+		B53DF7D021CC389400EAF247 /* AlertModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B53DF7CF21CC389400EAF247 /* AlertModel.swift */; };
 		B5406CB321C012A0007F8542 /* HapticsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5406CB221C012A0007F8542 /* HapticsModel.swift */; };
 		B549378121B83F4A0096A1D4 /* MainTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B549378021B83F4A0096A1D4 /* MainTabBarViewController.swift */; };
 		B55497A621B6E3A5009E6C5A /* EnumModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55497A521B6E3A5009E6C5A /* EnumModel.swift */; };
@@ -34,6 +35,7 @@
 
 /* Begin PBXFileReference section */
 		B53549C4215C8E3A00D2EB1E /* EditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewController.swift; sourceTree = "<group>"; };
+		B53DF7CF21CC389400EAF247 /* AlertModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertModel.swift; sourceTree = "<group>"; };
 		B5406CB221C012A0007F8542 /* HapticsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticsModel.swift; sourceTree = "<group>"; };
 		B549378021B83F4A0096A1D4 /* MainTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarViewController.swift; sourceTree = "<group>"; };
 		B55497A521B6E3A5009E6C5A /* EnumModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnumModel.swift; sourceTree = "<group>"; };
@@ -76,6 +78,7 @@
 			children = (
 				B58E6A272141AA8A0056208C /* ProtocolModel.swift */,
 				B55497A521B6E3A5009E6C5A /* EnumModel.swift */,
+				B53DF7CF21CC389400EAF247 /* AlertModel.swift */,
 				B5F1E0EE214191C60041C472 /* DataModel.swift */,
 				B5A6C3CD213EE5B10029FF22 /* ItemModel.swift */,
 				B56BEE0821C169F10052F527 /* ValidationModel.swift */,
@@ -249,6 +252,7 @@
 				B5FAD2C421B8714300ED5807 /* MoveItemViewController.swift in Sources */,
 				B58E6A282141AA8A0056208C /* ProtocolModel.swift in Sources */,
 				B5F1E0EC21417B480041C472 /* HeaderView.swift in Sources */,
+				B53DF7D021CC389400EAF247 /* AlertModel.swift in Sources */,
 				B56BEE0921C169F10052F527 /* ValidationModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

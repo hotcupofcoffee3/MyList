@@ -40,6 +40,8 @@ class CategoryAndItemViewController: UIViewController {
                 // *** Set up Action Sheet for Grouping, Deleting, and Moving here.
                 // ******
                 
+                // *** SET UP THE ALERT MODEL FIRST!!!
+                
                 // - Create ActionSheet that presents option for Grouping, Deleting, and Moving
                 
                 // - Update functions in this VC and in DataModel to have parameters to take in an array of Items and checks them, returning an alert if something fails.
@@ -50,9 +52,6 @@ class CategoryAndItemViewController: UIViewController {
                 
                     // --- As such, "More" ActionSheet will contain "Delete SubItems", "Rename", and "Move", just in case.
                     // --- Leave the options still swipeable for "Rename" and "Move" because of their convenience.
-                
-                
-                
                 
                 
             } else {
@@ -341,7 +340,6 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
         if editingMode == .none {
             
             let id = Int(self.itemModel.items[indexPath.row].id)
-            
             
             self.itemModel.selectedItem = self.itemModel.items[indexPath.row]
             
