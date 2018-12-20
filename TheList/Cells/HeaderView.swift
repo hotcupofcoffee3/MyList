@@ -20,10 +20,8 @@ class HeaderView: UITableViewHeaderFooterView, UITextFieldDelegate {
     // General invalid name alert, which should probably be in the 'itemModel'. Is currently set in the CategoryAndItemVC
     var presentInvalidNameAlertDelegate: PresentInvalidNameAlertDelegate?
     
-    // Delegates called by the CategoryAndItemVC, set in the same.
-    var textFieldIsActiveDelegate: TextFieldIsActiveDelegate?
-    var textFieldIsSubmittedDelegate: TextFieldIsSubmittedDelegate?
-    var setEditingModeForDismissingKeyboardDelegate: SetEditingModeForDismissingKeyboardDelegate?
+    // Delegate called by the CategoryAndItemVC, set in the same.
+    var setEditingModeFromHeaderDelegate: SetEditingModeFromHeaderDelegate?
     
     
     
@@ -38,7 +36,7 @@ class HeaderView: UITableViewHeaderFooterView, UITextFieldDelegate {
     }
     
     @IBAction func headerTextFieldBecameActive(_ sender: UITextField) {
-        textFieldIsActiveDelegate?.textFieldIsActive()
+        setEditingModeFromHeaderDelegate?.setEditingModeFromHeader(forEditingMode: .adding)
     }
     
     @IBOutlet weak var addButton: UIButton!
@@ -55,9 +53,7 @@ class HeaderView: UITableViewHeaderFooterView, UITextFieldDelegate {
         
         if checkNewItemName == .success {
             
-            textFieldIsSubmittedDelegate?.textFieldIsSubmitted()
-            
-            setEditingModeForDismissingKeyboardDelegate?.setEditingModeForDismissingKeyboard()
+//            setEditingModeFromHeaderDelegate?.setEditingModeFromHeader(forEditingMode: .adding)
             
             addNewItemDelegate?.addNewItem(itemName: newItemName)
             
@@ -101,6 +97,7 @@ class HeaderView: UITableViewHeaderFooterView, UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField.text == "" {
             textField.resignFirstResponder()
+            setEditingModeFromHeaderDelegate?.setEditingModeFromHeader(forEditingMode: .none)
         } else {
             addNewItem()
         }
@@ -122,7 +119,7 @@ extension HeaderView {
             addNewItem()
             headerTextField.resignFirstResponder()
         }
-        setEditingModeForDismissingKeyboardDelegate?.setEditingModeForDismissingKeyboard()
+        setEditingModeFromHeaderDelegate?.setEditingModeFromHeader(forEditingMode: .none)
     }
     
     func addToolBarToKeyboard(textField: UITextField) {
@@ -153,10 +150,11 @@ extension HeaderView: TouchedAwayFromTextFieldDelegate, DismissKeyboardFromMainV
     // Delegates used by the CategoryAndItemVC
     func touchedAwayFromTextField() {
         headerTextField.resignFirstResponder()
-        setEditingModeForDismissingKeyboardDelegate?.setEditingModeForDismissingKeyboard()
+        setEditingModeFromHeaderDelegate?.setEditingModeFromHeader(forEditingMode: .none)
     }
     func dismissKeyboardFromMainViewController() {
         headerTextField.resignFirstResponder()
+        setEditingModeFromHeaderDelegate?.setEditingModeFromHeader(forEditingMode: .none)
     }
     
 }

@@ -313,12 +313,14 @@ class DataModel {
     
     func group(items: [Item], intoNewItemName newItemName: String, withNewItemParentID newItemParentID: Int) {
         
-        // 1. Get new Item's ID from the most recently assigned ID + 1, as this will be the new one once the new parent is created.
-        let idForNewItem = (UserDefaults.standard.object(forKey: Keywords.shared.lastUsedID) as! Int) + 1
+        // 1: Add new Item that will be the parent of the selected Items to be grouped.
+        //    Function calls saveData()
+        addNewItem(name: newItemName, parentID: newItemParentID)
         
-        // 2. Update the parentID based on the 'idForNewItem'
+        // 2. Update the parentID based on the new Parent's ID
+        let newlyCreatedParentItemID = UserDefaults.standard.object(forKey: Keywords.shared.lastUsedID) as! Int
         for item in items {
-            item.parentID = Int64(idForNewItem)
+            item.parentID = Int64(newlyCreatedParentItemID)
         }
         saveData()
         
@@ -326,10 +328,6 @@ class DataModel {
         //    Function calls saveData()
         updateOrderNumbers(forItems: items, ascending: true)
         
-        
-        // 4: Add new Item that will be the parent of the selected Items to be grouped.
-        //    Function calls saveData()
-        addNewItem(name: newItemName, parentID: newItemParentID)
         
         // 5: Update the order numbers for the main are where the items were grouped and where the new Parent Item was created.
         //    Function calls saveData()

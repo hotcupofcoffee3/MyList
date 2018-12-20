@@ -247,10 +247,8 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
         // General invalid name alert, which should probably be in the 'itemModel'
         headerView.presentInvalidNameAlertDelegate = self
         
-        // Header-specific delegates
-        headerView.textFieldIsActiveDelegate = self
-        headerView.textFieldIsSubmittedDelegate = self
-        headerView.setEditingModeForDismissingKeyboardDelegate = self
+        // Header-specific delegate
+        headerView.setEditingModeFromHeaderDelegate = self
         
         // CategoryAndItemVC-specific delegates
         self.touchedAwayFromTextFieldDelegate = headerView
@@ -590,7 +588,7 @@ extension CategoryAndItemViewController {
 
 
 
-extension CategoryAndItemViewController: PresentInvalidNameAlertDelegate, EditingCompleteDelegate, TextFieldIsActiveDelegate, TextFieldIsSubmittedDelegate, SetEditingModeForDismissingKeyboardDelegate {
+extension CategoryAndItemViewController: PresentInvalidNameAlertDelegate, EditingCompleteDelegate, SetEditingModeFromHeaderDelegate {
     
     func presentInvalidNameAlert() {
         present(ValidationModel.shared.alertForInvalidItem(doSomethingElse: nil), animated: true, completion: nil)
@@ -606,17 +604,10 @@ extension CategoryAndItemViewController: PresentInvalidNameAlertDelegate, Editin
     
     
     
-    // Header-specific delegate methods declared
-    func textFieldIsActive() {
-        toggleEditingMode(for: .adding)
-    }
+    // Header-specific delegate method declared
     
-    func textFieldIsSubmitted() {
-        toggleEditingMode(for: .none)
-    }
-    
-    func setEditingModeForDismissingKeyboard() {
-        toggleEditingMode(for: .none)
+    func setEditingModeFromHeader(forEditingMode editingMode: EditingMode) {
+        toggleEditingMode(for: editingMode)
     }
     
 }

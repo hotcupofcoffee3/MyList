@@ -21,17 +21,12 @@ protocol PresentInvalidNameAlertDelegate {
 
 
 // TextField Delegates
-protocol TextFieldIsActiveDelegate {
-    func textFieldIsActive()
-}
-protocol TextFieldIsSubmittedDelegate {
-    func textFieldIsSubmitted()
-}
+
 protocol TouchedAwayFromTextFieldDelegate {
     func touchedAwayFromTextField()
 }
-protocol SetEditingModeForDismissingKeyboardDelegate {
-    func setEditingModeForDismissingKeyboard()
+protocol SetEditingModeFromHeaderDelegate {
+    func setEditingModeFromHeader(forEditingMode editingMode: EditingMode)
 }
 protocol DismissKeyboardFromMainViewControllerDelegate {
     func dismissKeyboardFromMainViewController()
