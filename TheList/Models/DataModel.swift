@@ -320,14 +320,21 @@ class DataModel {
         for item in items {
             item.parentID = Int64(idForNewItem)
         }
-        
-        // 3. Update order numbers
-        updateOrderNumbers(forItems: items, ascending: true)
-        
         saveData()
         
+        // 3. Update order numbers
+        //    Function calls saveData()
+        updateOrderNumbers(forItems: items, ascending: true)
+        
+        
         // 4: Add new Item that will be the parent of the selected Items to be grouped.
+        //    Function calls saveData()
         addNewItem(name: newItemName, parentID: newItemParentID)
+        
+        // 5: Update the order numbers for the main are where the items were grouped and where the new Parent Item was created.
+        //    Function calls saveData()
+        let siblingItems = loadSpecificItems(forParentID: newItemParentID, ascending: true)
+        updateOrderNumbers(forItems: siblingItems, ascending: true)
         
     }
     
