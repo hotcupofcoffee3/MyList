@@ -34,6 +34,27 @@ class CategoryAndItemViewController: UIViewController {
 
             if selectedItems.count > 0 {
                 groupItems()
+                
+                
+                // ******
+                // *** Set up Action Sheet for Grouping, Deleting, and Moving here.
+                // ******
+                
+                // - Create ActionSheet that presents option for Grouping, Deleting, and Moving
+                
+                // - Update functions in this VC and in DataModel to have parameters to take in an array of Items and checks them, returning an alert if something fails.
+                
+                // - Restructure local functions to be an extension of this VC, so it is more organized. I was going to move them to the itemModel, but it may only help out a tiny bit, but a lot of reorganizing the code just for a few lines, so fuck it.
+                
+                // - Have "More" only show up if the Item has subItems. Otherwise, just pop up swipe alert for "Delete" to confirm is there are subItems.
+                
+                    // --- As such, "More" ActionSheet will contain "Delete SubItems", "Rename", and "Move", just in case.
+                    // --- Leave the options still swipeable for "Rename" and "Move" because of their convenience.
+                
+                
+                
+                
+                
             } else {
                 toggleEditingMode(for: .none)
             }
@@ -83,7 +104,7 @@ class CategoryAndItemViewController: UIViewController {
                 selectedItems = []
 //                tableView.reloadData()
             }
-            editButton.title = "Sort"
+            editButton.title = "Edit"
             tableView.setEditing(false, animated: true)
             
         }
