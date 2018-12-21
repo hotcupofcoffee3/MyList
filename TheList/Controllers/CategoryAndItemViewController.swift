@@ -33,14 +33,51 @@ class CategoryAndItemViewController: UIViewController {
         case .selecting :
 
             if selectedItems.count > 0 {
-                groupItems()
                 
+                let alert = UIAlertController(title: "\(selectedItems.count) items selected", message: nil, preferredStyle: .actionSheet)
+                
+                // Delete Items
+                let delete = UIAlertAction(title: "Delete Items", style: .destructive, handler: { (action) in
+                    
+                    // Delete Items
+                    
+                })
+                
+                // Group
+                let group = UIAlertAction(title: "Group Items", style: .default, handler: { (action) in
+
+                    self.groupItems()
+
+                })
+                
+                // Move
+                let move = UIAlertAction(title: "Move Items", style: .default, handler: { (action) in
+                    
+                    // Move Items
+                    
+                })
+                
+                // Add More Items
+                let addMoreItems = UIAlertAction(title: "Add More Items", style: .default, handler: nil)
+                
+                // Cancel
+                let cancel = UIAlertAction(title: "Cancel Editing", style: .cancel, handler: { (action) in
+                    
+                    self.toggleEditingMode(for: .none)
+                    
+                })
+                
+                alert.addAction(delete)
+                alert.addAction(group)
+                alert.addAction(move)
+                alert.addAction(addMoreItems)
+                alert.addAction(cancel)
+                
+                self.present(alert, animated: true, completion: nil)
                 
                 // ******
                 // *** Set up Action Sheet for Grouping, Deleting, and Moving here.
                 // ******
-                
-                // *** SET UP THE ALERT MODEL FIRST!!!
                 
                 // - Create ActionSheet that presents option for Grouping, Deleting, and Moving
                 
@@ -231,10 +268,10 @@ class CategoryAndItemViewController: UIViewController {
 
         let addMoreItemsToGroup = UIAlertAction(title: "Add More Items", style: .default, handler: nil)
         let cancelGroupingItems = UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) in
-            
+
             self.selectedItems = []
             self.toggleEditingMode(for: .selecting)
-            
+
         })
 
         groupAlert.addAction(groupItems)
