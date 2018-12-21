@@ -39,7 +39,8 @@ class CategoryAndItemViewController: UIViewController {
                 // Delete Items
                 let delete = UIAlertAction(title: "Delete Items", style: .destructive, handler: { (action) in
                     
-                    // Delete Items
+                    let deleteAlert = DataModel.shared.deleteItems(itemsToDelete: self.selectedItems, inTable: self.tableView)
+                    self.present(deleteAlert, animated: true, completion: nil)
                     
                 })
                 

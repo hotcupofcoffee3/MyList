@@ -358,23 +358,23 @@ class DataModel {
     }
     
     
-    func addSubItemsToDeleteQueue(forID id: Int) {
+    func addItemsToDeleteQueue(forID id: Int) {
         
-        let subItems = loadSpecificItems(forParentID: id, ascending: true)
+        let itemsToDelete = loadSpecificItems(forParentID: id, ascending: true)
         
-        for subItem in subItems {
+        for itemToDelete in itemsToDelete {
             
-            let subItemID = Int(subItem.id)
+            let itemToDeleteID = Int(itemToDelete.id)
             
-            let furtherSubItems = loadSpecificItems(forParentID: subItemID, ascending: true)
+            let subItemsToDelete = loadSpecificItems(forParentID: itemToDeleteID, ascending: true)
             
-            if !furtherSubItems.isEmpty {
+            if !subItemsToDelete.isEmpty {
             
-                addSubItemsToDeleteQueue(forID: subItemID)
+                addItemsToDeleteQueue(forID: itemToDeleteID)
                 
             }
             
-            itemsToDeleteQueue.append(subItem)
+            itemsToDeleteQueue.append(itemToDelete)
             
         }
         
@@ -392,9 +392,31 @@ class DataModel {
         
         updateOrderNumbers(forItems: currentItemGroup, ascending: true)
         
-        addSubItemsToDeleteQueue(forID: itemID)
+        addItemsToDeleteQueue(forID: itemID)
         
         deleteItemsInItemsToDeleteArray()
+        
+    }
+    
+    func deleteItems(itemsToDelete: [Item], inTable tableView: UITableView) -> UIAlertController {
+        
+        let alert = UIAlertController(title: "Delete \(itemsToDelete.count) items?", message: "This will delete the selected items and any subItems they have.", preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "Delete", style: .default, handler: { (action) in
+            
+            for itemToDelete in itemsToDelete {
+                self.deleteSpecificItem(forItem: itemToDelete)
+            }
+            
+            HapticsModel.shared.hapticExecuted(as: .success)
+            
+            tableView.reloadData()
+            
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        return alert
         
     }
     
@@ -406,9 +428,9 @@ class DataModel {
             
             let id = Int(parentItem.id)
             
-            DataModel.shared.addSubItemsToDeleteQueue(forID: id)
+            self.addItemsToDeleteQueue(forID: id)
             
-            DataModel.shared.deleteItemsInItemsToDeleteArray()
+            self.deleteItemsInItemsToDeleteArray()
             
             HapticsModel.shared.hapticExecuted(as: .success)
             
