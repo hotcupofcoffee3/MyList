@@ -34,27 +34,42 @@ class CategoryAndItemViewController: UIViewController {
 
             if selectedItems.count > 0 {
                 
+                
+                
                 let alert = UIAlertController(title: "\(selectedItems.count) items selected", message: nil, preferredStyle: .actionSheet)
                 
                 // Delete Items
                 let delete = UIAlertAction(title: "Delete Items", style: .destructive, handler: { (action) in
                     
-                    let deleteAlert = DataModel.shared.deleteItems(itemsToDelete: self.selectedItems, inTable: self.tableView)
-                    self.present(deleteAlert, animated: true, completion: nil)
                     
+                    
+                    // *** Have to add ordered indices for the items that'll be deleted, as we need to delete the rows from the tableView, and have to add them into an array that deletes them after the itemModel and DataModel have been deleted from and updated.
+                    
+                    // Sort the items by orderNumber into a new itemArray.
+                    // Pass the new array into the 'deleteItems()' functions from the DataModel below.
+                    // Delete the rows from the table by iterating through the new array and adding each indexPath to an array that can be submitted through the 'tableView.deleteRows()' function, using (array.count - orderNumber), which will give the indexPath.row.
+                    // *** May need to add a new function that does this so that the indexPath is submitted instead of simply the indexPath.row, which may not give enough information.
+                    
+                    
+                    
+                    
+//                    let deleteAlert = DataModel.shared.deleteItems(itemsToDelete: self.selectedItems, inTable: self.tableView)
+//                    self.present(deleteAlert, animated: true, completion: nil)
                 })
                 
                 // Group
                 let group = UIAlertAction(title: "Group Items", style: .default, handler: { (action) in
-
                     self.groupItems()
-
                 })
                 
                 // Move
                 let move = UIAlertAction(title: "Move Items", style: .default, handler: { (action) in
                     
-                    // Move Items
+                    
+                    
+                    // *** Move Items
+                    
+                    
                     
                 })
                 
@@ -63,9 +78,7 @@ class CategoryAndItemViewController: UIViewController {
                 
                 // Cancel
                 let cancel = UIAlertAction(title: "Cancel Editing", style: .cancel, handler: { (action) in
-                    
                     self.toggleEditingMode(for: .none)
-                    
                 })
                 
                 alert.addAction(delete)
@@ -79,8 +92,6 @@ class CategoryAndItemViewController: UIViewController {
                 // ******
                 // *** Set up Action Sheet for Grouping, Deleting, and Moving here.
                 // ******
-                
-                // - Create ActionSheet that presents option for Grouping, Deleting, and Moving
                 
                 // - Update functions in this VC and in DataModel to have parameters to take in an array of Items and checks them, returning an alert if something fails.
                 
