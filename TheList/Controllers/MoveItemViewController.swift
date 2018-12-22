@@ -121,11 +121,7 @@ class MoveItemViewController: UIViewController {
             
             if let itemBeingMoved = itemBeingMoved {
                 
-                let newParentItemID = Int(newParentItem.id)
-                
-                let possibleSiblingItems = DataModel.shared.loadSpecificItems(forParentID: newParentItemID, ascending: true)
-                
-                if ValidationModel.shared.isValid(itemName: itemBeingMoved.name!, forItems: possibleSiblingItems, isGrouping: false, itemsToGroup: nil) == .success {
+                if ValidationModel.shared.isValid(itemName: itemBeingMoved.name!) == .success {
                     
                     DataModel.shared.move(item: itemBeingMoved, toParentItem: newParentItem)
                     

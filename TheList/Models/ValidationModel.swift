@@ -18,34 +18,11 @@ class ValidationModel {
     
     var validityStatus: ItemNameCheck = .success
     
-    func isValid(itemName: String, forItems items: [Item], isGrouping: Bool, itemsToGroup: [Item]?) -> ItemNameCheck {
+    func isValid(itemName: String) -> ItemNameCheck {
         
         var isValidName: ItemNameCheck = .success
         
         itemNameBeingChecked = itemName
-        
-        // Checks for duplicate name
-        if isGrouping {
-            
-            if let itemsToGroup = itemsToGroup {
-                for item in items {
-                    if itemsToGroup.contains(item) {
-                        continue
-                    } else if item.name == itemName {
-                        isValidName = .duplicate
-                    }
-                }
-            }
-
-        } else {
-            
-            for item in items {
-                if itemName == item.name {
-                    isValidName = .duplicate
-                }
-            }
-            
-        }
         
         // Cannot contain three "???"
         var numOfQsInARow = 0
@@ -80,8 +57,6 @@ class ValidationModel {
             
             switch validityStatus {
                 
-            case .duplicate:
-                return "Duplicate Item"
             case .blank:
                 return "No Item Name"
             case .threeQuestionMarks:

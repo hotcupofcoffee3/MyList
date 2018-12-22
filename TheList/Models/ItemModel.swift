@@ -195,7 +195,7 @@ extension ItemModel: IsValidNameDelegate, AddNewItemDelegate, ReloadTableListDel
     
     func isValidName(forItemName itemName: String) -> ItemNameCheck {
         // As the HeaderView does not have any 'items' in it, since it is only used for adding new items to the existing displayed table, this delegate is used so only the 'itemName' is supplied and is checked against the 'items' already loaded in the 'ItemModel'
-        return ValidationModel.shared.isValid(itemName: itemName, forItems: items, isGrouping: false, itemsToGroup: nil)
+        return ValidationModel.shared.isValid(itemName: itemName)
     }
     
     func addNewItem(itemName: String) {

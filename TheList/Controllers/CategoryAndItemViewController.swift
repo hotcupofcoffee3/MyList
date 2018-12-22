@@ -254,9 +254,7 @@ class CategoryAndItemViewController: UIViewController {
            
             let currentParentID = self.itemModel.selectedParentID
             
-            let currentItems = DataModel.shared.loadSpecificItems(forParentID: currentParentID, ascending: true)
-            
-            if ValidationModel.shared.isValid(itemName: newGroupName, forItems: currentItems, isGrouping: true, itemsToGroup: self.selectedItems) != .success {
+            if ValidationModel.shared.isValid(itemName: newGroupName) != .success {
                 
                 self.present(ValidationModel.shared.alertForInvalidItem(doSomethingElse: {
                     

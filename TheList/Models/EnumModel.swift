@@ -19,7 +19,6 @@ enum ItemProperty {
 
 enum ItemNameCheck: String {
     case success = "Great! It worked, but this was never supposed to be called from the Enum."
-    case duplicate = "There is already an item with that name."
     case threeQuestionMarks = "You cannot use more than 3 '?' in a row."
     
     // Only used for grouping
