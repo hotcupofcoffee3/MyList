@@ -34,14 +34,47 @@ class CategoryAndItemViewController: UIViewController {
 
             if selectedItems.count > 0 {
                 
-                
-                
                 let alert = UIAlertController(title: "\(selectedItems.count) items selected", message: nil, preferredStyle: .actionSheet)
                 
                 // Delete Items
                 let delete = UIAlertAction(title: "Delete Items", style: .destructive, handler: { (action) in
                     
+                    // Only gets called if 'selectedItems' has at least one item, so the first one is added automatically into the array to be ordered.
+                    var orderedItems = [self.selectedItems[0]]
                     
+                    for item in self.selectedItems {
+                        print("\(item.name!): \(item.orderNumber)")
+                    }
+                    
+                    for i in 1..<self.selectedItems.count {
+                        
+                        let itemToPlace = self.selectedItems[i]
+                        
+                        for j in 0..<orderedItems.count {
+                            
+                            let itemToCompareAgainst = orderedItems[j]
+                            
+                            // If it is greater than the last number
+                            if itemToPlace.orderNumber > orderedItems[orderedItems.count - 1].orderNumber {
+                                orderedItems.append(itemToPlace)
+                                break
+                                
+                            // If it is greater than each number, it continues until it isn't
+                            } else if itemToPlace.orderNumber > itemToCompareAgainst.orderNumber {
+                                continue
+                                
+                            // If it is not greater than the last, and not greater than the number it's on, then it is less than the current index, so it is placed at that index, pushing all others greater than it in front.
+                            } else {
+                                orderedItems.insert(itemToPlace, at: j)
+                                break
+                            }
+                        }
+                        
+                    }
+                    
+                    for item in orderedItems {
+                        print("\(item.name!): \(item.orderNumber)")
+                    }
                     
                     // *** Have to add ordered indices for the items that'll be deleted, as we need to delete the rows from the tableView, and have to add them into an array that deletes them after the itemModel and DataModel have been deleted from and updated.
                     
@@ -78,6 +111,13 @@ class CategoryAndItemViewController: UIViewController {
                 
                 // Cancel
                 let cancel = UIAlertAction(title: "Cancel Editing", style: .cancel, handler: { (action) in
+                    
+                    
+                    // Figure out how to make it work so that it doesn't shift from .selecting to .none without a quick jump.
+                    // It's currently reloading if the selectedItems are empty and it's not .none, which we have to figure out the specific scenario why that isn't the case and update the function so that it works in an animated way.
+                    
+//                    self.selectedItems = []
+//                    self.toggleEditingMode(for: .selecting)
                     self.toggleEditingMode(for: .none)
                 })
                 
