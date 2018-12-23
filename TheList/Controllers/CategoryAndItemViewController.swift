@@ -15,6 +15,7 @@ class CategoryAndItemViewController: UIViewController {
     var editingMode: EditingMode = .none
     
     var selectedItems = [Item]()
+    var selectedIndexPaths = [IndexPath]()
     
     var itemToMove: Item?
     
@@ -39,55 +40,17 @@ class CategoryAndItemViewController: UIViewController {
                 // Delete Items
                 let delete = UIAlertAction(title: "Delete Items", style: .destructive, handler: { (action) in
                     
-                    // Only gets called if 'selectedItems' has at least one item, so the first one is added automatically into the array to be ordered.
-                    var orderedItems = [self.selectedItems[0]]
-                    
-                    for item in self.selectedItems {
-                        print("\(item.name!): \(item.orderNumber)")
-                    }
-                    
-                    for i in 1..<self.selectedItems.count {
+                    let deleteAlert = DataModel.shared.deleteItems(itemsToDelete: self.selectedItems, inTable: self.tableView, withIndexPathsToDelete: self.selectedIndexPaths, completionAction: {
                         
-                        let itemToPlace = self.selectedItems[i]
+                        self.itemModel.reloadItems()
+                        self.tableView.deleteRows(at: self.selectedIndexPaths, with: .left)
+                        self.selectedIndexPaths = []
+                        self.selectedItems = []
+                        self.toggleEditingMode(for: .selecting)
                         
-                        for j in 0..<orderedItems.count {
-                            
-                            let itemToCompareAgainst = orderedItems[j]
-                            
-                            // If it is greater than the last number
-                            if itemToPlace.orderNumber > orderedItems[orderedItems.count - 1].orderNumber {
-                                orderedItems.append(itemToPlace)
-                                break
-                                
-                            // If it is greater than each number, it continues until it isn't
-                            } else if itemToPlace.orderNumber > itemToCompareAgainst.orderNumber {
-                                continue
-                                
-                            // If it is not greater than the last, and not greater than the number it's on, then it is less than the current index, so it is placed at that index, pushing all others greater than it in front.
-                            } else {
-                                orderedItems.insert(itemToPlace, at: j)
-                                break
-                            }
-                        }
-                        
-                    }
+                    })
                     
-                    for item in orderedItems {
-                        print("\(item.name!): \(item.orderNumber)")
-                    }
-                    
-                    // *** Have to add ordered indices for the items that'll be deleted, as we need to delete the rows from the tableView, and have to add them into an array that deletes them after the itemModel and DataModel have been deleted from and updated.
-                    
-                    // Sort the items by orderNumber into a new itemArray.
-                    // Pass the new array into the 'deleteItems()' functions from the DataModel below.
-                    // Delete the rows from the table by iterating through the new array and adding each indexPath to an array that can be submitted through the 'tableView.deleteRows()' function, using (array.count - orderNumber), which will give the indexPath.row.
-                    // *** May need to add a new function that does this so that the indexPath is submitted instead of simply the indexPath.row, which may not give enough information.
-                    
-                    
-                    
-                    
-//                    let deleteAlert = DataModel.shared.deleteItems(itemsToDelete: self.selectedItems, inTable: self.tableView)
-//                    self.present(deleteAlert, animated: true, completion: nil)
+                    self.present(deleteAlert, animated: true, completion: nil)
                 })
                 
                 // Group
@@ -112,12 +75,6 @@ class CategoryAndItemViewController: UIViewController {
                 // Cancel
                 let cancel = UIAlertAction(title: "Cancel Editing", style: .cancel, handler: { (action) in
                     
-                    
-                    // Figure out how to make it work so that it doesn't shift from .selecting to .none without a quick jump.
-                    // It's currently reloading if the selectedItems are empty and it's not .none, which we have to figure out the specific scenario why that isn't the case and update the function so that it works in an animated way.
-                    
-//                    self.selectedItems = []
-//                    self.toggleEditingMode(for: .selecting)
                     self.toggleEditingMode(for: .none)
                 })
                 
@@ -168,6 +125,7 @@ class CategoryAndItemViewController: UIViewController {
             
             if editingMode == .selecting {
                 selectedItems = []
+                selectedIndexPaths = []
                 tableView.reloadData()
             }
             
@@ -190,7 +148,8 @@ class CategoryAndItemViewController: UIViewController {
             
             if editingMode == .selecting {
                 selectedItems = []
-//                tableView.reloadData()
+                selectedIndexPaths = []
+                tableView.reloadRows(at: tableView.indexPathsForVisibleRows!, with: .none)
             }
             editButton.title = "Edit"
             tableView.setEditing(false, animated: true)
@@ -320,6 +279,7 @@ class CategoryAndItemViewController: UIViewController {
         let cancelGroupingItems = UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) in
 
             self.selectedItems = []
+            self.selectedIndexPaths = []
             self.toggleEditingMode(for: .selecting)
 
         })
@@ -547,11 +507,13 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
                 for i in 0..<selectedItems.count {
                     if selectedItems[i] == item {
                         selectedItems.remove(at: i)
+                        selectedIndexPaths.remove(at: i)
                         break
                     }
                 }
             } else {
                 selectedItems.append(item)
+                selectedIndexPaths.append(indexPath)
             }
             
             toggleEditingMode(for: .selecting)

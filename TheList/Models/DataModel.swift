@@ -398,7 +398,7 @@ class DataModel {
         
     }
     
-    func deleteItems(itemsToDelete: [Item], inTable tableView: UITableView) -> UIAlertController {
+    func deleteItems(itemsToDelete: [Item], inTable tableView: UITableView, withIndexPathsToDelete indexPaths: [IndexPath], completionAction: @escaping () -> Void) -> UIAlertController {
         
         let alert = UIAlertController(title: "Delete \(itemsToDelete.count) items?", message: "This will delete the selected items and any subItems they have.", preferredStyle: .alert)
         
@@ -410,7 +410,7 @@ class DataModel {
             
             HapticsModel.shared.hapticExecuted(as: .success)
             
-            tableView.reloadData()
+            completionAction()
             
         }))
         
