@@ -274,39 +274,23 @@ class DataModel {
         
     }
     
-    func move(item itemToMove: Item, toParentItem parentItem: Item) {
+    func move(items itemsToMove: [Item], toParentItem parentItem: Item) {
         
-        let oldParentID = Int(itemToMove.parentID)
-        let sameID = Int(itemToMove.id)
-
+        let oldParentID = Int(itemsToMove[0].parentID)
         let newParentID = Int(parentItem.id)
-        let newOrderNumber = loadSpecificItems(forParentID: newParentID, ascending: true).count + 1
         
-        let newSubItemParentID = sameID
-
-        
-        // *** Subitems only need their parentID updated.
-        // *** ParentID has to be updated below after the itemToMove's id has been updated.
-        
-        
-        // Update subItems for itemToMove using the old information for retrieval and new information for updating.
-
-        let subItems = loadSpecificItems(forParentID: sameID, ascending: true)
-        
-        for subItem in subItems {
-            updateItem(forProperties: [.parentID], forItem: subItem, withNewParentID: newSubItemParentID, withNewName: nil, withNewOrderNumber: nil)
+        // Update parentIDs for the itemsToMove array
+        for itemToMove in itemsToMove {
+            updateItem(forProperties: [.parentID], forItem: itemToMove, withNewParentID: newParentID, withNewName: nil, withNewOrderNumber: nil)
         }
         
-        
-        // Update itemToMove parentID
-        
-        updateItem(forProperties: [.parentID, .orderNumber], forItem: itemToMove, withNewParentID: newParentID, withNewName: nil, withNewOrderNumber: newOrderNumber)
-        
-        
         // Update orderNumber for the old sibling items, now that it is no longer in there.
+        let newSiblings = loadSpecificItems(forParentID: newParentID, ascending: true)
+        updateOrderNumbers(forItems: newSiblings, ascending: true)
+        
+        // Update the main area's order numbers
         
         let oldSiblings = loadSpecificItems(forParentID: oldParentID, ascending: true)
-        
         updateOrderNumbers(forItems: oldSiblings, ascending: true)
         
     }

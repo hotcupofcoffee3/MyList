@@ -64,7 +64,7 @@ class CategoryAndItemViewController: UIViewController {
                     
                     
                     // *** Move Items
-                    
+                    // Change the itemBeingMoved in the MoveVCs to be an array, with if only one item, it shows the name at the top; otherwise shows the number of items being moved, and the same situation in the alert to confirm the move.
                     
                     
                 })

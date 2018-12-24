@@ -123,7 +123,7 @@ class MoveItemViewController: UIViewController {
                 
                 if ValidationModel.shared.isValid(itemName: itemBeingMoved.name!) == .success {
                     
-                    DataModel.shared.move(item: itemBeingMoved, toParentItem: newParentItem)
+                    DataModel.shared.move(items: [itemBeingMoved], toParentItem: newParentItem)
                     
                     let confirmationAlert = UIAlertController(title: "Done!", message: "\(itemBeingMoved.name!) is now in \(newParentItem.name!)", preferredStyle: .alert)
                     
@@ -133,7 +133,11 @@ class MoveItemViewController: UIViewController {
                         
                     })
                     
-                    present(confirmationAlert, animated: true, completion: nil)
+                    present(confirmationAlert, animated: true, completion: {
+                    
+                        // *** Add a timer that goes off and dismisses the VC
+                    
+                    })
                     
                 } else {
                     let alert = ValidationModel.shared.alertForInvalidItem(doSomethingElse: nil)

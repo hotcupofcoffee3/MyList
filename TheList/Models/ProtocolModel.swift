@@ -37,19 +37,15 @@ protocol DismissKeyboardFromMainViewControllerDelegate {
 protocol AddNewItemDelegate {
     func addNewItem(itemName: String)
 }
-
 protocol ReloadTableListDelegate {
     func reloadTableData()
 }
-
 protocol ItemEditedDelegate {
     func itemHasBeenEdited()
 }
-
 protocol EditingCompleteDelegate {
     func editingComplete()
 }
-
 protocol DifferentTabClickedDelegate {
     func differentTabClicked()
 }
