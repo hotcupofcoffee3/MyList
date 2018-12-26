@@ -17,8 +17,6 @@ class CategoryAndItemViewController: UIViewController {
     var selectedItems = [Item]()
     var selectedIndexPaths = [IndexPath]()
     
-    var itemToMove: Item?
-    
     // Delegates called by the HeaderView
     var touchedAwayFromTextFieldDelegate: TouchedAwayFromTextFieldDelegate?
     var dismissKeyboardFromMainViewControllerDelegate: DismissKeyboardFromMainViewControllerDelegate?
@@ -585,7 +583,7 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
             
             self.itemModel.selectedItem = self.itemModel.items[indexPath.row]
             
-            self.itemToMove = self.itemModel.items[indexPath.row]
+            self.selectedItems = [self.itemModel.items[indexPath.row]]
             
             self.performSegue(withIdentifier: self.itemModel.moveSegue, sender: self)
             
@@ -646,7 +644,7 @@ extension CategoryAndItemViewController {
             
             let destinationVC = navVC.topViewController as! MoveItemViewController
             
-            destinationVC.itemBeingMoved = itemToMove
+            destinationVC.itemsBeingMoved = selectedItems
             
         }
         

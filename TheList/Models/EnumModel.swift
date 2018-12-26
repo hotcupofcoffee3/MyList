@@ -19,6 +19,7 @@ enum ItemProperty {
 
 enum ItemNameCheck: String {
     case success = "Great! It worked, but this was never supposed to be called from the Enum."
+    case newParentMatchesAnItemBeingMoved = "The new Parent chosen is an item that is being moved."
     case threeQuestionMarks = "You cannot use more than 3 '?' in a row."
     
     // Only used for grouping

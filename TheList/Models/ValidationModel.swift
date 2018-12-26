@@ -48,6 +48,23 @@ class ValidationModel {
         
     }
     
+    func isValidMove(forItems itemsBeingMoved: [Item], toGoToNewParentItem newParentItem: Item) -> ItemNameCheck {
+        
+        var isValidMove: ItemNameCheck = .success
+        
+        // Cannot be moved into itself
+        for item in itemsBeingMoved {
+            if item.id == newParentItem.id {
+                isValidMove = .newParentMatchesAnItemBeingMoved
+            }
+        }
+        
+        validityStatus = isValidMove
+        
+        return isValidMove
+        
+    }
+    
     func alertForInvalidItem(doSomethingElse: (() -> Void)?) -> UIAlertController {
         
         let invalidMessage = validityStatus.rawValue
@@ -61,6 +78,8 @@ class ValidationModel {
                 return "No Item Name"
             case .threeQuestionMarks:
                 return "Three '???' were used."
+            case .newParentMatchesAnItemBeingMoved:
+                return "This item is being moved."
             case .success:
                 return "Great! The item name works."
             }

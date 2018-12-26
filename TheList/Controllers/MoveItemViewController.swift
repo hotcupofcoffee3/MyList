@@ -10,7 +10,7 @@ import UIKit
 
 class MoveItemViewController: UIViewController {
     
-    var itemBeingMoved: Item?
+    var itemsBeingMoved = [Item]()
     
     var isMainCategoryLevel = true
     
@@ -40,9 +40,19 @@ class MoveItemViewController: UIViewController {
     
     @IBAction func move(_ sender: UIBarButtonItem) {
         
-        if let itemBeingMoved = itemBeingMoved, let selectedItem = selectedItem {
+        if let selectedItem = selectedItem {
             
-            let alert = UIAlertController(title: nil, message: "Move: \(itemBeingMoved.name!)\n\nTo: \(selectedItem.name!)", preferredStyle: .alert)
+            var alertMessage = String()
+            
+            if itemsBeingMoved.count == 1 {
+                alertMessage = "Move: \(itemsBeingMoved[0].name!)\n\nTo: \(selectedItem.name!)"
+            } else {
+                alertMessage = "Move: \(itemsBeingMoved.count) items\n\nTo: \(selectedItem.name!)"
+            }
+            
+            
+            
+            let alert = UIAlertController(title: nil, message: alertMessage, preferredStyle: .alert)
             
             let yes = UIAlertAction(title: "Yes", style: .destructive) { (action) in
                 self.moveItem()
@@ -94,7 +104,7 @@ class MoveItemViewController: UIViewController {
             selectedItem = currentItem
         }
         
-        labelForItemBeingMoved.text = itemBeingMoved?.name! ?? ""
+        labelForItemBeingMoved.text = (itemsBeingMoved.count == 1) ? "\(itemsBeingMoved[0].name!)" : "\(itemsBeingMoved.count) items"
         textFieldForNewParentItem.text = selectedItem?.name! ?? ""
         
     }
@@ -119,31 +129,39 @@ class MoveItemViewController: UIViewController {
         
         if let newParentItem = selectedItem {
             
-            if let itemBeingMoved = itemBeingMoved {
+            if ValidationModel.shared.isValidMove(forItems: itemsBeingMoved, toGoToNewParentItem: newParentItem) == .success {
                 
-                if ValidationModel.shared.isValid(itemName: itemBeingMoved.name!) == .success {
-                    
-                    DataModel.shared.move(items: [itemBeingMoved], toParentItem: newParentItem)
-                    
-                    let confirmationAlert = UIAlertController(title: "Done!", message: "\(itemBeingMoved.name!) is now in \(newParentItem.name!)", preferredStyle: .alert)
-                    
-                    confirmationAlert.addAction(UIAlertAction(title: "Ok", style: .default) { (action) in
-                        
-                        self.dismiss(animated: true, completion: nil)
-                        
-                    })
-                    
-                    present(confirmationAlert, animated: true, completion: {
-                    
-                        // *** Add a timer that goes off and dismisses the VC
-                    
-                    })
-                    
+                DataModel.shared.move(items: itemsBeingMoved, toParentItem: newParentItem)
+                
+                
+                
+                var alertMessage = String()
+                
+                if itemsBeingMoved.count == 1 {
+                    alertMessage = "\(itemsBeingMoved[0].name!) is now in \(newParentItem.name!)"
                 } else {
-                    let alert = ValidationModel.shared.alertForInvalidItem(doSomethingElse: nil)
-                    present(alert, animated: true, completion: nil)
+                    alertMessage = "\(itemsBeingMoved.count) items are now in \(newParentItem.name!)"
                 }
                 
+                
+                
+                let confirmationAlert = UIAlertController(title: "Done!", message: alertMessage, preferredStyle: .alert)
+                
+                confirmationAlert.addAction(UIAlertAction(title: "Ok", style: .default) { (action) in
+                    
+                    self.dismiss(animated: true, completion: nil)
+                    
+                })
+                
+                present(confirmationAlert, animated: true, completion: {
+                
+                    // *** Add a timer that goes off and dismisses the VC
+                
+                })
+                
+            } else {
+                let alert = ValidationModel.shared.alertForInvalidItem(doSomethingElse: nil)
+                present(alert, animated: true, completion: nil)
             }
             
         } else {
@@ -207,6 +225,31 @@ extension MoveItemViewController: UITableViewDelegate, UITableViewDataSource {
         
         tableView.deselectRow(at: indexPath, animated: true)
         
+        
+        
+        
+        
+        // ******
+        // ******
+        // ******
+        
+        // *** Add a check here if the item matches one of the itemsBeingMoved, as it should pop up the alert that it is an item being moved before it opens the item.
+        // *** No need to check when actually moving the item, as this will check if it is possible based on an the itemsBeingMoved array.
+        // *** The only alert that will need to be displayed will be the confirmation of moving the items, not a validation check, which will happen right here before the item is even selected in the first place.
+        
+        
+        
+        // *** Also, add a formatting to the cellForRowAt that dims the text of items that are within the itemsBeingMoved array, so that it is clear that they are in the array and unable to be successfully selected.
+        
+        
+        // ******
+        // ******
+        // ******
+        
+        
+        
+        
+        
         let item = items[indexPath.row]
         
         let subItems = DataModel.shared.loadSpecificItems(forParentID: Int(item.id), ascending: true)
@@ -256,7 +299,7 @@ extension MoveItemViewController {
             
             destinationVC.isMainCategoryLevel = false
             
-            destinationVC.itemBeingMoved = itemBeingMoved
+            destinationVC.itemsBeingMoved = itemsBeingMoved
             
             let itemsToOpen = DataModel.shared.loadSpecificItems(forParentID: Int(sItem.id), ascending: false)
             
