@@ -196,6 +196,22 @@ extension MoveItemViewController: UITableViewDelegate, UITableViewDataSource {
             cell.setCellColorAndImageDisplay(colorSelector: .movingUnselected, doneStatus: nil)
         }
         
+        
+        
+        var itemIsMatch = false
+        
+        for possibleMatchingItem in itemsBeingMoved {
+            if possibleMatchingItem == item {
+                itemIsMatch = true
+            }
+        }
+        
+        if itemIsMatch {
+            cell.nameLabel.textColor = UIColor.darkGray
+        } else {
+            cell.nameLabel.textColor = UIColor.darkText
+        }
+        
         cell.nameLabel.text = item.name!
         
         cell.checkboxImageWidth.constant = 0
@@ -225,58 +241,60 @@ extension MoveItemViewController: UITableViewDelegate, UITableViewDataSource {
         
         tableView.deselectRow(at: indexPath, animated: true)
         
-        
-        
-        
-        
-        // ******
-        // ******
-        // ******
-        
-        // *** Add a check here if the item matches one of the itemsBeingMoved, as it should pop up the alert that it is an item being moved before it opens the item.
-        // *** No need to check when actually moving the item, as this will check if it is possible based on an the itemsBeingMoved array.
-        // *** The only alert that will need to be displayed will be the confirmation of moving the items, not a validation check, which will happen right here before the item is even selected in the first place.
-        
-        
-        
-        // *** Also, add a formatting to the cellForRowAt that dims the text of items that are within the itemsBeingMoved array, so that it is clear that they are in the array and unable to be successfully selected.
-        
-        
-        // ******
-        // ******
-        // ******
-        
-        
-        
-        
-        
         let item = items[indexPath.row]
         
-        let subItems = DataModel.shared.loadSpecificItems(forParentID: Int(item.id), ascending: true)
         
-        if subItems.count > 0 {
-            
-            selectItem(forIndexPath: indexPath)
-            
-            if selectedView == SelectedView.move1.rawValue {
-                performSegue(withIdentifier: Keywords.shared.move1ToMove2Segue, sender: self)
-            } else {
-                performSegue(withIdentifier: Keywords.shared.move2ToMove1Segue, sender: self)
-            }
-            
-        } else {
-            
-            if selectedIndexPath != indexPath {
-                selectItem(forIndexPath: indexPath)
-                selectedIndexPath = indexPath
-            } else {
-                selectedIndexPath = IndexPath()
-                deselectItem()
+        
+        var itemIsMatch = false
+        
+        for possibleMatchingItem in itemsBeingMoved {
+            if possibleMatchingItem == item {
+                itemIsMatch = true
             }
             
         }
         
-        tableView.reloadData()
+        
+        
+        if itemIsMatch {
+            
+            let alertMessage = (itemsBeingMoved.count == 1) ? "This item is the one being moved." : "This is one of the items being moved."
+            
+            let alert = UIAlertController(title: "Invalid Selection", message: alertMessage, preferredStyle: .alert)
+            
+            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+            
+            present(alert, animated: true, completion: nil)
+            
+        } else {
+            
+            let subItems = DataModel.shared.loadSpecificItems(forParentID: Int(item.id), ascending: true)
+            
+            if subItems.count > 0 {
+                
+                selectItem(forIndexPath: indexPath)
+                
+                if selectedView == SelectedView.move1.rawValue {
+                    performSegue(withIdentifier: Keywords.shared.move1ToMove2Segue, sender: self)
+                } else {
+                    performSegue(withIdentifier: Keywords.shared.move2ToMove1Segue, sender: self)
+                }
+                
+            } else {
+                
+                if selectedIndexPath != indexPath {
+                    selectItem(forIndexPath: indexPath)
+                    selectedIndexPath = indexPath
+                } else {
+                    selectedIndexPath = IndexPath()
+                    deselectItem()
+                }
+                
+            }
+            
+            tableView.reloadData()
+            
+        }
         
     }
     
