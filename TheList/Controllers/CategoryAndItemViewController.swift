@@ -86,11 +86,9 @@ class CategoryAndItemViewController: UIViewController {
                 // *** Set up Action Sheet for Grouping, Deleting, and Moving here.
                 // ******
                 
-                // - Update functions in this VC and in DataModel to have parameters to take in an array of Items and checks them, returning an alert if something fails.
-                
                 // - Restructure local functions to be an extension of this VC, so it is more organized. I was going to move them to the itemModel, but it may only help out a tiny bit, but a lot of reorganizing the code just for a few lines, so fuck it.
                 
-                // - Have "More" only show up if the Item has subItems. Otherwise, just pop up swipe alert for "Delete" to confirm is there are subItems.
+                // - Have "More" only show up if the Item has subItems. Otherwise, just pop up swipe alert for "Delete" to confirm if there are subItems.
                 
                     // --- As such, "More" ActionSheet will contain "Delete SubItems", "Rename", and "Move", just in case.
                     // --- Leave the options still swipeable for "Rename" and "Move" because of their convenience.
@@ -443,6 +441,32 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
                 
                 let alert = UIAlertController(title: "Selected Item:", message: selectedItem.name!, preferredStyle: .actionSheet)
                 
+                // *** RENAME
+                
+                let rename = UIAlertAction(title: "Rename", style: .default, handler: { (action) in
+                    
+                    self.editingMode = .specifics
+                    
+                    self.itemModel.selectedItem = self.itemModel.items[indexPath.row]
+                    
+                    self.performSegue(withIdentifier: self.itemModel.editSegue, sender: self)
+                    
+                })
+                
+                // *** MOVE
+                
+                let move = UIAlertAction(title: "Move", style: .default, handler: { (action) in
+                    
+                    self.editingMode = .moving
+                    
+                    self.itemModel.selectedItem = self.itemModel.items[indexPath.row]
+                    
+                    self.selectedItems = [self.itemModel.items[indexPath.row]]
+                    
+                    self.performSegue(withIdentifier: self.itemModel.moveSegue, sender: self)
+                    
+                })
+                
                 // Delete SubItems
                 let deleteSubItems = UIAlertAction(title: "Delete SubItems", style: .destructive, handler: { (action) in
                     
@@ -452,17 +476,11 @@ extension CategoryAndItemViewController: UITableViewDataSource, UITableViewDeleg
                     
                 })
                 
-//                // Group
-//                let group = UIAlertAction(title: "Group Items", style: .default, handler: { (action) in
-//
-//                    self.toggleEditingMode(for: .grouping)
-//
-//                })
-                
                 // Cancel
                 let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
                 
-//                alert.addAction(group)
+                alert.addAction(rename)
+                alert.addAction(move)
                 
                 if numberOfSubitems > 0 {
                     alert.addAction(deleteSubItems)
