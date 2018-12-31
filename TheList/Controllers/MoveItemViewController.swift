@@ -55,7 +55,15 @@ class MoveItemViewController: UIViewController {
             let alert = UIAlertController(title: nil, message: alertMessage, preferredStyle: .alert)
             
             let yes = UIAlertAction(title: "Yes", style: .destructive) { (action) in
-                self.moveItem()
+                
+                if self.moveItem() {
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                        self.dismiss(animated: true, completion: nil)
+                    })
+                    
+                }
+                
             }
             
             let no = UIAlertAction(title: "No", style: .cancel, handler: nil)
@@ -125,7 +133,9 @@ class MoveItemViewController: UIViewController {
         toggleMoveButton()
     }
     
-    func moveItem() {
+    func moveItem() -> Bool {
+        
+        var moveWasSuccessful = false
         
         if let newParentItem = selectedItem {
             
@@ -133,40 +143,28 @@ class MoveItemViewController: UIViewController {
                 
                 DataModel.shared.move(items: itemsBeingMoved, toParentItem: newParentItem)
                 
+                moveWasSuccessful = true
                 
+                // Alert Confirmation
+                let successAlert = UIAlertController(title: "Done!", message: "", preferredStyle: .alert)
+                present(successAlert, animated: true, completion: {
                 
-                var alertMessage = String()
-                
-                if itemsBeingMoved.count == 1 {
-                    alertMessage = "\(itemsBeingMoved[0].name!) is now in \(newParentItem.name!)"
-                } else {
-                    alertMessage = "\(itemsBeingMoved.count) items are now in \(newParentItem.name!)"
-                }
-                
-                
-                
-                let confirmationAlert = UIAlertController(title: "Done!", message: alertMessage, preferredStyle: .alert)
-                
-                confirmationAlert.addAction(UIAlertAction(title: "Ok", style: .default) { (action) in
+//                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                        self.dismiss(animated: true, completion: nil)
+//                    })
                     
-                    self.dismiss(animated: true, completion: nil)
-                    
-                })
-                
-                present(confirmationAlert, animated: true, completion: {
-                
-                    // *** Add a timer that goes off and dismisses the VC
-                
                 })
                 
             } else {
-                let alert = ValidationModel.shared.alertForInvalidItem(doSomethingElse: nil)
-                present(alert, animated: true, completion: nil)
+                let invalidAlert = ValidationModel.shared.alertForInvalidItem(doSomethingElse: nil)
+                present(invalidAlert, animated: true, completion: nil)
             }
             
         } else {
             print("No item on clicking 'Move' selected.")
         }
+        
+        return moveWasSuccessful
         
     }
 
